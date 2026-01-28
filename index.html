@@ -1,60 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>GIA – Your AI Shopping Guide</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      color: white;
-      text-align: center;
-    }
-    header {
-      padding: 40px 20px;
-    }
-    h1 {
-      font-size: 48px;
-      letter-spacing: 3px;
-    }
-    p {
-      font-size: 18px;
-      opacity: 0.9;
-    }
-    .search-box {
-      margin-top: 40px;
-    }
-    input {
-      width: 80%;
-      max-width: 400px;
-      padding: 15px;
-      border-radius: 30px;
-      border: none;
-      font-size: 16px;
-    }
-    footer {
-      margin-top: 60px;
-      font-size: 14px;
-      opacity: 0.6;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GIA – Smart AI Stylist</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <header>
-    <h1>GIA</h1>
-    <p>Your AI Shopping Guide</p>
+<header>
+  <div class="logo">GIA</div>
+  <div class="tagline">Smart AI Stylist</div>
+  <div class="search-box">
+    <input type="text" placeholder="Search fashion, beauty, gadgets...">
+    <div class="mic">🎤</div>
+  </div>
+  <div class="greeting" id="greeting">Good Morning, User! Aaj main aapke liye kis chiz me madad kar sakta hoon?</div>
+</header>
 
-    <div class="search-box">
-      <input type="text" placeholder="Search anything… fashion, beauty, gadgets" />
+<section class="hero">
+  <h2>Curated luxury for you</h2>
+  <p>Smart choices recommended by AI</p>
+</section>
+
+<section class="product-preview">
+  <div class="cards">
+    <!-- Placeholder products -->
+    <div class="card">
+      <img src="assets/images/product1.jpg" alt="Luxury Watch">
+      <h4>Luxury Watch</h4>
+      <div class="price">₹7,999</div>
+      <a href="#" class="buy">Buy Now</a>
     </div>
-  </header>
+    <div class="card">
+      <img src="assets/images/product2.jpg" alt="Skincare Serum">
+      <h4>Skincare Serum</h4>
+      <div class="price">₹1,499</div>
+      <a href="#" class="buy">Buy Now</a>
+    </div>
+    <div class="card">
+      <img src="assets/images/product3.jpg" alt="Designer Shirt">
+      <h4>Designer Shirt</h4>
+      <div class="price">₹2,299</div>
+      <a href="#" class="buy">Buy Now</a>
+    </div>
+  </div>
+</section>
 
-  <footer>
-    © 2026 GIA • Built with ❤️ in India
-  </footer>
+<footer>
+  © 2026 GIA • Built with ❤️ in India
+</footer>
 
+<script src="js/main.js"></script>
 </body>
 </html>
