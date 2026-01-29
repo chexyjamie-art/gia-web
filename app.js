@@ -66,3 +66,13 @@ function typeEffect() {
 }
 
 setInterval(typeEffect, 120);
+
+// ===============================
+// BUY NOW – AFFILIATE HANDLER
+// ===============================
+document.querySelectorAll(".buy-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    const link = button.dataset.link;
+    window.open(link, "_blank");
+  });
+});
