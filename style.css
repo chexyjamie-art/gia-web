@@ -166,3 +166,31 @@ footer {
     0 10px 40px rgba(0,0,0,0.08),
     inset 0 1px 0 rgba(255,255,255,0.6);
 }
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(
+    to bottom,
+    #f7f8fa 0%,
+    #ffffff 40%,
+    #f4f6fb 70%,
+    #0f172a 100%
+  );
+  overflow-x: hidden;
+}
+
+/* Unified wave illusion */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(60% 20% at 50% 30%,
+      rgba(120,150,255,0.25),
+      transparent 70%),
+    radial-gradient(60% 20% at 50% 75%,
+      rgba(140,180,255,0.25),
+      transparent 70%);
+  z-index: -1;
+}
