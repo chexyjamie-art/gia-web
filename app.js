@@ -150,3 +150,11 @@ function renderProducts(category = "All") {
 }
 
 renderProducts();
+
+/* ===============================
+   PWA REGISTER
+================================ */
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js");
+}
