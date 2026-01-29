@@ -77,3 +77,20 @@ function typeAI() {
 }
 
 typeAI();
+
+/* ===============================
+   7. CATEGORY FILTER
+================================ */
+
+const categoryTabs = document.querySelectorAll(".categories span");
+const productContainer = document.querySelector(".products");
+
+categoryTabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    categoryTabs.forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+
+    const category = tab.innerText;
+    renderProducts(category);
+  });
+});
