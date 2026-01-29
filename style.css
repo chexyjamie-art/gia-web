@@ -1,298 +1,109 @@
-/* ===============================
-   1. GLOBAL BASE
-================================ */
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   margin: 0;
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(
-    to bottom,
-    #f7f8fa 0%,
-    #ffffff 40%,
-    #f4f6fb 70%,
-    #0f172a 100%
-  );
-  color: #222;
+  font-family: Inter, sans-serif;
+  background: linear-gradient(to bottom,#f7f8fa,#fff,#0f172a);
+  color: #111;
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
 }
-
-/* Unified wave illusion */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(60% 20% at 50% 30%,
-      rgba(120,150,255,0.25),
-      transparent 70%),
-    radial-gradient(60% 20% at 50% 75%,
-      rgba(140,180,255,0.25),
-      transparent 70%);
-  z-index: -1;
-}
-
-/* ===============================
-   2. TOP BAR
-================================ */
 
 .topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 40px;
+  display:flex;
+  justify-content:space-between;
+  padding:16px 40px;
 }
 
-.logo {
-  text-align: center;
-}
-
-.logo img {
-  height: 42px;
-}
-
-.logo span {
-  display: block;
-  font-size: 12px;
-  color: #777;
-}
-
-/* ===============================
-   3. AI SEARCH SECTION
-================================ */
+.logo img { height:48px; }
+.logo span { font-size:12px;color:#777;text-align:center; }
 
 .search-section {
-  position: relative;
-  height: 220px;
-  overflow: hidden;
+  position:relative;
+  height:220px;
 }
 
-/* Canvas wave */
 #aiWave {
-  position: absolute;
-  inset: 0;
+  position:absolute;
+  inset:0;
 }
 
-/* Search box */
 .search-box {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  margin-top: 80px;
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  margin-top:80px;
 }
 
 .search-box input {
-  width: 70%;
-  max-width: 680px;
-  padding: 18px 26px;
-  border-radius: 40px;
-  border: none;
-  outline: none;
-  font-size: 17px;
-  background: rgba(255,255,255,0.9);
-  backdrop-filter: blur(20px);
-  box-shadow:
-    0 10px 40px rgba(0,0,0,0.08),
-    inset 0 1px 0 rgba(255,255,255,0.6);
+  width:60%;
+  padding:18px 26px;
+  border-radius:40px;
+  border:none;
+  font-size:16px;
 }
 
-/* ===============================
-   4. HEADLINE
-================================ */
+.search-icons img {
+  width:22px;
+  cursor:pointer;
+}
 
 .headline {
-  text-align: center;
-  margin: 40px 0 30px;
+  text-align:center;
+  margin:50px 0;
 }
-
-.headline h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 36px;
-}
-
-.headline p {
-  color: #666;
-}
-
-/* ===============================
-   5. CATEGORIES
-================================ */
 
 .categories {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin-bottom: 40px;
+  display:flex;
+  justify-content:center;
+  gap:30px;
 }
 
 .categories span {
-  cursor: pointer;
-  color: #777;
+  cursor:pointer;
 }
 
 .categories .active {
-  border-bottom: 2px solid #c7a55b;
-  color: #000;
+  border-bottom:2px solid gold;
 }
 
-/* ===============================
-   6. PRODUCTS
-================================ */
-
 .products {
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-  padding-bottom: 80px;
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  padding-bottom:80px;
 }
 
 .card {
-  position: relative;
-  width: 260px;
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-  padding: 16px;
-  text-align: center;
-  transition: all 0.35s ease;
+  width:260px;
+  background:#fff;
+  border-radius:18px;
+  padding:16px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.08);
+  transition:.3s;
 }
 
 .card:hover {
-  transform: translateY(-6px) scale(1.015);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  transform:translateY(-6px);
 }
 
 .card img {
-  width: 100%;
-  border-radius: 12px;
-}
-
-.card h3 {
-  margin: 12px 0 6px;
-}
-
-.card p {
-  color: #555;
+  width:100%;
+  border-radius:12px;
 }
 
 .card button {
-  margin-top: 12px;
-  padding: 10px 22px;
-  background: linear-gradient(135deg,#7aa7d9,#c7a55b);
-  border: none;
-  border-radius: 20px;
-  color: white;
-  cursor: pointer;
-  transition: all 0.25s ease;
+  margin-top:10px;
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  background:linear-gradient(135deg,#7aa7d9,#c7a55b);
+  color:#fff;
+  cursor:pointer;
 }
-
-.card button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(80,120,255,0.35);
-}
-
-/* Tooltip */
-.card::after {
-  content: "AI picked based on quality, brand trust & user fit";
-  position: absolute;
-  bottom: 110%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(20,20,20,0.9);
-  color: #fff;
-  padding: 8px 12px;
-  border-radius: 10px;
-  font-size: 12px;
-  opacity: 0;
-  pointer-events: none;
-  transition: 0.3s;
-  white-space: nowrap;
-}
-
-.card:hover::after {
-  opacity: 1;
-}
-
-/* ===============================
-   7. FOOTER
-================================ */
 
 footer {
-  text-align: center;
-  padding: 40px 0;
-  background: linear-gradient(180deg, transparent, #0c1320);
-  color: #fff;
-}
-
-/* ===============================
-   8. DARK MODE
-================================ */
-
-body.dark {
-  background: linear-gradient(
-    to bottom,
-    #0b1020 0%,
-    #0f172a 60%,
-    #020617 100%
-  );
-  color: #e5e7eb;
-}
-
-body.dark .card {
-  background: rgba(20,25,45,0.7);
-  color: #e5e7eb;
-}
-
-body.dark footer {
-  background: linear-gradient(to top, #020617, transparent);
-}
-
-/* ===============================
-   9. MOBILE RESPONSIVE
-================================ */
-
-@media (max-width: 768px) {
-  .topbar {
-    padding: 14px 16px;
-  }
-
-  .search-box input {
-    width: 92%;
-    font-size: 15px;
-  }
-
-  .headline h1 {
-    font-size: 26px;
-  }
-
-  .products {
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-}
-
-.buy-btn {
-  margin-top: 12px;
-  padding: 12px 22px;
-  border-radius: 22px;
-  border: none;
-  font-size: 14px;
-  font-weight: 500;
-  background: linear-gradient(135deg,#7aa7d9,#c7a55b);
-  color: #fff;
-  cursor: pointer;
-}
-
-.buy-btn:hover {
-  opacity: 0.9;
+  text-align:center;
+  padding:30px;
+  color:#fff;
 }
