@@ -1,98 +1,97 @@
-// ===== LOAD PRODUCTS =====
-let allProducts = [];
+// ================= PRODUCTS DATA =================
+const products = [
+  {
+    name:"Luxury Watch",
+    category:"Watches",
+    image:"https://via.placeholder.com/250",
+    link:"https://www.amazon.in"
+  },
+  {
+    name:"Running Shoes",
+    category:"Shoes",
+    image:"https://via.placeholder.com/250",
+    link:"https://www.myntra.com"
+  },
+  {
+    name:"Face Serum",
+    category:"Skincare",
+    image:"https://via.placeholder.com/250",
+    link:"https://www.flipkart.com"
+  },
+  {
+    name:"Smartphone",
+    category:"Electronics",
+    image:"https://via.placeholder.com/250",
+    link:"https://www.amazon.in"
+  }
+];
 
-fetch("products.json")
-  .then(res => res.json())
-  .then(data => {
-    allProducts = data;
-    renderProducts(allProducts);
-  });
+const container = document.getElementById("products");
 
-// ===== RENDER =====
-function renderProducts(list) {
-  const box = document.getElementById("products");
-  box.innerHTML = "";
-
-  list.forEach(p => {
-    box.innerHTML += `
-      <div class="card">
+function renderProducts(filter="all") {
+  container.innerHTML="";
+  products
+    .filter(p => filter==="all" || p.category===filter)
+    .forEach(p=>{
+      const card=document.createElement("div");
+      card.className="card";
+      card.innerHTML=`
         <img src="${p.image}">
         <h3>${p.name}</h3>
-        <p>${p.price}</p>
-        <button onclick="window.open('${p.link}','_blank')">
-          Buy Now →
-        </button>
-      </div>
-    `;
-  });
+        <a href="${p.link}" target="_blank">Buy Now</a>
+      `;
+      container.appendChild(card);
+    });
 }
 
-// ===== CATEGORY FILTER =====
-document.querySelectorAll(".categories span").forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll(".categories span").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
+renderProducts();
 
-    const cat = btn.dataset.cat;
-    if (cat === "all") renderProducts(allProducts);
-    else renderProducts(allProducts.filter(p => p.category === cat));
-  };
+// CATEGORY FILTER
+document.querySelectorAll(".categories span").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelector(".categories .active").classList.remove("active");
+    btn.classList.add("active");
+    renderProducts(btn.dataset.cat);
+  });
 });
 
-// ===== AI WAVE =====
-const canvas = document.getElementById("aiWave");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = 220;
-
-let t = 0;
-function wave() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.beginPath();
-  for (let x=0;x<canvas.width;x++) {
-    let y = 110 + Math.sin(x*0.01+t)*20;
-    ctx.lineTo(x,y);
-  }
-  ctx.strokeStyle = "rgba(120,150,255,0.4)";
-  ctx.lineWidth = 2;
-  ctx.stroke();
-  t+=0.04;
-  requestAnimationFrame(wave);
-}
-wave();
-
+// ================= AI WAVE =================
 const canvas = document.getElementById("waveCanvas");
 const ctx = canvas.getContext("2d");
 
 function resize() {
   canvas.width = window.innerWidth;
-  canvas.height = 260;
+  canvas.height = 300;
 }
 resize();
 window.addEventListener("resize", resize);
 
 let t = 0;
 
-function drawWave(color, amp, freq, speed) {
+function drawWave(color, amp, freq, speed, fade) {
   ctx.beginPath();
   for (let x = 0; x < canvas.width; x++) {
+    const dist = Math.abs(x - canvas.width / 2);
+    const decay = Math.exp(-dist / 320);
+
     const y =
       canvas.height / 2 +
-      Math.sin(x * freq + t * speed) * amp *
-      Math.exp(-Math.abs(x - canvas.width / 2) / 350);
+      Math.sin(x * freq + t * speed) * amp * decay;
+
     ctx.lineTo(x, y);
   }
   ctx.strokeStyle = color;
   ctx.lineWidth = 3;
+  ctx.globalAlpha = fade;
   ctx.stroke();
 }
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  drawWave("rgba(120,200,255,0.6)", 30, 0.02, 0.02);
-  drawWave("rgba(170,140,255,0.6)", 40, 0.018, 0.025);
-  drawWave("rgba(200,220,255,0.8)", 22, 0.025, 0.03);
+  drawWave("rgba(160,200,255,1)", 40, 0.018, 0.02, 0.6);
+  drawWave("rgba(190,160,255,1)", 55, 0.016, 0.025, 0.5);
+  drawWave("rgba(220,230,255,1)", 30, 0.022, 0.03, 0.7);
 
   t += 1;
   requestAnimationFrame(animate);
