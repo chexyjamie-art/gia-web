@@ -1,44 +1,57 @@
-<svg viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+<svg width="320" height="180" viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
 
-  <!-- Gold Oval -->
-  <ellipse cx="250" cy="140" rx="190" ry="110"
+  <!-- Outer Oval -->
+  <ellipse cx="160" cy="80" rx="130" ry="55"
     fill="none"
-    stroke="#c9a85c"
-    stroke-width="4"/>
+    stroke="#C9B27C"
+    stroke-width="3"/>
 
-  <!-- Leaf -->
-  <path d="M250 20
-           C240 5,215 10,220 30
-           C240 25,250 40,250 20
-           C250 40,260 25,280 30
-           C285 10,260 5,250 20"
-        fill="#c9a85c"/>
+  <!-- Inner Oval -->
+  <ellipse cx="160" cy="80" rx="120" ry="48"
+    fill="none"
+    stroke="#E5D8B0"
+    stroke-width="1.5"/>
+
+  <!-- Lotus -->
+  <path d="M160 22
+           C150 8, 135 10, 140 28
+           C150 24, 155 24, 160 28
+           C165 24, 170 24, 180 28
+           C185 10, 170 8, 160 22 Z"
+        fill="none"
+        stroke="#C9B27C"
+        stroke-width="2"/>
 
   <!-- GIA Script -->
-  <path d="
-    M80 160
-    C60 120,120 90,165 125
-    C205 155,145 195,110 170
+  <path d="M70 90
+           C60 60, 95 55, 105 80
+           C115 105, 95 115, 85 100
 
-    M165 125
-    C210 95,260 120,250 160
+           M115 90
+           C120 60, 145 60, 145 90
+           C145 120, 120 120, 120 90
 
-    M250 160
-    L360 150
-    C390 145,420 150,450 140
-  "
-    fill="none"
-    stroke="#111"
-    stroke-width="6"
-    stroke-linecap="round"
-    stroke-linejoin="round"/>
+           M155 90
+           C165 60, 200 60, 195 90
+           C190 120, 160 120, 160 90"
+        fill="none"
+        stroke="#111"
+        stroke-width="5"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
 
-  <!-- Subtitle -->
-  <text x="250" y="255"
-    text-anchor="middle"
-    font-size="22"
-    fill="#777"
-    font-family="Inter, sans-serif">
+  <!-- Horizontal flourish -->
+  <path d="M40 95 C90 105, 230 105, 280 95"
+        stroke="#111"
+        stroke-width="2"
+        fill="none"/>
+
+  <!-- Tagline -->
+  <text x="160" y="150"
+        text-anchor="middle"
+        font-family="Inter, Arial, sans-serif"
+        font-size="14"
+        fill="#777">
     Smart AI Stylist
   </text>
 
