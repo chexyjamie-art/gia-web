@@ -247,3 +247,44 @@ button:hover {
   box-shadow:
     0 8px 20px rgba(80,120,255,0.35);
 }
+
+/* ===============================
+   9. MOBILE + APPLE POLISH
+================================ */
+
+@media (max-width: 768px) {
+  .topbar {
+    padding: 14px 16px;
+  }
+
+  .logo img {
+    height: 42px;
+  }
+
+  .search-section input {
+    width: 92%;
+    font-size: 15px;
+  }
+
+  .headline h1 {
+    font-size: 26px;
+  }
+
+  .products {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .card {
+    border-radius: 18px;
+  }
+}
+
+/* Smooth scroll & font polish */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
