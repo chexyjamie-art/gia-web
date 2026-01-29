@@ -1,29 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <title>GIA – Smart AI Stylist</title>
+<title>GIA – Smart AI Stylist</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&family=Dancing+Script:wght@700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-  <!-- Main CSS -->
-  <link rel="stylesheet" href="style.css">
-
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
+<!-- ===== HEADER ===== -->
 <header class="topbar">
   <div class="left">☰ Menu</div>
 
   <div class="logo">
-    <img src="public/assets/logo.svg" alt="GIA Logo">
+    <img src="public/assets/logo.svg">
     <span>Smart AI Stylist</span>
   </div>
 
@@ -32,13 +27,11 @@
   </div>
 </header>
 
-<!-- ================= AI SEARCH SECTION ================= -->
+<!-- ===== AI SEARCH SECTION ===== -->
 <section class="search-section">
 
-  <!-- AI WAVE (LEFT + RIGHT EFFECT) -->
-  <canvas id="aiWave"></canvas>
+  <canvas id="waveCanvas"></canvas>
 
-  <!-- SEARCH BAR -->
   <div class="search-box">
     <input
       id="aiSearch"
@@ -46,7 +39,6 @@
       placeholder="Ask AI: best watch under ₹10,000"
     >
 
-    <!-- SEARCH ICONS -->
     <div class="search-icons">
       <img src="public/assets/mic.svg" title="Voice Search">
       <img src="public/assets/camera.svg" title="Instant Camera">
@@ -59,13 +51,13 @@
 
 </section>
 
-<!-- ================= HEADLINE ================= -->
+<!-- ===== HEADLINE ===== -->
 <section class="headline">
   <h1>Curated luxury for you</h1>
   <p>AI that tells you what to buy — and what not to.</p>
 </section>
 
-<!-- ================= CATEGORIES ================= -->
+<!-- ===== CATEGORIES ===== -->
 <nav class="categories">
   <span class="active" data-cat="all">All</span>
   <span data-cat="Watches">Watches</span>
@@ -74,19 +66,16 @@
   <span data-cat="Shoes">Shoes</span>
 </nav>
 
-<!-- ================= PRODUCTS ================= -->
-<section class="products" id="products">
-  <!-- Products will be injected by app.js -->
-</section>
+<!-- ===== PRODUCTS ===== -->
+<section class="products" id="products"></section>
 
-<!-- ================= FOOTER ================= -->
+<!-- ===== FOOTER ===== -->
 <footer>
-  <a href="terms.html">Terms & Conditions</a> ·
-  <a href="privacy.html">Privacy Policy</a> ·
-  <span>© GIA Smart AI Stylist</span>
+  <a href="terms.html">Terms</a> ·
+  <a href="privacy.html">Privacy</a> ·
+  <span>© GIA AI</span>
 </footer>
 
-<!-- ================= JS ================= -->
 <script src="app.js"></script>
 </body>
 </html>
