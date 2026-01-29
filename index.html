@@ -42,10 +42,13 @@
     <div class="search-icons">
       <img src="public/assets/mic.svg" title="Voice Search">
       <img src="public/assets/camera.svg" title="Instant Camera">
+
+      <!-- IMAGE SEARCH UPLOAD -->
       <label>
         <img src="public/assets/upload.svg" title="Upload Photo">
-        <input type="file" hidden>
+        <input type="file" hidden onchange="imageSearch(this.files[0])">
       </label>
+
     </div>
   </div>
 
@@ -76,6 +79,9 @@
   <span>© GIA AI</span>
 </footer>
 
+<!-- JS FILES -->
 <script src="app.js"></script>
+<script src="image-search.js"></script>
+
 </body>
 </html>
