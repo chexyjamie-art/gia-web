@@ -280,3 +280,19 @@ body.dark footer {
     gap: 20px;
   }
 }
+
+.buy-btn {
+  margin-top: 12px;
+  padding: 12px 22px;
+  border-radius: 22px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  background: linear-gradient(135deg,#7aa7d9,#c7a55b);
+  color: #fff;
+  cursor: pointer;
+}
+
+.buy-btn:hover {
+  opacity: 0.9;
+}
