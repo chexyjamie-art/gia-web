@@ -1,26 +1,26 @@
 [
   {
     "id": 1,
-    "name": "Fossil Grant Classic",
+    "name": "Luxury Watch",
     "category": "Watches",
-    "price": "₹7,495 – 8,095",
-    "image": "public/assets/watch1.jpg",
-    "link": "https://www.amazon.in/"
+    "price": "₹9,999",
+    "image": "https://via.placeholder.com/250",
+    "link": "https://www.amazon.in"
   },
   {
     "id": 2,
-    "name": "Titan Edge Ultra Thin",
-    "category": "Watches",
-    "price": "₹10,995 – 19,998",
-    "image": "public/assets/watch2.jpg",
-    "link": "https://www.flipkart.com/"
+    "name": "Running Shoes",
+    "category": "Shoes",
+    "price": "₹2,999",
+    "image": "https://via.placeholder.com/250",
+    "link": "https://www.myntra.com"
   },
   {
     "id": 3,
-    "name": "Seiko Prospex Solar",
-    "category": "Watches",
-    "price": "₹16,995 – 21,999",
-    "image": "public/assets/watch3.jpg",
-    "link": "https://www.myntra.com/"
+    "name": "Face Serum",
+    "category": "Skincare",
+    "price": "₹799",
+    "image": "https://via.placeholder.com/250",
+    "link": "https://www.flipkart.com"
   }
 ]
