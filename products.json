@@ -2,22 +2,25 @@
   {
     "id": 1,
     "name": "Fossil Grant Classic",
+    "category": "Watches",
     "price": "₹7,495 – 8,095",
-    "image": "assets/watch1.jpg",
-    "affiliate": "https://www.amazon.in/dp/FAKE123?tag=gia-21"
+    "image": "public/assets/watch1.jpg",
+    "link": "https://www.amazon.in/"
   },
   {
     "id": 2,
     "name": "Titan Edge Ultra Thin",
+    "category": "Watches",
     "price": "₹10,995 – 19,998",
-    "image": "assets/watch2.jpg",
-    "affiliate": "https://www.flipkart.com/item/FAKE456?affid=gia"
+    "image": "public/assets/watch2.jpg",
+    "link": "https://www.flipkart.com/"
   },
   {
     "id": 3,
     "name": "Seiko Prospex Solar",
+    "category": "Watches",
     "price": "₹16,995 – 21,999",
-    "image": "assets/watch3.jpg",
-    "affiliate": "https://www.amazon.in/dp/FAKE789?tag=gia-21"
+    "image": "public/assets/watch3.jpg",
+    "link": "https://www.myntra.com/"
   }
 ]
