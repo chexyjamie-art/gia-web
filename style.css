@@ -194,3 +194,56 @@ body::before {
       transparent 70%);
   z-index: -1;
 }
+
+/* ===== DARK MODE ===== */
+
+body.dark {
+  background: linear-gradient(
+    to bottom,
+    #0b1020 0%,
+    #0f172a 60%,
+    #020617 100%
+  );
+  color: #e5e7eb;
+}
+
+body.dark .topbar,
+body.dark .search-box,
+body.dark .card {
+  background: rgba(20, 25, 45, 0.65);
+  color: #e5e7eb;
+}
+
+body.dark .search-box input {
+  color: #fff;
+}
+
+body.dark footer {
+  background: linear-gradient(
+    to top,
+    #020617,
+    transparent
+  );
+}
+
+/* ===== PREMIUM MOTION ===== */
+
+.card {
+  transition: all 0.35s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.015);
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.15);
+}
+
+button {
+  transition: all 0.25s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 8px 20px rgba(80,120,255,0.35);
+}
