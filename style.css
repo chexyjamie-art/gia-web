@@ -105,9 +105,25 @@ body {
   cursor: pointer;
 }
 
+
 footer {
   text-align: center;
   padding: 30px;
   background: #0c1320;
   color: #fff;
+}
+.badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #e6f0ff;
+  color: #2b6cb0;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.card {
+  position: relative;
 }
