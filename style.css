@@ -127,3 +127,42 @@ footer {
 .card {
   position: relative;
 }
+
+/* ===== AI SEARCH SECTION ===== */
+.search-section {
+  position: relative;
+  height: 220px;
+  background: #f7f7f8;
+  overflow: hidden;
+}
+
+/* Canvas Wave */
+#aiWave {
+  position: absolute;
+  inset: 0;
+}
+
+/* Search box */
+.search-box {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
+}
+
+.search-box input {
+  width: 70%;
+  max-width: 680px;
+  padding: 18px 26px;
+  border-radius: 40px;
+  border: none;
+  outline: none;
+  font-size: 17px;
+  font-family: Inter, sans-serif;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(20px);
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+}
