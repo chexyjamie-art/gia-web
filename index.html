@@ -5,12 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>GIA – Smart AI Stylist</title>
 
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+<!-- ================= HEADER ================= -->
 <header class="topbar">
   <div class="left">☰ Menu &nbsp; Shop</div>
 
@@ -22,23 +26,30 @@
   <div class="right">🔔 👤</div>
 </header>
 
+<!-- ================= AI SEARCH + WAVE ================= -->
 <section class="search-section">
-  <img src="assets/wave.svg" class="wave">
+
+  <!-- Apple-style AI Wave -->
+  <canvas id="aiWave"></canvas>
 
   <!-- AI Search Input -->
-  <input
-    id="aiSearch"
-    type="text"
-    placeholder=""
-    disabled
-  >
+  <div class="search-box">
+    <input
+      id="aiSearch"
+      type="text"
+      placeholder="Luxury skincare for glowing skin?"
+    />
+  </div>
+
 </section>
 
+<!-- ================= HEADLINE ================= -->
 <section class="headline">
   <h1>Curated luxury for you, Rahul</h1>
   <p>Smart choices recommended by AI.</p>
 </section>
 
+<!-- ================= CATEGORIES ================= -->
 <nav class="categories">
   <span class="active">All</span>
   <span>Watches</span>
@@ -47,7 +58,9 @@
   <span>Shoes</span>
 </nav>
 
+<!-- ================= PRODUCTS ================= -->
 <section class="products">
+
   <div class="card">
     <img src="assets/watch1.jpg">
     <h3>Fossil Grant Classic</h3>
@@ -68,13 +81,15 @@
     <p>₹16,995 – 21,999</p>
     <button>Buy Now →</button>
   </div>
+
 </section>
 
+<!-- ================= FOOTER ================= -->
 <footer>
-  <img src="assets/wave.svg">
   <p>About · FAQs · Contact</p>
 </footer>
 
+<!-- JS -->
 <script src="app.js"></script>
 </body>
 </html>
