@@ -1,29 +1,45 @@
-<svg width="160" height="100" viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
 
-  <!-- Gold Circle -->
-  <circle cx="160" cy="95" r="70"
+  <!-- Gold Oval -->
+  <ellipse cx="250" cy="140" rx="190" ry="110"
     fill="none"
-    stroke="#c7a55b"
-    stroke-width="3"/>
+    stroke="#c9a85c"
+    stroke-width="4"/>
 
   <!-- Leaf -->
-  <path d="M140 30
-           C135 20,120 18,115 30
-           C130 28,135 35,140 30"
-        fill="#c7a55b"/>
+  <path d="M250 20
+           C240 5,215 10,220 30
+           C240 25,250 40,250 20
+           C250 40,260 25,280 30
+           C285 10,260 5,250 20"
+        fill="#c9a85c"/>
 
   <!-- GIA Script -->
-  <path d="M95 110
-           C90 80,130 60,150 85
-           C170 110,120 135,105 115
-           M150 85
-           L190 120
-           M190 85
-           C210 60,245 85,215 115"
-        fill="none"
-        stroke="#111"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-linejoin="round"/>
+  <path d="
+    M80 160
+    C60 120,120 90,165 125
+    C205 155,145 195,110 170
+
+    M165 125
+    C210 95,260 120,250 160
+
+    M250 160
+    L360 150
+    C390 145,420 150,450 140
+  "
+    fill="none"
+    stroke="#111"
+    stroke-width="6"
+    stroke-linecap="round"
+    stroke-linejoin="round"/>
+
+  <!-- Subtitle -->
+  <text x="250" y="255"
+    text-anchor="middle"
+    font-size="22"
+    fill="#777"
+    font-family="Inter, sans-serif">
+    Smart AI Stylist
+  </text>
 
 </svg>
