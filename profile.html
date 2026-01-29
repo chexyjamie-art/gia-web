@@ -1,88 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Profile – GIA</title>
-
+<title>Profile – GIA AI</title>
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="profile.css">
 </head>
 
-<body class="profile-page">
+<body>
 
 <header class="topbar">
-  <div class="left">← Back</div>
-  <div class="logo">
-    <img src="public/assets/logo.svg">
-    <span>Profile</span>
-  </div>
-  <div class="right"></div>
+  <h2>Your Profile</h2>
 </header>
 
-<section class="profile-card">
+<section class="profile">
 
-  <!-- CUSTOMER DP -->
-  <div class="avatar">
-    <img src="public/assets/user.png" alt="Customer DP">
-    <label class="change-dp">
-      Change Photo
-      <input type="file" hidden>
-    </label>
+  <div class="card">
+    <h3>Style DNA</h3>
+    <p>Minimal · Elegant · Smart Casual</p>
   </div>
 
-  <!-- BASIC INFO -->
-  <div class="profile-info">
-    <h2>Rahul Kumar</h2>
-    <p class="sub">GIA Member</p>
+  <div class="card">
+    <h3>Wishlist</h3>
+    <div id="wishlistItems"></div>
   </div>
 
-  <!-- DETAILS -->
-  <div class="profile-fields">
-    <div><span>Gender</span><p>Male</p></div>
-    <div><span>Mobile</span><p>+91 9XXXXXXXXX</p></div>
-    <div><span>Email</span><p>rahul@email.com</p></div>
-    <div><span>Address</span><p>Home address, City, State, India</p></div>
+  <div class="card">
+    <h3>Subscription</h3>
+    <p>Free Plan</p>
   </div>
 
 </section>
 
-<!-- ===== SETTINGS ===== -->
-<section class="settings">
-
-<h3>AI Settings</h3>
-
-<div class="setting-item">
-  <label>AI Gender</label>
-  <select>
-    <option>Female</option>
-    <option>Male</option>
-  </select>
-</div>
-
-<div class="setting-item">
-  <label>AI Voice</label>
-  <select>
-    <option>Soft Female Voice</option>
-    <option>Bold Female Voice</option>
-    <option>Calm Male Voice</option>
-    <option>Deep Male Voice</option>
-  </select>
-</div>
-
-<div class="setting-item">
-  <label>AI Name</label>
-  <input type="text" placeholder="e.g. GIA, Maya, Ava">
-</div>
-
-</section>
-
-<!-- ===== EXTRA ===== -->
-<section class="extras">
-  <button>Wishlist</button>
-  <button>Order History</button>
-  <button>Logout</button>
-</section>
-
+<script src="profile.js"></script>
 </body>
 </html>
