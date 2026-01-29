@@ -107,3 +107,43 @@ footer {
   padding:30px;
   color:#fff;
 }
+
+/* ===== SEARCH + WAVE ===== */
+.search-section {
+  position: relative;
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    to bottom,
+    #f6fbff,
+    #eaf4ff,
+    #f7fbff
+  );
+  overflow: hidden;
+}
+
+#waveCanvas {
+  position: absolute;
+  inset: 0;
+}
+
+.search-box {
+  position: relative;
+  z-index: 2;
+}
+
+.search-box input {
+  width: 70vw;
+  max-width: 700px;
+  padding: 18px 28px;
+  border-radius: 40px;
+  border: none;
+  font-size: 17px;
+  backdrop-filter: blur(25px);
+  background: rgba(255,255,255,0.85);
+  box-shadow:
+    0 20px 60px rgba(100,160,255,0.25);
+  outline: none;
+}
