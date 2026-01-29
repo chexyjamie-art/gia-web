@@ -35,3 +35,10 @@ function animate() {
   requestAnimationFrame(animate);
 }
 animate();
+
+// Dark Mode Toggle (manual test)
+document.addEventListener("keydown", (e) => {
+  if (e.key === "d") {
+    document.body.classList.toggle("dark");
+  }
+});
