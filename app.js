@@ -1,33 +1,36 @@
 const phrases = [
   "Luxury skincare for glowing skin?",
-  "Best watch for daily elegance",
-  "Shoes that match my lifestyle",
-  "AI verified premium products"
+  "Best watches under ₹20,000",
+  "AI selected fashion for weddings",
+  "Minimal shoes for daily wear"
 ];
 
-let index = 0;
-let char = 0;
+let phraseIndex = 0;
+let charIndex = 0;
+
 const input = document.getElementById("aiSearch");
 
-function typeEffect() {
-  if (char < phrases[index].length) {
-    input.placeholder += phrases[index].charAt(char);
-    char++;
-    setTimeout(typeEffect, 60);
+function typeText() {
+  if (!input) return;
+
+  if (charIndex < phrases[phraseIndex].length) {
+    input.placeholder += phrases[phraseIndex].charAt(charIndex);
+    charIndex++;
+    setTimeout(typeText, 70);
   } else {
-    setTimeout(eraseEffect, 2000);
+    setTimeout(eraseText, 2000);
   }
 }
 
-function eraseEffect() {
-  if (char > 0) {
-    input.placeholder = phrases[index].substring(0, char - 1);
-    char--;
-    setTimeout(eraseEffect, 40);
+function eraseText() {
+  if (charIndex > 0) {
+    input.placeholder = input.placeholder.slice(0, -1);
+    charIndex--;
+    setTimeout(eraseText, 40);
   } else {
-    index = (index + 1) % phrases.length;
-    setTimeout(typeEffect, 500);
+    phraseIndex = (phraseIndex + 1) % phrases.length;
+    setTimeout(typeText, 500);
   }
 }
 
-typeEffect();
+typeText();
