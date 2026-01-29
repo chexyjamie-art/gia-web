@@ -1,78 +1,62 @@
-/* ===============================
-   AI SEARCH WAVE
-================================ */
+// ===== LOAD PRODUCTS =====
+let allProducts = [];
 
+fetch("products.json")
+  .then(res => res.json())
+  .then(data => {
+    allProducts = data;
+    renderProducts(allProducts);
+  });
+
+// ===== RENDER =====
+function renderProducts(list) {
+  const box = document.getElementById("products");
+  box.innerHTML = "";
+
+  list.forEach(p => {
+    box.innerHTML += `
+      <div class="card">
+        <img src="${p.image}">
+        <h3>${p.name}</h3>
+        <p>${p.price}</p>
+        <button onclick="window.open('${p.link}','_blank')">
+          Buy Now →
+        </button>
+      </div>
+    `;
+  });
+}
+
+// ===== CATEGORY FILTER =====
+document.querySelectorAll(".categories span").forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll(".categories span").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    const cat = btn.dataset.cat;
+    if (cat === "all") renderProducts(allProducts);
+    else renderProducts(allProducts.filter(p => p.category === cat));
+  };
+});
+
+// ===== AI WAVE =====
 const canvas = document.getElementById("aiWave");
 const ctx = canvas.getContext("2d");
-
-function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = 220;
-}
-resize();
-window.addEventListener("resize", resize);
+canvas.width = window.innerWidth;
+canvas.height = 220;
 
 let t = 0;
-
-function drawWave() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+function wave() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
   ctx.beginPath();
-  ctx.moveTo(0, canvas.height / 2);
-
-  for (let x = 0; x < canvas.width; x++) {
-    const y =
-      canvas.height / 2 +
-      Math.sin(x * 0.01 + t) * 18 +
-      Math.sin(x * 0.02 + t * 1.5) * 8;
-    ctx.lineTo(x, y);
+  for (let x=0;x<canvas.width;x++) {
+    let y = 110 + Math.sin(x*0.01+t)*20;
+    ctx.lineTo(x,y);
   }
-
-  ctx.strokeStyle = "rgba(120,150,255,0.35)";
+  ctx.strokeStyle = "rgba(120,150,255,0.4)";
   ctx.lineWidth = 2;
   ctx.stroke();
-
-  t += 0.03;
-  requestAnimationFrame(drawWave);
+  t+=0.04;
+  requestAnimationFrame(wave);
 }
-
-drawWave();
-
-/* ===============================
-   AI TYPING EFFECT
-================================ */
-
-const aiInput = document.getElementById("aiSearch");
-
-const prompts = [
-  "Luxury skincare for glowing skin",
-  "Best watch under ₹20,000",
-  "AI picked products for you",
-  "Smart fashion, zero confusion"
-];
-
-let p = 0;
-let i = 0;
-
-function typeEffect() {
-  if (i <= prompts[p].length) {
-    aiInput.placeholder = prompts[p].slice(0, i++);
-  } else {
-    setTimeout(() => {
-      i = 0;
-      p = (p + 1) % prompts.length;
-    }, 1500);
-  }
-}
-
-setInterval(typeEffect, 120);
-
-// ===============================
-// BUY NOW – AFFILIATE HANDLER
-// ===============================
-document.querySelectorAll(".buy-btn").forEach(button => {
-  button.addEventListener("click", () => {
-    const link = button.dataset.link;
-    window.open(link, "_blank");
-  });
-});
+wave();
