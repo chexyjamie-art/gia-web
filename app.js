@@ -42,3 +42,38 @@ document.addEventListener("keydown", (e) => {
     document.body.classList.toggle("dark");
   }
 });
+
+/* ===============================
+   6. AI SEARCH TYPING EFFECT
+================================ */
+
+const aiSearch = document.getElementById("aiSearch");
+
+const aiTexts = [
+  "Luxury skincare for glowing skin?",
+  "Best watches under ₹20,000",
+  "Shoes that match my style",
+  "AI-picked premium products for me"
+];
+
+let textIndex = 0;
+let charIndex = 0;
+
+function typeAI() {
+  if (!aiSearch) return;
+
+  if (charIndex < aiTexts[textIndex].length) {
+    aiSearch.placeholder += aiTexts[textIndex].charAt(charIndex);
+    charIndex++;
+    setTimeout(typeAI, 60);
+  } else {
+    setTimeout(() => {
+      aiSearch.placeholder = "";
+      charIndex = 0;
+      textIndex = (textIndex + 1) % aiTexts.length;
+      typeAI();
+    }, 1800);
+  }
+}
+
+typeAI();
