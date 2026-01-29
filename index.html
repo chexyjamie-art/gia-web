@@ -1,112 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <title>GIA – Smart AI Stylist</title>
+<title>GIA – Smart AI Stylist</title>
 
-  <!-- Google Fonts (OLD) -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&family=Dancing+Script:wght@700&family=Poppins:wght@600&display=swap" rel="stylesheet">
 
-  <!-- Google Fonts (NEW – as you asked) -->
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+<!-- CSS -->
+<link rel="stylesheet" href="style.css">
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
-
-  <!-- PWA Manifest -->
-  <link rel="manifest" href="manifest.json">
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
+<!-- ===== HEADER ===== -->
 <header class="topbar">
-  <div class="left">☰ Menu &nbsp; Shop</div>
+  <div class="left">☰ Menu</div>
 
   <div class="logo">
-    <img src="assets/logo.svg" alt="GIA">
+    <img src="public/assets/logo.svg">
     <span>Smart AI Stylist</span>
   </div>
 
-  <div class="right">🔔 👤</div>
+  <div class="right">
+    <a href="profile.html">👤</a>
+  </div>
 </header>
 
-<!-- ================= AI SEARCH + WAVE ================= -->
+<!-- ===== AI SEARCH ===== -->
 <section class="search-section">
 
-  <!-- Apple-style AI Wave -->
   <canvas id="aiWave"></canvas>
 
-  <!-- AI Search Input -->
   <div class="search-box">
-    <input
-      id="aiSearch"
-      type="text"
-      placeholder="Luxury skincare for glowing skin?"
-    />
+    <input id="aiSearch" type="text" placeholder="Ask AI: best watch under ₹10,000">
+
+    <div class="search-icons">
+      <img src="public/assets/mic.svg" title="Voice Search">
+      <img src="public/assets/camera.svg" title="Instant Camera">
+      <label>
+        <img src="public/assets/upload.svg" title="Upload Photo">
+        <input type="file" hidden>
+      </label>
+    </div>
   </div>
 
 </section>
 
-<!-- ================= HEADLINE ================= -->
+<!-- ===== HEADLINE ===== -->
 <section class="headline">
-  <h1>Curated luxury for you, Rahul</h1>
-  <p>Smart choices recommended by AI.</p>
+  <h1>Curated luxury for you</h1>
+  <p>AI that tells you what to buy — and what not to.</p>
 </section>
 
-<!-- ================= CATEGORIES ================= -->
+<!-- ===== CATEGORIES ===== -->
 <nav class="categories">
-  <span class="active">All</span>
-  <span>Watches</span>
-  <span>Skincare</span>
-  <span>Electronics</span>
-  <span>Shoes</span>
+  <span class="active" data-cat="all">All</span>
+  <span data-cat="Watches">Watches</span>
+  <span data-cat="Skincare">Skincare</span>
+  <span data-cat="Electronics">Electronics</span>
+  <span data-cat="Shoes">Shoes</span>
 </nav>
 
-<!-- ================= PRODUCTS ================= -->
-<section class="products">
+<!-- ===== PRODUCTS ===== -->
+<section class="products" id="products"></section>
 
-  <div class="card">
-    <img src="assets/watch1.jpg">
-    <h3>Fossil Grant Classic</h3>
-    <p>₹7,495 – 8,095</p>
-    <button class="buy-btn"
-  data-link="https://example.com/affiliate-fossil">
-  Buy Now →
-</button>
-  </div>
-
-  <div class="card">
-    <img src="assets/watch2.jpg">
-    <h3>Titan Edge Ultra Thin</h3>
-    <p>₹10,995 – 19,998</p>
-    <button class="buy-btn"
-  data-link="https://example.com/affiliate-fossil">
-  Buy Now →
-</button>
-  </div>
-
-  <div class="card">
-    <img src="assets/watch3.jpg">
-    <h3>Seiko Prospex Solar</h3>
-    <p>₹16,995 – 21,999</p>
-    <button class="buy-btn"
-  data-link="https://example.com/affiliate-fossil">
-  Buy Now →
-</button>
-  </div>
-
-</section>
-
-<!-- ================= FOOTER ================= -->
+<!-- ===== FOOTER ===== -->
 <footer>
-  <p>About · FAQs · Contact</p>
+  <a href="terms.html">Terms</a> ·
+  <a href="privacy.html">Privacy</a> ·
+  <span>© GIA AI</span>
 </footer>
 
-<!-- JS -->
 <script src="app.js"></script>
-
 </body>
 </html>
