@@ -288,3 +288,28 @@ html {
 body {
   -webkit-font-smoothing: antialiased;
 }
+
+.card {
+  position: relative;
+}
+
+.card::after {
+  content: "AI picked based on quality, brand trust & user fit";
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(20,20,20,0.9);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+  white-space: nowrap;
+}
+
+.card:hover::after {
+  opacity: 1;
+}
