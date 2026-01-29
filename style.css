@@ -1,0 +1,113 @@
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #ffffff;
+  color: #222;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 40px;
+}
+
+.logo {
+  text-align: center;
+}
+
+.logo img {
+  height: 42px;
+}
+
+.logo span {
+  display: block;
+  font-size: 12px;
+  color: #777;
+}
+
+.search-section {
+  position: relative;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.search-section input {
+  width: 60%;
+  padding: 14px 20px;
+  border-radius: 30px;
+  border: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  font-size: 16px;
+}
+
+.wave {
+  position: absolute;
+  width: 100%;
+  top: -40px;
+  z-index: -1;
+}
+
+.headline {
+  text-align: center;
+  margin: 60px 0 30px;
+}
+
+.headline h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+}
+
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.categories span {
+  cursor: pointer;
+  color: #777;
+}
+
+.categories .active {
+  border-bottom: 2px solid #c7a55b;
+  color: #000;
+}
+
+.products {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  padding-bottom: 60px;
+}
+
+.card {
+  width: 260px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  padding: 16px;
+  text-align: center;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.card button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg,#7aa7d9,#c7a55b);
+  border: none;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+}
+
+footer {
+  text-align: center;
+  padding: 30px;
+  background: #0c1320;
+  color: #fff;
+}
