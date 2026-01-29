@@ -1,59 +1,79 @@
-// ================= PRODUCTS DATA =================
-const products = [
-  {
-    name:"Luxury Watch",
-    category:"Watches",
-    image:"https://via.placeholder.com/250",
-    link:"https://www.amazon.in"
-  },
-  {
-    name:"Running Shoes",
-    category:"Shoes",
-    image:"https://via.placeholder.com/250",
-    link:"https://www.myntra.com"
-  },
-  {
-    name:"Face Serum",
-    category:"Skincare",
-    image:"https://via.placeholder.com/250",
-    link:"https://www.flipkart.com"
-  },
-  {
-    name:"Smartphone",
-    category:"Electronics",
-    image:"https://via.placeholder.com/250",
-    link:"https://www.amazon.in"
-  }
-];
-
+let allProducts = [];
 const container = document.getElementById("products");
 
-function renderProducts(filter="all") {
-  container.innerHTML="";
-  products
-    .filter(p => filter==="all" || p.category===filter)
-    .forEach(p=>{
-      const card=document.createElement("div");
-      card.className="card";
-      card.innerHTML=`
-        <img src="${p.image}">
-        <h3>${p.name}</h3>
-        <a href="${p.link}" target="_blank">Buy Now</a>
-      `;
-      container.appendChild(card);
-    });
+// ================= LOAD PRODUCTS =================
+fetch("products.json")
+  .then(res => res.json())
+  .then(data => {
+    allProducts = data;
+    renderProducts(allProducts);
+  });
+
+// ================= RENDER PRODUCTS =================
+function renderProducts(products) {
+  container.innerHTML = "";
+  products.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <img src="${p.image}">
+      <h3>${p.name}</h3>
+      <p>${p.price}</p>
+
+      <button onclick="addToWishlist(${p.id})">❤️ Wishlist</button>
+
+      <button onclick="tryOnLock()">👗 Try On</button>
+
+      <a href="${p.link}" target="_blank">Buy Now</a>
+    `;
+
+    container.appendChild(card);
+  });
 }
 
-renderProducts();
+// ================= WISHLIST SYSTEM =================
+function addToWishlist(id) {
+  let list = JSON.parse(localStorage.getItem("wishlist")) || [];
+  if (!list.includes(id)) {
+    list.push(id);
+    localStorage.setItem("wishlist", JSON.stringify(list));
+    alert("Added to Wishlist ❤️");
+  }
+}
 
-// CATEGORY FILTER
-document.querySelectorAll(".categories span").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    document.querySelector(".categories .active").classList.remove("active");
-    btn.classList.add("active");
-    renderProducts(btn.dataset.cat);
-  });
+// ================= AI SEARCH LOGIC =================
+document.getElementById("aiSearch").addEventListener("input", e => {
+  const q = e.target.value.toLowerCase();
+
+  const filtered = allProducts.filter(p =>
+    p.name.toLowerCase().includes(q) ||
+    p.category.toLowerCase().includes(q)
+  );
+
+  renderProducts(filtered);
 });
+
+// ================= VOICE SEARCH =================
+function startVoice() {
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = "en-IN";
+
+  recognition.onresult = e => {
+    document.getElementById("aiSearch").value =
+      e.results[0][0].transcript;
+    document.getElementById("aiSearch").dispatchEvent(new Event("input"));
+  };
+
+  recognition.start();
+}
+
+document.querySelector("[title='Voice Search']").onclick = startVoice;
+
+// ================= TRY ON LOCK =================
+function tryOnLock() {
+  alert("Try-On feature 🔒 Locked — Coming in Premium Version");
+}
 
 // ================= AI WAVE =================
 const canvas = document.getElementById("waveCanvas");
@@ -68,33 +88,22 @@ window.addEventListener("resize", resize);
 
 let t = 0;
 
-function drawWave(color, amp, freq, speed, fade) {
+function drawWave(amp, freq, speed) {
   ctx.beginPath();
   for (let x = 0; x < canvas.width; x++) {
-    const dist = Math.abs(x - canvas.width / 2);
-    const decay = Math.exp(-dist / 320);
-
-    const y =
-      canvas.height / 2 +
-      Math.sin(x * freq + t * speed) * amp * decay;
-
+    const y = canvas.height / 2 +
+      Math.sin(x * freq + t * speed) * amp;
     ctx.lineTo(x, y);
   }
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 3;
-  ctx.globalAlpha = fade;
+  ctx.strokeStyle = "rgba(150,180,255,0.5)";
   ctx.stroke();
 }
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  drawWave("rgba(160,200,255,1)", 40, 0.018, 0.02, 0.6);
-  drawWave("rgba(190,160,255,1)", 55, 0.016, 0.025, 0.5);
-  drawWave("rgba(220,230,255,1)", 30, 0.022, 0.03, 0.7);
-
-  t += 1;
+  drawWave(40, 0.02, 0.02);
+  drawWave(30, 0.03, 0.015);
+  t++;
   requestAnimationFrame(animate);
 }
-
 animate();
