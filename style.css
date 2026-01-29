@@ -1,13 +1,53 @@
+/* ===============================
+   1. GLOBAL BASE
+================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background: #ffffff;
+  background: linear-gradient(
+    to bottom,
+    #f7f8fa 0%,
+    #ffffff 40%,
+    #f4f6fb 70%,
+    #0f172a 100%
+  );
   color: #222;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
+
+/* Unified wave illusion */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(60% 20% at 50% 30%,
+      rgba(120,150,255,0.25),
+      transparent 70%),
+    radial-gradient(60% 20% at 50% 75%,
+      rgba(140,180,255,0.25),
+      transparent 70%);
+  z-index: -1;
+}
+
+/* ===============================
+   2. TOP BAR
+================================ */
 
 .topbar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 16px 40px;
 }
 
@@ -25,118 +65,17 @@ body {
   color: #777;
 }
 
-.search-section {
-  position: relative;
-  text-align: center;
-  margin-top: 20px;
-}
+/* ===============================
+   3. AI SEARCH SECTION
+================================ */
 
-.search-section input {
-  width: 60%;
-  padding: 14px 20px;
-  border-radius: 30px;
-  border: none;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-  font-size: 16px;
-}
-
-.wave {
-  position: absolute;
-  width: 100%;
-  top: -40px;
-  z-index: -1;
-}
-
-.headline {
-  text-align: center;
-  margin: 60px 0 30px;
-}
-
-.headline h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 36px;
-}
-
-.categories {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin-bottom: 30px;
-}
-
-.categories span {
-  cursor: pointer;
-  color: #777;
-}
-
-.categories .active {
-  border-bottom: 2px solid #c7a55b;
-  color: #000;
-}
-
-.products {
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-  padding-bottom: 60px;
-}
-
-.card {
-  width: 260px;
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-  padding: 16px;
-  text-align: center;
-}
-
-.card img {
-  width: 100%;
-  border-radius: 12px;
-}
-
-.card button {
-  margin-top: 10px;
-  padding: 10px 20px;
-  background: linear-gradient(135deg,#7aa7d9,#c7a55b);
-  border: none;
-  border-radius: 20px;
-  color: white;
-  cursor: pointer;
-}
-
-
-footer {
-  text-align: center;
-  padding: 30px;
-  background: #0c1320;
-  color: #fff;
-}
-.badge {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  background: #e6f0ff;
-  color: #2b6cb0;
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-weight: 500;
-}
-
-.card {
-  position: relative;
-}
-
-/* ===== AI SEARCH SECTION ===== */
 .search-section {
   position: relative;
   height: 220px;
-  background: #f7f7f8;
   overflow: hidden;
 }
 
-/* Canvas Wave */
+/* Canvas wave */
 #aiWave {
   position: absolute;
   inset: 0;
@@ -159,140 +98,109 @@ footer {
   border: none;
   outline: none;
   font-size: 17px;
-  font-family: Inter, sans-serif;
-  background: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.9);
   backdrop-filter: blur(20px);
   box-shadow:
     0 10px 40px rgba(0,0,0,0.08),
     inset 0 1px 0 rgba(255,255,255,0.6);
 }
 
-body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(
-    to bottom,
-    #f7f8fa 0%,
-    #ffffff 40%,
-    #f4f6fb 70%,
-    #0f172a 100%
-  );
-  overflow-x: hidden;
+/* ===============================
+   4. HEADLINE
+================================ */
+
+.headline {
+  text-align: center;
+  margin: 40px 0 30px;
 }
 
-/* Unified wave illusion */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(60% 20% at 50% 30%,
-      rgba(120,150,255,0.25),
-      transparent 70%),
-    radial-gradient(60% 20% at 50% 75%,
-      rgba(140,180,255,0.25),
-      transparent 70%);
-  z-index: -1;
+.headline h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
 }
 
-/* ===== DARK MODE ===== */
-
-body.dark {
-  background: linear-gradient(
-    to bottom,
-    #0b1020 0%,
-    #0f172a 60%,
-    #020617 100%
-  );
-  color: #e5e7eb;
+.headline p {
+  color: #666;
 }
 
-body.dark .topbar,
-body.dark .search-box,
-body.dark .card {
-  background: rgba(20, 25, 45, 0.65);
-  color: #e5e7eb;
+/* ===============================
+   5. CATEGORIES
+================================ */
+
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 40px;
 }
 
-body.dark .search-box input {
-  color: #fff;
+.categories span {
+  cursor: pointer;
+  color: #777;
 }
 
-body.dark footer {
-  background: linear-gradient(
-    to top,
-    #020617,
-    transparent
-  );
+.categories .active {
+  border-bottom: 2px solid #c7a55b;
+  color: #000;
 }
 
-/* ===== PREMIUM MOTION ===== */
+/* ===============================
+   6. PRODUCTS
+================================ */
+
+.products {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  padding-bottom: 80px;
+}
 
 .card {
+  position: relative;
+  width: 260px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  padding: 16px;
+  text-align: center;
   transition: all 0.35s ease;
 }
 
 .card:hover {
   transform: translateY(-6px) scale(1.015);
-  box-shadow:
-    0 20px 40px rgba(0,0,0,0.15);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
 }
 
-button {
+.card img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.card h3 {
+  margin: 12px 0 6px;
+}
+
+.card p {
+  color: #555;
+}
+
+.card button {
+  margin-top: 12px;
+  padding: 10px 22px;
+  background: linear-gradient(135deg,#7aa7d9,#c7a55b);
+  border: none;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
   transition: all 0.25s ease;
 }
 
-button:hover {
+.card button:hover {
   transform: translateY(-1px);
-  box-shadow:
-    0 8px 20px rgba(80,120,255,0.35);
+  box-shadow: 0 8px 20px rgba(80,120,255,0.35);
 }
 
-/* ===============================
-   9. MOBILE + APPLE POLISH
-================================ */
-
-@media (max-width: 768px) {
-  .topbar {
-    padding: 14px 16px;
-  }
-
-  .logo img {
-    height: 42px;
-  }
-
-  .search-section input {
-    width: 92%;
-    font-size: 15px;
-  }
-
-  .headline h1 {
-    font-size: 26px;
-  }
-
-  .products {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-
-  .card {
-    border-radius: 18px;
-  }
-}
-
-/* Smooth scroll & font polish */
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  -webkit-font-smoothing: antialiased;
-}
-
-.card {
-  position: relative;
-}
-
+/* Tooltip */
 .card::after {
   content: "AI picked based on quality, brand trust & user fit";
   position: absolute;
@@ -312,4 +220,63 @@ body {
 
 .card:hover::after {
   opacity: 1;
+}
+
+/* ===============================
+   7. FOOTER
+================================ */
+
+footer {
+  text-align: center;
+  padding: 40px 0;
+  background: linear-gradient(180deg, transparent, #0c1320);
+  color: #fff;
+}
+
+/* ===============================
+   8. DARK MODE
+================================ */
+
+body.dark {
+  background: linear-gradient(
+    to bottom,
+    #0b1020 0%,
+    #0f172a 60%,
+    #020617 100%
+  );
+  color: #e5e7eb;
+}
+
+body.dark .card {
+  background: rgba(20,25,45,0.7);
+  color: #e5e7eb;
+}
+
+body.dark footer {
+  background: linear-gradient(to top, #020617, transparent);
+}
+
+/* ===============================
+   9. MOBILE RESPONSIVE
+================================ */
+
+@media (max-width: 768px) {
+  .topbar {
+    padding: 14px 16px;
+  }
+
+  .search-box input {
+    width: 92%;
+    font-size: 15px;
+  }
+
+  .headline h1 {
+    font-size: 26px;
+  }
+
+  .products {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
 }
