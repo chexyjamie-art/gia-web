@@ -1,160 +1,68 @@
+/* ===============================
+   AI SEARCH WAVE
+================================ */
+
 const canvas = document.getElementById("aiWave");
 const ctx = canvas.getContext("2d");
 
-let w, h, t = 0;
-
 function resize() {
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = 220;
+  canvas.width = window.innerWidth;
+  canvas.height = 220;
 }
-window.addEventListener("resize", resize);
 resize();
+window.addEventListener("resize", resize);
 
-function drawWave(color, amp, freq, speed, yOffset) {
+let t = 0;
+
+function drawWave() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   ctx.beginPath();
-  for (let x = 0; x <= w; x++) {
+  ctx.moveTo(0, canvas.height / 2);
+
+  for (let x = 0; x < canvas.width; x++) {
     const y =
-      Math.sin(x * freq + t * speed) * amp +
-      Math.sin(x * freq * 0.5 + t * speed * 0.6) * amp * 0.4 +
-      yOffset;
+      canvas.height / 2 +
+      Math.sin(x * 0.01 + t) * 18 +
+      Math.sin(x * 0.02 + t * 1.5) * 8;
     ctx.lineTo(x, y);
   }
-  ctx.strokeStyle = color;
+
+  ctx.strokeStyle = "rgba(120,150,255,0.35)";
   ctx.lineWidth = 2;
   ctx.stroke();
+
+  t += 0.03;
+  requestAnimationFrame(drawWave);
 }
 
-function animate() {
-  ctx.clearRect(0, 0, w, h);
-
-  drawWave("rgba(120,160,255,0.35)", 22, 0.012, 0.02, h / 2);
-  drawWave("rgba(180,120,255,0.35)", 26, 0.01, 0.018, h / 2);
-  drawWave("rgba(255,180,255,0.25)", 18, 0.014, 0.022, h / 2);
-
-  t += 0.6;
-  requestAnimationFrame(animate);
-}
-animate();
-
-// Dark Mode Toggle (manual test)
-document.addEventListener("keydown", (e) => {
-  if (e.key === "d") {
-    document.body.classList.toggle("dark");
-  }
-});
+drawWave();
 
 /* ===============================
-   6. AI SEARCH TYPING EFFECT
+   AI TYPING EFFECT
 ================================ */
 
-const aiSearch = document.getElementById("aiSearch");
+const aiInput = document.getElementById("aiSearch");
 
-const aiTexts = [
-  "Luxury skincare for glowing skin?",
-  "Best watches under ₹20,000",
-  "Shoes that match my style",
-  "AI-picked premium products for me"
+const prompts = [
+  "Luxury skincare for glowing skin",
+  "Best watch under ₹20,000",
+  "AI picked products for you",
+  "Smart fashion, zero confusion"
 ];
 
-let textIndex = 0;
-let charIndex = 0;
+let p = 0;
+let i = 0;
 
-function typeAI() {
-  if (!aiSearch) return;
-
-  if (charIndex < aiTexts[textIndex].length) {
-    aiSearch.placeholder += aiTexts[textIndex].charAt(charIndex);
-    charIndex++;
-    setTimeout(typeAI, 60);
+function typeEffect() {
+  if (i <= prompts[p].length) {
+    aiInput.placeholder = prompts[p].slice(0, i++);
   } else {
     setTimeout(() => {
-      aiSearch.placeholder = "";
-      charIndex = 0;
-      textIndex = (textIndex + 1) % aiTexts.length;
-      typeAI();
-    }, 1800);
+      i = 0;
+      p = (p + 1) % prompts.length;
+    }, 1500);
   }
 }
 
-typeAI();
-
-/* ===============================
-   7. CATEGORY FILTER
-================================ */
-
-const categoryTabs = document.querySelectorAll(".categories span");
-const productContainer = document.querySelector(".products");
-
-categoryTabs.forEach(tab => {
-  tab.addEventListener("click", () => {
-    categoryTabs.forEach(t => t.classList.remove("active"));
-    tab.classList.add("active");
-
-    const category = tab.innerText;
-    renderProducts(category);
-  });
-});
-
-/* ===============================
-   8. PRODUCT DATA (FAKE AFFILIATE)
-================================ */
-
-const productsData = [
-  {
-    title: "Fossil Grant Classic",
-    price: "₹7,495 – 8,095",
-    image: "assets/watch1.jpg",
-    category: "Watches",
-    link: "#"
-  },
-  {
-    title: "Titan Edge Ultra Thin",
-    price: "₹10,995 – 19,998",
-    image: "assets/watch2.jpg",
-    category: "Watches",
-    link: "#"
-  },
-  {
-    title: "Seiko Prospex Solar",
-    price: "₹16,995 – 21,999",
-    image: "assets/watch3.jpg",
-    category: "Watches",
-    link: "#"
-  },
-  {
-    title: "Premium Leather Shoes",
-    price: "₹5,999 – 9,999",
-    image: "assets/shoes.jpg",
-    category: "Shoes",
-    link: "#"
-  }
-];
-
-function renderProducts(category = "All") {
-  productContainer.innerHTML = "";
-
-  productsData
-    .filter(p => category === "All" || p.category === category)
-    .forEach(p => {
-      productContainer.innerHTML += `
-        <div class="card">
-          <img src="${p.image}">
-          <h3>${p.title}</h3>
-          <p>${p.price}</p>
-          <button onclick="window.open('${p.link}')">
-            Buy Now →
-          </button>
-        </div>
-      `;
-    });
-}
-
-renderProducts();
-
-/* ===============================
-   PWA REGISTER
-================================ */
-
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js");
-}
+setInterval(typeEffect, 120);
