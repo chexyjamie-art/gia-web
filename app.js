@@ -94,3 +94,59 @@ categoryTabs.forEach(tab => {
     renderProducts(category);
   });
 });
+
+/* ===============================
+   8. PRODUCT DATA (FAKE AFFILIATE)
+================================ */
+
+const productsData = [
+  {
+    title: "Fossil Grant Classic",
+    price: "₹7,495 – 8,095",
+    image: "assets/watch1.jpg",
+    category: "Watches",
+    link: "#"
+  },
+  {
+    title: "Titan Edge Ultra Thin",
+    price: "₹10,995 – 19,998",
+    image: "assets/watch2.jpg",
+    category: "Watches",
+    link: "#"
+  },
+  {
+    title: "Seiko Prospex Solar",
+    price: "₹16,995 – 21,999",
+    image: "assets/watch3.jpg",
+    category: "Watches",
+    link: "#"
+  },
+  {
+    title: "Premium Leather Shoes",
+    price: "₹5,999 – 9,999",
+    image: "assets/shoes.jpg",
+    category: "Shoes",
+    link: "#"
+  }
+];
+
+function renderProducts(category = "All") {
+  productContainer.innerHTML = "";
+
+  productsData
+    .filter(p => category === "All" || p.category === category)
+    .forEach(p => {
+      productContainer.innerHTML += `
+        <div class="card">
+          <img src="${p.image}">
+          <h3>${p.title}</h3>
+          <p>${p.price}</p>
+          <button onclick="window.open('${p.link}')">
+            Buy Now →
+          </button>
+        </div>
+      `;
+    });
+}
+
+renderProducts();
