@@ -1,3 +1,4 @@
+// AI Search Typing
 const phrases = [
   "Luxury skincare for glowing skin?",
   "Best watches under ₹20,000",
@@ -5,21 +6,14 @@ const phrases = [
   "Minimal shoes for daily wear"
 ];
 
-let phraseIndex = 0;
-let charIndex = 0;
-
+let phraseIndex = 0, charIndex = 0;
 const input = document.getElementById("aiSearch");
 
 function typeText() {
-  if (!input) return;
-
   if (charIndex < phrases[phraseIndex].length) {
-    input.placeholder += phrases[phraseIndex].charAt(charIndex);
-    charIndex++;
+    input.placeholder += phrases[phraseIndex].charAt(charIndex++);
     setTimeout(typeText, 70);
-  } else {
-    setTimeout(eraseText, 2000);
-  }
+  } else setTimeout(eraseText, 2000);
 }
 
 function eraseText() {
@@ -29,8 +23,28 @@ function eraseText() {
     setTimeout(eraseText, 40);
   } else {
     phraseIndex = (phraseIndex + 1) % phrases.length;
-    setTimeout(typeText, 500);
+    setTimeout(typeText, 400);
   }
 }
-
 typeText();
+
+// Load Products
+fetch("products.json")
+  .then(res => res.json())
+  .then(data => {
+    const container = document.querySelector(".products");
+    container.innerHTML = "";
+
+    data.forEach(p => {
+      container.innerHTML += `
+        <div class="card">
+          <span class="badge">AI Verified</span>
+          <img src="${p.image}">
+          <h3>${p.name}</h3>
+          <p>${p.price}</p>
+          <a href="${p.affiliate}" target="_blank">
+            <button>Buy Now →</button>
+          </a>
+        </div>`;
+    });
+  });
