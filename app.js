@@ -12,8 +12,6 @@ fetch("products.json")
 // RENDER PRODUCTS
 function renderProducts(list) {
   const container = document.getElementById("products");
-  if (!container) return;
-
   container.innerHTML = "";
 
   list.forEach(p => {
@@ -23,14 +21,19 @@ function renderProducts(list) {
         <h3>${p.name}</h3>
         <p>₹${p.price}</p>
 
-        <button onclick="toggleWishlist(${p.id})">
-          ${wishlist.includes(p.id) ? "❤️ Saved" : "🤍 Wishlist"}
-        </button>
+        <div class="card-actions">
+          <button onclick="toggleWishlist(${p.id})">
+            ${wishlist.includes(p.id) ? "❤️" : "🤍"}
+          </button>
+
+          <a href="${p.link}" target="_blank">
+            <button class="buy-btn">Buy Now</button>
+          </a>
+        </div>
       </div>
     `;
   });
 }
-
 // CATEGORY FILTER
 document.querySelectorAll(".categories span").forEach(btn => {
   btn.onclick = () => {
