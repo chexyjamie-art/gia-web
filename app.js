@@ -55,3 +55,63 @@ function addToWishlist(item) {
   wishlist.push(item);
   localStorage.setItem("wishlist", JSON.stringify(wishlist));
 }
+
+/* ================= VOICE SEARCH ================= */
+
+const micBtn = document.getElementById("micBtn");
+
+if (micBtn && 'webkitSpeechRecognition' in window) {
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = "en-IN";
+
+  micBtn.onclick = () => {
+    micBtn.classList.add("listening");
+    recognition.start();
+  };
+
+  recognition.onresult = function (event) {
+    const text = event.results[0][0].transcript;
+    document.querySelector(".search-box input").value = text;
+    aiReply(text);
+  };
+
+  recognition.onend = () => {
+    micBtn.classList.remove("listening");
+  };
+}
+
+/* ================= AI REPLY SYSTEM ================= */
+
+function aiReply(query) {
+  let response = generateAIResponse(query);
+  typeEffect(response);
+}
+
+function generateAIResponse(msg) {
+  msg = msg.toLowerCase();
+
+  if (msg.includes("watch"))
+    return "I recommend a minimalist silver watch under ₹10k for daily luxury wear.";
+
+  if (msg.includes("skin"))
+    return "Vitamin C serum in morning & sunscreen daily will improve glow.";
+
+  if (msg.includes("outfit"))
+    return "Try white sneakers, slim jeans & pastel shirt for a clean modern look.";
+
+  return "Tell me your budget & occasion — I’ll suggest the best option.";
+}
+
+function typeEffect(text) {
+  const box = document.getElementById("aiResponse");
+  if (!box) return;
+
+  box.innerHTML = "";
+  let i = 0;
+
+  const typing = setInterval(() => {
+    box.innerHTML += text[i];
+    i++;
+    if (i >= text.length) clearInterval(typing);
+  }, 25);
+}
