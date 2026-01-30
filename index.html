@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GIA AI Stylist</title>
-
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -13,43 +12,49 @@
 <!-- HEADER -->
 <header class="header">
 
-  <div class="left"></div>
+  <div class="menu-left">
+    ☰ <span>Menu</span>
+  </div>
 
   <div class="right">
     <span>Notifications</span>
-    <span>Wishlist</span>
-
+    <span onclick="goWishlist()">Wishlist</span>
     <img src="https://i.pravatar.cc/40" class="profile" onclick="openProfile()">
   </div>
 
 </header>
 
-<!-- CENTER SEARCH AREA -->
+<!-- CENTER AREA -->
 <div class="center">
 
+  <!-- LEFT WAVE -->
+  <img src="wave.png" class="wave">
+
+  <!-- SEARCH BAR -->
   <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Ask AI anything...">
 
-    <input type="text" placeholder="Ask AI anything...">
+    <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png"
+         class="mic"
+         onclick="startVoiceSearch()">
 
-    <div class="icons">
-      <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" title="Voice Search">
-      <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" title="Google Lens">
-    </div>
-
+    <input type="file" id="imageInput" hidden onchange="imageSearch(event)">
   </div>
 
+  <!-- RIGHT WAVE -->
+  <img src="wave.png" class="wave">
+
 </div>
+
+<!-- AI RESPONSE -->
+<div id="aiResponse" class="ai-box"></div>
 
 <!-- FOOTER -->
 <footer class="footer">
   Terms | Privacy | Conditions
 </footer>
 
-<script>
-function openProfile() {
-  window.location.href = "profile.html";
-}
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>
