@@ -1,7 +1,9 @@
 function imageSearch(file) {
-  alert("AI scanning image...");
+  if (!file) return;
 
-  setTimeout(() => {
-    alert("Detected: Sneakers · Casual Style · Budget Friendly Options");
-  }, 1500);
+  alert("AI analyzing image...");
+
+  // Fake AI match logic
+  const randomProduct = products[Math.floor(Math.random() * products.length)];
+  renderProducts([randomProduct]);
 }
