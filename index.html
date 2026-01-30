@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GIA AI Stylist</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="header">
+  <div class="menu">☰</div>
+
+  <div class="right-icons">
+    <img src="public/assets/wishlist.png" title="Wishlist">
+    <img src="public/assets/notification.png" title="Notifications">
+    <img src="public/assets/profile.jpg" title="Profile">
+  </div>
+</div>
+
+<!-- ===== CENTER SEARCH ===== -->
+<div class="center">
+
+  <div class="wave"></div>
+
+  <div class="search-box">
+    <input type="text" placeholder="Ask AI anything...">
+
+    <div class="search-icons">
+      <img src="public/assets/mic.svg" onclick="voiceSearch()" title="Voice">
+      <label>
+        <img src="public/assets/scan.svg" title="Scan">
+        <input type="file" hidden accept="image/*" capture="camera">
+      </label>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div class="footer">
+  <a href="#">Terms</a> |
+  <a href="#">Privacy</a> |
+  <a href="#">Conditions</a>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
