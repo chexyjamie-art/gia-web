@@ -16,8 +16,8 @@
 
   <div class="right">
     <span>Notifications</span>
-    <span>Wishlist</span>
-    <img src="https://i.pravatar.cc/40" class="profile">
+    <span onclick="goWishlist()">Wishlist</span>
+    <img src="https://i.pravatar.cc/40" class="profile" onclick="openProfile()">
   </div>
 </header>
 
@@ -43,6 +43,16 @@
 <footer class="footer">
   Terms | Privacy | Conditions
 </footer>
+
+<script>
+function openProfile(){
+  window.location.href = "profile.html";
+}
+
+function goWishlist(){
+  alert("Wishlist page coming next");
+}
+</script>
 
 </body>
 </html>
