@@ -1,4 +1,38 @@
-body {
+/* SIDE MENU */
+
+.side-menu {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: white;
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 60px;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+  z-index: 999;
+}
+
+.side-menu a {
+  display: block;
+  padding: 12px 25px;
+  text-decoration: none;
+  color: black;
+  font-size: 16px;
+}
+
+.side-menu a:hover {
+  background: #f2f2f2;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 22px;
+  cursor: pointer;
+}body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(to bottom, #f7fbff, #ffffff);
