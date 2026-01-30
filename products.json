@@ -23,4 +23,12 @@
     "image": "https://via.placeholder.com/250",
     "link": "https://www.flipkart.com"
   }
+{
+  "id": 1,
+  "name": "Classic Watch",
+  "price": 2999,
+  "category": "Watches",
+  "image": "public/assets/watch.jpg",
+  "link": "https://www.amazon.in/"
+}
 ]
