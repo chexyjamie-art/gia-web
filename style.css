@@ -1,90 +1,30 @@
-body {
-  margin: 0;
-  font-family: Arial;
-  background: white;
-}
+/* ABSTRACT COLORFUL SOUND WAVE */
 
-/* HEADER */
-.header {
-  display: flex;
-  justify-content: space-between;
-  padding: 15px;
-}
-
-.menu {
-  font-size: 24px;
-}
-
-.header-right {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.profile {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-}
-
-/* CENTER */
-.center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 70vh;
-  gap: 15px;
-}
-
-/* WAVE */
 .wave {
-  width: 130px;
+  width: 120px;
+  height: 60px;
+  background: linear-gradient(90deg, purple, blue, cyan, green);
+  mask: repeating-linear-gradient(
+    to right,
+    rgba(0,0,0,1) 0px,
+    rgba(0,0,0,1) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  animation: waveMove 1.5s linear infinite;
+  border-radius: 8px;
+  opacity: 0.9;
 }
 
-.wave.right {
+.right-wave {
   transform: scaleX(-1);
 }
 
-/* SEARCH BAR */
-.search-box {
-  display: flex;
-  align-items: center;
-  background: white;
-  border-radius: 30px;
-  padding: 12px 18px;
-  border: 1px solid #ddd;
-  width: 65%;
-  max-width: 520px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-}
-
-/* LEFT SEARCH ICON */
-.search-icon {
-  width: 18px;
-  margin-right: 10px;
-}
-
-/* RIGHT ICONS */
-.right-icons {
-  display: flex;
-  gap: 10px;
-}
-
-.right-icons img {
-  width: 18px;
-  cursor: pointer;
-}
-
-.search-box input {
-  border: none;
-  outline: none;
-  width: 100%;
-  font-size: 15px;
-}
-
-/* FOOTER */
-.footer {
-  text-align: center;
-  padding: 10px;
-  color: gray;
+@keyframes waveMove {
+  0% {
+    mask-position: 0 0;
+  }
+  100% {
+    mask-position: 120px 0;
+  }
 }
