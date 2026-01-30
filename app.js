@@ -104,3 +104,43 @@ function aiReply(msg) {
   if (msg.includes("shoes")) return "Running shoes with comfort cushioning would suit you.";
   return "Tell me your occasion & budget for best advice.";
 }
+
+const chatInput = document.getElementById("chatInput");
+const chatMessages = document.getElementById("chatMessages");
+
+if (chatInput) {
+  chatInput.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+      sendMessage(this.value);
+      this.value = "";
+    }
+  });
+}
+
+function sendMessage(msg) {
+  addChat("You", msg);
+
+  let reply = generateAIReply(msg);
+  setTimeout(() => addChat("AI Stylist", reply), 500);
+}
+
+function addChat(sender, text) {
+  const div = document.createElement("div");
+  div.innerHTML = `<b>${sender}:</b> ${text}`;
+  chatMessages.appendChild(div);
+}
+
+function generateAIReply(msg) {
+  msg = msg.toLowerCase();
+
+  if (msg.includes("watch"))
+    return "I recommend a minimalist silver watch under ₹10k. Avoid oversized dials for daily wear.";
+
+  if (msg.includes("skin"))
+    return "For glowing skin, use Vitamin C in morning & sunscreen daily. Avoid harsh scrubs.";
+
+  if (msg.includes("outfit"))
+    return "Try neutral sneakers, slim jeans & a pastel shirt for a clean modern look.";
+
+  return "Tell me your budget & occasion — I’ll suggest the best option.";
+}
