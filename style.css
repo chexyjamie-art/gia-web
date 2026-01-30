@@ -58,13 +58,19 @@ body {
   box-shadow: 0 3px 8px rgba(0,0,0,0.08);
 }
 
-.icons {
-  display: flex;
-  gap: 10px;
+/* LEFT SEARCH ICON */
+.search-icon {
+  width: 18px;
   margin-right: 10px;
 }
 
-.icons img {
+/* RIGHT ICONS */
+.right-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.right-icons img {
   width: 18px;
   cursor: pointer;
 }
