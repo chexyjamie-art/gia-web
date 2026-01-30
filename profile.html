@@ -3,39 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Profile - GIA AI Stylist</title>
+<title>Profile</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header class="header">
-  <div class="menu-left">
-    ← <span onclick="goHome()">Back</span>
-  </div>
-</header>
-
 <div class="profile-page">
 
-  <!-- DP -->
-  <img src="https://i.pravatar.cc/150" class="profile-dp">
+  <img src="https://i.pravatar.cc/120" class="profile-big">
 
-  <!-- USER INFO -->
-  <h2>Rahul Sharma</h2>
+  <input type="text" id="name" placeholder="Full Name">
+  <input type="text" id="mobile" placeholder="Mobile Number">
+  <input type="email" id="email" placeholder="Email Address">
+  <input type="text" id="address" placeholder="Home Address">
 
-  <div class="info-box">
-    <p><strong>Mobile:</strong> +91 9876543210</p>
-    <p><strong>Email:</strong> rahul@email.com</p>
-    <p><strong>Address:</strong> Mumbai, Maharashtra, India</p>
-  </div>
+  <button onclick="saveProfile()">Save Profile</button>
 
 </div>
 
-<script>
-function goHome(){
-  window.location.href = "index.html";
-}
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>
