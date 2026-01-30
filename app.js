@@ -140,3 +140,11 @@ window.onload = function(){
     document.getElementById("address").value = saved.address || "";
   }
 }
+
+function openMenu(){
+  document.getElementById("sideMenu").style.width = "250px";
+}
+
+function closeMenu(){
+  document.getElementById("sideMenu").style.width = "0";
+}
