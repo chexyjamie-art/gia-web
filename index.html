@@ -9,8 +9,9 @@
 
 <body>
 
+<!-- ================= HEADER ================= -->
 <header class="header">
-  <div class="menu-left">
+  <div class="menu-left" onclick="openMenu()">
     ☰ <span>Menu</span>
   </div>
 
@@ -21,13 +22,23 @@
   </div>
 </header>
 
-<!-- WAVE AREA -->
+<!-- ================= SIDE MENU ================= -->
+<div id="sideMenu" class="side-menu">
+  <span class="close-btn" onclick="closeMenu()">✖</span>
+
+  <a href="index.html">Home</a>
+  <a href="profile.html">Profile</a>
+  <a href="#">Wishlist</a>
+  <a href="#">Settings</a>
+</div>
+
+<!-- ================= WAVE AREA ================= -->
 <div class="wave-wrapper">
   <div class="wave-left"></div>
   <div class="wave-right"></div>
 </div>
 
-<!-- CENTER SEARCH -->
+<!-- ================= CENTER SEARCH ================= -->
 <div class="center">
 
   <div class="search-box">
@@ -40,10 +51,12 @@
 
 </div>
 
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
   Terms | Privacy | Conditions
 </footer>
 
+<!-- ================= JS ================= -->
 <script>
 function openProfile(){
   window.location.href = "profile.html";
@@ -51,6 +64,14 @@ function openProfile(){
 
 function goWishlist(){
   alert("Wishlist page coming next");
+}
+
+function openMenu(){
+  document.getElementById("sideMenu").style.width = "250px";
+}
+
+function closeMenu(){
+  document.getElementById("sideMenu").style.width = "0";
 }
 </script>
 
