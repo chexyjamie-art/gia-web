@@ -27,22 +27,32 @@
 <!-- CENTER AREA -->
 <div class="center">
 
-  <!-- LEFT WAVE -->
-  <img src="wave.png" class="wave">
+  <!-- LEFT ANIMATED WAVE -->
+  <div class="wave">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
 
   <!-- SEARCH BAR -->
   <div class="search-box">
     <input type="text" id="searchInput" placeholder="Ask AI anything...">
 
-    <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png"
-         class="mic"
+    <!-- ATTACHMENT ICON -->
+    <img src="https://cdn-icons-png.flaticon.com/512/60/60710.png"
+         class="icon"
+         onclick="openFileUpload()">
+
+    <!-- MIC ICON (NEW STYLE) -->
+    <img src="https://cdn-icons-png.flaticon.com/512/61/61012.png"
+         class="icon"
          onclick="startVoiceSearch()">
 
     <input type="file" id="imageInput" hidden onchange="imageSearch(event)">
   </div>
 
-  <!-- RIGHT WAVE -->
-  <img src="wave.png" class="wave">
+  <!-- RIGHT ANIMATED WAVE -->
+  <div class="wave">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
 
 </div>
 
