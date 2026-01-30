@@ -1,19 +1,27 @@
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
 fetch("products.json")
-  .then(res => res.json())
-  .then(products => {
-    const list = JSON.parse(localStorage.getItem("wishlist")) || [];
-    const container = document.getElementById("wishlistItems");
+.then(res => res.json())
+.then(products => {
+  const wishlistContainer = document.getElementById("wishlistItems");
 
-    const items = products.filter(p => list.includes(p.id));
+  wishlist.forEach(id => {
+    const p = products.find(x => x.id === id);
+    if (!p) return;
 
-    if (!items.length) {
-      container.innerHTML = "No items saved.";
-      return;
-    }
-
-    items.forEach(p => {
-      const div = document.createElement("div");
-      div.innerHTML = `<p>${p.name} – ${p.price}</p>`;
-      container.appendChild(div);
-    });
+    wishlistContainer.innerHTML += `
+      <div class="card">
+        <img src="${p.image}">
+        <p>${p.name}</p>
+      </div>
+    `;
   });
+});
+
+function openSettings() {
+  alert("Settings coming soon");
+}
+
+function logout() {
+  alert("Logged out");
+}
