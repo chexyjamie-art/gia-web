@@ -11,41 +11,49 @@
 <body>
 
 <!-- ===== HEADER ===== -->
-<div class="header">
+<header class="header">
+
+  <!-- LEFT MENU -->
   <div class="menu">☰</div>
 
-  <div class="right-icons">
-    <img src="public/assets/wishlist.png" title="Wishlist">
-    <img src="public/assets/notification.png" title="Notifications">
-    <img src="public/assets/profile.jpg" title="Profile">
+  <!-- RIGHT SIDE -->
+  <div class="right-section">
+    <img src="https://i.pravatar.cc/40" class="profile-pic">
+    <span>Wishlist</span>
+    <span>Notifications</span>
   </div>
-</div>
+
+</header>
 
 <!-- ===== CENTER SEARCH ===== -->
-<div class="center">
+<div class="center-area">
 
-  <div class="wave"></div>
+  <!-- LEFT WAVE -->
+  <div class="wave left-wave"></div>
 
-  <div class="search-box">
-    <input type="text" placeholder="Ask AI anything...">
+  <!-- RIGHT WAVE -->
+  <div class="wave right-wave"></div>
 
-    <div class="search-icons">
-      <img src="public/assets/mic.svg" onclick="voiceSearch()" title="Voice">
+  <!-- SEARCH BAR -->
+  <div class="search-container">
+    <div class="search-icons-left">
+      <img src="https://cdn-icons-png.flaticon.com/512/54/54481.png" title="Search">
+      <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" onclick="voiceSearch()" title="Mic">
       <label>
-        <img src="public/assets/scan.svg" title="Scan">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149852.png" title="Scan">
         <input type="file" hidden accept="image/*" capture="camera">
       </label>
     </div>
+
+    <input type="text" placeholder="Ask AI anything...">
   </div>
 
 </div>
 
 <!-- ===== FOOTER ===== -->
-<div class="footer">
-  <a href="#">Terms</a> |
-  <a href="#">Privacy</a> |
-  <a href="#">Conditions</a>
-</div>
+<footer class="footer">
+  Terms | Privacy | Conditions
+</footer>
 
 <script src="script.js"></script>
 </body>
