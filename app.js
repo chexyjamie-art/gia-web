@@ -157,3 +157,43 @@ function toggleWishlist(productId) {
   localStorage.setItem("wishlist", JSON.stringify(wishlist));
   renderProducts(products);
 }
+
+const micIcon = document.querySelector('[title="Voice Search"]');
+
+if ('webkitSpeechRecognition' in window) {
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = "en-IN";
+
+  micIcon.onclick = () => recognition.start();
+
+  recognition.onresult = function (event) {
+    const text = event.results[0][0].transcript;
+    document.getElementById("aiSearch").value = text;
+    aiSearchLogic(text);
+  };
+}
+
+function generateOutfit() {
+  const shoes = products.find(p => p.category === "Shoes");
+  const watch = products.find(p => p.category === "Watches");
+
+  alert(`Outfit Idea:
+• Shoes: ${shoes.name}
+• Watch: ${watch.name}
+• Pair with neutral jeans & white shirt`);
+}
+
+function beautyAI(concern) {
+  concern = concern.toLowerCase();
+
+  if (concern.includes("acne"))
+    return "Use salicylic acid facewash & oil-free moisturizer.";
+
+  if (concern.includes("glow"))
+    return "Use Vitamin C serum & sunscreen daily.";
+
+  if (concern.includes("dark spots"))
+    return "Niacinamide + Tranexamic acid helps reduce spots.";
+
+  return "Tell me your skin type & concern for better advice.";
+}
