@@ -5,10 +5,10 @@ function voiceSearch() {
     recognition.start();
 
     recognition.onresult = function(event) {
-      document.querySelector(".search-box input").value =
+      document.querySelector(".search-container input").value =
         event.results[0][0].transcript;
     };
   } else {
-    alert("Voice search not supported");
+    alert("Voice search not supported in this browser");
   }
 }
