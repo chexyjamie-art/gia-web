@@ -113,3 +113,31 @@ p {
   margin-top: 100px;
   color: gray;
 }
+
+/* PROFILE PAGE */
+.profile-page {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.profile-dp {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.profile-page h2 {
+  margin-top: 15px;
+}
+
+.info-box {
+  background: white;
+  width: 80%;
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  text-align: left;
+}
