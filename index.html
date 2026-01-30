@@ -79,9 +79,30 @@
   <span>© GIA AI</span>
 </footer>
 
+<!-- ===== AI STYLIST CHAT POPUP ===== -->
+<div id="chatPopup" class="chat-popup">
+  <div class="chat-header">
+    AI Stylist
+    <span onclick="toggleChat()">✖</span>
+  </div>
+
+  <div id="chatMessages"></div>
+
+  <input type="text" id="chatInput" placeholder="Ask style advice...">
+</div>
+
+<button onclick="toggleChat()" class="chat-btn">💬</button>
+
 <!-- JS FILES -->
 <script src="app.js"></script>
 <script src="image-search.js"></script>
+
+<script>
+function toggleChat() {
+  const popup = document.getElementById("chatPopup");
+  popup.style.display = popup.style.display === "block" ? "none" : "block";
+}
+</script>
 
 </body>
 </html>
