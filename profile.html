@@ -1,36 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Profile</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile - GIA AI Stylist</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <header class="header">
-  <div onclick="history.back()">← Back</div>
-  <h3>My Profile</h3>
+  <div class="menu-left">
+    ← <span onclick="goHome()">Back</span>
+  </div>
 </header>
 
-<div style="text-align:center; padding:20px;">
-  <img src="https://i.pravatar.cc/100" class="profile">
-  <h2>Guest User</h2>
-  <p>Welcome to GIA Smart AI Stylist</p>
+<div class="profile-page">
+
+  <!-- DP -->
+  <img src="https://i.pravatar.cc/150" class="profile-dp">
+
+  <!-- USER INFO -->
+  <h2>Rahul Sharma</h2>
+
+  <div class="info-box">
+    <p><strong>Mobile:</strong> +91 9876543210</p>
+    <p><strong>Email:</strong> rahul@email.com</p>
+    <p><strong>Address:</strong> Mumbai, Maharashtra, India</p>
+  </div>
+
 </div>
 
-<div style="padding:20px;">
-  <h3>Account Info</h3>
-  <p>Email: Not added</p>
-  <p>Member since: 2026</p>
-</div>
-
-<div style="padding:20px;">
-  <button onclick="alert('Wishlist page coming soon')">View Wishlist</button>
-</div>
-
-<footer class="footer">
-  GIA AI © 2026
-</footer>
+<script>
+function goHome(){
+  window.location.href = "index.html";
+}
+</script>
 
 </body>
 </html>
