@@ -1,70 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GIA AI Stylist</title>
-<link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-<!-- HEADER -->
-<header class="header">
-
-  <div class="menu-left">
-    ☰ <span>Menu</span>
-  </div>
-
-  <div class="right">
-    <span>Notifications</span>
-    <span onclick="goWishlist()">Wishlist</span>
-    <img src="https://i.pravatar.cc/40" class="profile" onclick="openProfile()">
-  </div>
-
-</header>
-
-<!-- CENTER AREA -->
-<div class="center">
-
-  <!-- LEFT ANIMATED WAVE -->
-  <div class="wave">
-    <span></span><span></span><span></span><span></span><span></span>
-  </div>
-
-  <!-- SEARCH BAR -->
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Ask AI anything...">
-
-    <!-- ATTACHMENT ICON -->
-    <img src="https://cdn-icons-png.flaticon.com/512/60/60710.png"
-         class="icon"
-         onclick="openFileUpload()">
-
-    <!-- MIC ICON (NEW STYLE) -->
-    <img src="https://cdn-icons-png.flaticon.com/512/61/61012.png"
-         class="icon"
-         onclick="startVoiceSearch()">
-
-    <input type="file" id="imageInput" hidden onchange="imageSearch(event)">
-  </div>
-
-  <!-- RIGHT ANIMATED WAVE -->
-  <div class="wave">
-    <span></span><span></span><span></span><span></span><span></span>
-  </div>
-
-</div>
-
-<!-- AI RESPONSE -->
-<div id="aiResponse" class="ai-box"></div>
-
-<!-- FOOTER -->
-<footer class="footer">
-  Terms | Privacy | Conditions
-</footer>
-
-<script src="app.js"></script>
-
-</body>
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>GIA AI Stylist</title>  
+<link rel="stylesheet" href="style.css">  
+</head>  
+  
+<body>  
+  
+<!-- HEADER -->  
+<header class="header">  
+  
+  <div class="menu-left">  
+    ☰ <span>Menu</span>  
+  </div>  
+  
+  <div class="right">  
+    <span>Notifications</span>  
+    <span onclick="goWishlist()">Wishlist</span>  
+    <img src="https://i.pravatar.cc/40" class="profile" onclick="openProfile()">  
+  </div>  
+  
+</header>  
+  
+<!-- CENTER AREA -->  
+<div class="center">  
+  
+  <!-- LEFT ANIMATED WAVE -->  
+  <div class="wave">  
+    <span></span><span></span><span></span><span></span><span></span>  
+  </div>  
+  
+  <!-- SEARCH BAR -->  
+  <div class="search-box">  
+    <input type="text" id="searchInput" placeholder="Ask AI anything...">  
+  
+    <!-- ATTACHMENT ICON -->  
+    <img src="https://cdn-icons-png.flaticon.com/512/60/60710.png"  
+         class="icon"  
+         onclick="openFileUpload()">  
+  
+    <!-- MIC ICON -->  
+    <img src="https://cdn-icons-png.flaticon.com/512/61/61012.png"  
+         class="icon"  
+         id="micBtn">  
+  
+    <input type="file" id="imageInput" hidden onchange="imageSearch(event)">  
+  </div>  
+  
+  <!-- RIGHT ANIMATED WAVE -->  
+  <div class="wave">  
+    <span></span><span></span><span></span><span></span><span></span>  
+  </div>  
+  
+</div>  
+  
+<!-- AI RESPONSE -->  
+<div id="aiResponse" class="ai-box"></div>  
+  
+<!-- FOOTER -->  
+<footer class="footer">  
+  Terms | Privacy | Conditions  
+</footer>  
+  
+<script src="app.js"></script>  
+  
+</body>  
 </html>
