@@ -12,40 +12,31 @@
 
 <!-- HEADER -->
 <header class="header">
-  <div class="menu">☰</div>
 
-  <div class="header-right">
-    <img src="https://i.pravatar.cc/40" class="profile">
-    <span>Wishlist</span>
+  <div class="left"></div>
+
+  <div class="right">
     <span>Notifications</span>
+    <span>Wishlist</span>
+
+    <img src="https://i.pravatar.cc/40" class="profile" onclick="openProfile()">
   </div>
+
 </header>
 
-<!-- CENTER AREA -->
+<!-- CENTER SEARCH AREA -->
 <div class="center">
 
-  <!-- LEFT ABSTRACT WAVE -->
-  <div class="wave left-wave"></div>
-
-  <!-- SEARCH BAR -->
   <div class="search-box">
 
-    <!-- LEFT SEARCH ICON -->
-    <img src="https://cdn-icons-png.flaticon.com/512/54/54481.png" class="search-icon">
-
-    <!-- INPUT -->
     <input type="text" placeholder="Ask AI anything...">
 
-    <!-- RIGHT ICONS -->
-    <div class="right-icons">
+    <div class="icons">
       <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" title="Voice Search">
-      <img src="https://cdn-icons-png.flaticon.com/512/149/149852.png" title="Image Search">
+      <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" title="Google Lens">
     </div>
 
   </div>
-
-  <!-- RIGHT ABSTRACT WAVE -->
-  <div class="wave right-wave"></div>
 
 </div>
 
@@ -53,6 +44,12 @@
 <footer class="footer">
   Terms | Privacy | Conditions
 </footer>
+
+<script>
+function openProfile() {
+  window.location.href = "profile.html";
+}
+</script>
 
 </body>
 </html>
