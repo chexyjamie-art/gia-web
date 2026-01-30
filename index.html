@@ -7,7 +7,6 @@
 <title>GIA – Smart AI Stylist</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -48,7 +47,6 @@
         <img src="public/assets/upload.svg" title="Upload Photo">
         <input type="file" hidden onchange="imageSearch(this.files[0])">
       </label>
-
     </div>
   </div>
 
@@ -71,6 +69,11 @@
 
 <!-- ===== PRODUCTS ===== -->
 <section class="products" id="products"></section>
+
+<!-- OPTIONAL OUTFIT BUTTON -->
+<div style="text-align:center; margin:20px;">
+  <button onclick="generateOutfit()">Generate Outfit</button>
+</div>
 
 <!-- ===== FOOTER ===== -->
 <footer>
@@ -96,13 +99,6 @@
 <!-- JS FILES -->
 <script src="app.js"></script>
 <script src="image-search.js"></script>
-
-<script>
-function toggleChat() {
-  const popup = document.getElementById("chatPopup");
-  popup.style.display = popup.style.display === "block" ? "none" : "block";
-}
-</script>
 
 </body>
 </html>
