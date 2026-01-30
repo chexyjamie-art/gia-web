@@ -179,3 +179,34 @@ footer {
   bottom: 20px;
   right: 20px;
 }
+
+.search-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 250px;
+  position: relative;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 30px;
+  padding: 10px 15px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+}
+
+.search-icons img {
+  width: 20px;
+  margin-left: 10px;
+  cursor: pointer;
+}
