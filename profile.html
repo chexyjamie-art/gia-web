@@ -1,29 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Profile</title>
-<link rel="stylesheet" href="style.css">
+  <title>Profile</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div style="padding:20px;text-align:center;">
-  <img src="https://i.pravatar.cc/100" style="border-radius:50%;">
-  <h2>Customer Profile</h2>
+<header class="header">
+  <div onclick="history.back()">← Back</div>
+  <h3>My Profile</h3>
+</header>
 
-  <p>Orders</p>
-  <p>Wishlist</p>
-  <p>Style Preferences</p>
-  <p>Subscription</p>
-
-  <button onclick="goHome()">Back Home</button>
+<div style="text-align:center; padding:20px;">
+  <img src="https://i.pravatar.cc/100" class="profile">
+  <h2>Guest User</h2>
+  <p>Welcome to GIA Smart AI Stylist</p>
 </div>
 
-<script>
-function goHome() {
-  window.location.href = "index.html";
-}
-</script>
+<div style="padding:20px;">
+  <h3>Account Info</h3>
+  <p>Email: Not added</p>
+  <p>Member since: 2026</p>
+</div>
+
+<div style="padding:20px;">
+  <button onclick="alert('Wishlist page coming soon')">View Wishlist</button>
+</div>
+
+<footer class="footer">
+  GIA AI © 2026
+</footer>
 
 </body>
 </html>
