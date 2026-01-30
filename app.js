@@ -144,3 +144,16 @@ function generateAIReply(msg) {
 
   return "Tell me your budget & occasion — I’ll suggest the best option.";
 }
+
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+function toggleWishlist(productId) {
+  if (wishlist.includes(productId)) {
+    wishlist = wishlist.filter(id => id !== productId);
+  } else {
+    wishlist.push(productId);
+  }
+
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  renderProducts(products);
+}
