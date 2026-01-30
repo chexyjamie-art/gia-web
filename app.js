@@ -12,6 +12,8 @@ fetch("products.json")
 // RENDER PRODUCTS
 function renderProducts(list) {
   const container = document.getElementById("products");
+  if (!container) return;
+
   container.innerHTML = "";
 
   list.forEach(p => {
@@ -20,6 +22,7 @@ function renderProducts(list) {
         <img src="${p.image}">
         <h3>${p.name}</h3>
         <p>₹${p.price}</p>
+
         <button onclick="toggleWishlist(${p.id})">
           ${wishlist.includes(p.id) ? "❤️ Saved" : "🤍 Wishlist"}
         </button>
@@ -41,13 +44,20 @@ document.querySelectorAll(".categories span").forEach(btn => {
 });
 
 // SEARCH FILTER
-document.getElementById("aiSearch").addEventListener("input", e => {
-  const val = e.target.value.toLowerCase();
-  const filtered = products.filter(p =>
-    p.name.toLowerCase().includes(val)
-  );
-  renderProducts(filtered);
+document.getElementById("aiSearch")?.addEventListener("input", e => {
+  aiSearchLogic(e.target.value);
 });
+
+function aiSearchLogic(query) {
+  query = query.toLowerCase();
+
+  const filtered = products.filter(p =>
+    p.name.toLowerCase().includes(query) ||
+    p.category.toLowerCase().includes(query)
+  );
+
+  renderProducts(filtered);
+}
 
 // WISHLIST SYSTEM
 function toggleWishlist(id) {
@@ -59,50 +69,27 @@ function toggleWishlist(id) {
   renderProducts(products);
 }
 
+// VOICE SEARCH
 const micIcon = document.querySelector('[title="Voice Search"]');
 
-micIcon.onclick = () => {
-  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+if (micIcon && ('webkitSpeechRecognition' in window)) {
+  const recognition = new webkitSpeechRecognition();
   recognition.lang = "en-IN";
 
-  recognition.onresult = function(event) {
+  micIcon.onclick = () => recognition.start();
+
+  recognition.onresult = function (event) {
     const text = event.results[0][0].transcript;
     document.getElementById("aiSearch").value = text;
-
-    const filtered = products.filter(p =>
-      p.name.toLowerCase().includes(text.toLowerCase())
-    );
-    renderProducts(filtered);
+    aiSearchLogic(text);
   };
+}
 
-  recognition.start();
-};
-
+// CHAT POPUP
 function toggleChat() {
   const chat = document.getElementById("chatPopup");
+  if (!chat) return;
   chat.style.display = chat.style.display === "block" ? "none" : "block";
-}
-
-document.getElementById("chatInput").addEventListener("keypress", function(e) {
-  if (e.key === "Enter") {
-    const msg = e.target.value;
-    addMessage("You", msg);
-    addMessage("AI", aiReply(msg));
-    e.target.value = "";
-  }
-});
-
-function addMessage(sender, text) {
-  const box = document.getElementById("chatMessages");
-  box.innerHTML += `<p><b>${sender}:</b> ${text}</p>`;
-}
-
-function aiReply(msg) {
-  msg = msg.toLowerCase();
-
-  if (msg.includes("watch")) return "I suggest minimalist luxury watches under ₹10k.";
-  if (msg.includes("shoes")) return "Running shoes with comfort cushioning would suit you.";
-  return "Tell me your occasion & budget for best advice.";
 }
 
 const chatInput = document.getElementById("chatInput");
@@ -119,12 +106,13 @@ if (chatInput) {
 
 function sendMessage(msg) {
   addChat("You", msg);
-
   let reply = generateAIReply(msg);
   setTimeout(() => addChat("AI Stylist", reply), 500);
 }
 
 function addChat(sender, text) {
+  if (!chatMessages) return;
+
   const div = document.createElement("div");
   div.innerHTML = `<b>${sender}:</b> ${text}`;
   chatMessages.appendChild(div);
@@ -134,48 +122,26 @@ function generateAIReply(msg) {
   msg = msg.toLowerCase();
 
   if (msg.includes("watch"))
-    return "I recommend a minimalist silver watch under ₹10k. Avoid oversized dials for daily wear.";
+    return "I recommend a minimalist silver watch under ₹10k. Avoid oversized dials.";
 
   if (msg.includes("skin"))
-    return "For glowing skin, use Vitamin C in morning & sunscreen daily. Avoid harsh scrubs.";
+    return "Use Vitamin C serum in morning & sunscreen daily.";
 
   if (msg.includes("outfit"))
-    return "Try neutral sneakers, slim jeans & a pastel shirt for a clean modern look.";
+    return "Try neutral sneakers, slim jeans & pastel shirt for modern look.";
 
-  return "Tell me your budget & occasion — I’ll suggest the best option.";
+  return "Tell me your budget & occasion for best suggestions.";
 }
 
-let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-
-function toggleWishlist(productId) {
-  if (wishlist.includes(productId)) {
-    wishlist = wishlist.filter(id => id !== productId);
-  } else {
-    wishlist.push(productId);
-  }
-
-  localStorage.setItem("wishlist", JSON.stringify(wishlist));
-  renderProducts(products);
-}
-
-const micIcon = document.querySelector('[title="Voice Search"]');
-
-if ('webkitSpeechRecognition' in window) {
-  const recognition = new webkitSpeechRecognition();
-  recognition.lang = "en-IN";
-
-  micIcon.onclick = () => recognition.start();
-
-  recognition.onresult = function (event) {
-    const text = event.results[0][0].transcript;
-    document.getElementById("aiSearch").value = text;
-    aiSearchLogic(text);
-  };
-}
-
+// OUTFIT GENERATOR
 function generateOutfit() {
   const shoes = products.find(p => p.category === "Shoes");
   const watch = products.find(p => p.category === "Watches");
+
+  if (!shoes || !watch) {
+    alert("Not enough data for outfit.");
+    return;
+  }
 
   alert(`Outfit Idea:
 • Shoes: ${shoes.name}
@@ -183,6 +149,7 @@ function generateOutfit() {
 • Pair with neutral jeans & white shirt`);
 }
 
+// BEAUTY AI
 function beautyAI(concern) {
   concern = concern.toLowerCase();
 
@@ -195,5 +162,5 @@ function beautyAI(concern) {
   if (concern.includes("dark spots"))
     return "Niacinamide + Tranexamic acid helps reduce spots.";
 
-  return "Tell me your skin type & concern for better advice.";
+  return "Tell me your skin type for better advice.";
 }
