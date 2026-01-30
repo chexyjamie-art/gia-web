@@ -141,3 +141,36 @@ p {
   box-shadow: 0 4px 15px rgba(0,0,0,0.08);
   text-align: left;
 }
+
+/* PROFILE PAGE */
+
+.profile-page {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.profile-big {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.profile-page input {
+  display: block;
+  width: 80%;
+  max-width: 350px;
+  margin: 10px auto;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.profile-page button {
+  padding: 12px 20px;
+  border: none;
+  background: black;
+  color: white;
+  border-radius: 8px;
+  margin-top: 10px;
+}
