@@ -115,3 +115,28 @@ function typeEffect(text) {
     if (i >= text.length) clearInterval(typing);
   }, 25);
 }
+
+// SAVE PROFILE
+function saveProfile(){
+  const profile = {
+    name: document.getElementById("name").value,
+    mobile: document.getElementById("mobile").value,
+    email: document.getElementById("email").value,
+    address: document.getElementById("address").value
+  };
+
+  localStorage.setItem("giaProfile", JSON.stringify(profile));
+  alert("Profile Saved Successfully!");
+}
+
+// LOAD PROFILE
+window.onload = function(){
+  const saved = JSON.parse(localStorage.getItem("giaProfile"));
+
+  if(saved){
+    document.getElementById("name").value = saved.name || "";
+    document.getElementById("mobile").value = saved.mobile || "";
+    document.getElementById("email").value = saved.email || "";
+    document.getElementById("address").value = saved.address || "";
+  }
+}
