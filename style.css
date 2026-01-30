@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom, #f6fbff, #ffffff);
+  background: linear-gradient(to bottom, #f7fbff, #ffffff);
   overflow-x: hidden;
 }
 
@@ -17,46 +17,60 @@ body {
   border-radius: 50%;
 }
 
-/* WAVE BACKGROUND */
-.wave-bg {
+/* WAVE AREA */
+.wave-wrapper {
   position: absolute;
-  top: 0;
+  top: 60px;
   width: 100%;
-  height: 200px;
-  background: linear-gradient(90deg, #c9e7ff, #e6d9ff, #d2f5ff);
+  height: 150px;
+  overflow: hidden;
+}
+
+.wave-left,
+.wave-right {
+  position: absolute;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(90deg, #c7e6ff, #e7d6ff, #b5f3ff);
   filter: blur(40px);
-  opacity: 0.6;
-  animation: waveMove 8s infinite linear;
+  opacity: 0.7;
+  animation: waveMove 8s infinite ease-in-out;
+}
+
+.wave-left {
+  left: 0;
+}
+
+.wave-right {
+  right: 0;
+  animation-delay: 2s;
 }
 
 @keyframes waveMove {
-  0% { transform: translateX(-10%); }
-  50% { transform: translateX(10%); }
-  100% { transform: translateX(-10%); }
+  0% { transform: translateY(0); }
+  50% { transform: translateY(20px); }
+  100% { transform: translateY(0); }
 }
 
 /* CENTER */
 .center {
   text-align: center;
-  margin-top: 80px;
+  margin-top: 100px;
 }
 
 /* SEARCH BOX */
 .search-box {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background: white;
   border-radius: 40px;
-  padding: 12px 20px;
+  padding: 14px 22px;
   width: 60%;
   max-width: 650px;
   margin: auto;
   box-shadow: 0 5px 25px rgba(0,0,0,0.08);
   position: relative;
-}
-
-.search-icon {
-  margin-right: 10px;
 }
 
 .search-box input {
@@ -68,26 +82,18 @@ body {
 
 /* MINI WAVE INSIDE SEARCH */
 .mini-wave {
-  width: 50px;
+  width: 60px;
   height: 20px;
   background: linear-gradient(90deg, #a5d8ff, #e0c3fc, #a1ffce);
   border-radius: 20px;
   filter: blur(6px);
-  margin-right: 10px;
-  animation: miniFlow 3s infinite linear;
+  animation: miniFlow 3s infinite ease-in-out;
 }
 
 @keyframes miniFlow {
   0% { transform: scaleX(1); }
-  50% { transform: scaleX(1.3); }
+  50% { transform: scaleX(1.4); }
   100% { transform: scaleX(1); }
-}
-
-/* ICONS */
-.icon {
-  width: 20px;
-  margin-left: 10px;
-  cursor: pointer;
 }
 
 /* HEADLINE */
