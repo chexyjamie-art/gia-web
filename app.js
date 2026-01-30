@@ -1,109 +1,106 @@
-let allProducts = [];
-const container = document.getElementById("products");
+let products = [];
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 
-// ================= LOAD PRODUCTS =================
+// LOAD PRODUCTS
 fetch("products.json")
   .then(res => res.json())
   .then(data => {
-    allProducts = data;
-    renderProducts(allProducts);
+    products = data;
+    renderProducts(products);
   });
 
-// ================= RENDER PRODUCTS =================
-function renderProducts(products) {
+// RENDER PRODUCTS
+function renderProducts(list) {
+  const container = document.getElementById("products");
   container.innerHTML = "";
-  products.forEach(p => {
-    const card = document.createElement("div");
-    card.className = "card";
 
-    card.innerHTML = `
-      <img src="${p.image}">
-      <h3>${p.name}</h3>
-      <p>${p.price}</p>
-
-      <button onclick="addToWishlist(${p.id})">❤️ Wishlist</button>
-
-      <button onclick="tryOnLock()">👗 Try On</button>
-
-      <a href="${p.link}" target="_blank">Buy Now</a>
+  list.forEach(p => {
+    container.innerHTML += `
+      <div class="card">
+        <img src="${p.image}">
+        <h3>${p.name}</h3>
+        <p>₹${p.price}</p>
+        <button onclick="toggleWishlist(${p.id})">
+          ${wishlist.includes(p.id) ? "❤️ Saved" : "🤍 Wishlist"}
+        </button>
+      </div>
     `;
-
-    container.appendChild(card);
   });
 }
 
-// ================= WISHLIST SYSTEM =================
-function addToWishlist(id) {
-  let list = JSON.parse(localStorage.getItem("wishlist")) || [];
-  if (!list.includes(id)) {
-    list.push(id);
-    localStorage.setItem("wishlist", JSON.stringify(list));
-    alert("Added to Wishlist ❤️");
-  }
-}
+// CATEGORY FILTER
+document.querySelectorAll(".categories span").forEach(btn => {
+  btn.onclick = () => {
+    document.querySelector(".active")?.classList.remove("active");
+    btn.classList.add("active");
 
-// ================= AI SEARCH LOGIC =================
+    const cat = btn.dataset.cat;
+    if (cat === "all") renderProducts(products);
+    else renderProducts(products.filter(p => p.category === cat));
+  };
+});
+
+// SEARCH FILTER
 document.getElementById("aiSearch").addEventListener("input", e => {
-  const q = e.target.value.toLowerCase();
-
-  const filtered = allProducts.filter(p =>
-    p.name.toLowerCase().includes(q) ||
-    p.category.toLowerCase().includes(q)
+  const val = e.target.value.toLowerCase();
+  const filtered = products.filter(p =>
+    p.name.toLowerCase().includes(val)
   );
-
   renderProducts(filtered);
 });
 
-// ================= VOICE SEARCH =================
-function startVoice() {
-  const recognition = new webkitSpeechRecognition();
+// WISHLIST SYSTEM
+function toggleWishlist(id) {
+  if (wishlist.includes(id))
+    wishlist = wishlist.filter(x => x !== id);
+  else wishlist.push(id);
+
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  renderProducts(products);
+}
+
+const micIcon = document.querySelector('[title="Voice Search"]');
+
+micIcon.onclick = () => {
+  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
   recognition.lang = "en-IN";
 
-  recognition.onresult = e => {
-    document.getElementById("aiSearch").value =
-      e.results[0][0].transcript;
-    document.getElementById("aiSearch").dispatchEvent(new Event("input"));
+  recognition.onresult = function(event) {
+    const text = event.results[0][0].transcript;
+    document.getElementById("aiSearch").value = text;
+
+    const filtered = products.filter(p =>
+      p.name.toLowerCase().includes(text.toLowerCase())
+    );
+    renderProducts(filtered);
   };
 
   recognition.start();
+};
+
+function toggleChat() {
+  const chat = document.getElementById("chatPopup");
+  chat.style.display = chat.style.display === "block" ? "none" : "block";
 }
 
-document.querySelector("[title='Voice Search']").onclick = startVoice;
-
-// ================= TRY ON LOCK =================
-function tryOnLock() {
-  alert("Try-On feature 🔒 Locked — Coming in Premium Version");
-}
-
-// ================= AI WAVE =================
-const canvas = document.getElementById("waveCanvas");
-const ctx = canvas.getContext("2d");
-
-function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = 300;
-}
-resize();
-window.addEventListener("resize", resize);
-
-let t = 0;
-
-function drawWave(amp, freq, speed) {
-  ctx.beginPath();
-  for (let x = 0; x < canvas.width; x++) {
-    const y = canvas.height / 2 +
-      Math.sin(x * freq + t * speed) * amp;
-    ctx.lineTo(x, y);
+document.getElementById("chatInput").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    const msg = e.target.value;
+    addMessage("You", msg);
+    addMessage("AI", aiReply(msg));
+    e.target.value = "";
   }
-  ctx.strokeStyle = "rgba(150,180,255,0.5)";
-  ctx.stroke();
+});
+
+function addMessage(sender, text) {
+  const box = document.getElementById("chatMessages");
+  box.innerHTML += `<p><b>${sender}:</b> ${text}</p>`;
 }
 
-function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawWave(40, 0.02, 0.02);
-  drawWave(30, 0.03, 0.015);
-  t++;
-  requestAnimationFrame(animate);
+function aiReply(msg) {
+  msg = msg.toLowerCase();
+
+  if (msg.includes("watch")) return "I suggest minimalist luxury watches under ₹10k.";
+  if (msg.includes("shoes")) return "Running shoes with comfort cushioning would suit you.";
+  return "Tell me your occasion & budget for best advice.";
 }
-animate();
