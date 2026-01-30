@@ -1,34 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Profile – GIA AI</title>
+<title>Your Profile</title>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<header class="topbar">
-  <h2>Your Profile</h2>
-</header>
+<h2>Your Profile</h2>
 
-<section class="profile">
+<div class="profile-card">
+  <h3>Wishlist ❤️</h3>
+  <div id="wishlistItems"></div>
+</div>
 
-  <div class="card">
-    <h3>Style DNA</h3>
-    <p>Minimal · Elegant · Smart Casual</p>
-  </div>
+<div class="profile-card">
+  <h3>Order History</h3>
+  <div id="orderHistory"></div>
+</div>
 
-  <div class="card">
-    <h3>Wishlist</h3>
-    <div id="wishlistItems"></div>
-  </div>
-
-  <div class="card">
-    <h3>Subscription</h3>
-    <p>Free Plan</p>
-  </div>
-
-</section>
+<div class="profile-actions">
+  <button onclick="openSettings()">Settings</button>
+  <button onclick="logout()">Logout</button>
+</div>
 
 <script src="profile.js"></script>
 </body>
