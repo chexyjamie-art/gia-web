@@ -208,3 +208,73 @@ p {
   border-radius: 8px;
   margin-top: 10px;
 }
+
+/* CENTER AREA */
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  gap: 20px;
+}
+
+/* SEARCH BAR */
+.search-box {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 40px;
+  padding: 14px 18px;
+  width: 60%;
+  max-width: 650px;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+/* ICONS */
+.icons {
+  display: flex;
+  gap: 14px;
+}
+
+.icons img {
+  width: 22px;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.icons img:hover {
+  opacity: 1;
+}
+
+/* SIRI WAVE */
+.siri-wave {
+  display: flex;
+  gap: 4px;
+}
+
+.siri-wave span {
+  width: 4px;
+  height: 20px;
+  border-radius: 10px;
+  background: linear-gradient(to top, #7dd3fc, #6366f1);
+  animation: wave 1s infinite ease-in-out;
+}
+
+.siri-wave span:nth-child(2) { animation-delay: 0.1s; }
+.siri-wave span:nth-child(3) { animation-delay: 0.2s; }
+.siri-wave span:nth-child(4) { animation-delay: 0.3s; }
+.siri-wave span:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes wave {
+  0%,100% { height: 15px; }
+  50% { height: 35px; }
+}
