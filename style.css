@@ -25,6 +25,34 @@ body {
   cursor: pointer;
 }
 
+/* SIDE MENU */
+.side-menu {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: white;
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 60px;
+  box-shadow: 2px 0 6px rgba(0,0,0,0.1);
+}
+
+.side-menu a {
+  display: block;
+  padding: 10px 20px;
+  color: black;
+  text-decoration: none;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+}
+
 /* CENTER */
 .center {
   text-align: center;
@@ -42,7 +70,6 @@ body {
   max-width: 550px;
   margin: auto;
   box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-  background: white;
 }
 
 .search-box input {
@@ -50,37 +77,25 @@ body {
   outline: none;
   width: 100%;
   font-size: 15px;
-  background: transparent;
 }
 
-/* Apple Style Icons */
+/* Icons */
 .icon {
   width: 20px;
   height: 20px;
   margin-left: 12px;
   cursor: pointer;
-  opacity: 0.7;
-  transition: 0.2s;
 }
 
-.icon:hover {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-/* TEXT BELOW SEARCH */
+/* TEXT */
 h1 {
   font-family: 'Playfair Display', serif;
   margin-top: 25px;
   font-size: 28px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
 }
 
 p {
   color: gray;
-  margin-top: 5px;
-  font-size: 14px;
 }
 
 /* FOOTER */
@@ -88,5 +103,4 @@ p {
   text-align: center;
   margin-top: 120px;
   color: gray;
-  font-size: 14px;
 }
