@@ -15,6 +15,15 @@
   <div class="profile-header">
     <img src="https://i.pravatar.cc/120" class="dp" id="profilePic" onclick="uploadDP()">
 
+<!-- CROP MODAL -->
+<div id="cropBox" class="crop-box">
+  <img id="cropPreview">
+  <div class="crop-actions">
+    <button onclick="saveFullImage()">Use Full Photo</button>
+    <button onclick="saveCropped()">Crop & Save</button>
+  </div>
+</div>
+
 <input type="file" id="dpInput" accept="image/*" hidden onchange="changeDP(event)">
 
     <input id="name" class="edit-field" value="Rahul Sharma">
