@@ -121,3 +121,31 @@ p {
   margin-right: auto;
   line-height: 1.5;
 }
+
+.chat-box {
+  margin-top: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#chatMessages {
+  min-height: 80px;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.user-msg {
+  text-align: right;
+  color: #333;
+  margin: 5px 0;
+}
+
+.ai-msg {
+  text-align: left;
+  color: #555;
+  margin: 5px 0;
+}
