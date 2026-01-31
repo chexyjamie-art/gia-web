@@ -3,57 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Profile</title>
-<link rel="stylesheet" href="style.css">
+<title>Profile – GIA AI Stylist</title>
+<link rel="stylesheet" href="profile.css">
 </head>
 
 <body>
 
 <div class="profile-container">
 
-  <!-- PROFILE IMAGE -->
-  <img id="profilePic" src="https://i.pravatar.cc/120" class="profile-large">
-  <input type="file" id="dpUpload" hidden onchange="changeDP(event)">
-  <button onclick="document.getElementById('dpUpload').click()">Change Photo</button>
+  <!-- TOP PROFILE -->
+  <div class="profile-header">
+    <img src="https://i.pravatar.cc/120" class="dp">
 
-  <!-- FORM -->
-  <input type="text" id="name" placeholder="Full Name">
-  <input type="text" id="mobile" placeholder="Mobile Number">
-  <input type="email" id="email" placeholder="Email Address">
-  <textarea id="address" placeholder="Home Address"></textarea>
-
-  <!-- AI SETTINGS -->
-  <div class="ai-setting" onclick="openAISettings()">
-    AI Setting
+    <h2>Rahul Sharma</h2>
+    <p>Male</p>
+    <p>📞 +91 9876543210</p>
+    <p>📧 rahul@email.com</p>
+    <p>🏠 Bhawanipatna, Odisha</p>
   </div>
 
-  <!-- AI SETTINGS POPUP -->
-  <div id="aiSettingsBox" class="ai-settings-box">
-    <h3>AI Preferences</h3>
+  <!-- WISHLIST -->
+  <div class="card" onclick="goWishlist()">
+    ❤️ Wishlist
+  </div>
 
+  <!-- ORDER HISTORY -->
+  <div class="card">
+    📦 Order History
+    <div class="orders">
+      <div class="order-item">Silver Watch – ₹3,999</div>
+      <div class="order-item">Running Shoes – ₹2,499</div>
+      <div class="order-item">Face Serum – ₹799</div>
+    </div>
+  </div>
+
+  <!-- AI SETTINGS (CLICK TO OPEN) -->
+  <div class="card" onclick="openAISettings()">
+    ⚙ AI Settings
+  </div>
+
+  <!-- AI SETTINGS PANEL -->
+  <div id="aiSettingsBox" class="card" style="display:none;">
     <label>AI Gender</label>
     <select>
       <option>Male</option>
       <option>Female</option>
     </select>
 
-    <label>Voice Type</label>
+    <label>AI Voice</label>
     <select>
-      <option>Soft</option>
-      <option>Professional</option>
-      <option>Friendly</option>
+      <option>Male Voice</option>
+      <option>Female Voice</option>
     </select>
+
+    <label>AI Name</label>
+    <input type="text" placeholder="Enter AI name">
 
     <button onclick="closeAISettings()">Close</button>
   </div>
 
-  <button onclick="saveProfile()">Save Profile</button>
+  <!-- LOGOUT -->
+  <button class="logout" onclick="logout()">Logout</button>
 
 </div>
 
-<script src="app.js"></script>
+<script src="profile.js"></script>
 
-<!-- ✅ AI SETTINGS JS -->
 <script>
 function openAISettings(){
   document.getElementById("aiSettingsBox").style.display = "block";
