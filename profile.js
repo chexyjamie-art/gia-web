@@ -31,3 +31,27 @@ window.onload = function(){
     document.getElementById("address").value = saved.address;
   }
 }
+
+function uploadDP(){
+  document.getElementById("dpInput").click();
+}
+
+function changeDP(event){
+  const file = event.target.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function(e){
+    const imgData = e.target.result;
+    document.getElementById("profilePic").src = imgData;
+    localStorage.setItem("profileDP", imgData);
+  };
+
+  reader.readAsDataURL(file);
+}
+
+window.onload = function(){
+  const savedDP = localStorage.getItem("profileDP");
+  if(savedDP){
+    document.getElementById("profilePic").src = savedDP;
+  }
+}
