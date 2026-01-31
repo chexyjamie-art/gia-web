@@ -5,60 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GIA AI Stylist</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
+<!-- HEADER -->
 <header class="header">
-
-  <div class="menu-left" onclick="openMenu()">
+  <div class="menu-left">
     ☰ Menu
   </div>
 
   <div class="right">
     <span>Notifications</span>
-    <span onclick="goWishlist()">Wishlist</span>
-    <img src="https://i.pravatar.cc/40" class="profile" onclick="openProfile()">
+    <span>Wishlist</span>
+    <img src="https://i.pravatar.cc/40" class="profile">
   </div>
-
 </header>
 
-<!-- ================= SIDE MENU ================= -->
-<div id="sideMenu" class="side-menu">
-  <span class="close-btn" onclick="closeMenu()">✖</span>
-  <a href="index.html">Home</a>
-  <a href="profile.html">Profile</a>
-  <a href="#">Wishlist</a>
-  <a href="#">Settings</a>
-</div>
-
-<!-- ================= CENTER ================= -->
+<!-- CENTER -->
 <div class="center">
 
+  <!-- SEARCH BAR -->
   <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Ask AI anything..." onkeypress="handleSearch(event)">
-    
+    <input type="text" placeholder="Ask AI anything...">
+
+    <!-- ATTACHMENT ICON -->
+    <span class="icon">📎</span>
+
     <!-- MIC ICON -->
-    <span class="mic" onclick="startVoiceSearch()">🎤</span>
+    <span class="icon">🎤</span>
   </div>
 
+  <!-- TEXT BELOW SEARCH -->
   <h1>Curated luxury for you, Rahul</h1>
   <p>Smart choices recommended by AI.</p>
 
-  <!-- AI RESPONSE -->
-  <div id="aiResponse" class="ai-box"></div>
-
 </div>
 
-<!-- ================= FOOTER ================= -->
+<!-- FOOTER -->
 <footer class="footer">
   Terms | Privacy | Conditions
 </footer>
-
-<script src="app.js"></script>
 
 </body>
 </html>
