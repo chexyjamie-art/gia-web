@@ -90,3 +90,7 @@ select, input {
   color: white;
   cursor: pointer;
 }
+
+.dp {
+  cursor: pointer;
+}
