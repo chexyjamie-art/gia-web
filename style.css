@@ -234,27 +234,3 @@ p {
   padding: 8px;
   margin: 8px 0 15px;
 }
-
-.edit-field {
-  border: none;
-  background: transparent;
-  text-align: center;
-  font-size: 16px;
-  margin: 4px 0;
-  width: 100%;
-}
-
-.edit-field:focus {
-  outline: none;
-  border-bottom: 1px solid #aaa;
-}
-
-.save-btn {
-  margin-top: 10px;
-  padding: 8px;
-  border: none;
-  border-radius: 6px;
-  background: black;
-  color: white;
-  cursor: pointer;
-}
