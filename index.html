@@ -9,40 +9,86 @@
 
 <body>
 
-<!-- HEADER -->
+<!-- ================= HEADER ================= -->
 <header class="header">
-  <div class="menu-left">☰ Menu</div>
+  <div class="menu-left" onclick="openMenu()">
+    ☰ <span>Menu</span>
+  </div>
 
   <div class="right">
     <span>Notifications</span>
-    <span>Wishlist</span>
-    <img src="https://i.pravatar.cc/40" class="profile">
+    <span onclick="goWishlist()">Wishlist</span>
+    <img src="https://i.pravatar.cc/40" class="profile" onclick="openProfile()">
   </div>
 </header>
 
-<!-- CENTER AREA -->
-<div class="hero">
+<!-- ================= SIDE MENU ================= -->
+<div id="sideMenu" class="side-menu">
+  <span class="close-btn" onclick="closeMenu()">✖</span>
+
+  <a href="index.html">Home</a>
+  <a href="profile.html">Profile</a>
+  <a href="#">Wishlist</a>
+  <a href="#">Settings</a>
+</div>
+
+<!-- ================= CENTER AREA ================= -->
+<div class="center">
+
+  <!-- LEFT SIRI WAVE -->
+  <div class="siri-wave">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
 
   <!-- SEARCH BAR -->
-  <div class="search-wrapper">
-    <div class="wave-bg"></div>
+  <div class="search-box">
+    <input type="text" placeholder="Ask AI anything...">
 
-    <div class="search-box">
-      <span class="search-icon">🔍</span>
-      <input type="text" placeholder="Luxury skincare for glowing skin?">
+    <div class="icons">
+      <!-- Attachment -->
+      <img src="https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/attach_file/default/24px.svg">
+
+      <!-- Mic -->
+      <img src="https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/mic/default/24px.svg">
     </div>
   </div>
 
-  <!-- TEXT BELOW SEARCH -->
-  <h1>Curated luxury for you, Rahul</h1>
-  <p>Smart choices recommended by AI.</p>
+  <!-- RIGHT SIRI WAVE -->
+  <div class="siri-wave">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
 
 </div>
 
-<!-- FOOTER -->
+<!-- ================= TEXT ================= -->
+<div class="tagline">
+  <h1>Curated luxury for you, Rahul</h1>
+  <p>Smart choices recommended by AI.</p>
+</div>
+
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
   Terms | Privacy | Conditions
 </footer>
+
+<!-- ================= JS ================= -->
+<script>
+function openProfile(){
+  window.location.href = "profile.html";
+}
+
+function goWishlist(){
+  alert("Wishlist page coming next");
+}
+
+function openMenu(){
+  document.getElementById("sideMenu").style.width = "250px";
+}
+
+function closeMenu(){
+  document.getElementById("sideMenu").style.width = "0";
+}
+</script>
 
 </body>
 </html>
