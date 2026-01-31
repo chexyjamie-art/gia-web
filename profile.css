@@ -119,3 +119,14 @@ select, input {
   gap: 10px;
   justify-content: center;
 }
+
+.buy-btn {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 6px 12px;
+  background: black;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 14px;
+}
