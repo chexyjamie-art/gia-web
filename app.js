@@ -119,3 +119,16 @@ function aiStylistReply(query) {
 
   setTimeout(() => addMessage(reply, "ai"), 500);
 }
+
+function generateOutfit() {
+  const outfits = [
+    "🔥 Party Look: Black shirt + slim jeans + leather boots + silver watch.",
+    "✨ Casual Look: White tee + denim jacket + sneakers + smartwatch.",
+    "💼 Smart Look: Beige chinos + polo tee + loafers + minimal watch.",
+    "🏖 Chill Look: Oversized tee + shorts + sliders + sunglasses."
+  ];
+
+  const randomOutfit = outfits[Math.floor(Math.random() * outfits.length)];
+
+  document.getElementById("outfitResult").innerText = randomOutfit;
+}
