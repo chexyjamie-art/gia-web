@@ -1,67 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Profile – GIA AI Stylist</title>
-<link rel="stylesheet" href="profile.css">
-</head>
+// ================= PROFILE EDIT SYSTEM =================
 
-<body>
+// Load saved data
+window.onload = function(){
+  if(localStorage.getItem("userProfile")){
+    const data = JSON.parse(localStorage.getItem("userProfile"));
 
-<div class="profile-container">
+    document.getElementById("name").value = data.name || "";
+    document.getElementById("mobile").value = data.mobile || "";
+    document.getElementById("email").value = data.email || "";
+    document.getElementById("address").value = data.address || "";
 
-  <!-- TOP PROFILE -->
-  <div class="profile-header">
-    <img src="https://i.pravatar.cc/120" class="dp">
+    if(data.dp){
+      document.getElementById("profilePic").src = data.dp;
+    }
+  }
+}
 
-    <h2>Rahul Sharma</h2>
-    <p>Male</p>
-    <p>📞 +91 9876543210</p>
-    <p>📧 rahul@email.com</p>
-    <p>🏠 Bhawanipatna, Odisha</p>
-  </div>
+// Save profile
+function saveProfile(){
+  const profileData = {
+    name: document.getElementById("name").value,
+    mobile: document.getElementById("mobile").value,
+    email: document.getElementById("email").value,
+    address: document.getElementById("address").value,
+    dp: document.getElementById("profilePic").src
+  };
 
-  <!-- WISHLIST -->
-  <div class="card" onclick="goWishlist()">
-    ❤️ Wishlist
-  </div>
+  localStorage.setItem("userProfile", JSON.stringify(profileData));
+  alert("Profile saved successfully!");
+}
 
-  <!-- ORDER HISTORY -->
-  <div class="card">
-    📦 Order History
-    <div class="orders">
-      <div class="order-item">Silver Watch – ₹3,999</div>
-      <div class="order-item">Running Shoes – ₹2,499</div>
-      <div class="order-item">Face Serum – ₹799</div>
-    </div>
-  </div>
-
-  <!-- AI SETTINGS -->
-  <div class="card">
-    ⚙ AI Settings
-
-    <label>AI Gender</label>
-    <select>
-      <option>Male</option>
-      <option>Female</option>
-    </select>
-
-    <label>AI Voice</label>
-    <select>
-      <option>Male Voice</option>
-      <option>Female Voice</option>
-    </select>
-
-    <label>AI Name</label>
-    <input type="text" placeholder="Enter AI name">
-  </div>
-
-  <!-- LOGOUT -->
-  <button class="logout" onclick="logout()">Logout</button>
-
-</div>
-
-<script src="profile.js"></script>
-</body>
-</html>
+// Change DP
+function changeDP(event){
+  const reader = new FileReader();
+  reader.onload = function(){
+    document.getElementById("profilePic").src = reader.result;
+  }
+  reader.readAsDataURL(event.target.files[0]);
+}
