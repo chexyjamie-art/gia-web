@@ -1,40 +1,31 @@
-// ================= PROFILE EDIT SYSTEM =================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Profile</title>
+<link rel="stylesheet" href="style.css">
+</head>
 
-// Load saved data
-window.onload = function(){
-  if(localStorage.getItem("userProfile")){
-    const data = JSON.parse(localStorage.getItem("userProfile"));
+<body>
 
-    document.getElementById("name").value = data.name || "";
-    document.getElementById("mobile").value = data.mobile || "";
-    document.getElementById("email").value = data.email || "";
-    document.getElementById("address").value = data.address || "";
+<div class="profile-container">
 
-    if(data.dp){
-      document.getElementById("profilePic").src = data.dp;
-    }
-  }
-}
+  <!-- PROFILE IMAGE -->
+  <img id="profilePic" src="https://i.pravatar.cc/120" class="profile-large">
+  <input type="file" id="dpUpload" hidden onchange="changeDP(event)">
+  <button onclick="document.getElementById('dpUpload').click()">Change Photo</button>
 
-// Save profile
-function saveProfile(){
-  const profileData = {
-    name: document.getElementById("name").value,
-    mobile: document.getElementById("mobile").value,
-    email: document.getElementById("email").value,
-    address: document.getElementById("address").value,
-    dp: document.getElementById("profilePic").src
-  };
+  <!-- FORM -->
+  <input type="text" id="name" placeholder="Full Name">
+  <input type="text" id="mobile" placeholder="Mobile Number">
+  <input type="email" id="email" placeholder="Email Address">
+  <textarea id="address" placeholder="Home Address"></textarea>
 
-  localStorage.setItem("userProfile", JSON.stringify(profileData));
-  alert("Profile saved successfully!");
-}
+  <button onclick="saveProfile()">Save Profile</button>
 
-// Change DP
-function changeDP(event){
-  const reader = new FileReader();
-  reader.onload = function(){
-    document.getElementById("profilePic").src = reader.result;
-  }
-  reader.readAsDataURL(event.target.files[0]);
-}
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
