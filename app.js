@@ -119,3 +119,18 @@ function changeDP(event){
   }
   reader.readAsDataURL(event.target.files[0]);
 }
+
+function addToWishlist(itemName, price, buyLink) {
+  let wishlist = JSON.parse(localStorage.getItem("giaWishlist")) || [];
+
+  const item = {
+    name: itemName,
+    price: price,
+    link: buyLink
+  };
+
+  wishlist.push(item);
+  localStorage.setItem("giaWishlist", JSON.stringify(wishlist));
+
+  alert("Added to Wishlist ❤️");
+}
