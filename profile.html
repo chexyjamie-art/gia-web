@@ -22,34 +22,47 @@
   <input type="email" id="email" placeholder="Email Address">
   <textarea id="address" placeholder="Home Address"></textarea>
 
-<!-- AI SETTINGS -->
-<div class="ai-setting" onclick="openAISettings()">
-  AI Setting
-</div>
+  <!-- AI SETTINGS -->
+  <div class="ai-setting" onclick="openAISettings()">
+    AI Setting
+  </div>
 
-<!-- AI SETTINGS POPUP -->
-<div id="aiSettingsBox" class="ai-settings-box">
-  <h3>AI Preferences</h3>
+  <!-- AI SETTINGS POPUP -->
+  <div id="aiSettingsBox" class="ai-settings-box">
+    <h3>AI Preferences</h3>
 
-  <label>AI Gender</label>
-  <select>
-    <option>Male</option>
-    <option>Female</option>
-  </select>
+    <label>AI Gender</label>
+    <select>
+      <option>Male</option>
+      <option>Female</option>
+    </select>
 
-  <label>Voice Type</label>
-  <select>
-    <option>Soft</option>
-    <option>Professional</option>
-    <option>Friendly</option>
-  </select>
+    <label>Voice Type</label>
+    <select>
+      <option>Soft</option>
+      <option>Professional</option>
+      <option>Friendly</option>
+    </select>
 
-  <button onclick="closeAISettings()">Close</button>
-</div>
+    <button onclick="closeAISettings()">Close</button>
+  </div>
+
   <button onclick="saveProfile()">Save Profile</button>
 
 </div>
 
 <script src="app.js"></script>
+
+<!-- ✅ AI SETTINGS JS -->
+<script>
+function openAISettings(){
+  document.getElementById("aiSettingsBox").style.display = "block";
+}
+
+function closeAISettings(){
+  document.getElementById("aiSettingsBox").style.display = "none";
+}
+</script>
+
 </body>
 </html>
