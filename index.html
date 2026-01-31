@@ -7,15 +7,12 @@
 
 <link rel="stylesheet" href="style.css">
 
-<!-- Premium Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<!-- HEADER -->
 <header class="header">
-
   <div class="menu-left" onclick="openMenu()">
     ☰ <span>Menu</span>
   </div>
@@ -25,7 +22,6 @@
     <span onclick="goWishlist()">Wishlist</span>
     <img src="https://i.pravatar.cc/40" class="profile" onclick="openProfile()">
   </div>
-
 </header>
 
 <!-- SIDE MENU -->
@@ -41,7 +37,7 @@
 
   <!-- SEARCH BAR -->
   <div class="search-box">
-    <input type="text" placeholder="Ask AI anything...">
+    <input type="text" id="aiSearch" placeholder="Ask AI anything...">
 
     <!-- ATTACHMENT ICON -->
     <svg class="icon" viewBox="0 0 24 24">
@@ -53,7 +49,7 @@
     </svg>
 
     <!-- MIC ICON -->
-    <svg class="icon" viewBox="0 0 24 24">
+    <svg class="icon" viewBox="0 0 24 24" onclick="startVoiceSearch()">
       <path d="M12 3a3 3 0 013 3v6a3 3 0 01-6 0V6a3 3 0 013-3z"
             stroke="black"
             stroke-width="1.5"
@@ -69,26 +65,11 @@
   <!-- AI RESPONSE -->
   <div id="aiResponse" class="ai-response"></div>
 
-  <!-- CHAT BOX -->
-  <div class="chat-box">
-    <div id="chatMessages"></div>
-    <input type="text" id="chatInput" placeholder="Ask AI Stylist for advice...">
-  </div>
-
-  <!-- OUTFIT GENERATOR -->
-  <button onclick="generateOutfit()" class="outfit-btn">
-    Generate Outfit
-  </button>
-
-  <div id="outfitResult"></div>
-
-  <!-- TEXT BELOW SEARCH -->
   <h1>Curated luxury for you, Rahul</h1>
   <p>Smart choices recommended by AI.</p>
 
 </div>
 
-<!-- FOOTER -->
 <footer class="footer">
   Terms | Privacy | Conditions
 </footer>
