@@ -13,7 +13,9 @@
 
   <!-- TOP PROFILE -->
   <div class="profile-header">
-    <img src="https://i.pravatar.cc/120" class="dp">
+    <img src="https://i.pravatar.cc/120" class="dp" id="profilePic" onclick="uploadDP()">
+
+<input type="file" id="dpInput" accept="image/*" hidden onchange="changeDP(event)">
 
     <input id="name" class="edit-field" value="Rahul Sharma">
 <input id="gender" class="edit-field" value="Male">
