@@ -48,3 +48,32 @@ function startVoiceSearch(){
 
   recognition.start();
 }
+
+const input = document.getElementById("aiInput");
+const responseBox = document.getElementById("aiResponse");
+
+input.addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    aiReply(input.value);
+  }
+});
+
+function aiReply(query) {
+  query = query.toLowerCase();
+  let reply = "";
+
+  if (query.includes("skincare")) {
+    reply = "✨ AI Suggestion: Go for Vitamin C serum + sunscreen combo for glowing skin.";
+  }
+  else if (query.includes("watch")) {
+    reply = "⌚ AI Suggestion: Minimal leather strap watches are trending under ₹10,000.";
+  }
+  else if (query.includes("shoes")) {
+    reply = "👟 AI Suggestion: White sneakers match 90% outfits. Great value buy.";
+  }
+  else {
+    reply = "🤖 AI Stylist: I recommend choosing products based on comfort, budget, and occasion.";
+  }
+
+  responseBox.innerHTML = reply;
+}
