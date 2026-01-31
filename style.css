@@ -149,3 +149,18 @@ p {
   color: #555;
   margin: 5px 0;
 }
+
+.outfit-btn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  background: black;
+  color: white;
+  cursor: pointer;
+}
+
+#outfitResult {
+  margin-top: 15px;
+  font-size: 15px;
+}
