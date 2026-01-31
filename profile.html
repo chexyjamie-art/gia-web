@@ -15,24 +15,24 @@
   <div class="profile-header">
     <img src="https://i.pravatar.cc/120" class="dp" id="profilePic" onclick="uploadDP()">
 
-<!-- CROP MODAL -->
-<div id="cropBox" class="crop-box">
-  <img id="cropPreview">
-  <div class="crop-actions">
-    <button onclick="saveFullImage()">Use Full Photo</button>
-    <button onclick="saveCropped()">Crop & Save</button>
-  </div>
-</div>
+    <!-- CROP MODAL -->
+    <div id="cropBox" class="crop-box">
+      <img id="cropPreview">
+      <div class="crop-actions">
+        <button onclick="saveFullImage()">Use Full Photo</button>
+        <button onclick="saveCropped()">Crop & Save</button>
+      </div>
+    </div>
 
-<input type="file" id="dpInput" accept="image/*" hidden onchange="changeDP(event)">
+    <input type="file" id="dpInput" accept="image/*" hidden onchange="changeDP(event)">
 
     <input id="name" class="edit-field" value="Rahul Sharma">
-<input id="gender" class="edit-field" value="Male">
-<input id="mobile" class="edit-field" value="+91 9876543210">
-<input id="email" class="edit-field" value="rahul@email.com">
-<input id="address" class="edit-field" value="Bhawanipatna, Odisha">
+    <input id="gender" class="edit-field" value="Male">
+    <input id="mobile" class="edit-field" value="+91 9876543210">
+    <input id="email" class="edit-field" value="rahul@email.com">
+    <input id="address" class="edit-field" value="Bhawanipatna, Odisha">
 
-<button onclick="saveProfile()" class="save-btn">Save Profile</button>
+    <button onclick="saveProfile()" class="save-btn">Save Profile</button>
   </div>
 
   <!-- WISHLIST -->
@@ -50,8 +50,8 @@
     </div>
   </div>
 
-  <!-- AI SETTINGS (CLICK TO OPEN) -->
-  <div class="card" onclick="openAISettings()">
+  <!-- AI SETTINGS BUTTON -->
+  <div class="card" onclick="toggleAISettings()">
     ⚙ AI Settings
   </div>
 
@@ -71,8 +71,6 @@
 
     <label>AI Name</label>
     <input type="text" placeholder="Enter AI name">
-
-    <button onclick="closeAISettings()">Close</button>
   </div>
 
   <!-- LOGOUT -->
@@ -83,12 +81,9 @@
 <script src="profile.js"></script>
 
 <script>
-function openAISettings(){
-  document.getElementById("aiSettingsBox").style.display = "block";
-}
-
-function closeAISettings(){
-  document.getElementById("aiSettingsBox").style.display = "none";
+function toggleAISettings(){
+  const box = document.getElementById("aiSettingsBox");
+  box.style.display = box.style.display === "none" ? "block" : "none";
 }
 </script>
 
