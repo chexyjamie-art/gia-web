@@ -1,102 +1,288 @@
-body {
-  margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background: white;
+Style.css/* SIDE MENU */
+
+.side-menu {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: white;
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 60px;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+  z-index: 999;
+}
+
+.side-menu a {
+  display: block;
+  padding: 12px 25px;
+  text-decoration: none;
+  color: black;
+  font-size: 16px;
+}
+
+.side-menu a:hover {
+  background: #f2f2f2;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 22px;
+  cursor: pointer;
+}body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #f7fbff, #ffffff);
+  overflow-x: hidden;
 }
 
 /* HEADER */
 .header {
-  display: flex;
-  justify-content: space-between;
-  padding: 15px 20px;
-  font-size: 14px;
-}
-
-.right {
-  display: flex;
-  gap: 12px;
-  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
 }
 
 .profile {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  width: 35px;
+  border-radius: 50%;
 }
 
-/* HERO CENTER */
-.hero {
-  text-align: center;
-  margin-top: 140px;
+/* WAVE AREA */
+.wave-wrapper {
+  position: absolute;
+  top: 60px;
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
 }
 
-/* SEARCH WRAPPER */
-.search-wrapper {
-  position: relative;
-  display: inline-block;
+.wave-left,
+.wave-right {
+  position: absolute;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(90deg, #c7e6ff, #e7d6ff, #b5f3ff);
+  filter: blur(40px);
+  opacity: 0.7;
+  animation: waveMove 8s infinite ease-in-out;
 }
 
-/* LIGHT WAVE BACKGROUND */
-.wave-bg {
-  position: absolute;
-  width: 140%;
-  height: 120px;
-  left: -20%;
-  top: -40px;
-  background: linear-gradient(
-    90deg,
-    rgba(180,210,255,0.3),
-    rgba(220,230,255,0.4),
-    rgba(180,210,255,0.3)
-  );
-  filter: blur(25px);
-  border-radius: 100px;
+.wave-left {
+  left: 0;
 }
 
-/* SEARCH BAR */
+.wave-right {
+  right: 0;
+  animation-delay: 2s;
+}
+
+@keyframes waveMove {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(20px); }
+  100% { transform: translateY(0); }
+}
+
+/* CENTER */
+.center {
+  text-align: center;
+  margin-top: 100px;
+}
+
+/* SEARCH BOX */
 .search-box {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background: #f2f2f2;
-  border-radius: 30px;
-  padding: 12px 18px;
-  width: 320px;
-  margin: auto;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-}
-
-.search-icon {
-  margin-right: 10px;
-  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  border-radius: 40px;
+  padding: 14px 22px;
+  width: 60%;
+  max-width: 650px;
+  margin: auto;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+  position: relative;
 }
 
 .search-box input {
-  border: none;
-  background: transparent;
-  width: 100%;
-  outline: none;
-  font-size: 14px;
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 16px;
 }
 
-/* TEXT */
+/* MINI WAVE INSIDE SEARCH */
+.mini-wave {
+  width: 60px;
+  height: 20px;
+  background: linear-gradient(90deg, #a5d8ff, #e0c3fc, #a1ffce);
+  border-radius: 20px;
+  filter: blur(6px);
+  animation: miniFlow 3s infinite ease-in-out;
+}
+
+@keyframes miniFlow {
+  0% { transform: scaleX(1); }
+  50% { transform: scaleX(1.4); }
+  100% { transform: scaleX(1); }
+}
+
+/* HEADLINE */
 h1 {
-  margin-top: 40px;
-  font-size: 26px;
-  font-weight: 500;
+  font-family: 'Playfair Display', serif;
+  font-size: 34px;
+  margin-top: 30px;
 }
 
 p {
-  color: gray;
-  font-size: 14px;
+  color: #555;
 }
 
 /* FOOTER */
 .footer {
-  position: fixed;
-  bottom: 10px;
-  width: 100%;
-  text-align: center;
-  color: gray;
-  font-size: 12px;
+  text-align: center;
+  margin-top: 100px;
+  color: gray;
 }
+
+/* PROFILE PAGE */
+.profile-page {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.profile-dp {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.profile-page h2 {
+  margin-top: 15px;
+}
+
+.info-box {
+  background: white;
+  width: 80%;
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  text-align: left;
+}
+
+/* PROFILE PAGE */
+
+.profile-page {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.profile-big {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.profile-page input {
+  display: block;
+  width: 80%;
+  max-width: 350px;
+  margin: 10px auto;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.profile-page button {
+  padding: 12px 20px;
+  border: none;
+  background: black;
+  color: white;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+/* CENTER AREA */
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  gap: 20px;
+}
+
+/* SEARCH BAR */
+.search-box {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 40px;
+  padding: 14px 18px;
+  width: 60%;
+  max-width: 650px;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+/* ICONS */
+.icons {
+  display: flex;
+  gap: 14px;
+}
+
+.icons img {
+  width: 22px;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.icons img:hover {
+  opacity: 1;
+}
+
+/* SIRI WAVE */
+.siri-wave {
+  display: flex;
+  gap: 4px;
+}
+
+.siri-wave span {
+  width: 4px;
+  height: 20px;
+  border-radius: 10px;
+  background: linear-gradient(to top, #7dd3fc, #6366f1);
+  animation: wave 1s infinite ease-in-out;
+}
+
+.siri-wave span:nth-child(2) { animation-delay: 0.1s; }
+.siri-wave span:nth-child(3) { animation-delay: 0.2s; }
+.siri-wave span:nth-child(4) { animation-delay: 0.3s; }
+.siri-wave span:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes wave {
+  0%,100% { height: 15px; }
+  50% { height: 35px; }
+}
+
+
+
+
+
+
+
+
