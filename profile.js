@@ -140,3 +140,55 @@ window.onload = function () {
   loadProfileData();
   loadWishlist();
 };
+
+// ================= WISHLIST SYSTEM =================
+
+// Load wishlist on page load
+window.onload = function(){
+  loadWishlist();
+}
+
+// Scroll to wishlist
+function scrollToWishlist(){
+  document.getElementById("wishlistItems").scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+// Load wishlist from storage
+function loadWishlist(){
+  const items = JSON.parse(localStorage.getItem("wishlist")) || [];
+  const box = document.getElementById("wishlistItems");
+  box.innerHTML = "";
+
+  items.forEach((item, index) => {
+    box.innerHTML += `
+      <div class="order-item">
+        ${item}
+        <span onclick="removeWishlist(${index})" style="cursor:pointer;">❤️</span>
+      </div>
+    `;
+  });
+}
+
+// Add to wishlist
+function addToWishlist(product){
+  let items = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+  if(items.includes(product)){
+    items = items.filter(p => p !== product);
+  } else {
+    items.push(product);
+  }
+
+  localStorage.setItem("wishlist", JSON.stringify(items));
+  loadWishlist();
+}
+
+// Remove
+function removeWishlist(index){
+  let items = JSON.parse(localStorage.getItem("wishlist")) || [];
+  items.splice(index, 1);
+  localStorage.setItem("wishlist", JSON.stringify(items));
+  loadWishlist();
+}
