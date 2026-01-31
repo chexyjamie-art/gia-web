@@ -78,3 +78,44 @@ function startVoiceSearch(){
 
   recognition.start();
 }
+
+// ================= PROFILE EDIT SYSTEM =================
+
+// Load saved data
+window.onload = function(){
+  if(localStorage.getItem("userProfile")){
+    const data = JSON.parse(localStorage.getItem("userProfile"));
+
+    document.getElementById("name").value = data.name || "";
+    document.getElementById("mobile").value = data.mobile || "";
+    document.getElementById("email").value = data.email || "";
+    document.getElementById("address").value = data.address || "";
+
+    if(data.dp){
+      document.getElementById("profilePic").src = data.dp;
+    }
+  }
+}
+
+// Save profile
+function saveProfile(){
+  const profileData = {
+    name: document.getElementById("name").value,
+    mobile: document.getElementById("mobile").value,
+    email: document.getElementById("email").value,
+    address: document.getElementById("address").value,
+    dp: document.getElementById("profilePic").src
+  };
+
+  localStorage.setItem("userProfile", JSON.stringify(profileData));
+  alert("Profile saved successfully!");
+}
+
+// Change DP
+function changeDP(event){
+  const reader = new FileReader();
+  reader.onload = function(){
+    document.getElementById("profilePic").src = reader.result;
+  }
+  reader.readAsDataURL(event.target.files[0]);
+}
