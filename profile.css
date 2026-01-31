@@ -1,0 +1,68 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f7fa;
+}
+
+.profile-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+}
+
+.profile-header {
+  text-align: center;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+}
+
+.dp {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  margin-top: 15px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+  cursor: pointer;
+}
+
+.orders {
+  margin-top: 10px;
+}
+
+.order-item {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+select, input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.logout {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+}
