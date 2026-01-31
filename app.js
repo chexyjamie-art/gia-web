@@ -77,3 +77,45 @@ function aiReply(query) {
 
   responseBox.innerHTML = reply;
 }
+
+const chatInput = document.getElementById("chatInput");
+const chatMessages = document.getElementById("chatMessages");
+
+chatInput.addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    sendMessage(chatInput.value);
+    chatInput.value = "";
+  }
+});
+
+function sendMessage(text) {
+  addMessage(text, "user");
+  aiStylistReply(text);
+}
+
+function addMessage(text, sender) {
+  const msg = document.createElement("div");
+  msg.className = sender === "user" ? "user-msg" : "ai-msg";
+  msg.innerText = text;
+  chatMessages.appendChild(msg);
+}
+
+function aiStylistReply(query) {
+  query = query.toLowerCase();
+  let reply = "";
+
+  if (query.includes("date")) {
+    reply = "💫 For a date: Go with a clean shirt, fitted jeans, and minimal sneakers. Confidence is key.";
+  }
+  else if (query.includes("office")) {
+    reply = "👔 Office look: Neutral shirt + formal watch + polished shoes gives a professional vibe.";
+  }
+  else if (query.includes("budget")) {
+    reply = "💰 Budget styling: Invest in versatile basics first. They match multiple outfits.";
+  }
+  else {
+    reply = "✨ I recommend choosing outfits based on occasion, comfort, and color harmony.";
+  }
+
+  setTimeout(() => addMessage(reply, "ai"), 500);
+}
