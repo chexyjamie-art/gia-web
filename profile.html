@@ -3,26 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Profile</title>
-<link rel="stylesheet" href="style.css">
+<title>Profile – GIA AI Stylist</title>
+<link rel="stylesheet" href="profile.css">
 </head>
 
 <body>
 
-<div class="profile-page">
+<div class="profile-container">
 
-  <img src="https://i.pravatar.cc/120" class="profile-big">
+  <!-- TOP PROFILE -->
+  <div class="profile-header">
+    <img src="https://i.pravatar.cc/120" class="dp">
 
-  <input type="text" id="name" placeholder="Full Name">
-  <input type="text" id="mobile" placeholder="Mobile Number">
-  <input type="email" id="email" placeholder="Email Address">
-  <input type="text" id="address" placeholder="Home Address">
+    <h2>Rahul Sharma</h2>
+    <p>Male</p>
+    <p>📞 +91 9876543210</p>
+    <p>📧 rahul@email.com</p>
+    <p>🏠 Bhawanipatna, Odisha</p>
+  </div>
 
-  <button onclick="saveProfile()">Save Profile</button>
+  <!-- WISHLIST -->
+  <div class="card" onclick="goWishlist()">
+    ❤️ Wishlist
+  </div>
+
+  <!-- ORDER HISTORY -->
+  <div class="card">
+    📦 Order History
+    <div class="orders">
+      <div class="order-item">Silver Watch – ₹3,999</div>
+      <div class="order-item">Running Shoes – ₹2,499</div>
+      <div class="order-item">Face Serum – ₹799</div>
+    </div>
+  </div>
+
+  <!-- AI SETTINGS -->
+  <div class="card">
+    ⚙ AI Settings
+
+    <label>AI Gender</label>
+    <select>
+      <option>Male</option>
+      <option>Female</option>
+    </select>
+
+    <label>AI Voice</label>
+    <select>
+      <option>Male Voice</option>
+      <option>Female Voice</option>
+    </select>
+
+    <label>AI Name</label>
+    <input type="text" placeholder="Enter AI name">
+  </div>
+
+  <!-- LOGOUT -->
+  <button class="logout" onclick="logout()">Logout</button>
 
 </div>
 
-<script src="app.js"></script>
-
+<script src="profile.js"></script>
 </body>
 </html>
