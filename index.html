@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GIA AI Stylist</title>
+
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="menu" onclick="openMenu()">☰</div>
+
+  <div class="header-right">
+    <span class="nav-link" onclick="goWishlist()">Wishlist</span>
+    <span class="nav-link">Notifications</span>
+    <img src="https://i.pravatar.cc/40" class="profile-icon" onclick="openProfile()">
+  </div>
+</header>
+
+<!-- SIDE MENU -->
+<div id="sideMenu" class="side-menu">
+  <span class="close" onclick="closeMenu()">✖</span>
+  <a href="index.html">Home</a>
+  <a href="profile.html">Profile</a>
+</div>
+
+<!-- SEARCH -->
+<section class="hero">
+  <div class="search-box">
+    <input type="text" placeholder="Ask AI anything…">
+  </div>
+
+  <h1>Curated luxury for you, Rahul</h1>
+  <p>Smart choices recommended by AI</p>
+</section>
+
+<!-- AI PICKS -->
+<section class="ai-picks">
+  <h2>AI Picks for You</h2>
+
+  <!-- TOP PRODUCTS -->
+  <div class="product-row">
+    <div class="product-card">
+      <span class="tag">Best Pick</span>
+      <img src="https://via.placeholder.com/220">
+      <h3>Stylish Watch</h3>
+      <p>Under ₹10,000</p>
+      <h4>₹8,999</h4>
+      <a href="#" class="buy-btn">Buy Now</a>
+    </div>
+
+    <div class="product-card">
+      <span class="tag">Premium</span>
+      <img src="https://via.placeholder.com/220">
+      <h3>Luxury Watch</h3>
+      <p>AI Selected</p>
+      <h4>₹22,999</h4>
+      <a href="#" class="buy-btn">Buy Now</a>
+    </div>
+
+    <div class="product-card">
+      <span class="tag">Value</span>
+      <img src="https://via.placeholder.com/220">
+      <h3>Wireless Buds</h3>
+      <p>Best Price</p>
+      <h4>₹1,899</h4>
+      <a href="#" class="buy-btn">Buy Now</a>
+    </div>
+  </div>
+
+  <!-- COMBO (SAME WIDTH AS ABOVE) -->
+  <div class="combo-card">
+    <img src="https://via.placeholder.com/300x200">
+    <div>
+      <h3>Complete Glow Combo</h3>
+      <p>Picked by AI for Indian climate</p>
+      <a href="#" class="buy-btn">View Details</a>
+    </div>
+  </div>
+
+  <div class="trust">
+    ✔ Honest AI (Don’t buy advice)
+    ✔ No fake discounts
+    ✔ Buy from Amazon / Nykaa
+  </div>
+</section>
+
+<footer>
+  <a href="#">Terms</a> |
+  <a href="#">Privacy</a> |
+  <a href="#">Policy</a>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
