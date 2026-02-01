@@ -1,73 +1,16 @@
-body{
-  margin:0;
-  font-family:Inter,sans-serif;
-  background:#f8f9fb;
-}
+body{font-family:Inter;margin:0;background:#f7f7f7}
+.header{display:flex;justify-content:space-between;padding:15px;background:white}
+.profile{border-radius:50%}
+.center{text-align:center;margin-top:120px}
 
-.header{
-  display:flex;
-  justify-content:space-between;
-  padding:15px;
-}
+.product-grid{display:flex;gap:20px;justify-content:center}
+.product-card{background:white;padding:15px;border-radius:15px;width:200px}
+.actions{display:flex;justify-content:space-between}
 
-.center{
-  text-align:center;
-  margin-top:120px;
-}
+.horizontal-scroll{display:flex;gap:15px;overflow-x:auto}
+.combo-card{min-width:220px;background:white;padding:15px;border-radius:15px}
 
-.search-box{
-  max-width:500px;
-  margin:auto;
-  padding:14px;
-  border-radius:30px;
-  background:#fff;
-}
-
-.hero-title{
-  font-family:'Playfair Display',serif;
-  margin-top:20px;
-}
-
-.ai-picks{
-  padding:20px;
-}
-
-.products-center{
-  display:flex;
-  justify-content:center;
-  gap:15px;
-  flex-wrap:wrap;
-}
-
-.ai-card{
-  background:white;
-  padding:20px;
-  border-radius:15px;
-  min-width:160px;
-  box-shadow:0 6px 16px rgba(0,0,0,.08);
-  text-align:center;
-}
-
-.horizontal-scroll{
-  display:flex;
-  gap:15px;
-  overflow-x:auto;
-}
-
-.footer{
-  text-align:center;
-  padding:20px;
-  font-size:14px;
-}
-
-/* HOME WISHLIST */
-.home-wishlist{
-  display:none;
-  position:fixed;
-  top:70px;
-  right:20px;
-  background:white;
-  padding:15px;
-  border-radius:12px;
-  box-shadow:0 6px 16px rgba(0,0,0,.15);
-}
+.footer{text-align:center;padding:20px}
+.side-menu{position:fixed;left:0;top:0;width:0;height:100%;background:black;color:white;overflow:hidden}
+.wishlist-drawer{position:fixed;right:-300px;width:300px;height:100%;background:white}
+.wishlist-drawer.open{right:0}
