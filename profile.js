@@ -71,3 +71,41 @@ function openAISettings(){
     box.style.display = "block";
   }
 }
+
+// ================= AUTO SAVE PROFILE DATA =================
+
+// Load saved data on page open
+window.onload = function () {
+  loadProfileData();
+};
+
+function saveProfile() {
+  const profileData = {
+    name: document.getElementById("name").value,
+    gender: document.getElementById("gender").value,
+    mobile: document.getElementById("mobile").value,
+    email: document.getElementById("email").value,
+    address: document.getElementById("address").value,
+    dp: document.getElementById("profilePic").src
+  };
+
+  localStorage.setItem("giaProfile", JSON.stringify(profileData));
+  alert("Profile Auto Saved ✅");
+}
+
+function loadProfileData() {
+  const saved = localStorage.getItem("giaProfile");
+  if (!saved) return;
+
+  const data = JSON.parse(saved);
+
+  document.getElementById("name").value = data.name || "";
+  document.getElementById("gender").value = data.gender || "";
+  document.getElementById("mobile").value = data.mobile || "";
+  document.getElementById("email").value = data.email || "";
+  document.getElementById("address").value = data.address || "";
+
+  if (data.dp) {
+    document.getElementById("profilePic").src = data.dp;
+  }
+}
