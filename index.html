@@ -26,7 +26,10 @@
   <span class="close-btn" onclick="closeMenu()">✖</span>
   <a href="index.html">Home</a>
   <a href="profile.html">Profile</a>
-  <a href="#">Wishlist</a>
+  <a href="profile.html#wishlist">Wishlist</a>
+  <a href="terms.html">Terms</a>
+  <a href="privacy.html">Privacy</a>
+  <a href="conditions.html">Conditions</a>
 </div>
 
 <!-- CENTER -->
@@ -60,12 +63,12 @@
 <section class="ai-picks">
   <h2 class="ai-title">Trending Premium Combos</h2>
 
-  <div class="ai-cards horizontal-scroll">
+  <div class="ai-cards horizontal-scroll" id="productContainer">
     <div class="ai-card">
       <img src="https://via.placeholder.com/220">
       <h3>Luxury Watch</h3>
       <p>Premium • Bestseller</p>
-      <button>♡ Wishlist</button>
+      <button onclick="addToWishlist('Luxury Watch')">♡ Wishlist</button>
       <button class="buy-btn">Buy Now</button>
     </div>
 
@@ -73,7 +76,7 @@
       <img src="https://via.placeholder.com/220">
       <h3>Skincare Combo</h3>
       <p>Glow • Dermatologist Pick</p>
-      <button>♡ Wishlist</button>
+      <button onclick="addToWishlist('Skincare Combo')">♡ Wishlist</button>
       <button class="buy-btn">Buy Now</button>
     </div>
 
@@ -81,7 +84,7 @@
       <img src="https://via.placeholder.com/220">
       <h3>Premium Sneakers</h3>
       <p>Comfort • Trending</p>
-      <button>♡ Wishlist</button>
+      <button onclick="addToWishlist('Premium Sneakers')">♡ Wishlist</button>
       <button class="buy-btn">Buy Now</button>
     </div>
   </div>
@@ -94,7 +97,7 @@
 <script src="app.js"></script>
 <script>
 function openProfile(){ window.location.href = "profile.html"; }
-function goWishlist(){ window.location.href = "profile.html#wishlist"; }
+function openWishlist(){ window.location.href = "profile.html#wishlist"; }
 function openMenu(){ document.getElementById("sideMenu").style.width = "250px"; }
 function closeMenu(){ document.getElementById("sideMenu").style.width = "0"; }
 </script>
