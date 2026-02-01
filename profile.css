@@ -4,73 +4,83 @@ body {
   background: #f4f6f8;
 }
 
+/* CONTAINER */
 .profile-container {
   max-width: 420px;
   margin: auto;
-  padding: 20px;
+  padding: 18px;
 }
 
-/* PROFILE CARD */
+/* PROFILE HEADER */
 .profile-header {
   background: white;
-  padding: 20px;
-  border-radius: 16px;
+  padding: 22px 18px;
+  border-radius: 18px;
   text-align: center;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
-/* DP */
+/* PROFILE DP */
 .dp {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  cursor: pointer;
   object-fit: cover;
+  cursor: pointer;
+  margin-bottom: 10px;
+  border: 3px solid #eee;
 }
 
-/* INPUTS */
+/* INPUT FIELDS */
 .edit-field {
   width: 100%;
   border: none;
   background: transparent;
   text-align: center;
-  font-size: 16px;
-  margin: 6px 0;
+  font-size: 15px;
+  margin: 8px 0;
+  padding: 6px 0;
+  border-bottom: 1px solid #ddd;
 }
 
 .edit-field:focus {
   outline: none;
-  border-bottom: 1px solid #aaa;
+  border-bottom: 1px solid #111;
 }
 
-/* BUTTON */
+/* BUTTONS */
 button {
-  margin-top: 12px;
-  padding: 10px;
+  margin-top: 14px;
+  padding: 11px;
   width: 100%;
-  border-radius: 25px;
+  border-radius: 26px;
   border: none;
-  background: black;
+  background: #111;
   color: white;
   font-size: 15px;
   cursor: pointer;
 }
 
-/* CARD */
+button:active {
+  transform: scale(0.98);
+}
+
+/* CARD BLOCKS */
 .card {
-  margin-top: 15px;
+  margin-top: 16px;
   background: white;
-  padding: 15px;
-  border-radius: 14px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 5px 14px rgba(0,0,0,0.06);
   cursor: pointer;
 }
 
-/* WISHLIST */
+/* WISHLIST BOX */
 #wishlistBox {
   display: none;
   margin-top: 10px;
   font-size: 14px;
+  color: #444;
 }
 
 #wishlistBox.open {
@@ -80,8 +90,8 @@ button {
 /* AI SETTINGS */
 #aiBox {
   display: none;
-  font-size: 14px;
   margin-top: 10px;
+  font-size: 14px;
   color: #444;
 }
 
@@ -89,16 +99,19 @@ button {
   display: block;
 }
 
-/* WISHLIST ITEM */
-.wishlist-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 6px 0;
-  border-bottom: 1px solid #eee;
+/* LOGOUT BUTTON */
+.logout {
+  margin-top: 22px;
+  background: #000;
 }
 
-/* LOGOUT */
-.logout {
-  margin-top: 20px;
-  background: #111;
+/* SMALL SCREENS SAFE */
+@media (max-width: 480px) {
+  .profile-container {
+    padding: 14px;
+  }
+
+  .profile-header {
+    padding: 18px 14px;
+  }
 }
