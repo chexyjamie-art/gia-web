@@ -109,3 +109,8 @@ function loadProfileData() {
     document.getElementById("profilePic").src = data.dp;
   }
 }
+
+// Auto save on typing
+document.querySelectorAll(".edit-field").forEach(field => {
+  field.addEventListener("input", saveProfile);
+});
