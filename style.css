@@ -1,98 +1,187 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-body { background-color: #ffffff; color: #333; }
-
-/* Navigation */
-.navbar { display: flex; justify-content: space-between; padding: 20px 40px; font-size: 14px; align-items: center; }
-.user-avatar { width: 32px; height: 32px; border-radius: 50%; margin-left: 10px; }
-
-/* Logo Design - Gold Line */
-.logo-wrapper { text-align: center; margin-top: 20px; }
-.gia-signature {
-    font-family: 'Playfair Display', serif;
-    font-size: 52px;
-    font-style: italic;
+body {
+    background-color: #f5f5f5;
     color: #444;
-    position: relative;
-    display: inline-block;
+    text-align: center;
 }
-.gia-signature::after {
-    content: '';
-    position: absolute;
-    width: 140%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, #d4af37, transparent);
-    bottom: 12px;
-    left: -20%;
-}
-.tagline { font-size: 10px; letter-spacing: 4px; color: #999; margin-top: -5px; text-transform: uppercase; }
 
-/* Search Section & Colorful Waves */
-.search-section {
-    position: relative;
+header {
+    padding: 20px 0;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo {
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: #333;
+}
+
+.logo span {
+    font-weight: 300;
+    font-size: 18px;
+}
+
+.welcome-text {
+    margin-top: 10px;
+    color: #666;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Search Bar */
+.search-container {
     display: flex;
     justify-content: center;
-    align-items: center;
+    margin: 20px 0;
+}
+
+.search-container input {
+    width: 60%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-right: none;
+    outline: none;
+}
+
+.search-container button {
+    padding: 12px 20px;
+    background: #778899;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.hero-text h1 {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.hero-text p {
+    color: #888;
+    margin-bottom: 30px;
+}
+
+/* Divider */
+.section-divider {
+    border-top: 1px solid #ddd;
     margin: 40px 0;
-    min-height: 100px;
-}
-
-.wave-decoration {
-    position: absolute;
-    width: 350px;
-    height: 120px;
-    z-index: 1;
-    filter: blur(35px);
-    opacity: 0.5;
-}
-
-.left-wave {
-    left: 10%;
-    background: radial-gradient(circle, #a1c4fd 0%, #c2e9fb 100%);
-    border-radius: 50% 100% 50% 100%;
-}
-
-.right-wave {
-    right: 10%;
-    background: radial-gradient(circle, #d4fc79 0%, #96e6a1 100%);
-    border-radius: 100% 50% 100% 50%;
-}
-
-.search-container {
     position: relative;
-    z-index: 5;
-    background: white;
-    width: 550px;
-    padding: 14px 25px;
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    border: 1px solid #f0f0f0;
 }
 
-.search-container input { border: none; outline: none; flex: 1; padding: 0 15px; font-style: italic; font-size: 15px; color: #666; }
-.ai-sparkle { font-size: 20px; cursor: pointer; }
+.section-divider span {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #f5f5f5;
+    padding: 0 15px;
+    font-weight: bold;
+    color: #555;
+}
 
-/* Text Content */
-h1 { text-align: center; font-weight: 400; font-size: 30px; margin-top: 20px; }
-.subtitle { text-align: center; color: #aaa; margin-bottom: 40px; }
+/* Product Cards */
+.product-grid {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
 
-/* Tab Bar */
-.tab-bar { display: flex; justify-content: center; gap: 40px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-.tab-bar span { cursor: pointer; color: #999; font-weight: 500; font-size: 15px; }
-.tab-bar span.active { color: #333; border-bottom: 2px solid #a1c4fd; }
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 260px;
+    border: 1px solid #eee;
+    position: relative;
+}
 
-/* Product Grid */
-.grid-container { max-width: 1100px; margin: 40px auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; padding: 0 20px; }
-.card { background: white; border: 1px solid #f2f2f2; padding: 25px; border-radius: 18px; text-align: center; position: relative; transition: 0.3s; }
-.card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.04); }
+.badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #e0e0e0;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
 
-.badge { position: absolute; top: 15px; left: 15px; font-size: 10px; padding: 5px 12px; border-radius: 5px; font-weight: 600; }
-.ai-selected { background: #fdf2f2; color: #d68b8b; }
-.verified { background: #f0f7ff; color: #6b93d6; }
+.card img {
+    width: 100%;
+    height: auto;
+    margin: 20px 0;
+}
 
-.card img { width: 100%; height: 160px; object-fit: contain; margin: 20px 0; }
-.card h3 { font-size: 16px; color: #555; font-weight: 400; }
-.price { font-weight: 700; font-size: 19px; margin: 15px 0; }
-.buy-btn { width: 100%; padding: 12px; border-radius: 25px; border: none; background: linear-gradient(90deg, #a1c4fd 0%, #c2e9fb 100%); color: white; font-weight: 600; cursor: pointer; }
+.card h3 {
+    font-size: 16px;
+    color: #666;
+    font-weight: normal;
+}
+
+.price {
+    font-weight: bold;
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.buy-btn, .details-btn {
+    width: 100%;
+    padding: 10px;
+    background: #a9b9cb;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Banner Section */
+.featured-banner {
+    display: flex;
+    background: white;
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 8px;
+    align-items: center;
+    text-align: left;
+    border: 1px solid #eee;
+}
+
+.banner-img { flex: 1; }
+.banner-content { flex: 1; padding-left: 20px; }
+
+.banner-content h2 { font-size: 20px; margin-bottom: 10px; }
+.details-btn { width: auto; padding: 10px 30px; }
+
+/* Footer */
+.trust-footer {
+    display: flex;
+    justify-content: space-around;
+    margin: 40px 0;
+    font-size: 14px;
+    color: #777;
+}
+
+footer {
+    margin-top: 50px;
+    padding: 20px;
+    border-top: 1px solid #ddd;
+    font-size: 14px;
+    color: #999;
+}
+
+footer a {
+    text-decoration: none;
+    color: #777;
+    margin: 0 10px;
+}
