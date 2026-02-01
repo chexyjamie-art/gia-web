@@ -1,102 +1,106 @@
 body {
   margin: 0;
   font-family: Inter, sans-serif;
-  background: #f7f8fa;
+  background: #eef5ff;
 }
 
-/* HEADER */
 .header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 14px 18px;
   background: white;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 3px 12px rgba(0,0,0,.08);
 }
 
-.profile {
+.menu { cursor: pointer; }
+
+.header-right {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.profile-icon {
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   cursor: pointer;
 }
 
-/* CENTER */
-.center {
+.hero {
   text-align: center;
-  margin-top: 80px;
+  padding: 40px 20px;
 }
 
-/* SEARCH */
 .search-box {
-  width: 90%;
-  max-width: 520px;
-  margin: auto;
   background: white;
-  padding: 14px 20px;
+  padding: 14px;
   border-radius: 30px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  max-width: 420px;
+  margin: auto;
+  box-shadow: 0 6px 20px rgba(0,0,0,.1);
 }
 
-.hero-title {
-  margin-top: 25px;
-  font-family: 'Playfair Display', serif;
+.search-box input {
+  border: none;
+  width: 100%;
+  outline: none;
 }
 
 .ai-picks {
-  margin-top: 60px;
-  padding: 20px;
-  text-align: center;
+  padding: 30px 20px;
 }
 
-/* CARDS */
-.horizontal-scroll {
+.product-row {
   display: flex;
-  gap: 15px;
+  gap: 16px;
   overflow-x: auto;
 }
 
-.ai-card {
+.product-card {
   min-width: 220px;
   background: white;
   padding: 14px;
   border-radius: 16px;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  box-shadow: 0 6px 16px rgba(0,0,0,.1);
 }
 
-.combo-card {
-  margin: 30px auto;
-  max-width: 520px;
-  background: white;
-  padding: 15px;
-  border-radius: 18px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+.product-card img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.tag {
+  background: #e5ecff;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 12px;
 }
 
 .buy-btn {
-  background: black;
-  color: white;
-  border: none;
+  display: block;
+  margin-top: 10px;
   padding: 10px;
-  width: 100%;
-  border-radius: 22px;
-}
-
-/* WISHLIST DRAWER */
-.home-wishlist {
-  position: fixed;
-  right: -100%;
-  top: 0;
-  width: 260px;
-  height: 100%;
-  background: white;
-  padding: 15px;
-  transition: 0.3s;
-  box-shadow: -4px 0 10px rgba(0,0,0,0.1);
-}
-
-.home-wishlist.open {
-  right: 0;
-}
-
-.footer {
+  background: #4a6cf7;
+  color: white;
   text-align: center;
-  padding: 15px;
+  border-radius: 22px;
+  text-decoration: none;
+}
+
+.combo-card {
+  display: flex;
+  gap: 16px;
+  background: white;
+  padding: 16px;
+  border-radius: 18px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.1);
+  margin-top: 20px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
 }
