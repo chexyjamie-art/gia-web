@@ -1,30 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Profile – GIA</title>
-<link rel="stylesheet" href="profile.css">
-</head>
-<body>
+<div class="profile-header">
+  <img id="profilePic" src="https://i.pravatar.cc/120" class="dp" onclick="uploadDP()">
+  <input type="file" id="dpInput" hidden accept="image/*" onchange="previewDP(event)">
 
-<div class="profile-container">
+  <input class="edit-field" placeholder="Full Name">
+  <input class="edit-field" placeholder="Gender">
+  <input class="edit-field" placeholder="Mobile Number">
+  <input class="edit-field" placeholder="Email Address">
+  <input class="edit-field" placeholder="Full Delivery Address">
 
-  <div class="profile-header">
-    <img id="profilePic" class="dp" src="https://i.pravatar.cc/120">
-    <input type="file" id="dpInput" hidden>
-
-    <input class="edit-field" placeholder="Name">
-    <button onclick="saveProfile()">Save Profile</button>
-  </div>
-
-  <div class="card" onclick="toggleWishlist()">❤️ Wishlist</div>
-  <div id="wishlistBox"></div>
-
-  <div class="card" onclick="toggleAI()">⚙ AI Settings</div>
-  <div id="aiBox">AI Settings Ready ✔</div>
-
-  <button class="logout">Logout</button>
+  <button onclick="saveProfile()">Save Profile</button>
 </div>
 
+<div class="card" onclick="toggleWishlist()">❤️ Wishlist</div>
+<div id="wishlistBox" class="card">Wishlist Items Here</div>
+
+<div class="card" onclick="toggleAI()">⚙ AI Settings</div>
+<div id="aiBox" class="card">
+  <p>AI Gender</p>
+  <p>AI Voice</p>
+</div>
+
+<button class="logout">Logout</button>
+
 <script src="profile.js"></script>
-</body>
-</html>
