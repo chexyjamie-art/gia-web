@@ -134,3 +134,18 @@ function addToWishlist(itemName, price, buyLink) {
 
   alert("Added to Wishlist ❤️");
 }
+
+// ================= WISHLIST SYSTEM =================
+
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+function toggleWishlist(productId) {
+  if (wishlist.includes(productId)) {
+    wishlist = wishlist.filter(id => id !== productId);
+  } else {
+    wishlist.push(productId);
+  }
+
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  alert("Wishlist updated ❤️");
+}
