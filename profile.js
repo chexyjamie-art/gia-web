@@ -1,35 +1,36 @@
+// ================= DP UPLOAD + CROP =================
 let tempImage = "";
 
-function uploadDP(){
+function uploadDP() {
   document.getElementById("dpInput").click();
 }
 
-function changeDP(event){
+function changeDP(event) {
   const file = event.target.files[0];
-  const reader = new FileReader();
+  if (!file) return;
 
-  reader.onload = function(e){
+  const reader = new FileReader();
+  reader.onload = function (e) {
     tempImage = e.target.result;
     document.getElementById("cropPreview").src = tempImage;
     document.getElementById("cropBox").style.display = "block";
   };
-
   reader.readAsDataURL(file);
 }
 
-// FULL PHOTO SAVE
-function saveFullImage(){
+function saveFullImage() {
+  if (!tempImage) return;
+
   document.getElementById("profilePic").src = tempImage;
-  localStorage.setItem("profileDP", tempImage);
-  document.getElementById("cropBox").style.display = "none";
+  saveDP(tempImage);
+  closeCropBox();
 }
 
-// CROPPED SAVE
-function saveCropped(){
+function saveCropped() {
   const img = document.getElementById("cropPreview");
 
   const canvas = document.createElement("canvas");
-  const size = Math.min(img.width, img.height);
+  const size = Math.min(img.naturalWidth, img.naturalHeight);
 
   canvas.width = size;
   canvas.height = size;
@@ -37,8 +38,8 @@ function saveCropped(){
   const ctx = canvas.getContext("2d");
   ctx.drawImage(
     img,
-    (img.width - size)/2,
-    (img.height - size)/2,
+    (img.naturalWidth - size) / 2,
+    (img.naturalHeight - size) / 2,
     size,
     size,
     0,
@@ -47,119 +48,78 @@ function saveCropped(){
     size
   );
 
-  const croppedData = canvas.toDataURL();
-  document.getElementById("profilePic").src = croppedData;
-  localStorage.setItem("profileDP", croppedData);
+  const cropped = canvas.toDataURL("image/png");
+  document.getElementById("profilePic").src = cropped;
+  saveDP(cropped);
+  closeCropBox();
+}
+
+function closeCropBox() {
   document.getElementById("cropBox").style.display = "none";
+  tempImage = "";
 }
 
-// LOAD SAVED DP
-window.onload = function(){
-  const savedDP = localStorage.getItem("profileDP");
-  if(savedDP){
-    document.getElementById("profilePic").src = savedDP;
-  }
-};
-
-// AI SETTINGS TOGGLE
-function openAISettings(){
-  const box = document.getElementById("aiSettingsBox");
-
-  if(box.style.display === "block"){
-    box.style.display = "none";
-  } else {
-    box.style.display = "block";
-  }
+function saveDP(src) {
+  const profile = JSON.parse(localStorage.getItem("giaProfile")) || {};
+  profile.dp = src;
+  localStorage.setItem("giaProfile", JSON.stringify(profile));
 }
 
-// ================= AUTO SAVE PROFILE DATA =================
-
-// Load saved data on page open
-window.onload = function () {
-  loadProfileData();
-};
-
-function saveProfile() {
-  const profileData = {
-    name: document.getElementById("name").value,
-    gender: document.getElementById("gender").value,
-    mobile: document.getElementById("mobile").value,
-    email: document.getElementById("email").value,
-    address: document.getElementById("address").value,
-    dp: document.getElementById("profilePic").src
+// ================= PROFILE SAVE =================
+function saveProfile(showAlert = true) {
+  const data = {
+    name: name.value,
+    gender: gender.value,
+    mobile: mobile.value,
+    email: email.value,
+    address: address.value,
+    dp: profilePic.src
   };
 
-  localStorage.setItem("giaProfile", JSON.stringify(profileData));
-  alert("Profile Auto Saved ✅");
-}
+  localStorage.setItem("giaProfile", JSON.stringify(data));
 
-function loadProfileData() {
-  const saved = localStorage.getItem("giaProfile");
-  if (!saved) return;
-
-  const data = JSON.parse(saved);
-
-  document.getElementById("name").value = data.name || "";
-  document.getElementById("gender").value = data.gender || "";
-  document.getElementById("mobile").value = data.mobile || "";
-  document.getElementById("email").value = data.email || "";
-  document.getElementById("address").value = data.address || "";
-
-  if (data.dp) {
-    document.getElementById("profilePic").src = data.dp;
+  if (showAlert) {
+    alert("Profile saved successfully ✅");
   }
 }
 
-// Auto save on typing
-document.querySelectorAll(".edit-field").forEach(field => {
-  field.addEventListener("input", saveProfile);
+// ================= LOAD PROFILE =================
+function loadProfile() {
+  const saved = JSON.parse(localStorage.getItem("giaProfile"));
+  if (!saved) return;
+
+  name.value = saved.name || "";
+  gender.value = saved.gender || "";
+  mobile.value = saved.mobile || "";
+  email.value = saved.email || "";
+  address.value = saved.address || "";
+  if (saved.dp) profilePic.src = saved.dp;
+}
+
+// ================= AUTO SAVE (NO ALERT) =================
+document.querySelectorAll(".edit-field").forEach(input => {
+  input.addEventListener("input", () => saveProfile(false));
 });
 
-// ================= LOAD WISHLIST IN PROFILE =================
-
+// ================= WISHLIST =================
 function loadWishlist() {
-  const wishlist = JSON.parse(localStorage.getItem("giaWishlist")) || [];
-  const wishlistBox = document.getElementById("wishlistItems");
+  const box = document.getElementById("wishlistItems");
+  const list = JSON.parse(localStorage.getItem("wishlist")) || [];
 
-  if (!wishlistBox) return;
+  box.innerHTML = "";
 
-  wishlistBox.innerHTML = "";
+  if (list.length === 0) {
+    box.innerHTML = "<p>Wishlist empty ❤️</p>";
+    return;
+  }
 
-  wishlist.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "order-item";
-    div.innerText = item.name + " – " + item.price;
-    wishlistBox.appendChild(div);
+  list.forEach(item => {
+    box.innerHTML += `<div class="order-item">${item}</div>`;
   });
 }
 
-window.onload = function () {
-  loadProfileData();
+// ================= INIT =================
+window.addEventListener("load", () => {
+  loadProfile();
   loadWishlist();
-};
-
-function loadWishlist() {
-  const wishlist = JSON.parse(localStorage.getItem("giaWishlist")) || [];
-  const wishlistBox = document.getElementById("wishlistItems");
-
-  if (!wishlistBox) return;
-
-  wishlistBox.innerHTML = "";
-
-  wishlist.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "order-item";
-
-    div.innerHTML = `
-      <p>${item.name} – ${item.price}</p>
-      <a href="${item.link}" target="_blank" class="buy-btn">Buy Now</a>
-    `;
-
-    wishlistBox.appendChild(div);
-  });
-}
-
-window.onload = function () {
-  loadProfileData();
-  loadWishlist();
-};
+});
