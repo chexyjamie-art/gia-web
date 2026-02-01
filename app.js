@@ -1,57 +1,56 @@
-let homeWishlistOpen = false;
+/* =========================
+   HOME PAGE LOGIC
+   ========================= */
 
-// Toggle wishlist on HOME PAGE
-function toggleHomeWishlist(){
+// Toggle Home Wishlist popup
+function toggleHomeWishlist() {
   const box = document.getElementById("homeWishlist");
-  homeWishlistOpen = !homeWishlistOpen;
+  if (!box) return;
 
-  box.style.display = homeWishlistOpen ? "block" : "none";
-  if(homeWishlistOpen) loadHomeWishlist();
+  box.style.display = box.style.display === "block" ? "none" : "block";
+  renderHomeWishlist();
 }
 
-// Load wishlist items on Home
-function loadHomeWishlist(){
-  const items = JSON.parse(localStorage.getItem("wishlist") || "[]");
-  const box = document.getElementById("homeWishlistItems");
+// Load wishlist on home
+function renderHomeWishlist() {
+  const list = document.getElementById("homeWishlistItems");
+  const items = JSON.parse(localStorage.getItem("wishlist")) || [];
 
-  box.innerHTML = "";
+  if (!list) return;
 
-  if(items.length === 0){
-    box.innerHTML = "<p>Your wishlist is empty ❤️</p>";
+  if (items.length === 0) {
+    list.innerHTML = "Your wishlist is empty ❤️";
     return;
   }
 
-  items.forEach((item,index)=>{
-    box.innerHTML += `
-      <div class="ai-card">
-        <h3>${item}</h3>
-        <button onclick="removeFromWishlist(${index})">Remove ❤️</button>
-      </div>
-    `;
+  list.innerHTML = "";
+  items.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "wishlist-row";
+    div.innerText = item;
+    list.appendChild(div);
   });
 }
 
-// Add item
-function addToWishlist(product){
-  let items = JSON.parse(localStorage.getItem("wishlist") || "[]");
+// Add product to wishlist (future buttons use this)
+function addToWishlist(productName) {
+  let items = JSON.parse(localStorage.getItem("wishlist")) || [];
 
-  if(!items.includes(product)){
-    items.push(product);
+  if (!items.includes(productName)) {
+    items.push(productName);
     localStorage.setItem("wishlist", JSON.stringify(items));
   }
-  loadHomeWishlist();
 }
 
-// Remove item
-function removeFromWishlist(index){
-  let items = JSON.parse(localStorage.getItem("wishlist") || "[]");
-  items.splice(index,1);
-  localStorage.setItem("wishlist", JSON.stringify(items));
-  loadHomeWishlist();
+// Header navigation
+function openProfile() {
+  window.location.href = "profile.html";
 }
 
-// Menu
-function openMenu(){ document.getElementById("sideMenu").style.width = "250px"; }
-function closeMenu(){ document.getElementById("sideMenu").style.width = "0"; }
+function openMenu() {
+  document.getElementById("sideMenu").style.width = "250px";
+}
 
-function openProfile(){ window.location.href = "profile.html"; }
+function closeMenu() {
+  document.getElementById("sideMenu").style.width = "0";
+}
