@@ -1,13 +1,20 @@
-function toggleWishlist(){
-  const box = document.getElementById("wishlistBox");
-  box.classList.toggle("open");
-  box.innerHTML = (JSON.parse(localStorage.getItem("giaWishlist"))||[]).join("<br>");
+function uploadDP() {
+  document.getElementById("dpInput").click();
 }
 
-function toggleAI(){
+function previewDP(e) {
+  const file = e.target.files[0];
+  const reader = new FileReader();
+  reader.onload = () => {
+    document.getElementById("profilePic").src = reader.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function toggleWishlist() {
+  document.getElementById("wishlistBox").classList.toggle("open");
+}
+
+function toggleAI() {
   document.getElementById("aiBox").classList.toggle("open");
-}
-
-function saveProfile(){
-  alert("Profile Saved ✔");
 }
