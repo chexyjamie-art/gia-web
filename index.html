@@ -4,95 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GIA - Smart AI Stylist</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <nav class="top-nav">
-        <div class="nav-left"><i class="fa fa-bars"></i> Menu &nbsp; Shop <i class="fa fa-chevron-down"></i></div>
+    <nav class="navbar">
+        <div class="nav-left"><i class="fa fa-bars"></i> Menu &nbsp; Shop</div>
         <div class="nav-right">
-            <i class="fa fa-search"></i>
             <i class="fa fa-bell"></i>
             <i class="fa fa-comment-dots"></i>
-            <img src="https://via.placeholder.com/30" class="user-avatar">
+            <img src="https://i.pravatar.cc/150" class="user-avatar">
         </div>
     </nav>
 
-    <header class="header-section">
-        <div class="logo-area">
-            <div class="gia-logo">GIA</div>
-            <p>Smart AI Stylist</p>
+    <header class="main-header">
+        <div class="logo-wrapper">
+            <div class="gia-signature">GIA</div>
+            <p class="tagline">Smart AI Stylist</p>
         </div>
 
-        <div class="search-wrapper">
-            <div class="search-bar">
+        <div class="search-section">
+            <div class="wave-decoration left-wave"></div>
+            <div class="search-container">
                 <i class="fa fa-search"></i>
                 <input type="text" placeholder="Luxury skincare for glowing skin?">
-                <img src="https://cdn-icons-png.flaticon.com/512/2103/2103633.png" class="sparkle-icon">
+                <div class="ai-sparkle">✨</div>
             </div>
+            <div class="wave-decoration right-wave"></div>
         </div>
 
         <h1>Curated luxury for you, Rahul</h1>
         <p class="subtitle">Smart choices recommended by AI.</p>
     </header>
 
-    <div class="category-tabs">
-        <span class="tab">All</span>
-        <span class="tab active">Watches</span>
-        <span class="tab">Skincare</span>
-        <span class="tab">Electronics</span>
-        <span class="tab">Shoes</span>
+    <div class="tab-bar">
+        <span class="active">All</span>
+        <span>Watches</span>
+        <span>Skincare</span>
+        <span>Electronics</span>
     </div>
 
-    <main class="container">
-        <div class="section-header">
-            <h2>Watches <span class="why-these">why these?</span></h2>
+    <main class="grid-container">
+        <div class="card">
+            <div class="badge ai-selected">AI Selected</div>
+            <img src="https://m.media-amazon.com/images/I/71Xm6I2InML._AC_UY1000_.jpg">
+            <h3>St. Fossil Grant Classic</h3>
+            <p class="price">₹7,495 - 8,095</p>
+            <button class="buy-btn">Buy Now</button>
         </div>
-
-        <div class="product-grid">
-            <div class="product-card">
-                <div class="card-tag"><i class="fa fa- wand-magic-sparkles"></i> AI Selected</div>
-                <img src="https://m.media-amazon.com/images/I/71Xm6I2InML._AC_UY1000_.jpg" alt="Fossil">
-                <div class="card-info">
-                    <h3>St. Fossil Grant Classic</h3>
-                    <div class="rating">★★★★☆ 320</div>
-                    <div class="price">₹7,495 - 8,095</div>
-                    <button class="buy-now-btn">Buy Now →</button>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="card-tag blue"><i class="fa fa-check-circle"></i> Verified</div>
-                <img src="https://m.media-amazon.com/images/I/61ZjlBOp+rL._AC_SL1500_.jpg" alt="Titan">
-                <div class="card-info">
-                    <h3>Titan Edge Ultra Thin</h3>
-                    <div class="rating">★★★★★ 400</div>
-                    <div class="price">₹10,995 - 19,998</div>
-                    <button class="buy-now-btn">Buy Now →</button>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="card-tag blue"><i class="fa fa-check-circle"></i> Verified</div>
-                <img src="https://m.media-amazon.com/images/I/61S-r-46S1L._AC_SL1500_.jpg" alt="Seiko">
-                <div class="card-info">
-                    <h3>Seiko Prospex Solar</h3>
-                    <div class="rating">★★★☆☆ 90</div>
-                    <div class="price">₹16,995 - 21,999</div>
-                    <button class="buy-now-btn">Buy Now →</button>
-                </div>
-            </div>
+        <div class="card">
+            <div class="badge verified">Verified</div>
+            <img src="https://m.media-amazon.com/images/I/61ZjlBOp+rL._AC_SL1500_.jpg">
+            <h3>Titan Edge Ultra Thin</h3>
+            <p class="price">₹10,995 - 19,998</p>
+            <button class="buy-btn">Buy Now</button>
+        </div>
+        <div class="card">
+            <div class="badge verified">Verified</div>
+            <img src="https://m.media-amazon.com/images/I/61S-r-46S1L._AC_SL1500_.jpg">
+            <h3>Seiko Prospex Solar</h3>
+            <p class="price">₹16,995 - 21,999</p>
+            <button class="buy-btn">Buy Now</button>
         </div>
     </main>
 
-    <footer class="bottom-footer">
-        <div class="footer-logo">GIA</div>
-        <div class="footer-links">
-            <a href="#">About</a> • <a href="#">FAQs</a> • <a href="#">Contact</a>
-        </div>
-    </footer>
-
+    <script src="script.js"></script>
 </body>
 </html>
