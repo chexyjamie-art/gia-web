@@ -25,58 +25,53 @@
   <span class="close-btn" onclick="closeMenu()">✖</span>
   <a href="index.html">Home</a>
   <a href="profile.html">Profile</a>
-  <a href="#">Terms</a>
-  <a href="#">Privacy</a>
-  <a href="#">Conditions</a>
+</div>
+
+<!-- HOME WISHLIST POPUP -->
+<div id="homeWishlist" class="home-wishlist">
+  <h3>Your Wishlist ❤️</h3>
+  <div id="homeWishlistItems">Your wishlist is empty ❤️</div>
 </div>
 
 <!-- CENTER -->
 <div class="center">
-
-  <!-- SEARCH BAR -->
-  <div class="search-box premium-glow">
+  <div class="search-box">
     <input type="text" placeholder="Ask AI anything...">
   </div>
 
-  <h1 class="hero-title">Curated luxury for you</h1>
+  <h1 class="hero-title">Curated luxury for you, Rahul</h1>
   <p class="hero-sub">Smart choices recommended by AI.</p>
 </div>
 
-<!-- HOME WISHLIST -->
-<section class="ai-picks" id="homeWishlist" style="display:none;">
-  <h2 class="ai-title">❤️ Your Wishlist</h2>
-  <div id="homeWishlistItems" class="horizontal-scroll"></div>
-</section>
-
 <!-- PRODUCTS -->
 <section class="ai-picks">
-  <h2 class="ai-title">Trending Premium Combos</h2>
+  <h2 class="ai-title">Trending Products</h2>
 
+  <div class="products-center">
+    <div class="ai-card">Luxury Watch</div>
+    <div class="ai-card">Skincare Set</div>
+    <div class="ai-card">Premium Shoes</div>
+  </div>
+
+  <h2 class="ai-title">Combo Deals</h2>
   <div class="horizontal-scroll">
-    <div class="ai-card">
-      <img src="https://via.placeholder.com/220">
-      <h3>Luxury Watch</h3>
-      <button onclick="addToWishlist('Luxury Watch')">♡ Wishlist</button>
-    </div>
-
-    <div class="ai-card">
-      <img src="https://via.placeholder.com/220">
-      <h3>Skincare Combo</h3>
-      <button onclick="addToWishlist('Skincare Combo')">♡ Wishlist</button>
-    </div>
-
-    <div class="ai-card">
-      <img src="https://via.placeholder.com/220">
-      <h3>Premium Sneakers</h3>
-      <button onclick="addToWishlist('Premium Sneakers')">♡ Wishlist</button>
-    </div>
+    <div class="ai-card">Watch + Wallet</div>
+    <div class="ai-card">Skin Combo</div>
   </div>
 </section>
 
 <footer class="footer">
-  Terms | Privacy | Conditions
+  <a href="#">Terms & Conditions</a> |
+  <a href="#">Privacy Policy</a> |
+  <a href="#">Refund Policy</a>
 </footer>
 
 <script src="app.js"></script>
+<script>
+function openProfile(){ location.href="profile.html"; }
+function openMenu(){ sideMenu.style.width="250px"; }
+function closeMenu(){ sideMenu.style.width="0"; }
+</script>
+
 </body>
 </html>
