@@ -1,115 +1,381 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GIA AI Stylist</title>
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>GIA AI Stylist</title>  <link rel="stylesheet" href="style.css">  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">  
+</head>  <body>  <header class="header">  
+  <div class="menu-left" onclick="openMenu()">  
+    ☰ <span>Menu</span>  
+  </div>    <div class="right">  
+    <span>Notifications</span>  
+    <span onclick="goWishlist()">Wishlist</span>  
+    <img src="https://i.pravatar.cc/40" class="profile" onclick="openProfile()">  
+  </div>  
+</header>  <!-- SIDE MENU -->  <div id="sideMenu" class="side-menu">  
+  <span class="close-btn" onclick="closeMenu()">✖</span>  
+  <a href="index.html">Home</a>  
+  <a href="profile.html">Profile</a>  
+  <a href="#">Wishlist</a>  
+</div>  <!-- CENTER -->  <div class="center">    <!-- SEARCH BAR -->    <div class="search-box">  
+    <input type="text" id="aiSearch" placeholder="Ask AI anything...">  <!-- ATTACHMENT ICON -->  
+<svg class="icon" viewBox="0 0 24 24">  
+  <path d="M16.5 6.5L8 15a3 3 0 104.2 4.2l7.3-7.3a5 5 0 10-7.1-7.1L4.8 12.4"  
+        stroke="black"  
+        stroke-width="1.5"  
+        fill="none"  
+        stroke-linecap="round"/>  
+</svg>  
 
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-</head>
+<!-- MIC ICON -->  
+<svg class="icon" viewBox="0 0 24 24" onclick="startVoiceSearch()">  
+  <path d="M12 3a3 3 0 013 3v6a3 3 0 01-6 0V6a3 3 0 013-3z"  
+        stroke="black"  
+        stroke-width="1.5"  
+        fill="none"/>  
+  <path d="M19 11a7 7 0 01-14 0M12 18v3"  
+        stroke="black"  
+        stroke-width="1.5"  
+        fill="none"  
+        stroke-linecap="round"/>  
+</svg>
 
-<body>
+  </div>    <!-- AI RESPONSE -->    <div id="aiResponse" class="ai-response"></div>    <h1>Curated luxury for you, Rahul</h1>  
+  <p>Smart choices recommended by AI.</p>  </div>  <!-- ================= AI CURATED PICKS (NEW ADDITION) ================= -->  <section class="ai-picks">    <h2 class="ai-title">AI Curated Premium Picks</h2>    <div class="ai-cards">  <div class="ai-card">  
+  <img src="https://via.placeholder.com/220">  
+  <h3>Luxury Watch</h3>  
+  <p>Premium • Bestseller</p>  
+  <button onclick="toggleWishlist('watch1')">♡ Wishlist</button>  
+  <button class="buy-btn">Buy Now</button>  
+</div>  
 
-<header class="header">
-  <div class="menu-left" onclick="openMenu()">☰ <span>Menu</span></div>
+<div class="ai-card">  
+  <img src="https://via.placeholder.com/220">  
+  <h3>Skincare Combo</h3>  
+  <p>Glow • Dermatologist Pick</p>  
+  <button onclick="toggleWishlist('skin1')">♡ Wishlist</button>  
+  <button class="buy-btn">Buy Now</button>  
+</div>  
 
-  <div class="logo">GIA</div>
-
-  <div class="right">
-    <span class="notif">🔔</span>
-    <span onclick="toggleWishlist()">Wishlist</span>
-    <img src="https://i.pravatar.cc/40" class="profile" onclick="openProfile()">
-  </div>
-</header>
-
-<!-- SIDE MENU -->
-<div id="sideMenu" class="side-menu">
-  <span class="close-btn" onclick="closeMenu()">✖</span>
-  <a href="index.html">Home</a>
-  <a href="profile.html">Profile</a>
+<div class="ai-card">  
+  <img src="https://via.placeholder.com/220">  
+  <h3>Premium Sneakers</h3>  
+  <p>Comfort • Trending</p>  
+  <button onclick="toggleWishlist('shoe1')">♡ Wishlist</button>  
+  <button class="buy-btn">Buy Now</button>  
 </div>
 
-<!-- WISHLIST DRAWER -->
-<div id="homeWishlist" class="wishlist-drawer">
-  <h3>Your Wishlist ❤️</h3>
-  <div id="homeWishlistItems"></div>
-</div>
+  </div>  
+</section>  <footer class="footer">  
+  Terms | Privacy | Conditions  
+</footer>  <script src="app.js"></script>  <script>  
+function openProfile(){  
+  window.location.href = "profile.html";  
+}  
+  
+function goWishlist(){  
+  window.location.href = "profile.html#wishlist";  
+}  
+  
+function openMenu(){  
+  document.getElementById("sideMenu").style.width = "250px";  
+}  
+  
+function closeMenu(){  
+  document.getElementById("sideMenu").style.width = "0";  
+}  
+</script>  </body>  
+</html>  Style.css
 
-<!-- CENTER -->
-<div class="center">
+body {
+margin: 0;
+font-family: 'Inter', sans-serif;
+background: white;
+}
 
-  <div class="search-box premium-glow">
-    <input type="text" placeholder="Ask AI anything...">
-  </div>
+/* HEADER */
+.header {
+display: flex;
+justify-content: space-between;
+padding: 15px 20px;
+align-items: center;
+}
 
-  <h1 class="hero-title">Curated luxury for you, Rahul</h1>
-  <p class="hero-sub">Smart choices recommended by AI.</p>
+.right {
+display: flex;
+gap: 15px;
+align-items: center;
+}
 
-</div>
+.profile {
+width: 35px;
+height: 35px;
+border-radius: 50%;
+cursor: pointer;
+}
 
-<!-- TRENDING PRODUCTS -->
-<section class="ai-picks">
-  <h2 class="ai-title">Trending Products</h2>
+/* SIDE MENU */
+.side-menu {
+height: 100%;
+width: 0;
+position: fixed;
+top: 0;
+left: 0;
+background: white;
+overflow-x: hidden;
+transition: 0.3s;
+padding-top: 60px;
+box-shadow: 2px 0 6px rgba(0,0,0,0.1);
+}
 
-  <div class="product-grid">
-    <div class="product-card">
-      <img src="https://via.placeholder.com/200">
-      <h3>Luxury Watch</h3>
-      <p>₹8,999</p>
-      <div class="actions">
-        <span onclick="addToWishlist('Luxury Watch')">❤️</span>
-        <button>Buy Now →</button>
-      </div>
-    </div>
+.side-menu a {
+display: block;
+padding: 10px 20px;
+color: black;
+text-decoration: none;
+}
 
-    <div class="product-card">
-      <img src="https://via.placeholder.com/200">
-      <h3>Premium Shoes</h3>
-      <p>₹5,499</p>
-      <div class="actions">
-        <span onclick="addToWishlist('Premium Shoes')">❤️</span>
-        <button>Buy Now →</button>
-      </div>
-    </div>
+.close-btn {
+position: absolute;
+top: 10px;
+right: 20px;
+cursor: pointer;
+}
 
-    <div class="product-card">
-      <img src="https://via.placeholder.com/200">
-      <h3>Skin Care Set</h3>
-      <p>₹1,899</p>
-      <div class="actions">
-        <span onclick="addToWishlist('Skin Care Set')">❤️</span>
-        <button>Buy Now →</button>
-      </div>
-    </div>
-  </div>
-</section>
+/* CENTER */
+.center {
+text-align: center;
+margin-top: 100px;
+}
 
-<!-- COMBO -->
-<section class="ai-picks">
-  <h2 class="ai-title">Premium Combos</h2>
+/* SEARCH BAR */
+.search-box {
+display: flex;
+align-items: center;
+border: 1px solid #ddd;
+border-radius: 30px;
+padding: 12px 18px;
+width: 90%;
+max-width: 550px;
+margin: auto;
+box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
 
-  <div class="horizontal-scroll">
-    <div class="combo-card">
-      <img src="https://via.placeholder.com/220">
-      <h4>Complete Glow Combo</h4>
-      <button>View Details →</button>
-    </div>
+.search-box input {
+border: none;
+outline: none;
+width: 100%;
+font-size: 15px;
+}
 
-    <div class="combo-card">
-      <img src="https://via.placeholder.com/220">
-      <h4>Watch + Wallet</h4>
-      <button>View Details →</button>
-    </div>
-  </div>
-</section>
+/* Icons */
+.icon {
+width: 22px;
+height: 22px;
+margin-left: 12px;
+cursor: pointer;
+opacity: 0.7;
+}
 
-<footer class="footer">
-  <a href="terms.html">Terms & Conditions</a> |
-  <a href="privacy.html">Privacy Policy</a> |
-  <a href="refund.html">Refund Policy</a>
-</footer>
+.icon:hover {
+opacity: 1;
+}
 
-<script src="app.js"></script>
-</body>
-</html>
+/* TEXT */
+h1 {
+font-family: 'Playfair Display', serif;
+margin-top: 25px;
+font-size: 28px;
+}
+
+p {
+color: gray;
+}
+
+/* FOOTER */
+.footer {
+text-align: center;
+margin-top: 120px;
+color: gray;
+}
+
+.ai-response {
+margin-top: 20px;
+font-size: 16px;
+color: #333;
+text-align: center;
+padding: 10px;
+max-width: 600px;
+margin-left: auto;
+margin-right: auto;
+line-height: 1.5;
+}
+
+.chat-box {
+margin-top: 20px;
+max-width: 600px;
+margin-left: auto;
+margin-right: auto;
+}
+
+#chatMessages {
+min-height: 80px;
+background: #f9f9f9;
+padding: 10px;
+border-radius: 10px;
+margin-bottom: 10px;
+font-size: 14px;
+}
+
+.user-msg {
+text-align: right;
+color: #333;
+margin: 5px 0;
+}
+
+.ai-msg {
+text-align: left;
+color: #555;
+margin: 5px 0;
+}
+
+.outfit-btn {
+margin-top: 15px;
+padding: 10px 20px;
+border: none;
+border-radius: 20px;
+background: black;
+color: white;
+cursor: pointer;
+}
+
+#outfitResult {
+margin-top: 15px;
+font-size: 15px;
+}
+
+.ai-response {
+width: 90%;
+max-width: 550px;
+margin: 20px auto;
+padding: 15px;
+border-radius: 12px;
+background: #f5f5f5;
+font-size: 14px;
+white-space: pre-line;
+}
+
+.profile-container{
+max-width: 400px;
+margin: 40px auto;
+text-align: center;
+display: flex;
+flex-direction: column;
+gap: 12px;
+}
+
+.profile-large{
+width: 120px;
+height: 120px;
+border-radius: 50%;
+margin: auto;
+}
+
+.profile-container input,
+.profile-container textarea{
+padding: 10px;
+border-radius: 8px;
+border: 1px solid #ccc;
+width: 100%;
+}
+
+.profile-container button{
+padding: 10px;
+border: none;
+background: black;
+color: white;
+border-radius: 8px;
+cursor: pointer;
+}
+
+.ai-setting {
+margin-top: 15px;
+color: black;
+font-weight: 500;
+cursor: pointer;
+}
+
+.ai-settings-box {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background: white;
+padding: 20px;
+box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+display: none;
+border-top-left-radius: 20px;
+border-top-right-radius: 20px;
+}
+
+.ai-settings-box select {
+width: 100%;
+padding: 8px;
+margin: 8px 0 15px;
+}
+
+/* ================= AI PICKS ================= */
+
+.ai-picks {
+margin-top: 40px;
+padding: 20px;
+text-align: center;
+}
+
+.ai-title {
+font-family: 'Playfair Display', serif;
+font-size: 22px;
+margin-bottom: 20px;
+}
+
+.ai-cards {
+display: flex;
+gap: 15px;
+justify-content: center;
+flex-wrap: wrap;
+}
+
+.ai-card {
+width: 220px;
+border-radius: 15px;
+padding: 15px;
+background: #fff;
+box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.ai-card img {
+width: 100%;
+border-radius: 10px;
+}
+
+.ai-card h3 {
+margin: 10px 0 5px;
+}
+
+.ai-card p {
+color: gray;
+font-size: 13px;
+}
+
+.ai-card button {
+margin-top: 8px;
+padding: 8px;
+width: 100%;
+border-radius: 20px;
+border: none;
+cursor: pointer;
+}
+
+.buy-btn {
+background: black;
+color: white;
+}
