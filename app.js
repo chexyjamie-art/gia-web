@@ -62,3 +62,18 @@ function removeHomeWishlist(index) {
 window.addEventListener("load", () => {
   renderHomeWishlist();
 });
+
+function addToWishlist(itemName, price, buyLink) {
+  let wishlist = JSON.parse(localStorage.getItem("giaWishlist")) || [];
+
+  const item = {
+    name: itemName,
+    price: price,
+    link: buyLink
+  };
+
+  wishlist.push(item);
+  localStorage.setItem("giaWishlist", JSON.stringify(wishlist));
+
+  alert("Added to Wishlist ❤️");
+}
