@@ -1,18 +1,15 @@
-// Jab user 'Buy Now' button pe click karega
-document.querySelectorAll('.buy-btn').forEach(button => {
-    button.addEventListener('click', () => {
-        alert('Product added to your wishlist!');
+// Tab switching logic
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+        document.querySelector('.tab.active').classList.remove('active');
+        this.classList.add('active');
     });
 });
 
-// Search functionality ka basic setup
-const searchBtn = document.querySelector('.search-container button');
-const searchInput = document.querySelector('.search-container input');
-
-searchBtn.addEventListener('click', () => {
-    if(searchInput.value !== "") {
-        alert('Searching for: ' + searchInput.value);
-    } else {
-        alert('Please enter something to search.');
-    }
+// Buy button effect
+document.querySelectorAll('.buy-now-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        btn.innerHTML = "Added! ✓";
+        setTimeout(() => { btn.innerHTML = "Buy Now →"; }, 2000);
+    });
 });
