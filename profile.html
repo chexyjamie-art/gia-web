@@ -1,92 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Profile – GIA AI Stylist</title>
+<title>Profile – GIA</title>
 <link rel="stylesheet" href="profile.css">
 </head>
-
 <body>
 
 <div class="profile-container">
 
-  <!-- TOP PROFILE -->
   <div class="profile-header">
-    <img src="https://i.pravatar.cc/120" class="dp" id="profilePic" onclick="uploadDP()">
+    <img id="profilePic" class="dp" src="https://i.pravatar.cc/120">
+    <input type="file" id="dpInput" hidden>
 
-    <!-- CROP MODAL -->
-    <div id="cropBox" class="crop-box">
-      <img id="cropPreview">
-      <div class="crop-actions">
-        <button onclick="saveFullImage()">Use Full Photo</button>
-        <button onclick="saveCropped()">Crop & Save</button>
-      </div>
-    </div>
-
-    <input type="file" id="dpInput" accept="image/*" hidden onchange="changeDP(event)">
-
-    <input id="name" class="edit-field" value="Rahul Sharma">
-    <input id="gender" class="edit-field" value="Male">
-    <input id="mobile" class="edit-field" value="+91 9876543210">
-    <input id="email" class="edit-field" value="rahul@email.com">
-    <input id="address" class="edit-field" value="Bhawanipatna, Odisha">
-
-    <button onclick="saveProfile()" class="save-btn">Save Profile</button>
+    <input class="edit-field" placeholder="Name">
+    <button onclick="saveProfile()">Save Profile</button>
   </div>
 
-  <!-- WISHLIST -->
-  <div class="card">
-    ❤️ Wishlist
-    <div id="wishlistItems"></div>
-  </div>
+  <div class="card" onclick="toggleWishlist()">❤️ Wishlist</div>
+  <div id="wishlistBox"></div>
 
-  <!-- ORDER HISTORY -->
-  <div class="card">
-    📦 Order History
-    <div class="orders">
-      <div class="order-item">Silver Watch – ₹3,999</div>
-      <div class="order-item">Running Shoes – ₹2,499</div>
-      <div class="order-item">Face Serum – ₹799</div>
-    </div>
-  </div>
+  <div class="card" onclick="toggleAI()">⚙ AI Settings</div>
+  <div id="aiBox">AI Settings Ready ✔</div>
 
-  <!-- AI SETTINGS BUTTON -->
-  <div class="card" onclick="toggleAISettings()">
-    ⚙ AI Settings
-  </div>
-
-  <!-- AI SETTINGS PANEL -->
-  <div id="aiSettingsBox" class="card" style="display:none;">
-    <label>AI Gender</label>
-    <select>
-      <option>Male</option>
-      <option>Female</option>
-    </select>
-
-    <label>AI Voice</label>
-    <select>
-      <option>Male Voice</option>
-      <option>Female Voice</option>
-    </select>
-
-    <label>AI Name</label>
-    <input type="text" placeholder="Enter AI name">
-  </div>
-
-  <!-- LOGOUT -->
-  <button class="logout" onclick="logout()">Logout</button>
-
+  <button class="logout">Logout</button>
 </div>
 
 <script src="profile.js"></script>
-
-<script>
-function toggleAISettings(){
-  const box = document.getElementById("aiSettingsBox");
-  box.style.display = box.style.display === "none" ? "block" : "none";
-}
-</script>
-
 </body>
 </html>
