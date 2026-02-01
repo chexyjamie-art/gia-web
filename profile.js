@@ -192,3 +192,94 @@ function removeWishlist(index){
   localStorage.setItem("wishlist", JSON.stringify(items));
   loadWishlist();
 }
+
+// ================= PROFILE JS =================
+
+// Load saved profile & wishlist
+window.onload = function(){
+  // --- Profile Data ---
+  if(localStorage.getItem("userProfile")){
+    const data = JSON.parse(localStorage.getItem("userProfile"));
+    document.getElementById("name").value = data.name || "";
+    document.getElementById("gender").value = data.gender || "";
+    document.getElementById("mobile").value = data.mobile || "";
+    document.getElementById("email").value = data.email || "";
+    document.getElementById("address").value = data.address || "";
+    if(data.dp){
+      document.getElementById("profilePic").src = data.dp;
+    }
+  }
+
+  // --- Wishlist Auto Scroll ---
+  if(window.location.hash === "#wishlist"){
+    scrollToWishlist();
+  }
+
+  // --- Render Wishlist Items ---
+  renderWishlist();
+}
+
+// Save profile
+function saveProfile(){
+  const profileData = {
+    name: document.getElementById("name").value,
+    gender: document.getElementById("gender").value,
+    mobile: document.getElementById("mobile").value,
+    email: document.getElementById("email").value,
+    address: document.getElementById("address").value,
+    dp: document.getElementById("profilePic").src
+  };
+
+  localStorage.setItem("userProfile", JSON.stringify(profileData));
+  alert("Profile saved successfully!");
+}
+
+// Change DP
+function changeDP(event){
+  const reader = new FileReader();
+  reader.onload = function(){
+    document.getElementById("profilePic").src = reader.result;
+  }
+  reader.readAsDataURL(event.target.files[0]);
+}
+
+// ================= WISHLIST SYSTEM =================
+function scrollToWishlist(){
+  const wishlistDiv = document.getElementById("wishlistItems");
+  if(wishlistDiv){
+    wishlistDiv.scrollIntoView({behavior: "smooth"});
+  }
+}
+
+// Render Wishlist Items
+function renderWishlist(){
+  const wishlistDiv = document.getElementById("wishlistItems");
+  wishlistDiv.innerHTML = ""; // clear previous
+
+  let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+  if(wishlist.length === 0){
+    wishlistDiv.innerHTML = "<p>Your wishlist is empty ❤️</p>";
+    return;
+  }
+
+  wishlist.forEach(itemId => {
+    // For demo, we can map itemId to product info (replace with real data if available)
+    const productName = itemId; // in real: map to name
+    const productHTML = `
+      <div class="wishlist-item">
+        ${productName} 
+        <button onclick="removeFromWishlist('${itemId}')">❤️ Remove</button>
+      </div>
+    `;
+    wishlistDiv.innerHTML += productHTML;
+  });
+}
+
+// Remove from Wishlist
+function removeFromWishlist(itemId){
+  let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+  wishlist = wishlist.filter(id => id !== itemId);
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  renderWishlist();
+}
