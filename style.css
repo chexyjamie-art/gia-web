@@ -1,151 +1,98 @@
-:root {
-    --primary-gradient: linear-gradient(90deg, #e0f2ff, #f3e8ff, #e0f2ff);
-    --btn-gradient: linear-gradient(to right, #7ea9d6, #b099d8);
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
-body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background-color: #fcfcfc;
-    color: #333;
-}
+body { background-color: #ffffff; color: #333; }
 
-/* Navbar */
-.top-nav {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 40px;
-    background: white;
-    font-size: 14px;
-    align-items: center;
-}
+/* Navigation */
+.navbar { display: flex; justify-content: space-between; padding: 20px 40px; font-size: 14px; align-items: center; }
+.user-avatar { width: 32px; height: 32px; border-radius: 50%; margin-left: 10px; }
 
-.nav-right i { margin-left: 20px; color: #666; cursor: pointer; }
-.user-avatar { width: 30px; border-radius: 50%; vertical-align: middle; margin-left: 15px; }
-
-/* Header & Logo */
-.header-section {
-    text-align: center;
-    padding: 40px 20px;
-    background: var(--primary-gradient);
-    background-size: 200% 200%;
-}
-
-.gia-logo {
+/* Logo Design - Gold Line */
+.logo-wrapper { text-align: center; margin-top: 20px; }
+.gia-signature {
     font-family: 'Playfair Display', serif;
-    font-size: 48px;
+    font-size: 52px;
     font-style: italic;
-    color: #555;
+    color: #444;
     position: relative;
     display: inline-block;
 }
-
-.gia-logo::after {
+.gia-signature::after {
     content: '';
     position: absolute;
-    width: 120%;
+    width: 140%;
     height: 1px;
-    background: gold;
-    bottom: 5px;
-    left: -10%;
+    background: linear-gradient(to right, transparent, #d4af37, transparent);
+    bottom: 12px;
+    left: -20%;
+}
+.tagline { font-size: 10px; letter-spacing: 4px; color: #999; margin-top: -5px; text-transform: uppercase; }
+
+/* Search Section & Colorful Waves */
+.search-section {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0;
+    min-height: 100px;
 }
 
-/* Search Bar */
-.search-wrapper {
-    margin: 30px auto;
-    max-width: 600px;
+.wave-decoration {
+    position: absolute;
+    width: 350px;
+    height: 120px;
+    z-index: 1;
+    filter: blur(35px);
+    opacity: 0.5;
 }
 
-.search-bar {
+.left-wave {
+    left: 10%;
+    background: radial-gradient(circle, #a1c4fd 0%, #c2e9fb 100%);
+    border-radius: 50% 100% 50% 100%;
+}
+
+.right-wave {
+    right: 10%;
+    background: radial-gradient(circle, #d4fc79 0%, #96e6a1 100%);
+    border-radius: 100% 50% 100% 50%;
+}
+
+.search-container {
+    position: relative;
+    z-index: 5;
     background: white;
-    padding: 12px 25px;
+    width: 550px;
+    padding: 14px 25px;
     border-radius: 50px;
     display: flex;
     align-items: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
 }
 
-.search-bar input {
-    border: none;
-    outline: none;
-    width: 100%;
-    padding: 0 15px;
-    font-style: italic;
-    color: #888;
-}
+.search-container input { border: none; outline: none; flex: 1; padding: 0 15px; font-style: italic; font-size: 15px; color: #666; }
+.ai-sparkle { font-size: 20px; cursor: pointer; }
 
-.sparkle-icon { width: 40px; }
+/* Text Content */
+h1 { text-align: center; font-weight: 400; font-size: 30px; margin-top: 20px; }
+.subtitle { text-align: center; color: #aaa; margin-bottom: 40px; }
 
-/* Tabs */
-.category-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    padding: 20px;
-    background: white;
-    border-bottom: 1px solid #eee;
-}
-
-.tab { color: #888; cursor: pointer; font-weight: 500; }
-.tab.active { color: #333; border-bottom: 2px solid #7ea9d6; }
+/* Tab Bar */
+.tab-bar { display: flex; justify-content: center; gap: 40px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+.tab-bar span { cursor: pointer; color: #999; font-weight: 500; font-size: 15px; }
+.tab-bar span.active { color: #333; border-bottom: 2px solid #a1c4fd; }
 
 /* Product Grid */
-.container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-}
+.grid-container { max-width: 1100px; margin: 40px auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; padding: 0 20px; }
+.card { background: white; border: 1px solid #f2f2f2; padding: 25px; border-radius: 18px; text-align: center; position: relative; transition: 0.3s; }
+.card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.04); }
 
-.product-card {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
-    border: 1px solid #f0f0f0;
-    transition: 0.3s;
-    position: relative;
-}
+.badge { position: absolute; top: 15px; left: 15px; font-size: 10px; padding: 5px 12px; border-radius: 5px; font-weight: 600; }
+.ai-selected { background: #fdf2f2; color: #d68b8b; }
+.verified { background: #f0f7ff; color: #6b93d6; }
 
-.card-tag {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    font-size: 11px;
-    background: #fdf2f2;
-    padding: 4px 10px;
-    border-radius: 5px;
-    color: #d68b8b;
-}
-
-.card-tag.blue { background: #f0f7ff; color: #6b93d6; }
-
-.product-card img {
-    width: 100%;
-    height: 180px;
-    object-fit: contain;
-    margin: 20px 0;
-}
-
-.buy-now-btn {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 25px;
-    background: var(--btn-gradient);
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 15px;
-}
-
-/* Footer */
-.bottom-footer {
-    background: #1a1a1a;
-    color: white;
-    padding: 40px;
-    text-align: center;
-    margin-top: 50px;
-}
-
-.footer-logo { font-family: 'Playfair Display', serif; font-size: 30px; margin-bottom: 10px; }
-.footer-links a { color: #888; text-decoration: none; margin: 0 10px; font-size: 13px; }
+.card img { width: 100%; height: 160px; object-fit: contain; margin: 20px 0; }
+.card h3 { font-size: 16px; color: #555; font-weight: 400; }
+.price { font-weight: 700; font-size: 19px; margin: 15px 0; }
+.buy-btn { width: 100%; padding: 12px; border-radius: 25px; border: none; background: linear-gradient(90deg, #a1c4fd 0%, #c2e9fb 100%); color: white; font-weight: 600; cursor: pointer; }
