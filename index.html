@@ -14,8 +14,11 @@
 <header class="header">
   <div class="menu-left" onclick="openMenu()">☰ <span>Menu</span></div>
 
+  <div class="logo">GIA</div>
+
   <div class="right">
-    <span onclick="toggleHomeWishlist()">Wishlist</span>
+    <span class="notif">🔔</span>
+    <span onclick="toggleWishlist()">Wishlist</span>
     <img src="https://i.pravatar.cc/40" class="profile" onclick="openProfile()">
   </div>
 </header>
@@ -27,51 +30,86 @@
   <a href="profile.html">Profile</a>
 </div>
 
-<!-- HOME WISHLIST POPUP -->
-<div id="homeWishlist" class="home-wishlist">
+<!-- WISHLIST DRAWER -->
+<div id="homeWishlist" class="wishlist-drawer">
   <h3>Your Wishlist ❤️</h3>
-  <div id="homeWishlistItems">Your wishlist is empty ❤️</div>
+  <div id="homeWishlistItems"></div>
 </div>
 
 <!-- CENTER -->
 <div class="center">
-  <div class="search-box">
+
+  <div class="search-box premium-glow">
     <input type="text" placeholder="Ask AI anything...">
   </div>
 
   <h1 class="hero-title">Curated luxury for you, Rahul</h1>
   <p class="hero-sub">Smart choices recommended by AI.</p>
+
 </div>
 
-<!-- PRODUCTS -->
+<!-- TRENDING PRODUCTS -->
 <section class="ai-picks">
   <h2 class="ai-title">Trending Products</h2>
 
-  <div class="products-center">
-    <div class="ai-card">Luxury Watch</div>
-    <div class="ai-card">Skincare Set</div>
-    <div class="ai-card">Premium Shoes</div>
-  </div>
+  <div class="product-grid">
+    <div class="product-card">
+      <img src="https://via.placeholder.com/200">
+      <h3>Luxury Watch</h3>
+      <p>₹8,999</p>
+      <div class="actions">
+        <span onclick="addToWishlist('Luxury Watch')">❤️</span>
+        <button>Buy Now →</button>
+      </div>
+    </div>
 
-  <h2 class="ai-title">Combo Deals</h2>
+    <div class="product-card">
+      <img src="https://via.placeholder.com/200">
+      <h3>Premium Shoes</h3>
+      <p>₹5,499</p>
+      <div class="actions">
+        <span onclick="addToWishlist('Premium Shoes')">❤️</span>
+        <button>Buy Now →</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://via.placeholder.com/200">
+      <h3>Skin Care Set</h3>
+      <p>₹1,899</p>
+      <div class="actions">
+        <span onclick="addToWishlist('Skin Care Set')">❤️</span>
+        <button>Buy Now →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMBO -->
+<section class="ai-picks">
+  <h2 class="ai-title">Premium Combos</h2>
+
   <div class="horizontal-scroll">
-    <div class="ai-card">Watch + Wallet</div>
-    <div class="ai-card">Skin Combo</div>
+    <div class="combo-card">
+      <img src="https://via.placeholder.com/220">
+      <h4>Complete Glow Combo</h4>
+      <button>View Details →</button>
+    </div>
+
+    <div class="combo-card">
+      <img src="https://via.placeholder.com/220">
+      <h4>Watch + Wallet</h4>
+      <button>View Details →</button>
+    </div>
   </div>
 </section>
 
 <footer class="footer">
-  <a href="#">Terms & Conditions</a> |
-  <a href="#">Privacy Policy</a> |
-  <a href="#">Refund Policy</a>
+  <a href="terms.html">Terms & Conditions</a> |
+  <a href="privacy.html">Privacy Policy</a> |
+  <a href="refund.html">Refund Policy</a>
 </footer>
 
 <script src="app.js"></script>
-<script>
-function openProfile(){ location.href="profile.html"; }
-function openMenu(){ sideMenu.style.width="250px"; }
-function closeMenu(){ sideMenu.style.width="0"; }
-</script>
-
 </body>
 </html>
