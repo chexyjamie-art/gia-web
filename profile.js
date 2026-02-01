@@ -137,3 +137,29 @@ window.onload = function () {
   loadProfileData();
   loadWishlist();
 };
+
+function loadWishlist() {
+  const wishlist = JSON.parse(localStorage.getItem("giaWishlist")) || [];
+  const wishlistBox = document.getElementById("wishlistItems");
+
+  if (!wishlistBox) return;
+
+  wishlistBox.innerHTML = "";
+
+  wishlist.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "order-item";
+
+    div.innerHTML = `
+      <p>${item.name} – ${item.price}</p>
+      <a href="${item.link}" target="_blank" class="buy-btn">Buy Now</a>
+    `;
+
+    wishlistBox.appendChild(div);
+  });
+}
+
+window.onload = function () {
+  loadProfileData();
+  loadWishlist();
+};
