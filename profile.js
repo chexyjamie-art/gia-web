@@ -114,3 +114,26 @@ function loadProfileData() {
 document.querySelectorAll(".edit-field").forEach(field => {
   field.addEventListener("input", saveProfile);
 });
+
+// ================= LOAD WISHLIST IN PROFILE =================
+
+function loadWishlist() {
+  const wishlist = JSON.parse(localStorage.getItem("giaWishlist")) || [];
+  const wishlistBox = document.getElementById("wishlistItems");
+
+  if (!wishlistBox) return;
+
+  wishlistBox.innerHTML = "";
+
+  wishlist.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "order-item";
+    div.innerText = item.name + " – " + item.price;
+    wishlistBox.appendChild(div);
+  });
+}
+
+window.onload = function () {
+  loadProfileData();
+  loadWishlist();
+};
