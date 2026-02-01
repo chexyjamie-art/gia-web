@@ -1,118 +1,102 @@
 body {
   margin: 0;
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(to bottom, #ffffff, #f8f9fb);
+  font-family: Inter, sans-serif;
+  background: #f7f8fa;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.profile {
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 /* CENTER */
 .center {
   text-align: center;
-  margin-top: 140px; /* SEARCH BAR NICHE AAYA */
+  margin-top: 80px;
 }
 
-/* SEARCH BAR */
+/* SEARCH */
 .search-box {
-  display: flex;
-  align-items: center;
-  border: 1px solid #e5e5e5;
-  border-radius: 30px;
-  padding: 14px 20px;
   width: 90%;
-  max-width: 550px;
+  max-width: 520px;
   margin: auto;
   background: white;
+  padding: 14px 20px;
+  border-radius: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* PREMIUM GLOW */
-.premium-glow {
-  box-shadow: 0 0 0 rgba(0,0,0,0);
-}
-
-.search-box input {
-  border: none;
-  outline: none;
-  width: 100%;
-  font-size: 15px;
-}
-
-.icon {
-  width: 22px;
-  height: 22px;
-  margin-left: 12px;
-  cursor: pointer;
-  opacity: 0.6;
-}
-
-/* HERO TEXT */
 .hero-title {
+  margin-top: 25px;
   font-family: 'Playfair Display', serif;
-  margin-top: 22px;
-  font-size: 30px;
 }
 
-.hero-sub {
-  color: #777;
-  margin-bottom: 10px;
-}
-
-/* AI PICKS */
 .ai-picks {
   margin-top: 60px;
   padding: 20px;
-}
-
-.ai-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  margin-bottom: 20px;
   text-align: center;
 }
 
-/* HORIZONTAL SCROLL */
+/* CARDS */
 .horizontal-scroll {
   display: flex;
   gap: 15px;
   overflow-x: auto;
-  padding-bottom: 10px;
-}
-
-.horizontal-scroll::-webkit-scrollbar {
-  display: none;
 }
 
 .ai-card {
   min-width: 220px;
-  border-radius: 16px;
-  padding: 15px;
   background: white;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-  flex-shrink: 0;
+  padding: 14px;
+  border-radius: 16px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
 }
 
-.ai-card img {
-  width: 100%;
-  border-radius: 12px;
-}
-
-.ai-card h3 {
-  margin: 10px 0 5px;
-}
-
-.ai-card p {
-  color: gray;
-  font-size: 13px;
-}
-
-.ai-card button {
-  margin-top: 8px;
-  padding: 8px;
-  width: 100%;
-  border-radius: 20px;
-  border: none;
-  cursor: pointer;
+.combo-card {
+  margin: 30px auto;
+  max-width: 520px;
+  background: white;
+  padding: 15px;
+  border-radius: 18px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
 }
 
 .buy-btn {
   background: black;
   color: white;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 22px;
+}
+
+/* WISHLIST DRAWER */
+.home-wishlist {
+  position: fixed;
+  right: -100%;
+  top: 0;
+  width: 260px;
+  height: 100%;
+  background: white;
+  padding: 15px;
+  transition: 0.3s;
+  box-shadow: -4px 0 10px rgba(0,0,0,0.1);
+}
+
+.home-wishlist.open {
+  right: 0;
+}
+
+.footer {
+  text-align: center;
+  padding: 15px;
 }
