@@ -149,3 +149,31 @@ function toggleWishlist(productId) {
   localStorage.setItem("wishlist", JSON.stringify(wishlist));
   alert("Wishlist updated ❤️");
 }
+
+// ====== ADD THIS TO BOTTOM OF app.js ======
+
+// Wishlist UI toggle
+function toggleWishlist(productId, btn){
+  let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+  if (wishlist.includes(productId)) {
+    wishlist = wishlist.filter(id => id !== productId);
+    btn.innerText = "♡ Wishlist"; // empty heart
+  } else {
+    wishlist.push(productId);
+    btn.innerText = "❤️ Wishlist"; // filled heart
+  }
+
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+}
+
+// Load wishlist state on page load (for AI picks)
+window.addEventListener("DOMContentLoaded", () => {
+  let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+  document.querySelectorAll(".ai-card button").forEach(btn => {
+    const productId = btn.getAttribute("onclick").match(/'(.+?)'/)[1];
+    if(wishlist.includes(productId)){
+      btn.innerText = "❤️ Wishlist";
+    }
+  });
+});
