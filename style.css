@@ -234,3 +234,60 @@ p {
   padding: 8px;
   margin: 8px 0 15px;
 }
+
+/* ================= AI PICKS ================= */
+
+.ai-picks {
+  margin-top: 40px;
+  padding: 20px;
+  text-align: center;
+}
+
+.ai-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.ai-cards {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.ai-card {
+  width: 220px;
+  border-radius: 15px;
+  padding: 15px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.ai-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.ai-card h3 {
+  margin: 10px 0 5px;
+}
+
+.ai-card p {
+  color: gray;
+  font-size: 13px;
+}
+
+.ai-card button {
+  margin-top: 8px;
+  padding: 8px;
+  width: 100%;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.buy-btn {
+  background: black;
+  color: white;
+}
