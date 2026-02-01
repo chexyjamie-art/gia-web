@@ -177,3 +177,8 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+function openWishlist(){
+  // Agar user profile pe hai, wishlist section khulega
+  window.location.href = "profile.html#wishlist";
+}
