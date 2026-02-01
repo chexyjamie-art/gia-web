@@ -1,101 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GIA AI Stylist</title>
-
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIA AI Stylist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- HEADER -->
-<header class="header">
-  <div class="menu" onclick="openMenu()">☰</div>
+    <header>
+        <div class="logo">GIA <span style="font-weight: 300; font-size: 16px; letter-spacing: 3px;">AI STYLIST</span></div>
+        <p class="welcome-text">Welcome, Rahul!</p>
+    </header>
 
-  <div class="header-right">
-    <span class="nav-link" onclick="goWishlist()">Wishlist</span>
-    <span class="nav-link">Notifications</span>
-    <img src="https://i.pravatar.cc/40" class="profile-icon" onclick="openProfile()">
-  </div>
-</header>
+    <main class="container">
+        <div class="search-container">
+            <input type="text" placeholder="Search for the best styles...">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </div>
 
-<!-- SIDE MENU -->
-<div id="sideMenu" class="side-menu">
-  <span class="close" onclick="closeMenu()">✖</span>
-  <a href="index.html">Home</a>
-  <a href="profile.html">Profile</a>
-</div>
+        <section class="hero-text">
+            <h1>Curated luxury for you, Rahul</h1>
+            <p>Smart choices recommended by AI</p>
+        </section>
 
-<!-- SEARCH -->
-<section class="hero">
-  <div class="search-box">
-    <input type="text" placeholder="Ask AI anything…">
-  </div>
+        <div class="section-divider">
+            <span>AI Picks for You</span>
+        </div>
 
-  <h1>Curated luxury for you, Rahul</h1>
-  <p>Smart choices recommended by AI</p>
-</section>
+        <div class="product-grid">
+            <div class="card">
+                <span class="badge">Best Pick for You</span>
+                <img src="https://m.media-amazon.com/images/I/71Xm6I2InML._AC_UY1000_.jpg" alt="Watch">
+                <h3>Stylish & Under ₹10k</h3>
+                <p class="price">₹8,999</p>
+                <button class="buy-btn">Buy Now <i class="fa fa-chevron-right"></i></button>
+            </div>
 
-<!-- AI PICKS -->
-<section class="ai-picks">
-  <h2>AI Picks for You</h2>
+            <div class="card">
+                <span class="badge">Premium Choice</span>
+                <img src="https://m.media-amazon.com/images/I/61ZjlBOp+rL._AC_SL1500_.jpg" alt="Luxury Watch">
+                <h3>AI selected luxury gadget</h3>
+                <p class="price">₹22,999</p>
+                <button class="buy-btn">Buy Now <i class="fa fa-chevron-right"></i></button>
+            </div>
 
-  <!-- TOP PRODUCTS -->
-  <div class="product-row">
-    <div class="product-card">
-      <span class="tag">Best Pick</span>
-      <img src="https://via.placeholder.com/220">
-      <h3>Stylish Watch</h3>
-      <p>Under ₹10,000</p>
-      <h4>₹8,999</h4>
-      <a href="#" class="buy-btn">Buy Now</a>
-    </div>
+            <div class="card">
+                <span class="badge">Value for Money</span>
+                <img src="https://m.media-amazon.com/images/I/51waXvYh92L._SL1500_.jpg" alt="Earbuds">
+                <h3>High quality at great price</h3>
+                <p class="price">₹1,899</p>
+                <button class="buy-btn">Buy Now <i class="fa fa-chevron-right"></i></button>
+            </div>
+        </div>
 
-    <div class="product-card">
-      <span class="tag">Premium</span>
-      <img src="https://via.placeholder.com/220">
-      <h3>Luxury Watch</h3>
-      <p>AI Selected</p>
-      <h4>₹22,999</h4>
-      <a href="#" class="buy-btn">Buy Now</a>
-    </div>
+        <div class="featured-banner">
+            <div class="banner-img">
+                <img src="https://m.media-amazon.com/images/I/61SInmI-p6L._SL1500_.jpg" alt="Skincare">
+            </div>
+            <div class="banner-content">
+                <h2>Complete Glow Combo</h2>
+                <p>Picked by AI for Indian climate</p>
+                <button class="details-btn">View Details <i class="fa fa-chevron-right"></i></button>
+            </div>
+        </div>
 
-    <div class="product-card">
-      <span class="tag">Value</span>
-      <img src="https://via.placeholder.com/220">
-      <h3>Wireless Buds</h3>
-      <p>Best Price</p>
-      <h4>₹1,899</h4>
-      <a href="#" class="buy-btn">Buy Now</a>
-    </div>
-  </div>
+        <div class="trust-footer">
+            <span><i class="fa fa-check-circle"></i> Honest AI (Don't buy advice)</span>
+            <span><i class="fa fa-check-circle"></i> No fake discounts</span>
+            <span><i class="fa fa-check-circle"></i> Buy from Amazon / Nykaa</span>
+        </div>
+    </main>
 
-  <!-- COMBO (SAME WIDTH AS ABOVE) -->
-  <div class="combo-card">
-    <img src="https://via.placeholder.com/300x200">
-    <div>
-      <h3>Complete Glow Combo</h3>
-      <p>Picked by AI for Indian climate</p>
-      <a href="#" class="buy-btn">View Details</a>
-    </div>
-  </div>
+    <footer class="footer-links">
+        <a href="#">Terms</a> | <a href="#">Privacy</a> | <a href="#">Conditions</a>
+    </footer>
 
-  <div class="trust">
-    ✔ Honest AI (Don’t buy advice)
-    ✔ No fake discounts
-    ✔ Buy from Amazon / Nykaa
-  </div>
-</section>
-
-<footer>
-  <a href="#">Terms</a> |
-  <a href="#">Privacy</a> |
-  <a href="#">Policy</a>
-</footer>
-
-<script src="app.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
