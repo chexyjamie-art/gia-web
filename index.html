@@ -11,12 +11,12 @@
 
 <body>
 
+<!-- HEADER -->
 <header class="header">
-  <div class="menu-left" onclick="openMenu()">☰ <span>Menu</span></div>
+  <div class="menu-left" onclick="openMenu()">☰ Menu</div>
 
-  <div class="right">
-    <span>Notifications</span>
-    <span onclick="goWishlist()">Wishlist</span>
+  <div class="header-right">
+    <span class="notif">🔔 Notifications</span>
     <img src="https://i.pravatar.cc/40" class="profile" onclick="openProfile()">
   </div>
 </header>
@@ -26,78 +26,60 @@
   <span class="close-btn" onclick="closeMenu()">✖</span>
   <a href="index.html">Home</a>
   <a href="profile.html">Profile</a>
-  <a href="#">Wishlist</a>
+  <a href="#" onclick="toggleWishlist()">Wishlist</a>
 </div>
 
-<!-- CENTER -->
+<!-- HOME WISHLIST DRAWER -->
+<div id="homeWishlist" class="home-wishlist">
+  <h3>❤️ Wishlist</h3>
+  <div id="homeWishlistItems"></div>
+</div>
+
+<!-- CENTER SEARCH -->
 <div class="center">
-
-  <!-- SEARCH BAR -->
   <div class="search-box premium-glow">
-    <input type="text" id="aiSearch" placeholder="Ask AI anything...">
-
-    <svg class="icon" viewBox="0 0 24 24">
-      <path d="M16.5 6.5L8 15a3 3 0 104.2 4.2l7.3-7.3a5 5 0 10-7.1-7.1L4.8 12.4"
-            stroke="black" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    </svg>
-
-    <svg class="icon" viewBox="0 0 24 24" onclick="startVoiceSearch()">
-      <path d="M12 3a3 3 0 013 3v6a3 3 0 01-6 0V6a3 3 0 013-3z"
-            stroke="black" stroke-width="1.5" fill="none"/>
-      <path d="M19 11a7 7 0 01-14 0M12 18v3"
-            stroke="black" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    </svg>
+    <input type="text" placeholder="Ask AI anything...">
   </div>
 
-  <!-- TEXT JUST BELOW SEARCH -->
   <h1 class="hero-title">Curated luxury for you, Rahul</h1>
-  <p class="hero-sub">Smart choices recommended by AI.</p>
-
-  <div id="aiResponse" class="ai-response"></div>
+  <p class="hero-sub">Smart choices recommended by AI</p>
 </div>
 
-<!-- TRENDING / COMBO PRODUCTS -->
+<!-- TRENDING PRODUCTS -->
 <section class="ai-picks">
-  <h2 class="ai-title">Trending Premium Combos</h2>
+  <h2 class="ai-title">Trending Products</h2>
 
-  <div class="ai-cards horizontal-scroll">
+  <div class="horizontal-scroll">
     <div class="ai-card">
       <img src="https://via.placeholder.com/220">
       <h3>Luxury Watch</h3>
-      <p>Premium • Bestseller</p>
-      <button>♡ Wishlist</button>
-      <button class="buy-btn">Buy Now</button>
-    </div>
-
-    <div class="ai-card">
-      <img src="https://via.placeholder.com/220">
-      <h3>Skincare Combo</h3>
-      <p>Glow • Dermatologist Pick</p>
-      <button>♡ Wishlist</button>
+      <button onclick="addToWishlist('Luxury Watch')">❤️ Wishlist</button>
       <button class="buy-btn">Buy Now</button>
     </div>
 
     <div class="ai-card">
       <img src="https://via.placeholder.com/220">
       <h3>Premium Sneakers</h3>
-      <p>Comfort • Trending</p>
-      <button>♡ Wishlist</button>
+      <button onclick="addToWishlist('Premium Sneakers')">❤️ Wishlist</button>
       <button class="buy-btn">Buy Now</button>
     </div>
+  </div>
+
+  <!-- COMBO CARD -->
+  <div class="combo-card">
+    <img src="https://via.placeholder.com/500x220">
+    <h3>🔥 Smart Combo Deal</h3>
+    <p>Best value picked by AI</p>
+    <button class="buy-btn">Buy Combo</button>
   </div>
 </section>
 
 <footer class="footer">
-  Terms | Privacy | Conditions
+  <a href="terms.html">Terms</a> |
+  <a href="privacy.html">Privacy</a> |
+  <a href="policy.html">Policy</a>
 </footer>
 
 <script src="app.js"></script>
-<script>
-function openProfile(){ window.location.href = "profile.html"; }
-function goWishlist(){ window.location.href = "profile.html#wishlist"; }
-function openMenu(){ document.getElementById("sideMenu").style.width = "250px"; }
-function closeMenu(){ document.getElementById("sideMenu").style.width = "0"; }
-</script>
-
 </body>
 </html>
