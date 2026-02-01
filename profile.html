@@ -1,52 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Profile – GIA AI Stylist</title>
+<title>Profile</title>
 <link rel="stylesheet" href="profile.css">
 </head>
-
 <body>
 
 <div class="profile-container">
 
-  <!-- PROFILE HEADER -->
-  <div class="profile-header">
-    <img src="https://i.pravatar.cc/120" class="dp" id="profilePic">
+<img id="profilePic" src="https://i.pravatar.cc/120" class="dp" onclick="uploadDP()">
+<input type="file" id="dpInput" hidden onchange="changeDP(event)">
 
-    <input class="edit-field" id="name" placeholder="Your Name">
-    <input class="edit-field" id="gender" placeholder="Gender">
-    <input class="edit-field" id="mobile" placeholder="Mobile">
-    <input class="edit-field" id="email" placeholder="Email">
-    <input class="edit-field" id="address" placeholder="Address">
+<input class="edit-field" id="name" placeholder="Name">
+<input class="edit-field" id="mobile" placeholder="Mobile">
 
-    <button class="save-btn" onclick="saveProfile()">Save Profile</button>
-  </div>
+<button onclick="saveProfile()">Save</button>
 
-  <!-- WISHLIST TOGGLE -->
-  <div class="card" onclick="toggleWishlist()">
-    ❤️ Wishlist
-  </div>
+<div class="card" onclick="toggleWishlist()">❤️ Wishlist</div>
+<div id="wishlistBox"></div>
 
-  <!-- WISHLIST BOX -->
-  <div id="wishlistBox" class="card" style="display:none;">
-    <div id="wishlistItems">Your wishlist is empty ❤️</div>
-  </div>
-
-  <!-- ORDER HISTORY -->
-  <div class="card">
-    📦 Order History
-    <div class="order-item">Silver Watch – ₹3,999</div>
-    <div class="order-item">Running Shoes – ₹2,499</div>
-  </div>
-
-  <!-- AI SETTINGS -->
-  <div class="card">
-    ⚙ AI Settings (coming soon)
-  </div>
-
-  <button class="logout">Logout</button>
+<div class="card" onclick="toggleAI()">⚙ AI Settings</div>
+<div id="aiBox">AI Gender, Voice, Name</div>
 
 </div>
 
