@@ -1,6 +1,13 @@
 const profileBtn = document.getElementById('profileBtn');
-const profilePage = document.getElementById('profile-page');
+const profileSection = document.getElementById('profile-section');
 const closeBtn = document.getElementById('closeProfile');
 
-profileBtn.onclick = () => profilePage.classList.remove('hidden');
-closeBtn.onclick = () => profilePage.classList.add('hidden');
+profileBtn.onclick = () => {
+    profileSection.classList.remove('hidden');
+    document.body.style.overflow = 'hidden'; // Stop scrolling
+};
+
+closeBtn.onclick = () => {
+    profileSection.classList.add('hidden');
+    document.body.style.overflow = 'auto'; // Enable scrolling
+};
