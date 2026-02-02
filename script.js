@@ -38,3 +38,18 @@ profileDp.addEventListener('click', () => {
     profilePopup.style.display =
         profilePopup.style.display === "block" ? "none" : "block";
 });
+
+function openImageOptions() {
+    document.getElementById('dpUpload').click();
+}
+
+document.getElementById('dpUpload').addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function () {
+        document.getElementById('profileImage').src = reader.result;
+    };
+    reader.readAsDataURL(file);
+});
