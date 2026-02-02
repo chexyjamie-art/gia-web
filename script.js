@@ -1,15 +1,19 @@
-// Tab switching logic
-document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', function() {
-        document.querySelector('.tab.active').classList.remove('active');
-        this.classList.add('active');
-    });
+const profileBtn = document.getElementById('profileBtn');
+const backBtn = document.getElementById('backBtn');
+const mainContent = document.getElementById('main-content');
+const profilePage = document.getElementById('profile-page');
+const topNav = document.querySelector('.top-nav');
+
+// Open Profile Page
+profileBtn.addEventListener('click', () => {
+    mainContent.classList.add('hidden');
+    topNav.classList.add('hidden');
+    profilePage.classList.remove('hidden');
 });
 
-// Buy button effect
-document.querySelectorAll('.buy-now-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        btn.innerHTML = "Added! ✓";
-        setTimeout(() => { btn.innerHTML = "Buy Now →"; }, 2000);
-    });
+// Close Profile Page
+backBtn.addEventListener('click', () => {
+    mainContent.classList.remove('hidden');
+    topNav.classList.remove('hidden');
+    profilePage.classList.add('hidden');
 });
