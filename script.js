@@ -63,3 +63,15 @@ document.getElementById('dpUpload').addEventListener('change', function (e) {
     };
     reader.readAsDataURL(file);
 });
+
+function toggleBox(id) {
+    const box = document.getElementById(id);
+    box.style.display = box.style.display === "block" ? "none" : "block";
+}
+
+document.getElementById("dpUpload").addEventListener("change", function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        document.getElementById("profileDp").src = URL.createObjectURL(file);
+    }
+});
