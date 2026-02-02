@@ -1,4 +1,14 @@
-// Jab user 'Buy Now' button pe click karega
+function toggleBox(id) {
+    const box = document.getElementById(id);
+    box.style.display = box.style.display === "block" ? "none" : "block";
+}
+
+document.getElementById("dpUpload").addEventListener("change", function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        document.getElementById("profileDp").src = URL.createObjectURL(file);
+    }
+});// Jab user 'Buy Now' button pe click karega
 document.querySelectorAll('.buy-btn').forEach(button => {
     button.addEventListener('click', () => {
         alert('Product added to your wishlist!');
