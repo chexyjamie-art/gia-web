@@ -1,111 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GLA - Smart AI Stylist</title>
-  <link rel="stylesheet" href="styles.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIA AI Stylist</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-  <!-- Header / Navbar -->
-  <header>
-    <nav class="navbar">
-      <div class="logo">G<span class="accent">l</span>A</div>
-      <div class="menu">
-        <ul>
-          <li><a href="#">Menu</a></li>
-          <li><a href="#">Shop</a></li>
-        </ul>
-      </div>
-      <div class="icons">
-        <span>🔔</span>
-        <span>💬</span>
-        <span>👤</span>
-      </div>
-    </nav>
-  </header>
+    <header>
+        <div class="logo">GIA <span>AI STYLIST</span></div>
+        <p class="welcome-text">Welcome, Rahul!</p>
+    </header>
 
-  <!-- Hero / Search Section -->
-  <section class="hero">
-    <div class="search-container">
-      <input type="text" placeholder="Luxury skincare for glowing skin?" class="search-bar"/>
-    </div>
-  </section>
+    <main class="container">
+        <div class="search-container">
+            <input type="text" placeholder="Search for the best styles...">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </div>
 
-  <!-- Greeting -->
-  <section class="greeting">
-    <h1>Curated luxury for you, <span class="name">Rahul</span></h1>
-    <p>Smart choices recommended by AI.</p>
-  </section>
+        <section class="hero-text">
+            <h1>Curated luxury for you, Rahul</h1>
+            <p>Smart choices recommended by AI</p>
+        </section>
 
-  <!-- Categories -->
-  <section class="categories">
-    <div class="tabs">
-      <button class="tab active">All</button>
-      <button class="tab">Watches</button>
-      <button class="tab">Skincare</button>
-      <button class="tab">Electronics</button>
-      <button class="tab">Shoes</button>
-      <button class="tab">Shoes</button> <!-- duplicate jaise screenshot mein -->
-      <button class="tab">Shpt</button>
-    </div>
-  </section>
+        <div class="section-divider">
+            <span>AI Picks for You</span>
+        </div>
 
-  <!-- Products Section -->
-  <section class="products">
-    <h2 class="section-title">Watches <span class="why">why these?</span></h2>
-    <div class="product-grid">
-      
-      <div class="product-card">
-        <div class="badge ai">AI Selected</div>
-        <img src="https://via.placeholder.com/300x300?text=Fossil+Watch" alt="Fossil Grant Classic"/>
-        <h3>St Fossil Grant Classic</h3>
-        <p class="price">₹6,7495 - 8,095</p>
-        <div class="rating">★★★☆☆ 3.2</div>
-        <button class="buy-btn">Buy Now →</button>
-      </div>
+        <div class="product-grid">
+            <div class="card">
+                <span class="badge">Best Pick for You</span>
+                <img src="https://via.placeholder.com/150" alt="Watch">
+                <h3>Stylish & Under ₹10k</h3>
+                <p class="price">₹8,999</p>
+                <button class="buy-btn">Buy Now <i class="fa fa-chevron-right"></i></button>
+            </div>
 
-      <div class="product-card">
-        <div class="badge verified">Verified</div>
-        <img src="https://via.placeholder.com/300x300?text=Titan+Edge" alt="Titan Edge"/>
-        <h3>Titan Edge Ultra Thin</h3>
-        <p class="price">₹10,995 - 19,998</p>
-        <div class="rating">★★★★☆ 4.0</div>
-        <button class="buy-btn">Buy Now →</button>
-      </div>
+            <div class="card">
+                <span class="badge">Premium Choice</span>
+                <img src="https://via.placeholder.com/150" alt="Luxury Watch">
+                <h3>AI selected luxury gadget</h3>
+                <p class="price">₹22,999</p>
+                <button class="buy-btn">Buy Now <i class="fa fa-chevron-right"></i></button>
+            </div>
 
-      <div class="product-card">
-        <div class="badge verified">Verified</div>
-        <img src="https://via.placeholder.com/300x300?text=Seiko+ProspeX" alt="Seiko"/>
-        <h3>Seiko Prospex Solar</h3>
-        <p class="price">₹16,995 - 21,999</p>
-        <div class="rating">★★★★★ 4.7</div>
-        <button class="buy-btn">Buy Now →</button>
-      </div>
+            <div class="card">
+                <span class="badge">Value for Money</span>
+                <img src="https://via.placeholder.com/150" alt="Earbuds">
+                <h3>High quality at great price</h3>
+                <p class="price">₹1,899</p>
+                <button class="buy-btn">Buy Now <i class="fa fa-chevron-right"></i></button>
+            </div>
+        </div>
 
-      <div class="product-card more">
-        <img src="https://via.placeholder.com/300x300?text=More..." alt="More"/>
-        <h3>More...</h3>
-        <button class="buy-btn">Buy Now →</button>
-      </div>
+        <div class="featured-banner">
+            <div class="banner-img">
+                <img src="https://via.placeholder.com/200x120" alt="Skincare">
+            </div>
+            <div class="banner-content">
+                <h2>Complete Glow Combo</h2>
+                <p>Picked by AI for Indian climate</p>
+                <button class="details-btn">View Details <i class="fa fa-chevron-right"></i></button>
+            </div>
+        </div>
 
-    </div>
-  </section>
+        <div class="trust-footer">
+            <span><i class="fa fa-check-circle"></i> Honest AI (Don't buy advice)</span>
+            <span><i class="fa fa-check-circle"></i> No fake discounts</span>
+            <span><i class="fa fa-check-circle"></i> Buy from Amazon / Nykaa</span>
+        </div>
+    </main>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-content">
-      <div class="footer-logo">GLA</div>
-      <ul class="footer-links">
-        <li><a href="#">About</a></li>
-        <li><a href="#">FAQs</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </div>
-  </footer>
+    <footer>
+        <a href="#">Terms</a> | <a href="#">Privacy</a> | <a href="#">Conditions</a>
+    </footer>
 
-  <script src="script.js"></script>
 </body>
 </html>
