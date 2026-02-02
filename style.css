@@ -1,96 +1,31 @@
-/* Purana code base wahi hai, naye additions niche hain */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+body { background: #fff; }
 
-.top-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 40px;
-    background: #fff;
-    border-bottom: 1px solid #eee;
-}
-
-.nav-left .menu-btn { font-weight: 600; cursor: pointer; }
+/* Top Nav */
+.top-nav { display: flex; justify-content: space-between; padding: 15px 40px; background: #fff; font-size: 13px; color: #555; align-items: center; }
 .nav-right { display: flex; align-items: center; gap: 20px; }
-.nav-right span { cursor: pointer; font-size: 14px; color: #555; }
+.profile-img { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 1px solid #ddd; }
 
-.profile-trigger {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid #ddd;
-}
+/* Header & Logo */
+.hero { text-align: center; padding: 40px 0; background: linear-gradient(180deg, #f0f4ff, #fff); }
+.gia-logo { font-family: 'Playfair Display', serif; font-size: 50px; font-style: italic; position: relative; display: inline-block; }
+.gia-logo::after { content: ''; position: absolute; width: 140%; height: 1px; background: gold; bottom: 8px; left: -20%; }
 
-/* Lowering Header Content */
-header { padding-top: 60px; text-align: center; }
+/* Rounded Search Bar & Waves */
+.search-wrapper { margin: 30px auto; width: 550px; position: relative; }
+.search-bar { background: #fff; border-radius: 50px; padding: 12px 25px; display: flex; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; position: relative; z-index: 2; }
+.search-bar input { border: none; outline: none; flex: 1; padding: 0 15px; font-style: italic; }
+.sparkle { width: 35px; }
 
-/* Rounded Search Bar */
-.search-container {
-    margin-top: 50px; /* Space from top */
-    margin-bottom: 40px;
-    display: flex;
-    justify-content: center;
-}
+/* Product Grid (Like Photo 2) */
+.content { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+.p-card { border: 1px solid #f0f0f0; border-radius: 15px; padding: 20px; position: relative; text-align: center; }
+.buy-btn { width: 100%; padding: 12px; border-radius: 30px; border: none; background: linear-gradient(90deg, #a1c4fd, #c2e9fb); color: white; font-weight: 600; cursor: pointer; margin-top: 15px; }
 
-.search-inner-rounded {
-    display: flex;
-    width: 60%;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 50px; /* Fully Round */
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-.search-inner-rounded input {
-    flex: 1;
-    padding: 15px 25px;
-    border: none;
-    outline: none;
-    font-style: italic;
-}
-
-.search-inner-rounded button {
-    padding: 0 25px;
-    background: #7a8a99;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-/* Profile Page Styling */
+/* Profile Page */
 .hidden { display: none; }
-
-#profile-page {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: white;
-    z-index: 1000;
-    padding: 40px;
-}
-
-.profile-container {
-    max-width: 600px;
-    margin: auto;
-}
-
-#backBtn {
-    background: none;
-    border: none;
-    color: #7a8a99;
-    cursor: pointer;
-    font-size: 18px;
-    margin-bottom: 30px;
-}
-
-.profile-header { text-align: center; margin-bottom: 30px; }
-.large-dp { width: 120px; height: 120px; border-radius: 50%; margin-bottom: 15px; }
-.profile-details p {
-    padding: 15px 0;
-    border-bottom: 1px solid #eee;
-    font-size: 16px;
-}
+#profile-page { position: fixed; top: 0; background: #fff; width: 100%; height: 100%; z-index: 999; padding: 40px; }
+.profile-info { text-align: center; max-width: 500px; margin: auto; }
+.dp-large { width: 120px; border-radius: 50%; margin-bottom: 20px; }
+.info-list p { text-align: left; padding: 15px 0; border-bottom: 1px solid #eee; }
