@@ -185,3 +185,46 @@ footer a {
     color: #777;
     margin: 0 10px;
 }
+
+/* Top Header Layout */
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Left Side */
+.left-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.menu-icon {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Right Side */
+.right-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+.header-item {
+    cursor: pointer;
+}
+
+.profile-dp {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
