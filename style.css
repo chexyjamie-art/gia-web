@@ -228,3 +228,30 @@ footer a {
     object-fit: cover;
     cursor: pointer;
 }
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    width: 260px;
+    height: 100%;
+    background: #fff;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    transition: 0.3s;
+    z-index: 1000;
+}
+
+.sidebar a {
+    display: block;
+    margin: 20px 0;
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+}
+
+.close-btn {
+    font-size: 20px;
+    cursor: pointer;
+}
