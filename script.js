@@ -16,3 +16,25 @@ searchBtn.addEventListener('click', () => {
         alert('Please enter something to search.');
     }
 });
+
+// Sidebar Toggle
+const menuIcon = document.querySelector('.menu-icon');
+const sidebar = document.getElementById('sidebar');
+const closeMenu = document.getElementById('closeMenu');
+
+menuIcon.addEventListener('click', () => {
+    sidebar.style.left = "0";
+});
+
+closeMenu.addEventListener('click', () => {
+    sidebar.style.left = "-260px";
+});
+
+// Profile Popup Toggle
+const profileDp = document.querySelector('.profile-dp');
+const profilePopup = document.getElementById('profilePopup');
+
+profileDp.addEventListener('click', () => {
+    profilePopup.style.display =
+        profilePopup.style.display === "block" ? "none" : "block";
+});
