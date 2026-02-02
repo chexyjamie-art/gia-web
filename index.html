@@ -4,33 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GIA AI Stylist</title>
+
+    <!-- Main CSS -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
+    <!-- ✅ SIDEBAR MENU (ADDED) -->
+    <div class="sidebar" id="sidebar">
+        <i class="fa fa-times close-btn" id="closeMenu"></i>
+        <a href="#">Home</a>
+        <a href="#">AI Stylist</a>
+        <a href="#">Wishlist</a>
+        <a href="#">Orders</a>
+        <a href="#">Profile</a>
+    </div>
+
+    <!-- ✅ TOP HEADER (YOUR CODE + ENHANCEMENTS) -->
     <header class="top-header">
-    <!-- Left: Menu -->
-    <div class="left-header">
-        <i class="fa fa-bars menu-icon"></i>
-        <div class="logo">GIA <span>AI STYLIST</span></div>
+
+        <!-- Left -->
+        <div class="left-header">
+            <i class="fa fa-bars menu-icon"></i>
+            <div class="logo">GIA <span>AI STYLIST</span></div>
+        </div>
+
+        <!-- Right -->
+        <div class="right-header">
+            <span class="header-item notification">
+                <i class="fa fa-bell"></i> Notification
+                <span class="notify-badge">3</span>
+            </span>
+
+            <span class="header-item">
+                <i class="fa fa-heart"></i> Wishlist
+            </span>
+
+            <img src="https://via.placeholder.com/36" class="profile-dp" alt="User">
+        </div>
+
+    </header>
+
+    <!-- Welcome Text (UNCHANGED) -->
+    <p class="welcome-text">Welcome, Rahul!</p>
+
+    <!-- ✅ PROFILE POPUP (ADDED) -->
+    <div class="profile-popup" id="profilePopup">
+        <p><strong>Rahul</strong></p>
+        <a href="#">My Profile</a>
+        <a href="#">Orders</a>
+        <a href="#">Logout</a>
     </div>
 
-    <!-- Right: Notification, Wishlist, DP -->
-    <div class="right-header">
-        <span class="header-item">
-            <i class="fa fa-bell"></i> Notification
-        </span>
-        <span class="header-item">
-            <i class="fa fa-heart"></i> Wishlist
-        </span>
-        <img src="https://via.placeholder.com/36" class="profile-dp" alt="User">
-    </div>
-</header>
-
-<p class="welcome-text">Welcome, Rahul!</p>
-
+    <!-- ================= MAIN CONTENT ================= -->
     <main class="container">
+
         <div class="search-container">
             <input type="text" placeholder="Search for the best styles...">
             <button type="submit"><i class="fa fa-search"></i></button>
@@ -46,6 +77,7 @@
         </div>
 
         <div class="product-grid">
+
             <div class="card">
                 <span class="badge">Best Pick for You</span>
                 <img src="https://via.placeholder.com/150" alt="Watch">
@@ -69,6 +101,7 @@
                 <p class="price">₹1,899</p>
                 <button class="buy-btn">Buy Now <i class="fa fa-chevron-right"></i></button>
             </div>
+
         </div>
 
         <div class="featured-banner">
@@ -87,11 +120,15 @@
             <span><i class="fa fa-check-circle"></i> No fake discounts</span>
             <span><i class="fa fa-check-circle"></i> Buy from Amazon / Nykaa</span>
         </div>
+
     </main>
 
     <footer>
         <a href="#">Terms</a> | <a href="#">Privacy</a> | <a href="#">Conditions</a>
     </footer>
+
+    <!-- JS -->
+    <script src="script.js"></script>
 
 </body>
 </html>
