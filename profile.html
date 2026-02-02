@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Profile | GIA AI Stylist</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<header class="top-header">
+    <div class="left-header">
+        <a href="index.html">
+            <i class="fa fa-arrow-left"></i>
+        </a>
+        <div class="logo">My Profile</div>
+    </div>
+</header>
+
+<div class="profile-page">
+
+    <!-- DP SECTION -->
+    <div class="profile-dp-section">
+        <img src="https://via.placeholder.com/120"
+             id="profileImage"
+             class="profile-big-dp">
+
+        <input type="file"
+               id="dpUpload"
+               accept="image/*"
+               hidden>
+
+        <button class="change-dp-btn"
+                onclick="openImageOptions()">
+            Change Photo
+        </button>
+    </div>
+
+    <!-- DETAILS -->
+    <div class="profile-details">
+        <p><strong>Full Name:</strong> Rahul Kumar</p>
+        <p><strong>Gender:</strong> Male</p>
+        <p><strong>Mobile:</strong> +91 9XXXXXXXXX</p>
+        <p><strong>Email:</strong> rahul@email.com</p>
+
+        <hr>
+
+        <p><i class="fa fa-heart"></i> Wishlist</p>
+        <p><i class="fa fa-box"></i> Order History</p>
+        <p><i class="fa fa-home"></i> Full Address</p>
+        <p><i class="fa fa-robot"></i> AI Settings</p>
+    </div>
+
+</div>
+
+<script src="profile.js"></script>
+</body>
+</html>
