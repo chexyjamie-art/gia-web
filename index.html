@@ -1,87 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA AI Stylist</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <title>GLA - Luxury Skincare for Glowing Skin</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-
-    <nav class="top-nav">
-        <div class="nav-left"><i class="fa fa-bars"></i> Menu</div>
-        <div class="nav-right">
-            <span><i class="fa-regular fa-bell"></i> Notification</span>
-            <span><i class="fa-regular fa-heart"></i> Wishlist</span>
-            <img src="https://i.pravatar.cc/100" class="profile-img" id="profileBtn">
+    <header class="header">
+        <div class="logo">GLA</div>
+        <nav class="top-nav">
+            <a href="#">Menu</a>
+            <a href="#">Shop</a>
+        </nav>
+    </header>
+    
+    <main>
+        <input type="text" class="search-bar" id="searchInput" placeholder="Luxury skincare for glowing skin?">
+        <div class="hero-text">Smart AI</div>
+        <div class="personalized" id="personalized">Curated luxury for you, Rahul</div>
+        
+        <div class="tabs" id="tabs">
+            <div class="tab active" data-category="all">All</div>
+            <div class="tab" data-category="smart">Smart choices</div>
+            <div class="tab" data-category="watches">Watches</div>
+            <div class="tab" data-category="skincare">Skincare</div>
+            <div class="tab" data-category="electronics">Electronics</div>
+            <div class="tab" data-category="shoes">Shoes</div>
+            <div class="tab" data-category="shop">Why Shop?</div>
         </div>
-    </nav>
-
-    <div id="main-content">
-        <header class="hero">
-            <div class="logo-area">
-                <div class="gia-logo">GIA</div>
-                <p class="tag">Smart AI Stylist</p>
-            </div>
-
-            <div class="search-box-wrapper">
-                <div class="wave-overlay"></div>
-                <div class="search-bar">
-                    <i class="fa fa-search"></i>
-                    <input type="text" placeholder="Luxury skincare for glowing skin?">
-                    <span class="ai-sparkle">✨</span>
-                </div>
-            </div>
-
-            <h1>Curated luxury for you, Rahul</h1>
-            <p class="subtitle">Smart choices recommended by AI.</p>
-        </header>
-
-        <div class="category-tabs">
-            <span>All</span>
-            <span class="active">Watches</span>
-            <span>Skincare</span>
-            <span>Electronics</span>
+        
+        <div class="product-grid" id="productGrid">
+            <!-- Products JS se load honge -->
         </div>
-
-        <main class="grid-container">
-            <div class="product-card">
-                <div class="badge ai">AI Selected</div>
-                <img src="https://m.media-amazon.com/images/I/71Xm6I2InML._AC_UY1000_.jpg">
-                <h3>St. Fossil Grant Classic</h3>
-                <p class="stars">★★★★☆ 320</p>
-                <p class="price">₹7,495 - 8,095</p>
-                <button class="buy-now">Buy Now →</button>
-            </div>
-            <div class="product-card">
-                <div class="badge ver">Verified</div>
-                <img src="https://m.media-amazon.com/images/I/61ZjlBOp+rL._AC_SL1500_.jpg">
-                <h3>Titan Edge Ultra Thin</h3>
-                <p class="stars">★★★★★ 400</p>
-                <p class="price">₹10,995 - 19,998</p>
-                <button class="buy-now">Buy Now →</button>
-            </div>
-        </main>
-    </div>
-
-    <div id="profile-section" class="hidden">
-        <div class="p-container">
-            <button id="closeProfile"><i class="fa fa-arrow-left"></i> Back</button>
-            <div class="p-header">
-                <img src="https://i.pravatar.cc/100" class="large-dp">
-                <h2>Rahul Sharma</h2>
-            </div>
-            <div class="p-info">
-                <p><strong>Gender:</strong> Male</p>
-                <p><strong>Mobile:</strong> +91 98765 43210</p>
-                <p><strong>Email:</strong> rahul@gia.ai</p>
-                <p><strong>Address:</strong> Flat 201, Green Valley, Sector 45, Gurgaon, Haryana</p>
-            </div>
-        </div>
-    </div>
-
+    </main>
+    
+    <footer class="footer">
+        <div>About | FAQ</div>
+        <div>GLA © 2026</div>
+    </footer>
+    
     <script src="script.js"></script>
 </body>
 </html>
