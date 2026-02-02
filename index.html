@@ -1,46 +1,111 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GLA - Luxury Skincare for Glowing Skin</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GLA - Smart AI Stylist</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 </head>
 <body>
-    <header class="header">
-        <div class="logo">GLA</div>
-        <nav class="top-nav">
-            <a href="#">Menu</a>
-            <a href="#">Shop</a>
-        </nav>
-    </header>
-    
-    <main>
-        <input type="text" class="search-bar" id="searchInput" placeholder="Luxury skincare for glowing skin?">
-        <div class="hero-text">Smart AI</div>
-        <div class="personalized" id="personalized">Curated luxury for you, Rahul</div>
-        
-        <div class="tabs" id="tabs">
-            <div class="tab active" data-category="all">All</div>
-            <div class="tab" data-category="smart">Smart choices</div>
-            <div class="tab" data-category="watches">Watches</div>
-            <div class="tab" data-category="skincare">Skincare</div>
-            <div class="tab" data-category="electronics">Electronics</div>
-            <div class="tab" data-category="shoes">Shoes</div>
-            <div class="tab" data-category="shop">Why Shop?</div>
-        </div>
-        
-        <div class="product-grid" id="productGrid">
-            <!-- Products JS se load honge -->
-        </div>
-    </main>
-    
-    <footer class="footer">
-        <div>About | FAQ</div>
-        <div>GLA © 2026</div>
-    </footer>
-    
-    <script src="script.js"></script>
+
+  <!-- Header / Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">G<span class="accent">l</span>A</div>
+      <div class="menu">
+        <ul>
+          <li><a href="#">Menu</a></li>
+          <li><a href="#">Shop</a></li>
+        </ul>
+      </div>
+      <div class="icons">
+        <span>🔔</span>
+        <span>💬</span>
+        <span>👤</span>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero / Search Section -->
+  <section class="hero">
+    <div class="search-container">
+      <input type="text" placeholder="Luxury skincare for glowing skin?" class="search-bar"/>
+    </div>
+  </section>
+
+  <!-- Greeting -->
+  <section class="greeting">
+    <h1>Curated luxury for you, <span class="name">Rahul</span></h1>
+    <p>Smart choices recommended by AI.</p>
+  </section>
+
+  <!-- Categories -->
+  <section class="categories">
+    <div class="tabs">
+      <button class="tab active">All</button>
+      <button class="tab">Watches</button>
+      <button class="tab">Skincare</button>
+      <button class="tab">Electronics</button>
+      <button class="tab">Shoes</button>
+      <button class="tab">Shoes</button> <!-- duplicate jaise screenshot mein -->
+      <button class="tab">Shpt</button>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="products">
+    <h2 class="section-title">Watches <span class="why">why these?</span></h2>
+    <div class="product-grid">
+      
+      <div class="product-card">
+        <div class="badge ai">AI Selected</div>
+        <img src="https://via.placeholder.com/300x300?text=Fossil+Watch" alt="Fossil Grant Classic"/>
+        <h3>St Fossil Grant Classic</h3>
+        <p class="price">₹6,7495 - 8,095</p>
+        <div class="rating">★★★☆☆ 3.2</div>
+        <button class="buy-btn">Buy Now →</button>
+      </div>
+
+      <div class="product-card">
+        <div class="badge verified">Verified</div>
+        <img src="https://via.placeholder.com/300x300?text=Titan+Edge" alt="Titan Edge"/>
+        <h3>Titan Edge Ultra Thin</h3>
+        <p class="price">₹10,995 - 19,998</p>
+        <div class="rating">★★★★☆ 4.0</div>
+        <button class="buy-btn">Buy Now →</button>
+      </div>
+
+      <div class="product-card">
+        <div class="badge verified">Verified</div>
+        <img src="https://via.placeholder.com/300x300?text=Seiko+ProspeX" alt="Seiko"/>
+        <h3>Seiko Prospex Solar</h3>
+        <p class="price">₹16,995 - 21,999</p>
+        <div class="rating">★★★★★ 4.7</div>
+        <button class="buy-btn">Buy Now →</button>
+      </div>
+
+      <div class="product-card more">
+        <img src="https://via.placeholder.com/300x300?text=More..." alt="More"/>
+        <h3>More...</h3>
+        <button class="buy-btn">Buy Now →</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">GLA</div>
+      <ul class="footer-links">
+        <li><a href="#">About</a></li>
+        <li><a href="#">FAQs</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
