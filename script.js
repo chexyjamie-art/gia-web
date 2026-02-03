@@ -16,3 +16,12 @@ searchBtn.addEventListener('click', () => {
         alert('Please enter something to search.');
     }
 });
+if (searchBtn && searchInput) {
+  searchBtn.addEventListener('click', () => {
+    if (searchInput.value !== "") {
+      alert('Searching for: ' + searchInput.value);
+    } else {
+      alert('Please enter something to search.');
+    }
+  });
+}
