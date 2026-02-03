@@ -91,14 +91,6 @@ header {
     outline: none;
 }
 
-.search-container button {
-    padding: 12px 20px;
-    background: #778899;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
 .hero-text h1 {
     font-size: 28px;
     margin-bottom: 5px;
