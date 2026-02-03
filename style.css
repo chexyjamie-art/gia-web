@@ -17,6 +17,43 @@ header {
     border-bottom: 1px solid #ddd;
 }
 
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.left-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-icon {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.right-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.header-item i {
+  font-size: 18px;
+  color: #444;
+}
+
+.profile-dp {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+}
 .logo {
     font-size: 24px;
     letter-spacing: 2px;
