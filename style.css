@@ -222,3 +222,9 @@ footer a {
     color: #777;
     margin: 0 10px;
 }
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin: 35px 0 20px; /* 👈 upar space badhaya */
+}
