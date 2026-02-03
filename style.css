@@ -303,3 +303,7 @@ footer a {
     color: #007aff;
     transform: scale(1.05);
 }
+
+.search-box:active {
+    transform: scale(0.99);
+}
