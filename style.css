@@ -226,5 +226,6 @@ footer a {
 .search-container {
     display: flex;
     justify-content: center;
-    margin: 35px 0 20px; /* 👈 upar space badhaya */
+    margin-top: 40px;   /* 👈 header se gap */
+    margin-bottom: 20px;
 }
