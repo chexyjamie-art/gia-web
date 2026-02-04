@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("ALTER AI Dashboard Loaded");
+    console.log("GIA AI Dashboard Loaded");
 
     // Click effect on cards
     const cards = document.querySelectorAll('.glass-card');
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.querySelector('input');
     searchInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
-            alert('ALTER AI is searching for: ' + searchInput.value);
+            alert('GIA AI is searching for: ' + searchInput.value);
         }
     });
 });
