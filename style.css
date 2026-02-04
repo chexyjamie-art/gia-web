@@ -1,222 +1,105 @@
-{
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-
 body {
-background-color: #f5f5f5;
-color: #444;
-text-align: center;
+  background: #f5f5f5;
+  color: #444;
+  text-align: center;
 }
 
 header {
-padding: 20px 0;
-background: #fff;
-border-bottom: 1px solid #ddd;
+  background: #fff;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
 }
 
-.top-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 14px 16px;
-background: #fff;
-border-bottom: 1px solid #ddd;
-}
-
-.left-header {
-display: flex;
-align-items: center;
-gap: 10px;
-}
-
-.menu-icon {
-font-size: 20px;
-cursor: pointer;
-}
-
-.right-header {
-display: flex;
-align-items: center;
-gap: 14px;
-}
-
-.header-item i {
-font-size: 18px;
-color: #444;
-}
-
-.profile-dp {
-width: 36px;
-height: 36px;
-border-radius: 50%;
-cursor: pointer;
-}
 .logo {
-font-size: 24px;
-letter-spacing: 2px;
-color: #333;
+  font-size: 24px;
+  letter-spacing: 2px;
 }
 
 .logo span {
-font-weight: 300;
-font-size: 18px;
-}
-
-.welcome-text {
-margin-top: 10px;
-color: #666;
+  font-weight: 300;
+  font-size: 18px;
 }
 
 .container {
-max-width: 900px;
-margin: auto;
-padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
 }
 
-/* Search Bar */
+/* Search */
 .search-container {
-display: flex;
-justify-content: center;
-margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
 }
 
 .search-container input {
-width: 60%;
-padding: 12px;
-border: 1px solid #ccc;
-border-right: none;
-outline: none;
+  width: 60%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-right: none;
 }
 
-.hero-text h1 {
-font-size: 28px;
-margin-bottom: 5px;
+.search-container button {
+  padding: 12px 20px;
+  background: #778899;
+  color: #fff;
+  border: none;
+  cursor: pointer;
 }
 
-.hero-text p {
-color: #888;
-margin-bottom: 50px;
-}
-
-/* Divider */
-.section-divider {
-border-top: 1px solid #ddd;
-margin: 40px 0;
-position: relative;
-}
-
-.section-divider span {
-position: absolute;
-top: -12px;
-left: 50%;
-transform: translateX(-50%);
-background: #f5f5f5;
-padding: 0 15px;
-font-weight: bold;
-color: #555;
-}
-
-/* Product Cards */
+/* Products */
 .product-grid {
-display: flex;
-gap: 20px;
-justify-content: center;
-flex-wrap: wrap;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .card {
-background: white;
-padding: 20px;
-border-radius: 8px;
-width: 260px;
-border: 1px solid #eee;
-position: relative;
+  background: #fff;
+  width: 260px;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  position: relative;
 }
 
 .badge {
-position: absolute;
-top: 10px;
-left: 10px;
-background: #e0e0e0;
-font-size: 12px;
-padding: 4px 8px;
-border-radius: 4px;
-}
-
-.card img {
-width: 100%;
-height: auto;
-margin: 20px 0;
-}
-
-.card h3 {
-font-size: 16px;
-color: #666;
-font-weight: normal;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 12px;
+  background: #eee;
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
 .price {
-font-weight: bold;
-font-size: 18px;
-margin: 10px 0;
+  font-size: 18px;
+  font-weight: bold;
 }
 
-.buy-btn, .details-btn {
-width: 100%;
-padding: 10px;
-background: #a9b9cb;
-color: white;
-border: none;
-border-radius: 4px;
-cursor: pointer;
-}
-
-/* Banner Section */
-.featured-banner {
-display: flex;
-background: white;
-margin-top: 30px;
-padding: 20px;
-border-radius: 8px;
-align-items: center;
-text-align: left;
-border: 1px solid #eee;
-}
-
-.banner-img { flex: 1; }
-.banner-content { flex: 1; padding-left: 20px; }
-
-.banner-content h2 { font-size: 20px; margin-bottom: 10px; }
-.details-btn { width: auto; padding: 10px 30px; }
-
-/* Footer */
-.trust-footer {
-display: flex;
-justify-content: space-around;
-margin: 40px 0;
-font-size: 14px;
-color: #777;
+.buy-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  background: #a9b9cb;
+  border: none;
+  color: white;
+  cursor: pointer;
 }
 
 footer {
-margin-top: 50px;
-padding: 20px;
-border-top: 1px solid #ddd;
-font-size: 14px;
-color: #999;
-}
-
-footer a {
-text-decoration: none;
-color: #777;
-margin: 0 10px;
-}
-
-/* Image upload icon */
-.image-icon {
-color: #666;
+  margin-top: 40px;
+  padding: 20px;
+  border-top: 1px solid #ddd;
+  font-size: 14px;
 }
