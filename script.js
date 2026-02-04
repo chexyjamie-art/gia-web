@@ -1,22 +1,15 @@
-document.addEventListener("DOMContentLoaded", () => {
+const openProfile = document.getElementById('openProfile');
+const closeProfile = document.getElementById('closeProfile');
+const profilePage = document.getElementById('profile-page');
+const dashboard = document.getElementById('dashboard');
 
-  // Buy Now buttons
-  document.querySelectorAll(".buy-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      alert("Redirecting to affiliate store...");
-    });
-  });
+openProfile.addEventListener('click', () => {
+    profilePage.classList.remove('hidden');
+    dashboard.style.display = 'none';
+    window.scrollTo(0,0);
+});
 
-  // Search
-  const searchBtn = document.getElementById("searchBtn");
-  const searchInput = document.getElementById("searchInput");
-
-  searchBtn.addEventListener("click", () => {
-    if (searchInput.value.trim() !== "") {
-      alert("Searching for: " + searchInput.value);
-    } else {
-      alert("Please enter something to search.");
-    }
-  });
-
+closeProfile.addEventListener('click', () => {
+    profilePage.classList.add('hidden');
+    dashboard.style.display = 'block';
 });
