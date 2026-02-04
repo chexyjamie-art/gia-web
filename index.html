@@ -17,9 +17,7 @@
         <div class="flex gap-4 items-center">
             <span class="cursor-pointer font-medium text-black">☰ Menu</span>
         </div>
-
         <div class="text-2xl font-bold tracking-widest text-black">GIA</div>
-
         <div class="flex gap-6 items-center">
             <span class="cursor-pointer hidden md:block text-black">Wishlist</span>
             <span class="cursor-pointer text-black">Notifications</span>
@@ -37,17 +35,12 @@
                     class="w-full bg-white border border-gray-200 shadow-xl py-5 px-16 rounded-full focus:outline-none focus:ring-2 ring-blue-400 text-black transition-all">
 
                 <div class="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                    
-                    <button id="gia-voice-btn" class="hover:scale-125 transition-transform p-2 text-xl opacity-60 hover:opacity-100" title="Voice Search">
-                        🎤
-                    </button>
-
+                    <button id="gia-voice-btn" class="hover:scale-125 transition-transform p-2 text-xl opacity-60 hover:opacity-100">🎤</button>
                     <label for="gia-upload" class="cursor-pointer hover:scale-110 transition-transform p-2">
                         <span class="text-xl">📷</span>
                         <input type="file" id="gia-upload" class="hidden" accept="image/*" onchange="handleVisualSearch(event)">
                     </label>
                 </div>
-
                 <span class="absolute left-6 top-1/2 -translate-y-1/2 opacity-40">🔍</span>
             </div>
 
@@ -57,115 +50,94 @@
                 <div class="w-1 h-5 bg-blue-400 animate-bounce [animation-delay:0.4s]"></div>
                 <p class="text-[10px] ml-3 uppercase tracking-widest font-bold text-blue-600">GIA is listening...</p>
             </div>
-
-            <div id="gia-loader" class="hidden mt-4 text-center">
-                <div class="inline-block animate-bounce text-sm font-semibold premium-text">
-                    ✨ GIA is analyzing your image...
-                </div>
-            </div>
         </div>
 
         <div class="text-center mb-10">
             <h1 class="text-4xl md:text-5xl font-light text-black">Curated luxury for you, <span class="font-semibold border-b-2 border-blue-500/50">Rahul</span></h1>
-            <p class="text-gray-500 mt-3 italic">Smart choices recommended by AI.</p>
+            <p class="text-gray-500 mt-3 italic text-sm">Every product is verified by GIA's Anti-Fake Review Engine.</p>
         </div>
 
         <section class="mt-4">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-medium tracking-wide text-black uppercase text-sm">Watches</h2>
-                <span class="text-gray-400 text-sm cursor-pointer hover:underline">Why these?</span>
+                <h2 class="text-xl font-medium tracking-wide text-black uppercase text-sm">Recommended Watches</h2>
+                <span class="text-blue-500 text-[10px] font-bold cursor-pointer hover:underline uppercase tracking-widest">How we verify?</span>
             </div>
 
             <div class="flex gap-6 overflow-x-auto pb-8 no-scrollbar scroll-smooth">
-                <div class="min-w-[300px] glass-card p-6 rounded-[2.5rem] border border-gray-100 shadow-sm">
-                    <span class="text-[10px] bg-blue-500/10 px-3 py-1 rounded-full text-blue-600 border border-blue-500/20">✦ AI SELECTED</span>
-                    <div class="h-44 flex items-center justify-center my-6">
+                
+                <div class="min-w-[320px] glass-card p-6 rounded-[2.5rem] border border-gray-100 shadow-sm relative overflow-hidden">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[9px] bg-green-500/10 px-2 py-1 rounded-full text-green-600 border border-green-500/20 font-bold tracking-tighter uppercase">✔ GIA Trust Verified</span>
+                        <div class="text-right">
+                            <span class="text-[10px] font-bold text-blue-600">Score: 9.2</span>
+                        </div>
+                    </div>
+
+                    <div class="h-44 flex items-center justify-center my-4 relative group">
                         <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" class="object-contain h-full drop-shadow-2xl">
+                        <div class="absolute bottom-0 bg-white/90 backdrop-blur px-3 py-1 rounded-full border border-gray-100 text-[8px] opacity-0 group-hover:opacity-100 transition-opacity">
+                            📸 450+ Real Photos Analyzed
+                        </div>
                     </div>
+
                     <h3 class="font-medium text-black">St. Fossil Grant Classic</h3>
-                    <p class="text-2xl font-bold mt-2 text-black">₹8,999</p>
-                    <a href="https://amazon.in/dp/example1" target="_blank" class="no-underline">
-                        <button class="w-full mt-6 bg-black text-white hover:bg-gray-800 py-3 rounded-2xl flex justify-between px-5 items-center transition">
-                            <span>Buy Now</span>
-                            <span class="text-xl">→</span>
-                        </button>
-                    </a>
+                    <div class="flex items-center gap-2 mt-1">
+                        <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                        <p class="text-[10px] text-gray-400 italic">No suspicious review patterns detected.</p>
+                    </div>
+
+                    <div class="flex justify-between items-center mt-6">
+                        <p class="text-2xl font-bold text-black">₹8,999</p>
+                        <a href="https://amazon.in/dp/example1" target="_blank">
+                            <button class="bg-black text-white px-6 py-3 rounded-2xl hover:bg-gray-800 transition text-sm">Buy Now</button>
+                        </a>
+                    </div>
                 </div>
 
-                <div class="min-w-[240px] glass-card p-4 rounded-[2rem] border border-gray-100 shadow-sm">
-                    <div class="h-32 flex items-center justify-center my-4">
-                        <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200" class="object-contain h-full">
-                    </div>
-                    <h3 class="font-medium text-sm text-black">Premium Sunglasses</h3>
-                    <p class="text-lg font-bold mt-1 text-black">₹4,999</p>
-                    <a href="https://amazon.in/dp/example2" target="_blank" class="no-underline">
-                        <button class="w-full mt-4 bg-[#a5b4c4] text-white py-2 rounded-xl flex justify-center items-center gap-2 text-sm hover:bg-slate-500 transition">
-                            Buy Now ↗
-                        </button>
-                    </a>
                 </div>
-
-                <div class="min-w-[300px] glass-card p-6 rounded-[2.5rem] border border-gray-100 shadow-sm">
-                    <span class="text-[10px] bg-purple-500/10 px-3 py-1 rounded-full text-purple-600 border border-purple-500/20">✦ PREMIUM CHOICE</span>
-                    <div class="h-44 flex items-center justify-center my-6">
-                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" class="object-contain h-full drop-shadow-2xl">
-                    </div>
-                    <h3 class="font-medium text-black">Titan Edge Ultra Thin</h3>
-                    <p class="text-2xl font-bold mt-2 text-black">₹22,999</p>
-                    <a href="https://amazon.in/dp/example3" target="_blank" class="no-underline">
-                        <button class="w-full mt-6 bg-black text-white hover:bg-gray-800 py-3 rounded-2xl flex justify-between px-5 items-center transition">
-                            <span>Buy Now</span>
-                            <span class="text-xl">→</span>
-                        </button>
-                    </a>
-                </div>
-            </div>
         </section>
 
         <section class="mt-16 mb-16">
             <div class="text-center mb-10">
-                <span class="text-[10px] tracking-[0.3em] text-gray-400 uppercase">Interactive Experience</span>
+                <span class="text-[10px] tracking-[0.3em] text-gray-400 uppercase">360° AI Simulation</span>
                 <h2 class="text-3xl font-serif mt-2 italic">The GIA Signature Collection</h2>
             </div>
-
-            <div class="glass-card relative overflow-hidden group p-10 flex flex-col items-center justify-center min-h-[500px] border border-gray-100">
+            <div class="glass-card relative overflow-hidden p-10 flex flex-col items-center justify-center min-h-[500px] border border-gray-100">
                 <div class="absolute inset-0 bg-radial-gradient from-blue-100/10 to-transparent opacity-50"></div>
-
-                <div id="product-3d-container" class="relative z-10 w-full max-w-sm cursor-grab active:cursor-grabbing transition-transform duration-500">
-                    <img src="https://images.unsplash.com/photo-1547996160-81dfa63595dd?w=600" 
-                         id="floating-product"
-                         class="w-full object-contain drop-shadow-[0_35px_35px_rgba(0,0,0,0.2)] pointer-events-none"
-                         alt="3D Watch">
+                <div id="product-3d-container" class="relative z-10 w-full max-w-sm cursor-grab active:cursor-grabbing">
+                    <img src="https://images.unsplash.com/photo-1547996160-81dfa63595dd?w=600" id="floating-product" class="w-full object-contain drop-shadow-2xl pointer-events-none" alt="3D Watch">
                 </div>
-
                 <div class="mt-8 text-center z-10">
                     <h3 class="text-2xl font-medium text-black">Royal Oak Gold Concept</h3>
-                    <p class="text-gray-400 text-sm mt-2 mb-6 uppercase tracking-widest">360° AI Simulation</p>
-                    <button class="bg-black text-white px-12 py-4 rounded-full hover:bg-gray-800 transition-all duration-500 shadow-xl">
-                        Explore Details ↗
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <section class="mt-12 mb-20">
-            <div class="glass-card p-4 rounded-[3rem] border border-gray-100 shadow-sm overflow-hidden flex flex-col md:flex-row items-center">
-                <div class="w-full md:w-1/2 h-72 bg-gray-50 flex items-center justify-center rounded-[2.5rem]">
-                     <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500" class="object-cover rounded-3xl h-5/6 shadow-lg">
-                </div>
-                <div class="p-10 md:w-1/2">
-                    <h2 class="text-3xl font-semibold mb-3 text-black">Complete Glow Combo</h2>
-                    <p class="text-gray-500 mb-8 leading-relaxed">Picked by AI for Indian climate.</p>
-                    <a href="https://amazon.in/dp/combo-link" target="_blank" class="no-underline">
-                        <button class="bg-[#a5b4c4] hover:bg-slate-500 text-white px-10 py-4 rounded-2xl flex items-center gap-4 transition">
-                            Buy Now <span class="text-xl">→</span>
-                        </button>
-                    </a>
+                    <p class="text-[10px] text-green-600 font-bold uppercase tracking-widest mt-2">Authenticity Guaranteed</p>
+                    <button class="mt-6 bg-black text-white px-12 py-4 rounded-full hover:scale-105 transition shadow-xl">Explore Details ↗</button>
                 </div>
             </div>
         </section>
 
     </main>
+
+    <div id="gia-aura-container" class="fixed bottom-8 right-8 z-[100]">
+        <button id="aura-trigger" class="w-16 h-16 rounded-full bg-black shadow-2xl flex items-center justify-center border border-white/20 group hover:scale-110 transition-all">
+            <span class="text-2xl">✨</span>
+        </button>
+        <div id="aura-window" class="hidden absolute bottom-20 right-0 w-[350px] h-[500px] glass-card flex flex-col border border-gray-100 shadow-2xl overflow-hidden">
+            <div class="p-5 border-b border-gray-50 flex justify-between items-center bg-white/50">
+                <h4 class="font-bold text-black">GIA Aura Advisor</h4>
+                <button id="close-aura" class="text-gray-400">✕</button>
+            </div>
+            <div id="aura-messages" class="flex-1 p-5 overflow-y-auto text-sm space-y-4 no-scrollbar">
+                <div class="bg-blue-50 p-3 rounded-2xl rounded-tl-none text-black">
+                    Rahul, I've filtered out 12 fake products to show you only the most genuine options. How can I help?
+                </div>
+            </div>
+            <div class="p-4 bg-white/80 border-t">
+                <input type="text" id="aura-input" placeholder="Ask about product quality..." class="w-full p-3 rounded-xl border-none focus:ring-1 ring-blue-200 text-sm">
+            </div>
+        </div>
+    </div>
+
+    <div id="aura-overlay" class="fixed inset-0 pointer-events-none z-[80] opacity-0 transition-opacity duration-1000 bg-gradient-to-tr from-blue-500/5 via-transparent to-gold-500/5"></div>
 
     <script src="script.js"></script>
 </body>
