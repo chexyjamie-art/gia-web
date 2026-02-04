@@ -220,36 +220,3 @@ margin: 0 10px;
 .image-icon {
 color: #666;
 }
-
-/*=========================
-iOS STYLE FOCUS GLOW
-========================= */
-
-/* Jab input focus ho */
-.search-box:focus-within {
-box-shadow:
-0 0 0 4px rgba(0, 122, 255, 0.25),
-0 12px 30px rgba(0, 0, 0, 0.12);
-transform: scale(1.01);
-}
-
-/* Input caret color (Apple blue) */
-.search-box input {
-caret-color: #007aff;
-}
-
-/* Placeholder soft */
-.search-box input::placeholder {
-color: #aaa;
-}
-
-/* Smooth icon animation */
-.search-box i {
-transition: color 0.3s ease, transform 0.2s ease;
-}
-
-/* Focus pe icons thode dark */
-.search-box:focus-within i {
-color: #007aff;
-transform: scale(1.05);
-}
