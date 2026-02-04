@@ -1,76 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>GIA AI Stylist</title>
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIA AI Stylist - Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <div class="logo">GIA <span>AI STYLIST</span></div>
-  <p class="welcome-text">Welcome, Rahul!</p>
-</header>
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="menu-btn"><i class="fa fa-bars"></i> Menu</span>
+            <span class="shop-btn">Shop <i class="fa fa-chevron-down"></i></span>
+        </div>
+        <div class="nav-right">
+            <i class="fa-regular fa-bell"></i>
+            <i class="fa-regular fa-heart"></i>
+            <i class="fa-regular fa-comment-dots"></i>
+            <img src="https://i.pravatar.cc/100" class="profile-avatar" id="openProfile">
+        </div>
+    </nav>
 
-<main class="container">
+    <div id="dashboard">
+        <header class="hero-section">
+            <div class="logo-container">
+                <div class="gia-logo">GIA</div>
+                <p class="tagline">Smart AI Stylist</p>
+            </div>
 
-  <!-- Search -->
-  <div class="search-container">
-    <input type="text" id="searchInput" placeholder="Search for the best styles..." />
-    <button id="searchBtn"><i class="fa fa-search"></i></button>
-  </div>
+            <div class="search-wrapper">
+                <div class="waves"></div>
+                <div class="search-bar">
+                    <i class="fa fa-search"></i>
+                    <input type="text" placeholder="Luxury skincare for glowing skin?">
+                    <span class="ai-sparkle">✨</span>
+                </div>
+            </div>
 
-  <!-- Hero -->
-  <section class="hero-text">
-    <h1>Curated luxury for you, Rahul</h1>
-    <p>Smart choices recommended by AI</p>
-  </section>
+            <h1>Curated luxury for you, Rahul</h1>
+            <p class="sub-heading">Smart choices recommended by AI.</p>
+        </header>
 
-  <div class="section-divider">
-    <span>AI Picks for You</span>
-  </div>
+        <div class="tab-container">
+            <span>All</span>
+            <span class="active">Watches</span>
+            <span>Skincare</span>
+            <span>Electronics</span>
+            <span>Shoes</span>
+        </div>
 
-  <!-- Products -->
-  <div class="product-grid">
+        <main class="grid-layout">
+            <div class="section-title">
+                <h2>Watches <small>why these?</small></h2>
+                <span class="trust">Why trust results?</span>
+            </div>
 
-    <div class="card">
-      <span class="badge">Best Pick</span>
-      <img src="https://via.placeholder.com/150" />
-      <h3>Stylish & Under ₹10k</h3>
-      <p class="price">₹8,999</p>
-      <button class="buy-btn">Buy Now</button>
+            <div class="product-grid">
+                <div class="p-card">
+                    <div class="p-badge ai">AI Selected</div>
+                    <img src="https://m.media-amazon.com/images/I/71Xm6I2InML._AC_UY1000_.jpg" alt="Fossil">
+                    <div class="p-details">
+                        <h3>St. Fossil Grant Classic</h3>
+                        <div class="rating">★★★★☆ <span>320</span></div>
+                        <p class="p-price">₹7,495 - 8,095</p>
+                        <button class="buy-now-btn">Buy Now <i class="fa fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <div class="p-card">
+                    <div class="p-badge verified">Verified</div>
+                    <img src="https://m.media-amazon.com/images/I/61ZjlBOp+rL._AC_SL1500_.jpg" alt="Titan">
+                    <div class="p-details">
+                        <h3>Titan Edge Ultra Thin</h3>
+                        <div class="rating">★★★★★ <span>400</span></div>
+                        <p class="p-price">₹10,995 - 19,998</p>
+                        <button class="buy-now-btn">Buy Now <i class="fa fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
-    <div class="card">
-      <span class="badge">Premium</span>
-      <img src="https://via.placeholder.com/150" />
-      <h3>Luxury Gadget</h3>
-      <p class="price">₹22,999</p>
-      <button class="buy-btn">Buy Now</button>
+    <div id="profile-page" class="hidden">
+        <div class="profile-container">
+            <button id="closeProfile"><i class="fa fa-arrow-left"></i> Back</button>
+            <div class="profile-header">
+                <img src="https://i.pravatar.cc/100" alt="DP" class="dp-large">
+                <h2>Rahul Sharma</h2>
+            </div>
+            <div class="profile-list">
+                <p><strong>Gender:</strong> Male</p>
+                <p><strong>Mobile:</strong> +91 98765 43210</p>
+                <p><strong>Email:</strong> rahul.sharma@gia.ai</p>
+                <p><strong>Address:</strong> Flat 402, Luxury Tower, Cyber City, Gurgaon</p>
+            </div>
+        </div>
     </div>
 
-    <div class="card">
-      <span class="badge">Value</span>
-      <img src="https://via.placeholder.com/150" />
-      <h3>Great Price</h3>
-      <p class="price">₹1,899</p>
-      <button class="buy-btn">Buy Now</button>
-    </div>
-
-  </div>
-
-</main>
-
-<footer>
-  <a href="#">Terms</a> |
-  <a href="#">Privacy</a> |
-  <a href="#">Conditions</a>
-</footer>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
