@@ -91,3 +91,49 @@ if (container && product) {
         product.style.animation = 'float 4s ease-in-out infinite';
     });
 }
+
+const auraTrigger = document.getElementById('aura-trigger');
+const auraWindow = document.getElementById('aura-window');
+const closeAura = document.getElementById('close-aura');
+const auraOverlay = document.getElementById('aura-overlay');
+
+if (auraTrigger) {
+    auraTrigger.addEventListener('click', () => {
+        auraWindow.classList.toggle('hidden');
+        auraOverlay.classList.toggle('active');
+        document.body.classList.toggle('aura-active');
+        
+        // Shock Factor: Haptic feedback if on mobile
+        if (navigator.vibrate) navigator.vibrate(50);
+    });
+}
+
+if (closeAura) {
+    closeAura.addEventListener('click', () => {
+        auraWindow.classList.add('hidden');
+        auraOverlay.classList.remove('active');
+        document.body.classList.remove('aura-active');
+    });
+}
+
+// Simple Chat Logic
+const auraInput = document.getElementById('aura-input');
+const auraMessages = document.getElementById('aura-messages');
+
+if (auraInput) {
+    auraInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && auraInput.value.trim() !== "") {
+            const userMsg = auraInput.value;
+            // Add User Message
+            auraMessages.innerHTML += `<div class="bg-black text-white p-4 rounded-2xl rounded-tr-none text-sm ml-auto w-fit max-w-[80%]">${userMsg}</div>`;
+            auraInput.value = "";
+            
+            // Fake AI Response with logic
+            setTimeout(() => {
+                auraMessages.innerHTML += `<div class="bg-gold-50/50 border border-gold-200 p-4 rounded-2xl rounded-tl-none text-sm w-fit max-w-[80%]">Analyzing your request... I suggest exploring the 3D Signature Collection for a unique look.</div>`;
+                auraMessages.scrollTop = auraMessages.scrollHeight;
+            }, 1000);
+        }
+    });
+}
+
