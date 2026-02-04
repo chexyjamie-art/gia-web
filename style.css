@@ -1,209 +1,44 @@
-/* ===== RESET ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+:root {
+    --bg-color: #0a0a0c;
 }
 
-body {
-  font-family: 'Poppins', sans-serif;
-  background: #f6f7f9;
-  color: #222;
-  padding-bottom: 90px;
+.bg-main {
+    background-color: var(--bg-color);
 }
 
-/* ===== HEADER ===== */
-.top-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  border-bottom: 1px solid #eee;
+.text-gradient {
+    background: linear-gradient(90deg, #fff, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  letter-spacing: 2px;
-  color: #b4975a;
+.glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
 }
 
-.right-icons {
-  display: flex;
-  align-items: center;
+/* Background Glowing Orbs */
+.glow-1 {
+    position: fixed;
+    top: -10%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+    z-index: -1;
 }
 
-.profile {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin-left: 8px;
+.glow-2 {
+    position: fixed;
+    bottom: -10%;
+    left: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+    z-index: -1;
 }
 
-/* SVG icons */
-svg {
-  width: 22px;
-  height: 22px;
-  stroke: #444;
-  stroke-width: 1.8;
-  fill: none;
-}
-
-/* ===== HERO ===== */
-.hero {
-  background: #fff;
-  padding: 30px 16px;
-  text-align: center;
-}
-
-.hero h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 24px;
-  margin-bottom: 6px;
-}
-
-.hero span {
-  color: #b4975a;
-}
-
-.hero p {
-  font-size: 13px;
-  color: #666;
-}
-
-/* Search */
-.search-wrap {
-  display: flex;
-  margin: 18px auto;
-  max-width: 420px;
-  background: #f1f2f4;
-  border-radius: 30px;
-  padding: 6px;
-}
-
-.search-wrap input {
-  flex: 1;
-  border: none;
-  background: transparent;
-  padding: 10px 14px;
-  outline: none;
-}
-
-.search-wrap button {
-  background: linear-gradient(135deg,#c9ab6a,#b4975a);
-  border: none;
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 20px;
-}
-
-/* Tabs */
-.tabs {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.tabs button {
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1px solid #ddd;
-  background: #fff;
-  font-size: 12px;
-}
-
-.tabs .active {
-  background: #b4975a;
-  color: #fff;
-  border-color: #b4975a;
-}
-
-/* ===== PRODUCTS ===== */
-.products {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
-  gap: 14px;
-  padding: 20px 16px;
-}
-
-.product-card {
-  background: #fff;
-  border-radius: 14px;
-  padding: 12px;
-  text-align: center;
-  box-shadow: 0 8px 18px rgba(0,0,0,.06);
-}
-
-.product-card img {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-.product-card h3 {
-  font-size: 14px;
-  margin-top: 10px;
-}
-
-.product-card p {
-  font-size: 12px;
-  color: #777;
-}
-
-.product-card button {
-  margin-top: 8px;
-  width: 100%;
-  padding: 8px;
-  border: none;
-  border-radius: 20px;
-  background: #111;
-  color: #fff;
-}
-
-/* ===== BOTTOM NAV ===== */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #fff;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  border-top: 1px solid #eee;
-}
-
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 11px;
-  color: #555;
-}
-
-.nav-item.active svg {
-  stroke: #b4975a;
-}
-
-.nav-item.active span {
-  color: #b4975a;
-}
-
-.nav-item.ai {
-  background: #b4975a;
-  color: #fff;
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  margin-top: -28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  box-shadow: 0 10px 25px rgba(0,0,0,.25);
+/* Hide Scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
 }
