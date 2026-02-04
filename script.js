@@ -1,15 +1,14 @@
-const openProfile = document.getElementById('openProfile');
-const closeProfile = document.getElementById('closeProfile');
-const profilePage = document.getElementById('profile-page');
-const dashboard = document.getElementById('dashboard');
+const profileBtn = document.getElementById('profileBtn');
+const backHome = document.getElementById('backHome');
+const siteContent = document.getElementById('site-content');
+const profileView = document.getElementById('profile-view');
 
-openProfile.addEventListener('click', () => {
-    profilePage.classList.remove('hidden');
-    dashboard.style.display = 'none';
-    window.scrollTo(0,0);
-});
+profileBtn.onclick = () => {
+    siteContent.style.display = 'none';
+    profileView.classList.remove('hidden');
+};
 
-closeProfile.addEventListener('click', () => {
-    profilePage.classList.add('hidden');
-    dashboard.style.display = 'block';
-});
+backHome.onclick = () => {
+    siteContent.style.display = 'block';
+    profileView.classList.add('hidden');
+};
