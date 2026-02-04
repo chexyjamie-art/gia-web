@@ -194,4 +194,40 @@ function checkProductTrust(productName) {
     }
 }
 
+// GIA Real-time Market Scanner
+const productDatabase = [
+    { name: "St. Fossil Grant Classic", originalPrice: 9499, currentPrice: 8999, stock: "Available" },
+    { name: "Premium Sunglasses", originalPrice: 4999, currentPrice: 4999, stock: "Low Stock" },
+    { name: "Titan Edge Ultra Thin", originalPrice: 24999, currentPrice: 22999, stock: "Available" }
+];
+
+function scanMarketDeals() {
+    productDatabase.forEach(item => {
+        if (item.currentPrice < item.originalPrice) {
+            const saving = item.originalPrice - item.currentPrice;
+            console.log(`GIA ALERT: ${item.name} has dropped by ₹${saving}!`);
+            // Yahan aap UI update karne ka code likh sakte hain
+        }
+        
+        if (item.stock === "Low Stock") {
+            console.log(`GIA WARNING: ${item.name} is selling fast. High demand verified.`);
+        }
+    });
+}
+
+// Simulate AI Scanning when page loads
+window.onload = () => {
+    setTimeout(() => {
+        scanMarketDeals();
+        // GIA Aura Chatbot message update
+        const auraMsg = document.querySelector("#aura-messages");
+        if(auraMsg) {
+            auraMsg.innerHTML += `<div class="bg-green-50 p-3 rounded-2xl text-black text-[11px] border border-green-100">
+                ✨ Market Scan Complete: I found 2 genuine price drops for you, Rahul!
+            </div>`;
+        }
+    }, 2000);
+};
+
+
 
