@@ -1,14 +1,17 @@
-const profileBtn = document.getElementById('profileBtn');
-const backHome = document.getElementById('backHome');
-const siteContent = document.getElementById('site-content');
-const profileView = document.getElementById('profile-view');
+const profileToggle = document.getElementById('profileToggle');
+const backToHome = document.getElementById('backToHome');
+const appContainer = document.getElementById('app-container');
+const profileOverlay = document.getElementById('profile-overlay');
+const navbar = document.querySelector('.navbar');
 
-profileBtn.onclick = () => {
-    siteContent.style.display = 'none';
-    profileView.classList.remove('hidden');
+profileToggle.onclick = () => {
+    appContainer.style.display = 'none';
+    navbar.style.display = 'none';
+    profileOverlay.classList.remove('hidden');
 };
 
-backHome.onclick = () => {
-    siteContent.style.display = 'block';
-    profileView.classList.add('hidden');
+backToHome.onclick = () => {
+    appContainer.style.display = 'block';
+    navbar.style.display = 'flex';
+    profileOverlay.classList.add('hidden');
 };
