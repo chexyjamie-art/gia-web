@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALTER | Smart AI Stylist</title>
+    <title>GIA | Smart AI Stylist</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body class="bg-white text-black font-sans overflow-x-hidden">
 
@@ -17,7 +18,7 @@
             <span class="cursor-pointer font-medium text-black">☰ Menu</span>
         </div>
 
-        <div class="text-2xl font-bold tracking-widest text-black">ALTER</div>
+        <div class="text-2xl font-bold tracking-widest text-black">GIA</div>
 
         <div class="flex gap-6 items-center">
             <span class="cursor-pointer hidden md:block text-black">Wishlist</span>
@@ -31,9 +32,25 @@
     <main class="max-w-6xl mx-auto px-6 pt-10">
 
         <div class="relative max-w-2xl mx-auto mb-12 px-4">
-            <input type="text" placeholder="Search luxury products..." 
-                   class="w-full bg-white border border-gray-200 shadow-lg py-4 px-12 rounded-full focus:outline-none focus:ring-2 ring-blue-400 text-black">
-            <span class="absolute left-8 top-4 opacity-40">🔍</span>
+            <div class="relative group">
+                <input type="text" placeholder="Search luxury products or ask GIA..." 
+                    class="w-full bg-white border border-gray-200 shadow-xl py-5 px-14 rounded-full focus:outline-none focus:ring-2 ring-blue-400 text-black transition-all">
+                
+                <div class="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                    <label for="gia-upload" class="cursor-pointer hover:scale-110 transition-transform p-2">
+                        <span class="text-xl">📷</span>
+                        <input type="file" id="gia-upload" class="hidden" accept="image/*" onchange="handleVisualSearch(event)">
+                    </label>
+                </div>
+                
+                <span class="absolute left-6 top-1/2 -translate-y-1/2 opacity-40">🔍</span>
+            </div>
+
+            <div id="gia-loader" class="hidden mt-4 text-center">
+                <div class="inline-block animate-bounce text-sm font-semibold premium-text">
+                    ✨ GIA is analyzing your image...
+                </div>
+            </div>
         </div>
 
         <div class="text-center mb-10">
