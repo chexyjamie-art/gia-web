@@ -1,105 +1,40 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+:root {
+    --gold: #d4af37;
+    --wave-blue: rgba(161, 196, 253, 0.4);
+    --wave-purple: rgba(194, 233, 251, 0.3);
+    --btn-grad: linear-gradient(90deg, #a1c4fd 0%, #c2e9fb 100%);
 }
 
-body {
-  background: #f5f5f5;
-  color: #444;
-  text-align: center;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+body { background: #ffffff; color: #333; overflow-x: hidden; }
 
-header {
-  background: #fff;
-  padding: 20px;
-  border-bottom: 1px solid #ddd;
-}
+/* Navbar Icons & Profile */
+.navbar { display: flex; justify-content: space-between; padding: 20px 5%; align-items: center; background: #fff; }
+.nav-right { display: flex; align-items: center; gap: 20px; font-size: 14px; color: #666; }
+.profile-avatar { width: 35px; border-radius: 50%; cursor: pointer; border: 1px solid #ddd; }
 
-.logo {
-  font-size: 24px;
-  letter-spacing: 2px;
-}
+/* Header & Logo with Gold Line */
+.hero-section { text-align: center; padding: 40px 20px; background: linear-gradient(180deg, #f9fbff, #fff); }
+.gia-logo { font-family: 'Playfair Display', serif; font-size: 55px; font-style: italic; position: relative; display: inline-block; color: #444; }
+.gia-logo::after { content: ''; position: absolute; width: 140%; height: 1px; background: var(--gold); bottom: 12px; left: -20%; }
+.tagline { font-size: 10px; letter-spacing: 4px; color: #999; margin-top: -8px; text-transform: uppercase; }
 
-.logo span {
-  font-weight: 300;
-  font-size: 18px;
-}
+/* Waves & Search Bar */
+.search-wrapper { position: relative; max-width: 550px; margin: 35px auto; height: 100px; display: flex; align-items: center; justify-content: center; }
+.search-bar { background: #fff; border-radius: 50px; padding: 14px 25px; width: 100%; display: flex; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; z-index: 5; }
+.search-bar input { border: none; outline: none; flex: 1; padding: 0 15px; font-style: italic; color: #777; font-size: 15px; }
+.waves { position: absolute; width: 130%; height: 120px; background: radial-gradient(ellipse at center, var(--wave-blue), transparent 70%); filter: blur(40px); z-index: 1; opacity: 0.6; }
 
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
-}
+/* Product Layout - No giant images */
+.grid-layout { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 25px; }
+.p-card { border: 1px solid #f2f2f2; border-radius: 18px; padding: 25px; position: relative; transition: 0.3s; background: #fff; }
+.p-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.03); }
+.p-card img { width: 100%; height: 180px; object-fit: contain; margin: 15px 0; }
+.buy-now-btn { width: 100%; padding: 12px; border-radius: 30px; border: none; background: var(--btn-grad); color: white; font-weight: 600; cursor: pointer; }
 
-/* Search */
-.search-container {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-.search-container input {
-  width: 60%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-right: none;
-}
-
-.search-container button {
-  padding: 12px 20px;
-  background: #778899;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
-
-/* Products */
-.product-grid {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.card {
-  background: #fff;
-  width: 260px;
-  padding: 20px;
-  border-radius: 8px;
-  border: 1px solid #eee;
-  position: relative;
-}
-
-.badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 12px;
-  background: #eee;
-  padding: 4px 8px;
-  border-radius: 4px;
-}
-
-.price {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.buy-btn {
-  margin-top: 10px;
-  width: 100%;
-  padding: 10px;
-  background: #a9b9cb;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-
-footer {
-  margin-top: 40px;
-  padding: 20px;
-  border-top: 1px solid #ddd;
-  font-size: 14px;
-}
+/* Profile Page */
+.hidden { display: none; }
+#profile-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 999; padding: 50px; }
+.profile-container { max-width: 500px; margin: auto; }
+.dp-large { width: 120px; border-radius: 50%; margin-bottom: 20px; display: block; margin-left: auto; margin-right: auto; }
