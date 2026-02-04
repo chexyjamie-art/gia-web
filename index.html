@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA AI Stylist - Premium</title>
+    <title>GIA AI Stylist</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -12,88 +12,73 @@
 
     <nav class="navbar">
         <div class="nav-left">
-            <span class="menu-btn"><i class="fa fa-bars"></i> Menu</span>
-            <span class="shop-btn">Shop <i class="fa fa-chevron-down"></i></span>
+            <span><i class="fa fa-bars"></i> Menu</span>
+            <span class="shop-link">Shop</span>
         </div>
         <div class="nav-right">
-            <i class="fa-regular fa-bell"></i>
-            <i class="fa-regular fa-heart"></i>
-            <i class="fa-regular fa-comment-dots"></i>
-            <img src="https://i.pravatar.cc/100" class="profile-avatar" id="openProfile">
+            <span><i class="fa-regular fa-bell"></i></span>
+            <span><i class="fa-regular fa-heart"></i></span>
+            <span><i class="fa-regular fa-comment-dots"></i></span>
+            <img src="https://i.pravatar.cc/100" class="user-dp" id="profileBtn">
         </div>
     </nav>
 
-    <div id="dashboard">
-        <header class="hero-section">
-            <div class="logo-container">
-                <div class="gia-logo">GIA</div>
-                <p class="tagline">Smart AI Stylist</p>
+    <div id="site-content">
+        <header class="hero">
+            <div class="logo-wrap">
+                <div class="gia-brand">GIA</div>
+                <p>Smart AI Stylist</p>
             </div>
 
-            <div class="search-wrapper">
-                <div class="waves"></div>
-                <div class="search-bar">
+            <div class="search-area">
+                <div class="wave-effect"></div>
+                <div class="search-box">
                     <i class="fa fa-search"></i>
                     <input type="text" placeholder="Luxury skincare for glowing skin?">
-                    <span class="ai-sparkle">✨</span>
+                    <span class="sparkle">✨</span>
                 </div>
             </div>
 
             <h1>Curated luxury for you, Rahul</h1>
-            <p class="sub-heading">Smart choices recommended by AI.</p>
+            <p class="subtitle">Smart choices recommended by AI.</p>
         </header>
 
-        <div class="tab-container">
+        <div class="tabs">
             <span>All</span>
             <span class="active">Watches</span>
             <span>Skincare</span>
             <span>Electronics</span>
-            <span>Shoes</span>
         </div>
 
-        <main class="grid-layout">
-            <div class="section-title">
-                <h2>Watches <small>why these?</small></h2>
-                <span class="trust">Why trust results?</span>
-            </div>
-
-            <div class="product-grid">
-                <div class="p-card">
-                    <div class="p-badge ai">AI Selected</div>
-                    <img src="https://m.media-amazon.com/images/I/71Xm6I2InML._AC_UY1000_.jpg" alt="Fossil">
-                    <div class="p-details">
-                        <h3>St. Fossil Grant Classic</h3>
-                        <div class="rating">★★★★☆ <span>320</span></div>
-                        <p class="p-price">₹7,495 - 8,095</p>
-                        <button class="buy-now-btn">Buy Now <i class="fa fa-arrow-right"></i></button>
-                    </div>
+        <main class="container">
+            <div class="grid">
+                <div class="card">
+                    <div class="tag ai">AI Selected</div>
+                    <img src="https://m.media-amazon.com/images/I/71Xm6I2InML._AC_UY1000_.jpg">
+                    <h3>St. Fossil Grant Classic</h3>
+                    <p class="price">₹7,495 - 8,095</p>
+                    <button class="btn">Buy Now</button>
                 </div>
-
-                <div class="p-card">
-                    <div class="p-badge verified">Verified</div>
-                    <img src="https://m.media-amazon.com/images/I/61ZjlBOp+rL._AC_SL1500_.jpg" alt="Titan">
-                    <div class="p-details">
-                        <h3>Titan Edge Ultra Thin</h3>
-                        <div class="rating">★★★★★ <span>400</span></div>
-                        <p class="p-price">₹10,995 - 19,998</p>
-                        <button class="buy-now-btn">Buy Now <i class="fa fa-arrow-right"></i></button>
-                    </div>
+                <div class="card">
+                    <div class="tag ver">Verified</div>
+                    <img src="https://m.media-amazon.com/images/I/61ZjlBOp+rL._AC_SL1500_.jpg">
+                    <h3>Titan Edge Ultra Thin</h3>
+                    <p class="price">₹10,995 - 19,998</p>
+                    <button class="btn">Buy Now</button>
                 </div>
             </div>
         </main>
     </div>
 
-    <div id="profile-page" class="hidden">
-        <div class="profile-container">
-            <button id="closeProfile"><i class="fa fa-arrow-left"></i> Back</button>
-            <div class="profile-header">
-                <img src="https://i.pravatar.cc/100" alt="DP" class="dp-large">
-                <h2>Rahul Sharma</h2>
-            </div>
-            <div class="profile-list">
+    <div id="profile-view" class="hidden">
+        <div class="profile-card">
+            <button id="backHome"><i class="fa fa-arrow-left"></i> Back</button>
+            <img src="https://i.pravatar.cc/100" class="dp-big">
+            <h2>Rahul Sharma</h2>
+            <div class="details">
                 <p><strong>Gender:</strong> Male</p>
                 <p><strong>Mobile:</strong> +91 98765 43210</p>
-                <p><strong>Email:</strong> rahul.sharma@gia.ai</p>
+                <p><strong>Email:</strong> rahul@gia.ai</p>
                 <p><strong>Address:</strong> Flat 402, Luxury Tower, Cyber City, Gurgaon</p>
             </div>
         </div>
