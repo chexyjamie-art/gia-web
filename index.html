@@ -1,119 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALTER | Smart AI Stylist</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <title>GIA – AI Stylist</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
-<body class="bg-white text-black font-sans overflow-x-hidden">
 
-    <div class="glow-1"></div>
-    <div class="glow-2"></div>
+<body>
 
-    <nav class="flex justify-between items-center p-6 backdrop-blur-md sticky top-0 z-50 bg-white/80">
-        <div class="flex gap-4 items-center">
-            <span class="cursor-pointer font-medium text-black">☰ Menu</span>
-        </div>
+<header class="top-header">
+  <div class="left">☰</div>
+  <div class="logo">GIA</div>
+  <div class="right">
+    <span>♡</span>
+    <span>🔔</span>
+    <img class="profile" src="https://i.pravatar.cc/40" />
+  </div>
+</header>
 
-        <div class="text-2xl font-bold tracking-widest text-black">ALTER</div>
+<section class="hero">
+  <h1>Curated luxury for <span>you</span></h1>
+  <p>AI that tells you what to buy — and what not to.</p>
 
-        <div class="flex gap-6 items-center">
-            <span class="cursor-pointer hidden md:block text-black">Wishlist</span>
-            <span class="cursor-pointer text-black">Notifications</span>
-            <div class="w-10 h-10 rounded-full bg-gray-200 border border-black/5 overflow-hidden">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" alt="User">
-            </div>
-        </div>
-    </nav>
+  <div class="search-bar">
+    <input placeholder="Search luxury picks, skincare, gadgets…" />
+    <button>Search</button>
+  </div>
 
-    <main class="max-w-6xl mx-auto px-6 pt-10">
+  <div class="tabs">
+    <button class="active">All</button>
+    <button>Watches</button>
+    <button>Skincare</button>
+    <button>Tech</button>
+  </div>
+</section>
 
-        <div class="relative max-w-2xl mx-auto mb-12 px-4">
-            <input type="text" placeholder="Search luxury products..." 
-                   class="w-full bg-white border border-gray-200 shadow-lg py-4 px-12 rounded-full focus:outline-none focus:ring-2 ring-blue-400 text-black">
-            <span class="absolute left-8 top-4 opacity-40">🔍</span>
-        </div>
+<section class="products">
+  <div class="card">
+    <span class="tag">AI Pick</span>
+    <img src="https://via.placeholder.com/300x300">
+    <h3>Elegant Daily Watch</h3>
+    <p>₹8,999 · Confidence 92%</p>
+    <button>Buy Now</button>
+  </div>
 
-        <div class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl font-light text-black">Curated luxury for you, <span class="font-semibold border-b-2 border-blue-500/50">Rahul</span></h1>
-            <p class="text-gray-500 mt-3 italic">Smart choices recommended by AI.</p>
-        </div>
+  <div class="card">
+    <span class="tag">Best Value</span>
+    <img src="https://via.placeholder.com/300x300">
+    <h3>Minimal Sneakers</h3>
+    <p>₹3,499 · Confidence 89%</p>
+    <button>Buy Now</button>
+  </div>
 
-        <section class="mt-4">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-medium tracking-wide text-black uppercase text-sm">Watches</h2>
-                <span class="text-gray-400 text-sm cursor-pointer hover:underline">Why these?</span>
-            </div>
+  <div class="card">
+    <span class="tag">Premium</span>
+    <img src="https://via.placeholder.com/300x300">
+    <h3>Glow Skincare Set</h3>
+    <p>₹2,299 · Confidence 94%</p>
+    <button>Buy Now</button>
+  </div>
+</section>
 
-            <div class="flex gap-6 overflow-x-auto pb-8 no-scrollbar scroll-smooth">
+<section class="why">
+  <div>✔ Honest AI advice</div>
+  <div>✔ No fake discounts</div>
+  <div>✔ Buy from Amazon / Nykaa</div>
+</section>
 
-                <div class="min-w-[300px] glass-card p-6 rounded-[2.5rem] border border-gray-100 shadow-sm">
-                    <span class="text-[10px] bg-blue-500/10 px-3 py-1 rounded-full text-blue-600 border border-blue-500/20">✦ AI SELECTED</span>
-                    <div class="h-44 flex items-center justify-center my-6">
-                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" class="object-contain h-full drop-shadow-2xl">
-                    </div>
-                    <h3 class="font-medium text-black">St. Fossil Grant Classic</h3>
-                    <p class="text-2xl font-bold mt-2 text-black">₹8,999</p>
-                    <a href="https://amazon.in/dp/example1" target="_blank" class="no-underline">
-                        <button class="w-full mt-6 bg-black text-white hover:bg-gray-800 py-3 rounded-2xl flex justify-between px-5 items-center transition">
-                            <span>Buy Now</span>
-                            <span class="text-xl">→</span>
-                        </button>
-                    </a>
-                </div>
+<nav class="bottom-nav">
+  <span class="active">Home</span>
+  <span>Explore</span>
+  <span class="ai">AI</span>
+  <span>Wishlist</span>
+  <span>Profile</span>
+</nav>
 
-                <div class="min-w-[240px] glass-card p-4 rounded-[2rem] border border-gray-100 shadow-sm">
-                    <div class="h-32 flex items-center justify-center my-4">
-                        <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200" class="object-contain h-full">
-                    </div>
-                    <h3 class="font-medium text-sm text-black">Premium Sunglasses</h3>
-                    <p class="text-lg font-bold mt-1 text-black">₹4,999</p>
-                    <a href="https://amazon.in/dp/example2" target="_blank" class="no-underline">
-                        <button class="w-full mt-4 bg-[#a5b4c4] text-white py-2 rounded-xl flex justify-center items-center gap-2 text-sm hover:bg-slate-500 transition">
-                            Buy Now ↗
-                        </button>
-                    </a>
-                </div>
-
-                <div class="min-w-[300px] glass-card p-6 rounded-[2.5rem] border border-gray-100 shadow-sm">
-                    <span class="text-[10px] bg-purple-500/10 px-3 py-1 rounded-full text-purple-600 border border-purple-500/20">✦ PREMIUM CHOICE</span>
-                    <div class="h-44 flex items-center justify-center my-6">
-                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" class="object-contain h-full drop-shadow-2xl">
-                    </div>
-                    <h3 class="font-medium text-black">Titan Edge Ultra Thin</h3>
-                    <p class="text-2xl font-bold mt-2 text-black">₹22,999</p>
-                    <a href="https://amazon.in/dp/example3" target="_blank" class="no-underline">
-                        <button class="w-full mt-6 bg-black text-white hover:bg-gray-800 py-3 rounded-2xl flex justify-between px-5 items-center transition">
-                            <span>Buy Now</span>
-                            <span class="text-xl">→</span>
-                        </button>
-                    </a>
-                </div>
-
-            </div>
-        </section>
-
-        <section class="mt-12 mb-20">
-            <div class="glass-card p-4 rounded-[3rem] border border-gray-100 shadow-sm overflow-hidden flex flex-col md:flex-row items-center">
-                <div class="w-full md:w-1/2 h-72 bg-gray-50 flex items-center justify-center rounded-[2.5rem]">
-                     <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500" class="object-cover rounded-3xl h-5/6 shadow-lg">
-                </div>
-                <div class="p-10 md:w-1/2">
-                    <h2 class="text-3xl font-semibold mb-3 text-black">Complete Glow Combo</h2>
-                    <p class="text-gray-500 mb-8 leading-relaxed">Picked by AI for Indian climate.</p>
-                    <a href="https://amazon.in/dp/combo-link" target="_blank" class="no-underline">
-                        <button class="bg-[#a5b4c4] hover:bg-slate-500 text-white px-10 py-4 rounded-2xl flex items-center gap-4 transition">
-                            Buy Now <span class="text-xl">→</span>
-                        </button>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
