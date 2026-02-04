@@ -64,3 +64,30 @@ function handleVisualSearch(event) {
         }, 3000); // 3 seconds ka analysis time
     }
 }
+
+// GIA 3D Product Interaction Logic
+const product = document.getElementById('floating-product');
+const container = document.getElementById('product-3d-container');
+
+if (container && product) {
+    container.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX - rect.left; // position inside element
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        // Calculate rotation based on mouse position
+        const rotateX = (y - centerY) / 10; 
+        const rotateY = (centerX - x) / 10;
+        
+        product.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.1)`;
+        product.style.animation = 'none'; // Stop floating during interaction
+    });
+
+    container.addEventListener('mouseleave', () => {
+        product.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`;
+        product.style.animation = 'float 4s ease-in-out infinite';
+    });
+}
