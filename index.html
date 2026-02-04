@@ -3,86 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GIA AI Stylist</title>
+  <title>GIA – Smart AI Stylist</title>
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <div class="nav">
-    <i class="fa fa-bars menu"></i>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">GIA</div>
+  </header>
 
-    <div class="brand">
-      <span class="mark">GIA</span>
-      <span class="logo">AI STYLIST</span>
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Your personal <span>AI shopping stylist</span></h1>
+    <p>Fashion • Beauty • Gadgets — honest, smart, confident decisions</p>
+
+    <div class="search-box">
+      <input type="text" placeholder="Search outfits, skincare, gadgets…" />
+      <button>Search</button>
     </div>
 
-    <div class="icons">
-      <i class="fa fa-bell"></i>
-      <i class="fa fa-heart"></i>
-      <i class="fa fa-user"></i>
+    <div class="tabs">
+      <button class="active">Fashion</button>
+      <button>Beauty</button>
+      <button>Gadgets</button>
     </div>
-  </div>
-</header>
+  </section>
 
-<section class="hero">
-  <div class="search-wrap">
-    <div class="search">
-      <i class="fa fa-search"></i>
-      <input id="searchInput" placeholder="Luxury skincare for glowing skin?" />
+  <!-- Products -->
+  <section class="products">
+    <div class="product-card">
+      <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab" />
+      <h3>Casual White Shirt</h3>
+      <p>₹999 • Best for daily wear</p>
+      <button>Buy Now</button>
     </div>
-  </div>
 
-  <h1>Curated luxury for you, Rahul</h1>
-  <p>Smart choices recommended by AI</p>
-</section>
+    <div class="product-card">
+      <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9" />
+      <h3>Luxury Skincare Serum</h3>
+      <p>₹1,499 • Brightening</p>
+      <button>Buy Now</button>
+    </div>
 
-<div class="tabs">
-  <a class="tab active">All</a>
-  <a class="tab">Watches</a>
-  <a class="tab">Skincare</a>
-  <a class="tab">Electronics</a>
-  <a class="tab">Shoes</a>
-</div>
+    <div class="product-card">
+      <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8" />
+      <h3>Wireless Headphones</h3>
+      <p>₹2,999 • Best sound</p>
+      <button>Buy Now</button>
+    </div>
+  </section>
 
-<section class="grid">
-
-  <div class="card">
-    <span class="badge">AI Selected</span>
-    <img src="https://via.placeholder.com/140">
-    <h3>Fossil Grant Classic</h3>
-    <p class="price">₹8,995</p>
-    <button class="buy-btn">Buy Now →</button>
-  </div>
-
-  <div class="card">
-    <span class="badge">Verified</span>
-    <img src="https://via.placeholder.com/140">
-    <h3>Titan Edge Ultra Thin</h3>
-    <p class="price">₹19,999</p>
-    <button class="buy-btn">Buy Now →</button>
-  </div>
-
-  <div class="card">
-    <span class="badge">Premium</span>
-    <img src="https://via.placeholder.com/140">
-    <h3>Seiko Prospex Solar</h3>
-    <p class="price">₹21,899</p>
-    <button class="buy-btn">Buy Now →</button>
-  </div>
-
-</section>
-
-<footer>
-  <a href="#">Terms</a> ·
-  <a href="#">Privacy</a> ·
-  <a href="#">Conditions</a>
-</footer>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
