@@ -1,19 +1,14 @@
-document.addEventListener("DOMContentLoaded", () => {
+// Tabs active switch
+const tabs = document.querySelectorAll(".tabs button");
 
-  // Buy Now click
-  document.querySelectorAll(".buy-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      alert("Redirecting to trusted affiliate store...");
-    });
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    tabs.forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
   });
+});
 
-  // Search
-  const searchInput = document.getElementById("searchInput");
-
-  searchInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter" && searchInput.value.trim() !== "") {
-      alert("AI searching for: " + searchInput.value);
-    }
-  });
-
+// Search placeholder (future AI hook)
+document.querySelector(".search-box button").addEventListener("click", () => {
+  alert("AI Search coming soon 🚀");
 });
