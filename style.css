@@ -6,136 +6,138 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: #f6f6f6;
+  background: #f5f5f5;
   color: #222;
 }
 
-/* Header */
-.header {
+/* HEADER */
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
   background: #fff;
-  padding: 18px 0;
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #eee;
 }
 
 .logo {
   font-family: 'Playfair Display', serif;
-  font-size: 34px;
+  font-size: 26px;
   letter-spacing: 3px;
   color: #b4975a;
 }
 
-/* Hero */
+.icon {
+  font-size: 18px;
+  margin: 0 6px;
+  cursor: pointer;
+}
+
+.profile {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  margin-left: 8px;
+}
+
+/* HERO */
 .hero {
-  padding: 60px 20px;
+  padding: 50px 20px 30px;
   text-align: center;
-  background: linear-gradient(180deg, #ffffff 0%, #f2f2f2 100%);
+  background: linear-gradient(#fff, #f2f2f2);
 }
 
 .hero h1 {
   font-family: 'Playfair Display', serif;
-  font-size: 36px;
-  margin-bottom: 10px;
+  font-size: 32px;
 }
 
-.hero h1 span {
+.hero span {
   color: #b4975a;
 }
 
 .hero p {
-  font-size: 15px;
+  font-size: 14px;
   color: #666;
-  margin-bottom: 30px;
+  margin: 12px 0 30px;
 }
 
-/* Search */
-.search-box {
+/* SEARCH */
+.search-wrap {
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 25px;
+  max-width: 520px;
+  margin: auto;
+  background: #fff;
+  border-radius: 40px;
+  padding: 6px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
-.search-box input {
-  width: 260px;
-  padding: 12px 14px;
-  border-radius: 30px;
-  border: 1px solid #ddd;
-  outline: none;
-}
-
-.search-box button {
-  padding: 12px 22px;
-  border-radius: 30px;
+.search-wrap input {
+  flex: 1;
   border: none;
+  outline: none;
+  padding: 14px 16px;
+  border-radius: 40px;
+}
+
+.search-wrap button {
+  border: none;
+  padding: 14px 24px;
+  border-radius: 40px;
   background: #b4975a;
   color: #fff;
   cursor: pointer;
 }
 
-/* Tabs */
+/* TABS */
 .tabs {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
+  margin-top: 22px;
 }
 
 .tabs button {
+  margin: 0 6px;
   padding: 8px 18px;
   border-radius: 20px;
   border: 1px solid #ddd;
   background: #fff;
-  cursor: pointer;
 }
 
 .tabs .active {
   background: #b4975a;
   color: #fff;
-  border-color: #b4975a;
 }
 
-/* Products */
+/* PRODUCTS */
 .products {
   padding: 40px 20px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 25px;
+  gap: 22px;
   max-width: 1100px;
   margin: auto;
 }
 
 .product-card {
   background: #fff;
-  border-radius: 18px;
+  border-radius: 20px;
   padding: 15px;
   text-align: center;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
 }
 
 .product-card img {
   width: 100%;
   height: 200px;
+  border-radius: 16px;
   object-fit: cover;
-  border-radius: 14px;
-  margin-bottom: 12px;
-}
-
-.product-card h3 {
-  font-size: 16px;
-  margin-bottom: 5px;
-}
-
-.product-card p {
-  font-size: 14px;
-  color: #777;
-  margin-bottom: 10px;
 }
 
 .product-card button {
+  margin-top: 10px;
   padding: 10px 18px;
   border-radius: 25px;
-  border: none;
   background: #111;
   color: #fff;
-  cursor: pointer;
+  border: none;
 }
