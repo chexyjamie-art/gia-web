@@ -33,10 +33,15 @@
 
         <div class="relative max-w-2xl mx-auto mb-12 px-4">
             <div class="relative group">
-                <input type="text" placeholder="Search luxury products or ask GIA..." 
-                    class="w-full bg-white border border-gray-200 shadow-xl py-5 px-14 rounded-full focus:outline-none focus:ring-2 ring-blue-400 text-black transition-all">
+                <input type="text" id="gia-search-input" placeholder="Search luxury products or ask GIA..." 
+                    class="w-full bg-white border border-gray-200 shadow-xl py-5 px-16 rounded-full focus:outline-none focus:ring-2 ring-blue-400 text-black transition-all">
 
                 <div class="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                    
+                    <button id="gia-voice-btn" class="hover:scale-125 transition-transform p-2 text-xl opacity-60 hover:opacity-100" title="Voice Search">
+                        🎤
+                    </button>
+
                     <label for="gia-upload" class="cursor-pointer hover:scale-110 transition-transform p-2">
                         <span class="text-xl">📷</span>
                         <input type="file" id="gia-upload" class="hidden" accept="image/*" onchange="handleVisualSearch(event)">
@@ -44,6 +49,13 @@
                 </div>
 
                 <span class="absolute left-6 top-1/2 -translate-y-1/2 opacity-40">🔍</span>
+            </div>
+
+            <div id="voice-waves" class="hidden mt-4 flex justify-center gap-1 items-center h-8">
+                <div class="w-1 h-4 bg-blue-400 animate-bounce"></div>
+                <div class="w-1 h-8 bg-blue-600 animate-bounce [animation-delay:0.2s]"></div>
+                <div class="w-1 h-5 bg-blue-400 animate-bounce [animation-delay:0.4s]"></div>
+                <p class="text-[10px] ml-3 uppercase tracking-widest font-bold text-blue-600">GIA is listening...</p>
             </div>
 
             <div id="gia-loader" class="hidden mt-4 text-center">
@@ -115,10 +127,10 @@
                 <span class="text-[10px] tracking-[0.3em] text-gray-400 uppercase">Interactive Experience</span>
                 <h2 class="text-3xl font-serif mt-2 italic">The GIA Signature Collection</h2>
             </div>
-            
+
             <div class="glass-card relative overflow-hidden group p-10 flex flex-col items-center justify-center min-h-[500px] border border-gray-100">
                 <div class="absolute inset-0 bg-radial-gradient from-blue-100/10 to-transparent opacity-50"></div>
-                
+
                 <div id="product-3d-container" class="relative z-10 w-full max-w-sm cursor-grab active:cursor-grabbing transition-transform duration-500">
                     <img src="https://images.unsplash.com/photo-1547996160-81dfa63595dd?w=600" 
                          id="floating-product"
