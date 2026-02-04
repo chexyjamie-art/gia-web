@@ -1,102 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA AI Stylist - Premium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GIA AI Stylist</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="nav-left">
-            <span><i class="fa fa-bars"></i> Menu</span>
-            <span class="shop-link">Shop</span>
-        </div>
-        <div class="nav-right">
-            <i class="fa-regular fa-bell"></i>
-            <i class="fa-regular fa-heart"></i>
-            <i class="fa-regular fa-comment-dots"></i>
-            <img src="https://i.pravatar.cc/100" class="profile-icon" id="profileToggle">
-        </div>
-    </nav>
+<header>
+  <div class="nav">
+    <i class="fa fa-bars menu"></i>
 
-    <div id="app-container">
-        <header class="header-main">
-            <div class="logo-box">
-                <div class="gia-text">GIA</div>
-                <p>Smart AI Stylist</p>
-            </div>
-
-            <div class="search-container">
-                <div class="wave-background"></div>
-                <div class="search-bar">
-                    <i class="fa fa-search"></i>
-                    <input type="text" placeholder="Luxury skincare for glowing skin?">
-                    <span class="sparkle-icon">✨</span>
-                </div>
-            </div>
-
-            <h1>Curated luxury for you, Rahul</h1>
-            <p class="subtitle">Smart choices recommended by AI.</p>
-        </header>
-
-        <div class="tab-selection">
-            <span>All</span>
-            <span class="active">Watches</span>
-            <span>Skincare</span>
-            <span>Electronics</span>
-            <span>Shoes</span>
-        </div>
-
-        <main class="main-grid">
-            <div class="section-info">
-                <h2>Watches <small>why these?</small></h2>
-                <span class="trust-link">Why trust results?</span>
-            </div>
-
-            <div class="product-wrapper">
-                <div class="item-card">
-                    <div class="item-badge ai-selected">AI Selected</div>
-                    <div class="img-container">
-                        <img src="https://m.media-amazon.com/images/I/71Xm6I2InML._AC_UY1000_.jpg" alt="Watch">
-                    </div>
-                    <h3>St. Fossil Grant Classic</h3>
-                    <div class="star-rating">★★★★☆ <span>320</span></div>
-                    <p class="item-price">₹7,495 - 8,095</p>
-                    <button class="buy-now">Buy Now <i class="fa fa-arrow-right"></i></button>
-                </div>
-
-                <div class="item-card">
-                    <div class="item-badge verified-choice">Verified</div>
-                    <div class="img-container">
-                        <img src="https://m.media-amazon.com/images/I/61ZjlBOp+rL._AC_SL1500_.jpg" alt="Watch">
-                    </div>
-                    <h3>Titan Edge Ultra Thin</h3>
-                    <div class="star-rating">★★★★★ <span>400</span></div>
-                    <p class="item-price">₹10,995 - 19,998</p>
-                    <button class="buy-now">Buy Now <i class="fa fa-arrow-right"></i></button>
-                </div>
-            </div>
-        </main>
+    <div class="brand">
+      <span class="mark">GIA</span>
+      <span class="logo">AI STYLIST</span>
     </div>
 
-    <div id="profile-overlay" class="hidden">
-        <div class="profile-box">
-            <button id="backToHome"><i class="fa fa-arrow-left"></i> Back</button>
-            <img src="https://i.pravatar.cc/100" class="dp-large">
-            <h2>Rahul Sharma</h2>
-            <div class="user-info">
-                <p><strong>Gender:</strong> Male</p>
-                <p><strong>Mobile:</strong> +91 98765 43210</p>
-                <p><strong>Email:</strong> rahul@gia.ai</p>
-                <p><strong>Address:</strong> Flat 402, Luxury Tower, Cyber City, Gurgaon</p>
-            </div>
-        </div>
+    <div class="icons">
+      <i class="fa fa-bell"></i>
+      <i class="fa fa-heart"></i>
+      <i class="fa fa-user"></i>
     </div>
+  </div>
+</header>
 
-    <script src="script.js"></script>
+<section class="hero">
+  <div class="search-wrap">
+    <div class="search">
+      <i class="fa fa-search"></i>
+      <input id="searchInput" placeholder="Luxury skincare for glowing skin?" />
+    </div>
+  </div>
+
+  <h1>Curated luxury for you, Rahul</h1>
+  <p>Smart choices recommended by AI</p>
+</section>
+
+<div class="tabs">
+  <a class="tab active">All</a>
+  <a class="tab">Watches</a>
+  <a class="tab">Skincare</a>
+  <a class="tab">Electronics</a>
+  <a class="tab">Shoes</a>
+</div>
+
+<section class="grid">
+
+  <div class="card">
+    <span class="badge">AI Selected</span>
+    <img src="https://via.placeholder.com/140">
+    <h3>Fossil Grant Classic</h3>
+    <p class="price">₹8,995</p>
+    <button class="buy-btn">Buy Now →</button>
+  </div>
+
+  <div class="card">
+    <span class="badge">Verified</span>
+    <img src="https://via.placeholder.com/140">
+    <h3>Titan Edge Ultra Thin</h3>
+    <p class="price">₹19,999</p>
+    <button class="buy-btn">Buy Now →</button>
+  </div>
+
+  <div class="card">
+    <span class="badge">Premium</span>
+    <img src="https://via.placeholder.com/140">
+    <h3>Seiko Prospex Solar</h3>
+    <p class="price">₹21,899</p>
+    <button class="buy-btn">Buy Now →</button>
+  </div>
+
+</section>
+
+<footer>
+  <a href="#">Terms</a> ·
+  <a href="#">Privacy</a> ·
+  <a href="#">Conditions</a>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
