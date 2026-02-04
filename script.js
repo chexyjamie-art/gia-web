@@ -1,52 +1,96 @@
-// GIA Smart Interaction Logic
-const auraMessages = document.getElementById('aura-messages');
-const section3D = document.getElementById('gia-3d-section');
-const sectionCompare = document.getElementById('gia-comparison-section');
+// ==========================================
+// GIA SMART AI - FINAL LOGIC SCRIPT
+// ==========================================
 
-// Function: GIA ki taraf se message bhejna
-function giaSay(text, showOptions = false) {
-    const msg = document.createElement('div');
-    msg.className = "bg-blue-50 p-3 rounded-2xl rounded-tl-none text-black mb-3 animate-fade-in";
-    msg.innerHTML = text;
-    auraMessages.appendChild(msg);
+// 1. UI Elements Selection
+const chatBubble = document.getElementById('gia-chat-bubble');
+const chatText = document.getElementById('gia-chat-text');
+const chatActions = document.getElementById('gia-chat-actions');
+const trigger = document.getElementById('aura-trigger');
+const voiceWaves = document.getElementById('voice-waves');
+const floatingProduct = document.getElementById('floating-product');
 
-    if (showOptions) {
-        const btnContainer = document.createElement('div');
-        btnContainer.className = "flex gap-2 mt-2";
+// 2. SHOW/HIDE FEATURE LOGIC
+// Ye function hidden sections ko reveal karta hai
+function showFeature(id) {
+    const section = document.getElementById(id);
+    if (section) {
+        section.classList.remove('hidden');
+        section.scrollIntoView({ behavior: 'smooth' });
         
-        if (text.includes("3D")) {
-            btnContainer.innerHTML = `
-                <button onclick="activateFeature('3d')" class="bg-black text-white px-4 py-2 rounded-xl text-[10px]">Haan, 3D dikhao</button>
-                <button onclick="giaSay('Theek hai, jab mann kare tab batana!')" class="bg-gray-100 px-4 py-2 rounded-xl text-[10px]">Nahi, baad mein</button>
-            `;
-        } else if (text.includes("Comparison")) {
-            btnContainer.innerHTML = `
-                <button onclick="activateFeature('compare')" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-[10px]">Comparison dikhao</button>
-            `;
-        }
-        auraMessages.appendChild(btnContainer);
-    }
-    auraMessages.scrollTop = auraMessages.scrollHeight;
-}
-
-// Features ko activate karne ka function
-function activateFeature(type) {
-    if (type === '3d') {
-        section3D.classList.remove('hidden');
-        section3D.scrollIntoView({ behavior: 'smooth' });
-        giaSay("✨ Done! Aapke liye 3D simulation active kar diya hai. Aap ise rotate karke dekh sakte hain.");
-    } else if (type === 'compare') {
-        sectionCompare.classList.remove('hidden');
-        sectionCompare.scrollIntoView({ behavior: 'smooth' });
-        giaSay("📊 Comparison Table taiyar hai! Maine Amazon aur Flipkart ke price scan kar liye hain.");
+        // Chat bubble ko thodi der ke liye hide kar dete hain
+        chatBubble.classList.add('hidden');
+        
+        // Background aura effect (Optional)
+        document.body.style.backgroundColor = id === 'gia-3d-section' ? '#f8faff' : 'white';
     }
 }
 
-// Simulation: Jab user search kare ya product dekhe
-setTimeout(() => {
-    giaSay("Rahul, kya tum is product ko **3D** mein dekhna chahte ho? Main aapko iska 360° view dikha sakti hoon.", true);
-}, 5000);
+// 3. GIA PRO-ACTIVE CHATBOT LOGIC
+// AI khud se puchega features ke baare mein
+function giaInteraction() {
+    chatBubble.classList.remove('hidden');
+    chatText.innerHTML = "Rahul, maine is product ki deep analysis ki hai. Kya tum iski <b>Price Comparison Table</b> dekhna chahte ho? Main aapko best deals bata sakti hoon.";
+    
+    chatActions.innerHTML = `
+        <button onclick="activateComparison()" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-[11px] font-bold shadow-lg hover:scale-105 transition">Haan, Table dikhao</button>
+        <button onclick="closeChat()" class="bg-gray-100 text-gray-500 px-4 py-2 rounded-xl text-[11px] hover:bg-gray-200 transition">Nahi, rehne do</button>
+    `;
+}
 
-setTimeout(() => {
-    giaSay("Kya tum is product ki **Price Comparison Table** dekhna chahte ho? Main aapko best deals dhoondh kar dikha sakti hoon.", true);
-}, 10000);
+function activateComparison() {
+    showFeature('gia-comparison-section');
+    
+    // 2 seconds baad GIA 3D ke liye puchegi
+    setTimeout(() => {
+        chatBubble.classList.remove('hidden');
+        chatText.innerHTML = "Vaise mere paas iska <b>3D View</b> bhi hai! Kya aap ise har angle se rotate karke dekhna chahte ho?";
+        
+        chatActions.innerHTML = `
+            <button onclick="showFeature('gia-3d-section')" class="bg-black text-white px-4 py-2 rounded-xl text-[11px] font-bold shadow-lg hover:scale-105 transition">Haan, 3D dikhao ✨</button>
+            <button onclick="closeChat()" class="bg-gray-100 text-gray-500 px-4 py-2 rounded-xl text-[11px]">Baad mein</button>
+        `;
+    }, 2500);
+}
+
+function closeChat() {
+    chatBubble.classList.add('hidden');
+}
+
+// 4. VOICE SEARCH LOGIC (SIMULATION)
+const voiceBtn = document.getElementById('gia-voice-btn');
+if (voiceBtn) {
+    voiceBtn.addEventListener('click', () => {
+        voiceWaves.classList.remove('hidden');
+        // Simulate voice recognition
+        setTimeout(() => {
+            voiceWaves.classList.add('hidden');
+            alert("GIA ne aapki awaaz sun li! Searching...");
+        }, 3000);
+    });
+}
+
+// 5. 3D PRODUCT FLOATING EFFECT
+// Mouse move par product halka sa rotate hoga
+document.addEventListener('mousemove', (e) => {
+    if (floatingProduct && !document.getElementById('gia-3d-section').classList.contains('hidden')) {
+        const x = (window.innerWidth / 2 - e.pageX) / 25;
+        const y = (window.innerHeight / 2 - e.pageY) / 25;
+        floatingProduct.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+    }
+});
+
+// 6. INITIALIZATION
+// Page load hone ke 5 seconds baad AI interact karega
+window.addEventListener('load', () => {
+    setTimeout(giaInteraction, 5000);
+});
+
+// Aura button click par bhi interact karega
+if (trigger) {
+    trigger.addEventListener('click', giaInteraction);
+}
+
+// ==========================================
+// CODE ENDS HERE
+// ==========================================
