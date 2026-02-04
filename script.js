@@ -1,35 +1,39 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("ALTER AI Dashboard Initialized");
+    console.log("GIA Intelligence System Activated");
 
-    const slider = document.querySelector('.no-scrollbar');
-    
-    // 1. Mouse Wheel Scroll Support for Slider
-    if (slider) {
-        slider.addEventListener('wheel', (evt) => {
-            evt.preventDefault();
-            slider.scrollLeft += evt.deltaY;
-        });
-    }
+    // 1. Aura Mouse Tracking (Luxury Feel)
+    const aura = document.querySelector('.glow-1');
+    document.addEventListener('mousemove', (e) => {
+        if(aura) {
+            aura.style.transform = `translate(${e.clientX - 200}px, ${e.clientY - 200}px)`;
+        }
+    });
 
-    // 2. Buy Now Click Handler (Affiliate Tracking Base)
-    const buyButtons = document.querySelectorAll('button');
-    buyButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            const productName = button.closest('.glass-card')?.querySelector('h3')?.innerText || "Product";
-            console.log(`Redirecting to Affiliate Link for: ${productName}`);
-            // Yahan aap future mein pixel tracking code daal sakte hain
+    // 2. Dynamic Luxury Greeting
+    const updateGreeting = () => {
+        const title = document.querySelector('h1');
+        const hour = new Date().getHours();
+        let greet = "Welcome to Elegance,";
+        if (hour < 12) greet = "Good Morning,";
+        else if (hour < 18) greet = "Good Afternoon,";
+        else greet = "Good Evening,";
+        
+        if(title) {
+            title.innerHTML = `${greet} <span class="premium-text">Rahul</span>`;
+        }
+    };
+
+    // 3. Smooth Magnetic Effect for Cards
+    const cards = document.querySelectorAll('.glass-card');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
         });
     });
 
-    // 3. Simple Search Focus Animation
-    const searchInput = document.querySelector('input');
-    if (searchInput) {
-        searchInput.addEventListener('focus', () => {
-            searchInput.parentElement.style.transform = 'scale(1.02)';
-            searchInput.parentElement.style.transition = '0.3s ease';
-        });
-        searchInput.addEventListener('blur', () => {
-            searchInput.parentElement.style.transform = 'scale(1)';
-        });
-    }
+    updateGreeting();
 });
