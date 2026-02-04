@@ -137,3 +137,43 @@ if (auraInput) {
     });
 }
 
+// GIA AI Voice Search Logic
+const voiceBtn = document.getElementById('gia-voice-btn');
+const searchInput = document.getElementById('gia-search-input');
+const waves = document.getElementById('voice-waves');
+
+if (voiceBtn && 'webkitSpeechRecognition' in window) {
+    const recognition = new webkitSpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US'; // Aap 'hi-IN' bhi kar sakte hain Hindi ke liye
+
+    voiceBtn.addEventListener('click', () => {
+        recognition.start();
+        waves.classList.remove('hidden'); // Waves dikhao
+        voiceBtn.innerHTML = "🔴"; // Mic color change
+    });
+
+    recognition.onresult = (event) => {
+        const text = event.results[0][0].transcript;
+        searchInput.value = text; // Search bar mein voice text daal do
+        waves.classList.add('hidden');
+        voiceBtn.innerHTML = "🎤";
+        
+        // AI Reaction (Shocking factor)
+        console.log("GIA heard: " + text);
+        // Aap yahan automatic search trigger kar sakte hain
+    };
+
+    recognition.onerror = () => {
+        waves.classList.add('hidden');
+        voiceBtn.innerHTML = "🎤";
+    };
+
+    recognition.onend = () => {
+        waves.classList.add('hidden');
+        voiceBtn.innerHTML = "🎤";
+    };
+}
+
+
