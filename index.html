@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA AI Stylist</title>
+    <title>GIA AI Stylist - Premium</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -16,26 +16,26 @@
             <span class="shop-link">Shop</span>
         </div>
         <div class="nav-right">
-            <span><i class="fa-regular fa-bell"></i></span>
-            <span><i class="fa-regular fa-heart"></i></span>
-            <span><i class="fa-regular fa-comment-dots"></i></span>
-            <img src="https://i.pravatar.cc/100" class="user-dp" id="profileBtn">
+            <i class="fa-regular fa-bell"></i>
+            <i class="fa-regular fa-heart"></i>
+            <i class="fa-regular fa-comment-dots"></i>
+            <img src="https://i.pravatar.cc/100" class="profile-icon" id="profileToggle">
         </div>
     </nav>
 
-    <div id="site-content">
-        <header class="hero">
-            <div class="logo-wrap">
-                <div class="gia-brand">GIA</div>
+    <div id="app-container">
+        <header class="header-main">
+            <div class="logo-box">
+                <div class="gia-text">GIA</div>
                 <p>Smart AI Stylist</p>
             </div>
 
-            <div class="search-area">
-                <div class="wave-effect"></div>
-                <div class="search-box">
+            <div class="search-container">
+                <div class="wave-background"></div>
+                <div class="search-bar">
                     <i class="fa fa-search"></i>
                     <input type="text" placeholder="Luxury skincare for glowing skin?">
-                    <span class="sparkle">✨</span>
+                    <span class="sparkle-icon">✨</span>
                 </div>
             </div>
 
@@ -43,39 +43,52 @@
             <p class="subtitle">Smart choices recommended by AI.</p>
         </header>
 
-        <div class="tabs">
+        <div class="tab-selection">
             <span>All</span>
             <span class="active">Watches</span>
             <span>Skincare</span>
             <span>Electronics</span>
+            <span>Shoes</span>
         </div>
 
-        <main class="container">
-            <div class="grid">
-                <div class="card">
-                    <div class="tag ai">AI Selected</div>
-                    <img src="https://m.media-amazon.com/images/I/71Xm6I2InML._AC_UY1000_.jpg">
+        <main class="main-grid">
+            <div class="section-info">
+                <h2>Watches <small>why these?</small></h2>
+                <span class="trust-link">Why trust results?</span>
+            </div>
+
+            <div class="product-wrapper">
+                <div class="item-card">
+                    <div class="item-badge ai-selected">AI Selected</div>
+                    <div class="img-container">
+                        <img src="https://m.media-amazon.com/images/I/71Xm6I2InML._AC_UY1000_.jpg" alt="Watch">
+                    </div>
                     <h3>St. Fossil Grant Classic</h3>
-                    <p class="price">₹7,495 - 8,095</p>
-                    <button class="btn">Buy Now</button>
+                    <div class="star-rating">★★★★☆ <span>320</span></div>
+                    <p class="item-price">₹7,495 - 8,095</p>
+                    <button class="buy-now">Buy Now <i class="fa fa-arrow-right"></i></button>
                 </div>
-                <div class="card">
-                    <div class="tag ver">Verified</div>
-                    <img src="https://m.media-amazon.com/images/I/61ZjlBOp+rL._AC_SL1500_.jpg">
+
+                <div class="item-card">
+                    <div class="item-badge verified-choice">Verified</div>
+                    <div class="img-container">
+                        <img src="https://m.media-amazon.com/images/I/61ZjlBOp+rL._AC_SL1500_.jpg" alt="Watch">
+                    </div>
                     <h3>Titan Edge Ultra Thin</h3>
-                    <p class="price">₹10,995 - 19,998</p>
-                    <button class="btn">Buy Now</button>
+                    <div class="star-rating">★★★★★ <span>400</span></div>
+                    <p class="item-price">₹10,995 - 19,998</p>
+                    <button class="buy-now">Buy Now <i class="fa fa-arrow-right"></i></button>
                 </div>
             </div>
         </main>
     </div>
 
-    <div id="profile-view" class="hidden">
-        <div class="profile-card">
-            <button id="backHome"><i class="fa fa-arrow-left"></i> Back</button>
-            <img src="https://i.pravatar.cc/100" class="dp-big">
+    <div id="profile-overlay" class="hidden">
+        <div class="profile-box">
+            <button id="backToHome"><i class="fa fa-arrow-left"></i> Back</button>
+            <img src="https://i.pravatar.cc/100" class="dp-large">
             <h2>Rahul Sharma</h2>
-            <div class="details">
+            <div class="user-info">
                 <p><strong>Gender:</strong> Male</p>
                 <p><strong>Mobile:</strong> +91 98765 43210</p>
                 <p><strong>Email:</strong> rahul@gia.ai</p>
