@@ -12,6 +12,12 @@
         .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
         body { font-family: 'Inter', sans-serif; }
         h1, h2, .font-serif { font-family: 'Playfair Display', serif; }
+        /* Smooth transition for revealing sections */
+        .reveal-section { animation: slideUp 0.8s ease-out forwards; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="bg-white text-black overflow-x-hidden">
@@ -40,7 +46,6 @@
             <div class="relative group">
                 <input type="text" id="gia-search-input" placeholder="Search luxury or ask GIA..." 
                     class="w-full bg-white border border-gray-100 shadow-2xl py-5 px-14 rounded-full focus:outline-none focus:ring-2 ring-blue-100 transition-all">
-                
                 <div class="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-3">
                     <button id="gia-voice-btn" class="text-xl opacity-40 hover:opacity-100 transition-opacity">🎤</button>
                     <label for="gia-upload" class="cursor-pointer text-xl opacity-40 hover:opacity-100 transition-opacity">
@@ -48,11 +53,6 @@
                     </label>
                 </div>
                 <span class="absolute left-6 top-1/2 -translate-y-1/2 opacity-20 text-xl">🔍</span>
-            </div>
-            <div id="voice-waves" class="hidden mt-4 flex justify-center gap-1 items-center h-4">
-                <div class="w-1 h-full bg-blue-400 animate-bounce"></div>
-                <div class="w-1 h-3 bg-blue-600 animate-bounce [animation-delay:0.2s]"></div>
-                <div class="w-1 h-full bg-blue-400 animate-bounce [animation-delay:0.4s]"></div>
             </div>
         </div>
 
@@ -70,19 +70,14 @@
             </div>
 
             <div class="flex gap-8 overflow-x-auto pb-10 no-scrollbar">
-                
                 <div class="min-w-[320px] glass-card p-8 rounded-[3rem] border border-gray-100 shadow-sm relative group">
                     <div class="absolute top-6 left-8 flex flex-col gap-1">
                         <span class="text-[9px] font-bold bg-green-50 text-green-600 px-2 py-1 rounded-full border border-green-100">✔ GENUINE SCORE: 9.2</span>
                     </div>
-                    
                     <div class="h-48 flex items-center justify-center my-6">
                         <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" class="object-contain h-full drop-shadow-2xl group-hover:scale-105 transition-transform duration-500">
                     </div>
-
                     <h3 class="font-semibold text-lg">St. Fossil Grant Classic</h3>
-                    <p class="text-[10px] text-gray-400 mt-1 uppercase tracking-wider">No shady review spikes detected</p>
-                    
                     <div class="flex justify-between items-end mt-8">
                         <div>
                             <p class="text-2xl font-bold">₹8,999</p>
@@ -91,35 +86,50 @@
                         <button class="bg-black text-white px-8 py-3 rounded-2xl hover:bg-gray-800 transition shadow-xl text-sm">Buy Now</button>
                     </div>
                 </div>
-
                 <div class="min-w-[280px] glass-card p-8 rounded-[3rem] border border-gray-100 shadow-sm relative">
                     <div class="h-40 flex items-center justify-center my-6">
                         <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200" class="object-contain h-full">
                     </div>
                     <h3 class="font-semibold">Premium Sunglasses</h3>
-                    <p class="text-[10px] text-orange-500 font-bold mt-1 uppercase">Only 2 Left in Stock!</p>
-                    <div class="flex justify-between items-center mt-6">
-                        <p class="text-xl font-bold">₹4,999</p>
-                        <button class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-black hover:text-white transition">↗</button>
-                    </div>
+                    <p class="text-xl font-bold mt-4">₹4,999</p>
+                    <button class="w-full mt-4 bg-gray-100 py-2 rounded-xl hover:bg-black hover:text-white transition text-xs">View Deal ↗</button>
                 </div>
-
-                <div class="min-w-[320px] glass-card p-8 rounded-[3rem] border border-gray-100 shadow-sm">
-                    <span class="text-[9px] font-bold bg-purple-50 text-purple-600 px-2 py-1 rounded-full border border-purple-100 uppercase">Premium Choice Score: 9.5</span>
-                    <div class="h-48 flex items-center justify-center my-6">
-                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" class="object-contain h-full drop-shadow-2xl">
-                    </div>
-                    <h3 class="font-semibold text-lg">Titan Edge Ultra Thin</h3>
-                    <div class="flex justify-between items-end mt-8">
-                        <p class="text-2xl font-bold">₹22,999</p>
-                        <button class="bg-black text-white px-8 py-3 rounded-2xl hover:bg-gray-800 transition shadow-xl text-sm">Buy Now</button>
-                    </div>
-                </div>
-
             </div>
         </section>
 
-        <section class="mb-24">
+        <section id="gia-comparison-section" class="hidden mb-24 reveal-section">
+            <div class="glass-card rounded-[3rem] p-10 border border-blue-50 shadow-xl overflow-hidden">
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">📊 Real-Time Price Comparison</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="text-gray-400 text-[10px] uppercase tracking-widest border-b border-gray-50">
+                                <th class="pb-4">Store</th>
+                                <th class="pb-4">Price</th>
+                                <th class="pb-4">Delivery</th>
+                                <th class="pb-4">GIA Trust</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm">
+                            <tr class="border-b border-gray-50/50">
+                                <td class="py-4 font-bold">Amazon</td>
+                                <td class="py-4 font-bold text-green-600">₹8,999</td>
+                                <td class="py-4 text-gray-400 italic text-xs">Tomorrow, 11 AM</td>
+                                <td class="py-4 text-blue-500 font-bold">9.2/10</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 font-bold">Flipkart</td>
+                                <td class="py-4">₹9,150</td>
+                                <td class="py-4 text-gray-400 italic text-xs">2 Days</td>
+                                <td class="py-4 text-gray-400">8.5/10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="gia-3d-section" class="hidden mb-24 reveal-section">
             <div class="text-center mb-12">
                 <span class="text-[10px] tracking-[0.4em] text-gray-400 uppercase">Interactive Experience</span>
                 <h2 class="text-3xl mt-2 italic">The GIA Signature Collection</h2>
@@ -130,34 +140,76 @@
                 </div>
                 <div class="mt-12 text-center">
                     <h3 class="text-2xl font-medium">Royal Oak Gold Concept</h3>
-                    <p class="text-gray-400 text-[10px] mt-2 uppercase tracking-widest">360° AI Simulation</p>
+                    <p class="text-gray-400 text-[10px] mt-2 uppercase tracking-widest">360° AI Simulation Active</p>
                     <button class="mt-8 bg-black text-white px-12 py-4 rounded-full hover:scale-105 transition shadow-2xl">Explore Details ↗</button>
                 </div>
             </div>
         </section>
 
         <section class="mb-32">
-            <div class="glass-card rounded-[4rem] border border-gray-50 shadow-sm overflow-hidden flex flex-col md:flex-row items-center p-6 md:p-12 gap-12 bg-gradient-to-br from-white to-blue-50/20">
+            <div class="glass-card rounded-[4rem] border border-gray-50 shadow-sm overflow-hidden flex flex-col md:flex-row items-center p-6 md:p-12 gap-12">
                 <div class="w-full md:w-1/2 flex items-center justify-center bg-gray-50 rounded-[3rem] p-8">
                      <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500" class="object-cover rounded-3xl h-80 shadow-2xl">
                 </div>
                 <div class="md:w-1/2">
                     <span class="text-[10px] font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full uppercase">Verified by GIA Skin-AI</span>
                     <h2 class="text-3xl font-semibold mt-4 mb-3">Complete Glow Combo</h2>
-                    <p class="text-gray-500 leading-relaxed text-sm mb-8">GIA found this to be the most stable price in 30 days. No fake inflation detected.</p>
-                    <button class="bg-[#a5b4c4] hover:bg-slate-500 text-white px-10 py-4 rounded-[2rem] flex items-center gap-4 transition shadow-lg">
-                        Grab Best Deal <span class="text-xl">→</span>
-                    </button>
+                    <p class="text-gray-500 leading-relaxed text-sm mb-8">GIA found this to be the most stable price in 30 days.</p>
+                    <button class="bg-[#a5b4c4] text-white px-10 py-4 rounded-[2rem] flex items-center gap-4 shadow-lg">Grab Best Deal →</button>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <div id="gia-aura-container" class="fixed bottom-8 right-8 z-[100]">
-        <button class="w-16 h-16 rounded-full bg-black shadow-2xl flex items-center justify-center border border-white/10 text-2xl hover:scale-110 transition">✨</button>
+    <div id="gia-aura-container" class="fixed bottom-8 right-8 z-[100] flex flex-col items-end gap-4">
+        <div id="gia-chat-bubble" class="hidden w-80 bg-black text-white p-6 rounded-[2rem] shadow-2xl mb-2 text-sm border border-white/10">
+            <p id="gia-chat-text"></p>
+            <div id="gia-chat-actions" class="mt-4 flex flex-col gap-2"></div>
+        </div>
+        <button id="aura-trigger" class="w-16 h-16 rounded-full bg-black shadow-2xl flex items-center justify-center border border-white/10 text-2xl hover:scale-110 transition">✨</button>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const chatBubble = document.getElementById('gia-chat-bubble');
+        const chatText = document.getElementById('gia-chat-text');
+        const chatActions = document.getElementById('gia-chat-actions');
+        const trigger = document.getElementById('aura-trigger');
+
+        // Function to reveal sections
+        function showFeature(id) {
+            const section = document.getElementById(id);
+            section.classList.remove('hidden');
+            section.scrollIntoView({ behavior: 'smooth' });
+            chatBubble.classList.add('hidden');
+        }
+
+        // AI Interaction Logic
+        function giaInteraction() {
+            chatBubble.classList.remove('hidden');
+            chatText.innerHTML = "Rahul, maine is product ki analysis kar li hai. Kya tum iski <b>Price Comparison Table</b> dekhna chahte ho?";
+            chatActions.innerHTML = `
+                <button onclick="ask3D()" class="bg-blue-600 px-4 py-2 rounded-xl text-xs">Haan, Table dikhao</button>
+                <button onclick="chatBubble.classList.add('hidden')" class="bg-white/10 px-4 py-2 rounded-xl text-xs">Nahi, rehne do</button>
+            `;
+        }
+
+        function ask3D() {
+            showFeature('gia-comparison-section');
+            setTimeout(() => {
+                chatBubble.classList.remove('hidden');
+                chatText.innerHTML = "Aur ek cheez! Main aapko ye product <b>3D view</b> mein bhi dikha sakti hoon. Dekhna chahte ho?";
+                chatActions.innerHTML = `
+                    <button onclick="showFeature('gia-3d-section')" class="bg-green-600 px-4 py-2 rounded-xl text-xs">Haan, 3D Experience dikhao</button>
+                    <button onclick="chatBubble.classList.add('hidden')" class="bg-white/10 px-4 py-2 rounded-xl text-xs">Baad mein</button>
+                `;
+            }, 2000);
+        }
+
+        trigger.addEventListener('click', giaInteraction);
+        
+        // Auto-ask after 5 seconds
+        setTimeout(giaInteraction, 5000);
+    </script>
 </body>
 </html>
