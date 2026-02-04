@@ -1,44 +1,36 @@
 :root {
-    --bg-color: #0a0a0c;
+    /* Background ab white hoga aur text black */
+    --bg-color: #ffffff; 
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --card-bg: rgba(0, 0, 0, 0.03); /* Light grey glass effect */
+    --border-color: rgba(0, 0, 0, 0.08);
 }
 
-.bg-main {
+body {
     background-color: var(--bg-color);
+    color: var(--text-primary);
 }
 
+/* Gradients ko light mode ke hisaab se soft rakhein */
 .text-gradient {
-    background: linear-gradient(90deg, #fff, #a855f7);
+    background: linear-gradient(90deg, #000, #4f46e5);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .glass-card {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px);
+    background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
 }
 
-/* Background Glowing Orbs */
+/* Background Glows (Light Mode ke liye soft colors) */
 .glow-1 {
-    position: fixed;
-    top: -10%;
-    right: -10%;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
-    z-index: -1;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
 }
 
 .glow-2 {
-    position: fixed;
-    bottom: -10%;
-    left: -10%;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
-    z-index: -1;
-}
-
-/* Hide Scrollbar */
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.05) 0%, transparent 70%);
 }
