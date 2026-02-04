@@ -1,83 +1,75 @@
 :root {
-    --bg-main: #ffffff;
-    --text-dark: #000000;
-    --text-gray: #666666;
-    --accent-blue: #a5b4c4; /* Blue-grey color from your image */
-    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    --border-light: rgba(0, 0, 0, 0.08);
+    --gold-premium: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+    --bg-silk: #ffffff;
+    --text-main: #000000;
+    --card-shadow: 0 20px 50px rgba(0,0,0,0.05);
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    cursor: default;
 }
 
 body {
-    background-color: var(--bg-main);
-    color: var(--text-dark);
-    line-height: 1.6;
+    background-color: var(--bg-silk);
+    color: var(--text-main);
+    font-family: 'Playfair Display', serif; /* Luxury Serif Font */
+    overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
-/* Hide Scrollbar for Slider */
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
-}
-.no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-/* Glass Card Styling */
+/* World Class Glassmorphism */
 .glass-card {
-    background: #ffffff;
-    border: 1px solid var(--border-light);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid rgba(0,0,0,0.03);
+    border-radius: 40px;
     box-shadow: var(--card-shadow);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    transform: scale(1.03) translateY(-10px);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.1);
 }
 
-/* Background Glow Effects */
-.glow-1, .glow-2 {
-    position: fixed;
-    width: 600px;
-    height: 600px;
-    filter: blur(80px);
-    z-index: -1;
-    border-radius: 50%;
-    opacity: 0.4;
+/* Golden Text for GIA Branding */
+.premium-text {
+    background: var(--gold-premium);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
 }
 
+/* Background Aura */
 .glow-1 {
-    top: -10%;
-    right: -10%;
-    background: radial-gradient(circle, rgba(165, 180, 196, 0.3), transparent);
+    position: fixed;
+    top: 0; left: 0;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(191, 149, 63, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+    transition: transform 0.2s ease-out;
 }
 
-.glow-2 {
-    bottom: -10%;
-    left: -10%;
-    background: radial-gradient(circle, rgba(192, 132, 252, 0.2), transparent);
-}
+/* Smooth Slider */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Typography Improvements */
-h1, h2, h3 {
-    color: var(--text-dark) !important;
-}
-
-p, span {
-    color: var(--text-gray);
-}
-
-/* Button & Link Reset */
-.no-underline {
-    text-decoration: none;
-}
-
+/* Luxury Button */
 button {
+    background: var(--text-main);
+    color: white;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    border: none;
     cursor: pointer;
+}
+
+button:hover {
+    background: var(--gold-premium);
+    transform: letter-spacing 0.2s;
+    letter-spacing: 1px;
 }
