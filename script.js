@@ -1,17 +1,19 @@
-const profileToggle = document.getElementById('profileToggle');
-const backToHome = document.getElementById('backToHome');
-const appContainer = document.getElementById('app-container');
-const profileOverlay = document.getElementById('profile-overlay');
-const navbar = document.querySelector('.navbar');
+document.addEventListener("DOMContentLoaded", () => {
 
-profileToggle.onclick = () => {
-    appContainer.style.display = 'none';
-    navbar.style.display = 'none';
-    profileOverlay.classList.remove('hidden');
-};
+  // Buy Now click
+  document.querySelectorAll(".buy-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      alert("Redirecting to trusted affiliate store...");
+    });
+  });
 
-backToHome.onclick = () => {
-    appContainer.style.display = 'block';
-    navbar.style.display = 'flex';
-    profileOverlay.classList.add('hidden');
-};
+  // Search
+  const searchInput = document.getElementById("searchInput");
+
+  searchInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter" && searchInput.value.trim() !== "") {
+      alert("AI searching for: " + searchInput.value);
+    }
+  });
+
+});
