@@ -116,3 +116,21 @@ button:hover {
 .bg-radial-gradient {
     background: radial-gradient(circle at center, rgba(191, 149, 63, 0.15) 0%, transparent 70%);
 }
+
+#aura-overlay.active {
+    opacity: 1;
+}
+
+/* AI Breathing Effect for the whole screen */
+@keyframes aura-pulse {
+    0% { filter: saturate(100%) brightness(100%); }
+    50% { filter: saturate(130%) brightness(105%); }
+    100% { filter: saturate(100%) brightness(100%); }
+}
+
+.aura-active body {
+    animation: aura-pulse 4s ease-in-out infinite;
+}
+
+#aura-messages::-webkit-scrollbar { display: none; }
+
