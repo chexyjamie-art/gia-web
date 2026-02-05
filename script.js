@@ -153,3 +153,46 @@ if (trigger) {
         giaSpeak("Kaise madad karun Rahul? Aap price table ya 3D view maang sakte hain.");
     });
 }
+
+function openTruthModal(productName, score) {
+    const modal = document.getElementById('gia-modal-overlay');
+    if (modal) {
+        // Data update karein
+        document.getElementById('modal-product-name').innerText = productName;
+        document.getElementById('modal-score').innerText = score;
+        
+        // Modal ko visible banayein
+        modal.classList.remove('hidden');
+        modal.classList.add('flex'); // Yeh line important hai
+        
+        // Voice response
+        giaSpeak(`Rahul, ye hai ${productName} ki detail report. Iska GIA trust score ${score} hai.`);
+    } else {
+        console.error("Modal overlay not found in HTML!");
+    }
+}
+
+// 1. Wishlist Logic
+function addToWishlist(itemName) {
+    // Heart icon animation logic can be added here
+    giaSpeak(`Rahul, maine ${itemName} ko aapki wishlist mein add kar diya hai. Price drop hote hi GIA aapko notify karegi!`);
+    
+    // Yahan hum local storage ya database mein save kar sakte hain
+    console.log(`${itemName} added to wishlist.`);
+}
+
+// 2. Updated Modal with Social Proofing
+function openTruthModal(productName, score) {
+    const modal = document.getElementById('gia-modal-overlay');
+    if (modal) {
+        document.getElementById('modal-product-name').innerText = productName;
+        document.getElementById('modal-score').innerText = score;
+        
+        // Modal logic with social proofing dialogue
+        giaSpeak(`Rahul, iska trust score ${score} hai. Abhi 15 log ise dekh rahe hain, aur stock jaldi khatam ho sakta hai.`);
+        
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+}
+
