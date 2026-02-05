@@ -27,6 +27,13 @@
         }
         .pop-in { animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes pop { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+        /* NEW: Check Availability Animation */
+        @keyframes checkIn {
+            0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        .check-tick { animation: checkIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
     </style>
 </head>
 <body class="bg-white text-black overflow-x-hidden">
@@ -35,13 +42,9 @@
         <button class="p-2 hover:bg-gray-100 rounded-xl transition-colors">
             <i data-lucide="menu" class="w-6 h-6"></i>
         </button>
-
         <div class="text-xl font-bold tracking-[0.3em] pl-10">GIA</div>
-
         <div class="flex items-center gap-6">
-            <button class="hidden md:block text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-black transition-colors">
-                Notifications
-            </button>
+            <button class="hidden md:block text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-black transition-colors">Notifications</button>
             <button class="relative p-2 hover:bg-gray-100 rounded-xl transition-colors">
                 <i data-lucide="heart" class="w-5 h-5 text-gray-600"></i>
                 <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
@@ -60,260 +63,66 @@
         </div>
     </div>
 
-    <div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
-        <div class="absolute top-[-5%] right-[-5%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-blue-50 rounded-full blur-[80px] md:blur-[120px] opacity-60"></div>
-        <div class="absolute bottom-[-5%] left-[-5%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-orange-50 rounded-full blur-[80px] md:blur-[120px] opacity-60"></div>
-    </div>
-
     <main class="max-w-6xl mx-auto px-4 md:px-6">
         
         <div class="search-wrapper relative max-w-2xl mx-auto">
             <div class="relative group">
-                <input type="text" id="gia-search-input" placeholder="Search luxury or ask GIA..." 
+                <input type="text" id="gia-search-input" onkeypress="if(event.key==='Enter') updateGIACombo(this.value)" placeholder="Search luxury or ask GIA..." 
                     class="w-full bg-white border border-gray-100 shadow-[0_20px_50px_rgba(0,0,0,0.06)] py-5 px-8 pr-32 rounded-[2rem] focus:outline-none focus:ring-2 ring-blue-50 transition-all text-sm md:text-base">
-                
                 <div class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-4">
-                    <button onclick="document.getElementById('photo-input').click()" class="text-gray-400 hover:text-black transition-colors p-1">
-                        <i data-lucide="camera" class="w-5 h-5"></i>
-                    </button>
-                    <button id="gia-voice-btn" onclick="listenForResponse()" class="bg-black text-white p-2.5 rounded-2xl hover:scale-110 active:scale-95 transition-all shadow-lg">
-                        <i data-lucide="mic" class="w-5 h-5"></i>
-                    </button>
+                    <button onclick="document.getElementById('photo-input').click()" class="text-gray-400 hover:text-black transition-colors p-1"><i data-lucide="camera" class="w-5 h-5"></i></button>
+                    <button id="gia-voice-btn" onclick="listenForResponse()" class="bg-black text-white p-2.5 rounded-2xl hover:scale-110 active:scale-95 transition-all shadow-lg"><i data-lucide="mic" class="w-5 h-5"></i></button>
                 </div>
             </div>
             <input type="file" id="photo-input" class="hidden" accept="image/*">
+        </div>
+
+        <section class="mb-12 reveal-section">
+            <h2 class="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-6 px-2">Top Selections</h2>
             
-            <div class="flex gap-2 mt-6 overflow-x-auto no-scrollbar pb-2 justify-center">
-                <span class="px-4 py-1.5 bg-black text-white rounded-full text-[10px] whitespace-nowrap cursor-pointer">All Watches</span>
-                <span class="px-4 py-1.5 bg-gray-100 rounded-full text-[10px] whitespace-nowrap cursor-pointer">Top GIA Score</span>
-                <span class="px-4 py-1.5 bg-gray-100 rounded-full text-[10px] whitespace-nowrap cursor-pointer">Price Drop</span>
-            </div>
-        </div>
+            <div id="product-grid" class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
+                <div onclick="updateGIACombo('sunscreen')" class="bg-white rounded-3xl p-4 border border-gray-100 shadow-sm hover:shadow-xl transition-all cursor-pointer text-center group">
+                    <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200" class="w-20 h-20 mx-auto object-contain mb-3 group-hover:scale-110 transition-transform">
+                    <h4 class="text-[10px] font-bold truncate">Matte Sunscreen</h4>
+                    <p class="text-xs font-black text-blue-600 mt-1">₹599</p>
+                </div>
+                <div onclick="updateGIACombo('shirt')" class="bg-white rounded-3xl p-4 border border-gray-100 shadow-sm hover:shadow-xl transition-all cursor-pointer text-center group">
+                    <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=200" class="w-20 h-20 mx-auto object-contain mb-3 group-hover:scale-110 transition-transform">
+                    <h4 class="text-[10px] font-bold truncate">Linen Shirt</h4>
+                    <p class="text-xs font-black text-blue-600 mt-1">₹1,899</p>
+                </div>
+                </div>
 
-        <section class="mb-12">
-            <h2 class="text-[10px] md:text-sm font-bold tracking-[0.2em] uppercase text-gray-400 mb-6 px-2">GIA Verified Selections</h2>
-            <div class="flex gap-4 md:gap-8 overflow-x-auto pb-6 no-scrollbar snap-x">
-                
-                <div onclick="openTruthModal('St. Fossil Grant', 9.2)" class="min-w-[280px] md:min-w-[320px] snap-center glass-card p-6 md:p-8 rounded-[2.5rem] border border-gray-100 shadow-sm relative group cursor-pointer hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
-                    <div class="flex justify-between items-start absolute top-6 left-6 right-6 z-10">
-                        <span class="text-[9px] font-bold bg-green-50 text-green-600 px-3 py-1 rounded-full border border-green-100 uppercase italic">✔ GIA Score: 9.2</span>
-                        <button onclick="event.stopPropagation(); addToWishlist('Fossil Grant')" class="w-8 h-8 bg-white/50 backdrop-blur rounded-full flex items-center justify-center shadow-sm hover:bg-red-50 hover:text-red-500 transition-all">
-                            <i data-lucide="heart" class="w-4 h-4"></i>
-                        </button>
+            <div id="gia-combo-card" class="glass-card rounded-[2.5rem] p-6 md:p-10 border border-blue-50 relative overflow-hidden shadow-2xl bg-white/90">
+                <div class="flex flex-col lg:flex-row gap-10 items-center">
+                    
+                    <div id="combo-items-container" class="flex items-center gap-4 overflow-x-auto no-scrollbar py-6 min-w-[65%]">
+                        <div class="text-gray-400 italic text-sm">Tap a product above to see GIA's Combo...</div>
                     </div>
-                    <div class="h-44 md:h-48 flex items-center justify-center my-4 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" class="object-contain h-full transform group-hover:scale-110 transition-transform duration-500 ease-in-out">
-                    </div>
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="flex -space-x-2">
-                            <img src="https://i.pravatar.cc/20?u=1" class="w-4 h-4 rounded-full border border-white">
-                            <img src="https://i.pravatar.cc/20?u=2" class="w-4 h-4 rounded-full border border-white">
-                        </span>
-                        <p class="text-[9px] text-gray-400 font-medium italic">12 others bought this today</p>
-                    </div>
-                    <h3 class="font-semibold text-lg group-hover:text-blue-600 transition-colors">St. Fossil Grant Classic</h3>
-                    <div class="flex justify-between items-end mt-4">
-                        <div>
-                            <p class="text-[10px] text-red-500 font-bold line-through">₹12,999</p>
-                            <p class="text-2xl font-bold">₹8,999</p>
+
+                    <div class="w-full lg:w-1/3 border-t lg:border-t-0 lg:border-l border-gray-100 pt-8 lg:pt-0 lg:pl-10">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 id="combo-name" class="text-2xl font-bold italic font-serif text-black leading-tight">Smart Set</h3>
+                            <div class="text-right">
+                                <span class="text-[8px] font-bold text-blue-600 uppercase">Score</span>
+                                <div id="combo-score" class="text-2xl font-black italic">--</div>
+                            </div>
                         </div>
-                        <button onclick="event.stopPropagation(); triggerSuccess()" class="bg-black text-white px-6 py-3 rounded-2xl text-xs font-bold active:scale-95 shadow-lg">Buy Now</button>
-                    </div>
-                </div>
-
-                <div onclick="openTruthModal('Seiko Presage', 9.5)" class="min-w-[280px] md:min-w-[320px] snap-center glass-card p-6 md:p-8 rounded-[2.5rem] border border-gray-100 shadow-sm relative group cursor-pointer hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
-                    <div class="flex justify-between items-start absolute top-6 left-6 right-6 z-10">
-                        <span class="text-[9px] font-bold bg-green-50 text-green-600 px-3 py-1 rounded-full border border-green-100 uppercase italic">✔ GIA Score: 9.5</span>
-                        <button onclick="event.stopPropagation(); addToWishlist('Seiko Presage')" class="w-8 h-8 bg-white/50 backdrop-blur rounded-full flex items-center justify-center shadow-sm hover:bg-red-50 hover:text-red-500 transition-all">
-                            <i data-lucide="heart" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                    <div class="h-44 md:h-48 flex items-center justify-center my-4 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=400" class="object-contain h-full transform group-hover:scale-110 transition-transform duration-500 ease-in-out">
-                    </div>
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="flex -space-x-2">
-                            <img src="https://i.pravatar.cc/20?u=4" class="w-4 h-4 rounded-full border border-white">
-                            <img src="https://i.pravatar.cc/20?u=5" class="w-4 h-4 rounded-full border border-white">
-                        </span>
-                        <p class="text-[9px] text-gray-400 font-medium italic">8 others viewing right now</p>
-                    </div>
-                    <h3 class="font-semibold text-lg group-hover:text-blue-600 transition-colors">Seiko Presage Cocktail</h3>
-                    <div class="flex justify-between items-end mt-4">
-                        <div>
-                            <p class="text-[10px] text-red-500 font-bold line-through">₹45,000</p>
-                            <p class="text-2xl font-bold">₹34,500</p>
+                        <p id="combo-reasoning" class="text-gray-500 text-[11px] leading-relaxed mb-8">GIA analysis will appear here.</p>
+                        
+                        <div class="bg-gray-50 p-5 rounded-[2rem] flex items-center justify-between border border-gray-50">
+                            <div>
+                                <p class="text-[8px] text-gray-400 font-bold uppercase tracking-widest">Total Bundle</p>
+                                <p id="combo-total" class="text-xl font-black text-black">₹0</p>
+                            </div>
+                            <button onclick="triggerSuccess()" class="bg-black text-white px-8 py-4 rounded-2xl text-[10px] font-bold shadow-lg hover:scale-105 transition-all">Buy Full Set</button>
                         </div>
-                        <button onclick="event.stopPropagation(); triggerSuccess()" class="bg-black text-white px-6 py-3 rounded-2xl text-xs font-bold active:scale-95 shadow-lg">Buy Now</button>
                     </div>
                 </div>
-
-<section class="mb-12 reveal-section">
-    <div class="flex items-center justify-between mb-6 px-2">
-        <h2 class="text-[10px] md:text-sm font-bold tracking-[0.2em] uppercase text-gray-400">GIA's Complete Look</h2>
-        <div class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-            <span class="text-[10px] font-bold italic text-gray-600">Smart Pairing Active</span>
-        </div>
-    </div>
-
-<section class="mb-12 px-4 reveal-section">
-    <div class="flex items-center justify-between mb-4 px-2">
-        <h2 class="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400">GIA's Instant Combo</h2>
-        <div class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-            <span class="text-[10px] font-bold italic text-gray-500">AI Stylist Active</span>
-        </div>
-    </div>
-    
-    <div id="gia-combo-card" class="glass-card rounded-[2.5rem] p-6 border border-blue-50 relative overflow-hidden shadow-xl bg-white/70 backdrop-blur-md">
-        
-        <div class="absolute top-6 right-8 text-right">
-            <p class="text-[8px] font-bold text-blue-600 uppercase">Combo Score</p>
-            <div id="combo-score" class="text-3xl font-black italic text-black leading-none">9.8</div>
-        </div>
-
-        <div class="flex flex-col lg:flex-row gap-8 items-center">
-            <div class="w-full lg:w-2/3 overflow-x-auto no-scrollbar py-6">
-                <div id="combo-items-container" class="flex items-center gap-4 min-w-max px-4">
-                    <div class="text-gray-400 italic text-xs">Search something to see GIA's magic...</div>
-                </div>
-            </div>
-
-            <div class="w-full lg:w-1/3 border-t lg:border-t-0 lg:border-l border-gray-100 pt-6 lg:pt-0 lg:pl-8">
-                <h3 id="combo-name" class="text-xl font-bold italic mb-2 font-serif text-black">Perfect Match</h3>
-                <p id="combo-reasoning" class="text-gray-500 text-[11px] leading-relaxed mb-6">
-                    GIA analysis: Ye combo aapke main product ki utility aur style ko complete karta hai.
-                </p>
-                
-                <div class="bg-gray-50 p-4 rounded-2xl flex items-center justify-between border border-gray-50">
-                    <div>
-                        <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">Total Bundle</p>
-                        <p id="combo-total" class="text-xl font-bold text-black">₹0</p>
-                    </div>
-                    <button onclick="triggerSuccess()" class="bg-black text-white px-6 py-3 rounded-xl text-[10px] font-bold shadow-lg hover:bg-blue-600 transition-colors">
-                        Buy Full Set
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-    <div class="glass-card rounded-[3rem] p-8 border border-blue-50 relative overflow-hidden group shadow-2xl shadow-blue-50/50">
-        <div class="absolute top-6 right-8 z-10">
-            <span class="bg-black text-white text-[10px] px-4 py-2 rounded-full font-bold tracking-widest uppercase">Combo Set</span>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-            <div class="flex flex-wrap justify-center items-center gap-4 relative py-10">
-                <div class="w-32 h-40 bg-white rounded-3xl p-4 shadow-sm border border-gray-100 rotate-[-5deg] hover:rotate-0 transition-all duration-500">
-                    <img id="combo-main-img" src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=200" class="w-full h-full object-contain">
-                    <p class="text-[8px] text-center mt-2 font-bold uppercase">Main Item</p>
-                </div>
-                <div class="text-gray-300 font-bold text-xl">+</div>
-                <div class="w-32 h-40 bg-white rounded-3xl p-4 shadow-sm border border-gray-100 rotate-[5deg] hover:rotate-0 transition-all duration-500 mt-8">
-                    <img id="combo-match-img" src="https://images.unsplash.com/photo-1542272604-787c3835535d?w=200" class="w-full h-full object-contain">
-                    <p class="text-[8px] text-center mt-2 font-bold uppercase">Matching Pair</p>
-                </div>
-                <div class="absolute -bottom-2 right-10 w-16 h-16 bg-blue-600 rounded-full flex flex-col items-center justify-center text-white border-4 border-white shadow-lg">
-                    <i data-lucide="sparkles" class="w-5 h-5"></i>
-                    <p class="text-[7px] font-bold">STYLED</p>
-                </div>
-            </div>
-
-            <div>
-                <h3 id="combo-title" class="text-2xl font-bold italic font-serif mb-4">GIA's Pick for Rahul</h3>
-                <p id="combo-desc" class="text-gray-500 text-sm leading-relaxed mb-6">
-                    Rahul, humne aapke search ke hisab se ye pairing banayi hai. Ye combination aapke style ko 9.8/10 balance deta hai.
-                </p>
-                
-                <div class="bg-gray-50/50 p-4 rounded-2xl mb-6 border border-gray-100 flex items-center justify-between">
-                    <div>
-                        <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Combo Price</p>
-                        <p class="text-xl font-bold">₹12,499 <span class="text-green-500 text-xs">(-12% Off)</span></p>
-                    </div>
-                    <button onclick="triggerSuccess()" class="bg-black text-white px-6 py-3 rounded-2xl text-xs font-bold shadow-lg active:scale-95 transition-all">Buy Full Look</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-                <div onclick="openTruthModal('Tissot Le Locle', 9.0)" class="min-w-[280px] md:min-w-[320px] snap-center glass-card p-6 md:p-8 rounded-[2.5rem] border border-gray-100 shadow-sm relative group cursor-pointer hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
-                    <div class="flex justify-between items-start absolute top-6 left-6 right-6 z-10">
-                        <span class="text-[9px] font-bold bg-blue-50 text-blue-600 px-3 py-1 rounded-full border border-blue-100 uppercase italic">✔ GIA Score: 9.0</span>
-                        <button onclick="event.stopPropagation(); addToWishlist('Tissot Le Locle')" class="w-8 h-8 bg-white/50 backdrop-blur rounded-full flex items-center justify-center shadow-sm hover:bg-red-50 hover:text-red-500 transition-all">
-                            <i data-lucide="heart" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                    <div class="h-44 md:h-48 flex items-center justify-center my-4 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400" class="object-contain h-full transform group-hover:scale-110 transition-transform duration-500 ease-in-out">
-                    </div>
-                    <div class="flex items-center gap-2 mb-2">
-                        <p class="text-[9px] text-gray-400 font-medium italic">⭐ GIA Best Value Award</p>
-                    </div>
-                    <h3 class="font-semibold text-lg group-hover:text-blue-600 transition-colors">Tissot Le Locle Powermatic</h3>
-                    <div class="flex justify-between items-end mt-4">
-                        <div>
-                            <p class="text-2xl font-bold">₹52,000</p>
-                        </div>
-                        <button onclick="event.stopPropagation(); triggerSuccess()" class="bg-black text-white px-6 py-3 rounded-2xl text-xs font-bold active:scale-95 shadow-lg">Buy Now</button>
-                    </div>
-                </div>
-
-                <div onclick="openTruthModal('Casio Edifice', 8.8)" class="min-w-[280px] md:min-w-[320px] snap-center glass-card p-6 md:p-8 rounded-[2.5rem] border border-gray-100 shadow-sm relative group cursor-pointer hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
-                    <div class="flex justify-between items-start absolute top-6 left-6 right-6 z-10">
-                        <span class="text-[9px] font-bold bg-gray-50 text-gray-600 px-3 py-1 rounded-full border border-gray-100 uppercase italic">✔ GIA Score: 8.8</span>
-                        <button onclick="event.stopPropagation(); addToWishlist('Casio Edifice')" class="w-8 h-8 bg-white/50 backdrop-blur rounded-full flex items-center justify-center shadow-sm">
-                            <i data-lucide="heart" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                    <div class="h-44 md:h-48 flex items-center justify-center my-4 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1594533055135-6484ce92404b?w=400" class="object-contain h-full transform group-hover:scale-110 transition-transform duration-500 ease-in-out">
-                    </div>
-                    <div class="flex items-center gap-2 mb-2">
-                        <p class="text-[9px] text-gray-400 font-medium italic">🔥 Hot Trend in Mumbai</p>
-                    </div>
-                    <h3 class="font-semibold text-lg">Casio Edifice Bluetooth</h3>
-                    <div class="flex justify-between items-end mt-4">
-                        <div>
-                            <p class="text-2xl font-bold">₹12,495</p>
-                        </div>
-                        <button onclick="event.stopPropagation(); triggerSuccess()" class="bg-black text-white px-6 py-3 rounded-2xl text-xs font-bold active:scale-95 shadow-lg">Buy Now</button>
-                    </div>
-                </div>
-
-                <div onclick="openTruthModal('Titan Edge', 9.1)" class="min-w-[280px] md:min-w-[320px] snap-center glass-card p-6 md:p-8 rounded-[2.5rem] border border-gray-100 shadow-sm relative group cursor-pointer hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
-                    <div class="flex justify-between items-start absolute top-6 left-6 right-6 z-10">
-                        <span class="text-[9px] font-bold bg-green-50 text-green-600 px-3 py-1 rounded-full border border-green-100 uppercase italic">✔ GIA Score: 9.1</span>
-                        <button onclick="event.stopPropagation(); addToWishlist('Titan Edge')" class="w-8 h-8 bg-white/50 backdrop-blur rounded-full flex items-center justify-center shadow-sm">
-                            <i data-lucide="heart" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                    <div class="h-44 md:h-48 flex items-center justify-center my-4 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=400" class="object-contain h-full transform group-hover:scale-110 transition-transform duration-500 ease-in-out">
-                    </div>
-                    <div class="flex items-center gap-2 mb-2">
-                        <p class="text-[9px] text-gray-400 font-medium italic">Thinest Watch in Collection</p>
-                    </div>
-                    <h3 class="font-semibold text-lg">Titan Edge Ceramic</h3>
-                    <div class="flex justify-between items-end mt-4">
-                        <div>
-                            <p class="text-2xl font-bold">₹24,999</p>
-                        </div>
-                        <button onclick="event.stopPropagation(); triggerSuccess()" class="bg-black text-white px-6 py-3 rounded-2xl text-xs font-bold active:scale-95 shadow-lg">Buy Now</button>
-                    </div>
-                </div>
-
             </div>
         </section>
 
         <section id="gia-similar-section" class="hidden mb-12 reveal-section"></section>
-        <section id="gia-comparison-section" class="hidden mb-12 reveal-section"></section>
-
         <section id="gia-3d-section" class="hidden mb-12 reveal-section">
             <div class="glass-card rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-12 flex flex-col items-center border border-gray-50 min-h-[400px]">
                 <div id="product-3d-container" class="w-64 md:w-80 cursor-grab">
@@ -326,56 +135,17 @@
 
     <div id="gia-modal-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-xl z-[200] hidden items-center justify-center p-4" onclick="closeTruthModal()">
         <div class="bg-white w-full max-w-md rounded-[3rem] p-8 shadow-2xl pop-in" onclick="event.stopPropagation()">
-            <div class="flex justify-between items-start mb-6">
-                <div>
-                    <h2 id="modal-product-name" class="text-2xl font-bold italic font-serif text-black">Product Name</h2>
-                    <p class="text-gray-400 text-xs tracking-widest uppercase mt-1">GIA Truth Report</p>
-                </div>
-                <button onclick="closeTruthModal()" class="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 hover:text-black transition">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
             </div>
-            
-            <div class="flex items-center gap-6 bg-gray-50 p-6 rounded-[2rem] mb-6 border border-gray-100">
-                <div class="w-20 h-20 bg-black rounded-full flex items-center justify-center text-white border-4 border-green-400">
-                    <span id="modal-score" class="text-2xl font-bold">0.0</span>
-                </div>
-                <div>
-                    <p class="font-bold text-sm">GIA Trust Score</p>
-                    <p class="text-[10px] text-gray-400 italic">Verified for quality, price, and durability.</p>
-                </div>
-            </div>
-
-            <div class="space-y-4 mb-8">
-                <div class="flex justify-between text-sm">
-                    <span class="text-gray-400">Build Quality</span>
-                    <span class="font-bold">Premium</span>
-                </div>
-                <div class="flex justify-between text-sm">
-                    <span class="text-gray-400">Price Trend</span>
-                    <span class="text-green-500 font-bold">Lowest in 30 days</span>
-                </div>
-                <div class="flex justify-between text-sm">
-                    <span class="text-gray-400">Authenticity</span>
-                    <span class="text-blue-500 font-bold">100% Certified</span>
-                </div>
-            </div>
-
-            <button onclick="closeTruthModal(); triggerSuccess()" class="w-full bg-black text-white py-5 rounded-[1.5rem] font-bold shadow-xl active:scale-95 transition">Secure Checkout</button>
-        </div>
     </div>
 
     <div id="gia-aura-container" class="fixed bottom-6 right-4 z-[100] flex flex-col items-end">
         <div id="gia-chat-bubble" class="hidden w-[85vw] md:w-80 bg-black text-white p-6 rounded-[2rem] shadow-2xl mb-4 border border-white/10">
             <p id="gia-chat-text" class="text-xs md:text-sm leading-relaxed italic"></p>
-            <div id="gia-chat-actions" class="mt-4 flex flex-col gap-2"></div>
         </div>
         <button id="aura-trigger" class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-black shadow-2xl flex items-center justify-center text-xl md:text-2xl active:scale-90 transition shadow-blue-500/20">✨</button>
     </div>
 
     <script src="script.js"></script>
-    <script>
-        lucide.createIcons();
-    </script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>
