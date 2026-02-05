@@ -13,26 +13,16 @@
         h1, h2, .font-serif { font-family: 'Playfair Display', serif; }
         .reveal-section { animation: slideUp 0.8s ease-out forwards; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-        .modal-animate { animation: modalIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        @keyframes modalIn { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-        #success-screen { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 300; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
-        .pop-in { animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes pop { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body class="bg-white text-black overflow-x-hidden">
 
-    <div id="success-screen">
-        <div class="text-center pop-in">
-            <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-white text-4xl mx-auto mb-4 shadow-xl shadow-green-100">✓</div>
+    <div id="success-screen" style="display: none;" class="fixed inset-0 bg-white/95 z-[300] flex items-center justify-center backdrop-blur-md">
+        <div class="text-center">
+            <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-white text-4xl mx-auto mb-4 shadow-xl">✓</div>
             <h2 class="text-2xl font-bold italic font-serif">Excellent Choice, Rahul!</h2>
             <p class="text-gray-500 text-sm mt-1">GIA has updated your preferences.</p>
         </div>
-    </div>
-
-    <div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
-        <div class="absolute top-[-5%] right-[-5%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-blue-50 rounded-full blur-[80px] md:blur-[120px] opacity-60"></div>
-        <div class="absolute bottom-[-5%] left-[-5%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-orange-50 rounded-full blur-[80px] md:blur-[120px] opacity-60"></div>
     </div>
 
     <nav class="flex justify-between items-center px-6 md:px-10 py-6 sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-50">
@@ -46,17 +36,18 @@
         <div class="relative max-w-2xl mx-auto mb-10">
             <input type="text" id="gia-search-input" placeholder="Search luxury or ask GIA..." 
                 class="w-full bg-white border border-gray-100 shadow-xl py-4 md:py-5 px-6 md:px-14 rounded-full focus:outline-none focus:ring-2 ring-blue-100 transition-all text-sm md:text-base">
-            <div class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-3">
-                <button id="gia-voice-btn" onclick="listenForResponse()" class="text-xl opacity-40 hover:opacity-100">🎤</button>
+            <div class="absolute right-4 top-1/2 -translate-y-1/2">
+                <button onclick="listenForResponse()" class="text-xl opacity-40 hover:opacity-100">🎤</button>
             </div>
         </div>
 
         <section class="mb-12">
             <h2 class="text-[10px] md:text-sm font-bold tracking-[0.2em] uppercase text-gray-400 mb-6">GIA Verified Selections</h2>
             <div class="flex gap-4 md:gap-8 overflow-x-auto pb-6 no-scrollbar snap-x">
+                
                 <div class="min-w-[280px] md:min-w-[320px] snap-center glass-card p-6 md:p-8 rounded-[2.5rem] border border-gray-100 shadow-sm relative group">
                     <div onclick="openTruthModal('St. Fossil Grant', 9.2)" class="absolute top-6 left-6 cursor-pointer z-10">
-                        <span class="text-[9px] font-bold bg-green-50 text-green-600 px-3 py-1 rounded-full border border-green-100 uppercase italic hover:bg-green-600 hover:text-white transition-all">✔ GIA Score: 9.2 ⓘ</span>
+                        <span class="text-[9px] font-bold bg-green-50 text-green-600 px-3 py-1 rounded-full border border-green-100 uppercase italic">✔ GIA Score: 9.2 ⓘ</span>
                     </div>
                     <div class="h-44 md:h-48 flex items-center justify-center my-4">
                         <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" class="object-contain h-full group-hover:scale-105 transition-transform">
@@ -67,78 +58,49 @@
                         <button onclick="triggerSuccess()" class="bg-black text-white px-8 py-3 rounded-2xl text-sm active:scale-95">Buy Now</button>
                     </div>
                 </div>
+
+                <div class="min-w-[280px] md:min-w-[320px] snap-center glass-card p-6 md:p-8 rounded-[2.5rem] border border-gray-100 shadow-sm relative group">
+                    <div onclick="openTruthModal('Seiko Presage', 9.5)" class="absolute top-6 left-6 cursor-pointer z-10">
+                        <span class="text-[9px] font-bold bg-green-50 text-green-600 px-3 py-1 rounded-full border border-green-100 uppercase italic">✔ GIA Score: 9.5 ⓘ</span>
+                    </div>
+                    <div class="h-44 md:h-48 flex items-center justify-center my-4">
+                        <img src="https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=400" class="object-contain h-full group-hover:scale-105 transition-transform">
+                    </div>
+                    <h3 class="font-semibold text-lg">Seiko Presage Cocktail</h3>
+                    <div class="flex justify-between items-end mt-6">
+                        <p class="text-2xl font-bold">₹34,500</p>
+                        <button onclick="triggerSuccess()" class="bg-black text-white px-8 py-3 rounded-2xl text-sm active:scale-95">Buy Now</button>
+                    </div>
                 </div>
+
+                <div class="min-w-[280px] md:min-w-[320px] snap-center bg-blue-600 p-6 md:p-8 rounded-[2.5rem] text-white flex flex-col justify-center items-center text-center">
+                    <div class="text-4xl mb-4">✨</div>
+                    <h3 class="font-bold text-xl mb-2">GIA Mirror</h3>
+                    <p class="text-blue-100 text-xs px-4">Phase 2: Virtual Try-On is coming soon to your device!</p>
+                </div>
+
+            </div>
         </section>
 
         <section id="gia-similar-section" class="hidden mb-12 reveal-section">
-             <h3 class="text-xl font-bold mb-6 italic font-serif px-2">GIA's Better Alternatives</h3>
-             </section>
-
-        <section id="gia-comparison-section" class="hidden mb-12 reveal-section">
-             </section>
-
-        <section id="gia-3d-section" class="hidden mb-12 reveal-section">
-            <div class="glass-card rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-12 flex flex-col items-center border border-gray-50 min-h-[400px]">
-                <div id="product-3d-container" class="w-64 md:w-80 cursor-grab">
-                    <img src="https://images.unsplash.com/photo-1547996160-81dfa63595dd?w=600" id="floating-product" class="w-full drop-shadow-2xl transition-transform duration-75">
-                </div>
-                <h3 class="text-xl font-medium mt-8">Royal Oak Gold Concept (360°)</h3>
-            </div>
-        </section>
-
-        <section id="gia-mirror-section" class="mb-20 reveal-section px-4">
-            <div class="glass-card rounded-[2.5rem] md:rounded-[4rem] p-6 md:p-12 border-2 border-dashed border-blue-200 relative overflow-hidden shadow-2xl">
-                <div class="max-w-2xl mx-auto text-center">
-                    <span class="bg-blue-600 text-white text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest mb-4 inline-block shadow-lg shadow-blue-200">Virtual Try-On</span>
-                    <h2 class="text-3xl md:text-4xl font-bold font-serif italic mb-3">GIA Magic Mirror</h2>
-                    <p class="text-gray-500 text-sm mb-10">Upload your photo or use Live Camera to try products.</p>
-                    
-                    <div id="try-on-container" class="relative w-full aspect-[4/5] md:aspect-video bg-gray-100 rounded-[3rem] overflow-hidden shadow-inner flex items-center justify-center border-4 border-white">
-                        <img id="user-upload-preview" class="absolute inset-0 w-full h-full object-cover hidden z-0">
-                        <video id="webcam-feed" class="absolute inset-0 w-full h-full object-cover hidden z-0" autoplay playsinline></video>
-                        <div id="draggable-product" class="absolute z-20 w-32 md:w-40 cursor-grab active:cursor-grabbing select-none" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                            <img id="mirror-product-img" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" class="w-full drop-shadow-2xl">
-                        </div>
-                        <div id="mirror-placeholder" class="text-center z-10 bg-white/40 backdrop-blur-md p-8 rounded-[2rem]">
-                            <button onclick="document.getElementById('photo-upload').click()" class="bg-black text-white px-8 py-4 rounded-2xl text-sm font-bold mb-4 block w-full">Upload Photo</button>
-                            <button onclick="startLiveMirror()" class="bg-white text-black border border-gray-100 px-8 py-4 rounded-2xl text-sm font-bold block w-full">Live Try-On</button>
-                            <input type="file" id="photo-upload" class="hidden" accept="image/*" onchange="handlePhotoUpload(event)">
-                        </div>
-                    </div>
-
-                    <div class="flex justify-center items-center gap-6 mt-10">
-                        <button onclick="resizeProduct(0.9)" class="w-12 h-12 bg-white rounded-full shadow-lg font-bold">－</button>
-                        <button onclick="rotateProduct()" class="w-12 h-12 bg-black text-white rounded-full shadow-xl">🔄</button>
-                        <button onclick="resizeProduct(1.1)" class="w-12 h-12 bg-white rounded-full shadow-lg font-bold">＋</button>
-                    </div>
-                </div>
-            </div>
+            <h3 class="text-xl font-bold mb-6 italic font-serif px-2 text-blue-600">GIA's Better Deals</h3>
+            <div id="recommendations-container" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
         </section>
     </main>
 
-    <div id="gia-modal-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-xl z-[200] hidden items-center justify-center p-4">
-        </div>
-
     <div id="gia-aura-container" class="fixed bottom-6 right-4 z-[100] flex flex-col items-end">
         <div id="gia-chat-bubble" class="hidden w-[85vw] md:w-80 bg-black text-white p-6 rounded-[2rem] shadow-2xl mb-4 border border-white/10">
-            <p id="gia-chat-text" class="text-xs md:text-sm leading-relaxed"></p>
+            <p id="gia-chat-text" class="text-xs md:text-sm leading-relaxed italic"></p>
             <div id="gia-chat-actions" class="mt-4 flex flex-col gap-2"></div>
         </div>
-        <button id="aura-trigger" class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-black shadow-2xl flex items-center justify-center text-xl md:text-2xl transition">✨</button>
+        <button id="aura-trigger" onclick="giaSpeak('Kaise madad karun Rahul?')" class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-black shadow-2xl flex items-center justify-center text-xl md:text-2xl active:scale-90 transition">✨</button>
     </div>
 
     <script>
-        // --- Existing GIA Logic ---
         const bubble = document.getElementById('gia-chat-bubble');
         const textDisplay = document.getElementById('gia-chat-text');
         const actions = document.getElementById('gia-chat-actions');
-        const searchInput = document.getElementById('gia-search-input');
         const successOverlay = document.getElementById('success-screen');
-        const floatingProduct = document.getElementById('floating-product');
-        let currentStep = "";
-
-        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.lang = 'hi-IN';
 
         function giaSpeak(text) {
             window.speechSynthesis.cancel();
@@ -147,9 +109,8 @@
             window.speechSynthesis.speak(msg);
             textDisplay.innerHTML = text;
             bubble.classList.remove('hidden');
+            setTimeout(() => bubble.classList.add('hidden'), 5000);
         }
-
-        function listenForResponse() { recognition.start(); }
 
         function triggerSuccess() {
             successOverlay.style.display = 'flex';
@@ -157,68 +118,22 @@
             setTimeout(() => { successOverlay.style.display = 'none'; }, 3000);
         }
 
-        function handleGlobalCommand(cmd) {
-            const val = cmd.toLowerCase();
-            if (val.includes("similar") || val.includes("better") || val.includes("dusra")) {
-                currentStep = "similar";
-                giaSpeak("Rahul, maine kuch options dhoonde hain. Dikhao?");
-                actions.innerHTML = `<button onclick="handlePositiveResponse()" class="bg-blue-600 p-2 rounded-xl text-white">Haan</button>`;
-            } else if (val.includes("haan") || val.includes("yes")) {
-                handlePositiveResponse();
-            }
+        function listenForResponse() {
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'hi-IN';
+            recognition.start();
+            recognition.onresult = (event) => {
+                const cmd = event.results[0][0].transcript;
+                if(cmd.includes("deal") || cmd.includes("price")) {
+                    document.getElementById('gia-similar-section').classList.remove('hidden');
+                    giaSpeak("Rahul, ye rahe kuch behtar options aapke liye.");
+                }
+            };
         }
 
-        recognition.onresult = (event) => handleGlobalCommand(event.results[0][0].transcript);
-
-        function handlePositiveResponse() {
-            if (currentStep === "compare") revealFeature('gia-comparison-section');
-            else if (currentStep === "similar") revealFeature('gia-similar-section');
-        }
-
-        function revealFeature(id) { 
-            const el = document.getElementById(id);
-            if(el) { el.classList.remove('hidden'); el.scrollIntoView({ behavior: 'smooth' }); bubble.classList.add('hidden'); }
-        }
-
-        function openTruthModal(p, s) {
-            document.getElementById('modal-product-name').innerText = p;
-            document.getElementById('modal-score').innerText = s;
-            document.getElementById('gia-modal-overlay').classList.replace('hidden', 'flex');
-        }
-
-        function closeTruthModal() { document.getElementById('gia-modal-overlay').classList.replace('flex', 'hidden'); }
-
-        // --- MIRROR LOGIC (From your JS file - Integrated here) ---
-        let currentScale = 1;
-        let currentRotation = 0;
-        const draggable = document.getElementById('draggable-product');
-
-        function handlePhotoUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    document.getElementById('user-upload-preview').src = e.target.result;
-                    document.getElementById('user-upload-preview').classList.remove('hidden');
-                    document.getElementById('mirror-placeholder').classList.add('hidden');
-                    giaSpeak("Photo perfect hai! Ab watch set kar lo.");
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        async function startLiveMirror() {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            document.getElementById('webcam-feed').srcObject = stream;
-            document.getElementById('webcam-feed').classList.remove('hidden');
-            document.getElementById('mirror-placeholder').classList.add('hidden');
-        }
-
-        function resizeProduct(f) { currentScale *= f; draggable.style.transform = `translate(-50%, -50%) scale(${currentScale}) rotate(${currentRotation}deg)`; }
-        function rotateProduct() { currentRotation += 15; draggable.style.transform = `translate(-50%, -50%) scale(${currentScale}) rotate(${currentRotation}deg)`; }
-
-        window.addEventListener('load', () => setTimeout(() => giaSpeak("Hello Rahul, analysis ready hai!"), 3000));
-        document.getElementById('aura-trigger').addEventListener('click', () => giaSpeak("Kaise madad karun?"));
+        window.onload = () => {
+            setTimeout(() => giaSpeak("Hello Rahul! GIA active hai. Aaj kya dhoond rahe hain?"), 2000);
+        };
     </script>
 </body>
 </html>
