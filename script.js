@@ -91,6 +91,65 @@ if (trigger) {
     trigger.addEventListener('click', giaInteraction);
 }
 
-// ==========================================
-// CODE ENDS HERE
-// ==========================================
+// --- GIA VOICE & COMMAND LOGIC ---
+
+const giaVoiceBtn = document.getElementById('gia-voice-btn');
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+recognition.lang = 'hi-IN'; // Hindi/Hinglish support
+
+// GIA Speaker (AI ka bolna)
+function giaSpeak(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'hi-IN';
+    window.speechSynthesis.speak(utterance);
+    
+    // UI mein bhi dikhao
+    chatText.innerHTML = text;
+    chatBubble.classList.remove('hidden');
+}
+
+// User ki awaaz sunna
+function startListening() {
+    voiceWaves.classList.remove('hidden');
+    recognition.start();
+}
+
+recognition.onresult = (event) => {
+    const command = event.results[0][0].transcript.toLowerCase();
+    voiceWaves.classList.add('hidden');
+    console.log("User ne bola:", command);
+
+    // VOICE COMMAND LOGIC
+    if (command.includes("haan") || command.includes("dikhao") || command.includes("show")) {
+        if (command.includes("3d") || lastQuestion === "3d") {
+            showFeature('gia-3d-section');
+            giaSpeak("Theek hai Rahul, 3D simulation active kar di hai.");
+        } else if (command.includes("table") || command.includes("price") || lastQuestion === "compare") {
+            showFeature('gia-comparison-section');
+            giaSpeak("Zaroor, ye rahi price comparison table.");
+        }
+    } else {
+        giaSpeak("Samajh nahi aaya, kripya phir se kahein.");
+    }
+};
+
+let lastQuestion = "";
+
+// GIA ki taraf se interaction (Voice + Text)
+function giaProActiveAsk() {
+    lastQuestion = "compare";
+    const sawal = "Rahul, kya tum is product ka price comparison table dekhna chahte ho?";
+    giaSpeak(sawal);
+    
+    chatActions.innerHTML = `
+        <button onclick="startListening()" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs">🎤 Bol kar jawab dein</button>
+        <button onclick="showFeature('gia-comparison-section')" class="bg-black text-white px-4 py-2 rounded-xl text-xs">Haan, dikhao</button>
+    `;
+}
+
+// 5 Seconds baad GIA pehla sawal puchegi
+setTimeout(giaProActiveAsk, 5000);
+
+// Aura trigger click par voice start hogi
+trigger.addEventListener('click', startListening);
+
