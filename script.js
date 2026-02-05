@@ -1,5 +1,5 @@
 // ==========================================
-// GIA SMART AI - FINAL LOGIC SCRIPT
+// GIA SMART AI - UPDATED INTEGRATED LOGIC
 // ==========================================
 
 // 1. UI Elements Selection
@@ -9,147 +9,126 @@ const chatActions = document.getElementById('gia-chat-actions');
 const trigger = document.getElementById('aura-trigger');
 const voiceWaves = document.getElementById('voice-waves');
 const floatingProduct = document.getElementById('floating-product');
+const searchInput = document.getElementById('gia-search-input');
 
-// 2. SHOW/HIDE FEATURE LOGIC
-// Ye function hidden sections ko reveal karta hai
+let lastQuestion = "";
+
+// 2. SPEECH CONFIGURATION
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+recognition.lang = 'hi-IN';
+
+function giaSpeak(text) {
+    window.speechSynthesis.cancel(); // Overlap rokne ke liye
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'hi-IN';
+    window.speechSynthesis.speak(utterance);
+    
+    chatText.innerHTML = text;
+    chatBubble.classList.remove('hidden');
+}
+
+// 3. SHOW/HIDE FEATURE LOGIC
 function showFeature(id) {
     const section = document.getElementById(id);
     if (section) {
         section.classList.remove('hidden');
         section.scrollIntoView({ behavior: 'smooth' });
-        
-        // Chat bubble ko thodi der ke liye hide kar dete hain
         chatBubble.classList.add('hidden');
-        
-        // Background aura effect (Optional)
-        document.body.style.backgroundColor = id === 'gia-3d-section' ? '#f8faff' : 'white';
     }
 }
 
-// 3. GIA PRO-ACTIVE CHATBOT LOGIC
-// AI khud se puchega features ke baare mein
-function giaInteraction() {
-    chatBubble.classList.remove('hidden');
-    chatText.innerHTML = "Rahul, maine is product ki deep analysis ki hai. Kya tum iski <b>Price Comparison Table</b> dekhna chahte ho? Main aapko best deals bata sakti hoon.";
+// 4. MODAL (SCORE & PRICE TREND) LOGIC
+function openTruthModal(productName, score) {
+    const modal = document.getElementById('gia-modal-overlay');
+    document.getElementById('modal-product-name').innerText = productName;
+    document.getElementById('modal-score').innerText = score;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    
+    // Modal khulte hi GIA bolegi
+    giaSpeak(`Rahul, ye hai ${productName} ki detail report. Iska trust score ${score} hai aur price abhi 30 dinon mein sabse kam hai.`);
+}
+
+function closeTruthModal() {
+    const modal = document.getElementById('gia-modal-overlay');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
+
+// 5. TRIGGER: SIMILAR PRODUCTS (Sirf mangne par)
+function askForSimilarProducts() {
+    lastQuestion = "similar";
+    giaSpeak("Rahul, maine isi budget mein 2 aur behtar options dhoonde hain. Kya main unka comparison dikhaoon?");
     
     chatActions.innerHTML = `
-        <button onclick="activateComparison()" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-[11px] font-bold shadow-lg hover:scale-105 transition">Haan, Table dikhao</button>
-        <button onclick="closeChat()" class="bg-gray-100 text-gray-500 px-4 py-2 rounded-xl text-[11px] hover:bg-gray-200 transition">Nahi, rehne do</button>
+        <button onclick="showFeature('gia-similar-section')" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Haan, dikhao</button>
+        <button onclick="closeChat()" class="bg-gray-100 text-gray-500 px-4 py-2 rounded-xl text-xs">Nahi, thanks</button>
     `;
 }
 
-function activateComparison() {
-    showFeature('gia-comparison-section');
-    
-    // 2 seconds baad GIA 3D ke liye puchegi
-    setTimeout(() => {
-        chatBubble.classList.remove('hidden');
-        chatText.innerHTML = "Vaise mere paas iska <b>3D View</b> bhi hai! Kya aap ise har angle se rotate karke dekhna chahte ho?";
-        
-        chatActions.innerHTML = `
-            <button onclick="showFeature('gia-3d-section')" class="bg-black text-white px-4 py-2 rounded-xl text-[11px] font-bold shadow-lg hover:scale-105 transition">Haan, 3D dikhao ✨</button>
-            <button onclick="closeChat()" class="bg-gray-100 text-gray-500 px-4 py-2 rounded-xl text-[11px]">Baad mein</button>
-        `;
-    }, 2500);
+// 6. COMMAND HANDLING (VOICE & TEXT)
+function handleCommand(command) {
+    const cmd = command.toLowerCase();
+
+    // Trigger for Similar/Better Products
+    if (cmd.includes("similar") || cmd.includes("better") || cmd.includes("dusra") || cmd.includes("behtar")) {
+        askForSimilarProducts();
+    }
+    // Trigger for Price/Table
+    else if (cmd.includes("table") || cmd.includes("price") || cmd.includes("daam")) {
+        showFeature('gia-comparison-section');
+        giaSpeak("Zaroor, ye rahi price comparison table.");
+    }
+    // Trigger for 3D
+    else if (cmd.includes("3d") || cmd.includes("rotate") || cmd.includes("ghumao")) {
+        showFeature('gia-3d-section');
+        giaSpeak("Theek hai Rahul, 3D view active kar diya hai.");
+    }
+    // Handle Yes/Haan for steps
+    else if (cmd.includes("haan") || cmd.includes("yes") || cmd.includes("dikhao")) {
+        if (lastQuestion === "similar") showFeature('gia-similar-section');
+        else giaSpeak("Aap kya dekhna chahte hain? Price table ya 3D View?");
+    }
 }
 
-function closeChat() {
-    chatBubble.classList.add('hidden');
-}
-
-// 4. VOICE SEARCH LOGIC (SIMULATION)
-const voiceBtn = document.getElementById('gia-voice-btn');
-if (voiceBtn) {
-    voiceBtn.addEventListener('click', () => {
-        voiceWaves.classList.remove('hidden');
-        // Simulate voice recognition
-        setTimeout(() => {
-            voiceWaves.classList.add('hidden');
-            alert("GIA ne aapki awaaz sun li! Searching...");
-        }, 3000);
+// Listeners
+if (searchInput) {
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') handleCommand(e.target.value);
     });
 }
 
-// 5. 3D PRODUCT FLOATING EFFECT
-// Mouse move par product halka sa rotate hoga
-document.addEventListener('mousemove', (e) => {
-    if (floatingProduct && !document.getElementById('gia-3d-section').classList.contains('hidden')) {
-        const x = (window.innerWidth / 2 - e.pageX) / 25;
-        const y = (window.innerHeight / 2 - e.pageY) / 25;
-        floatingProduct.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
-    }
-});
-
-// 6. INITIALIZATION
-// Page load hone ke 5 seconds baad AI interact karega
-window.addEventListener('load', () => {
-    setTimeout(giaInteraction, 5000);
-});
-
-// Aura button click par bhi interact karega
-if (trigger) {
-    trigger.addEventListener('click', giaInteraction);
-}
-
-// --- GIA VOICE & COMMAND LOGIC ---
-
-const giaVoiceBtn = document.getElementById('gia-voice-btn');
-const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-recognition.lang = 'hi-IN'; // Hindi/Hinglish support
-
-// GIA Speaker (AI ka bolna)
-function giaSpeak(text) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'hi-IN';
-    window.speechSynthesis.speak(utterance);
-    
-    // UI mein bhi dikhao
-    chatText.innerHTML = text;
-    chatBubble.classList.remove('hidden');
-}
-
-// User ki awaaz sunna
 function startListening() {
     voiceWaves.classList.remove('hidden');
     recognition.start();
 }
 
 recognition.onresult = (event) => {
-    const command = event.results[0][0].transcript.toLowerCase();
     voiceWaves.classList.add('hidden');
+    const command = event.results[0][0].transcript;
     console.log("User ne bola:", command);
-
-    // VOICE COMMAND LOGIC
-    if (command.includes("haan") || command.includes("dikhao") || command.includes("show")) {
-        if (command.includes("3d") || lastQuestion === "3d") {
-            showFeature('gia-3d-section');
-            giaSpeak("Theek hai Rahul, 3D simulation active kar di hai.");
-        } else if (command.includes("table") || command.includes("price") || lastQuestion === "compare") {
-            showFeature('gia-comparison-section');
-            giaSpeak("Zaroor, ye rahi price comparison table.");
-        }
-    } else {
-        giaSpeak("Samajh nahi aaya, kripya phir se kahein.");
-    }
+    handleCommand(command);
 };
 
-let lastQuestion = "";
+// 7. 3D INTERACTION
+document.addEventListener('mousemove', (e) => {
+    const section3d = document.getElementById('gia-3d-section');
+    if (floatingProduct && section3d && !section3d.classList.contains('hidden')) {
+        const x = (window.innerWidth / 2 - e.pageX) / 25;
+        const y = (window.innerHeight / 2 - e.pageY) / 25;
+        floatingProduct.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+    }
+});
 
-// GIA ki taraf se interaction (Voice + Text)
-function giaProActiveAsk() {
-    lastQuestion = "compare";
-    const sawal = "Rahul, kya tum is product ka price comparison table dekhna chahte ho?";
-    giaSpeak(sawal);
-    
-    chatActions.innerHTML = `
-        <button onclick="startListening()" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs">🎤 Bol kar jawab dein</button>
-        <button onclick="showFeature('gia-comparison-section')" class="bg-black text-white px-4 py-2 rounded-xl text-xs">Haan, dikhao</button>
-    `;
+function closeChat() {
+    chatBubble.classList.add('hidden');
 }
 
-// 5 Seconds baad GIA pehla sawal puchegi
-setTimeout(giaProActiveAsk, 5000);
-
-// Aura trigger click par voice start hogi
-trigger.addEventListener('click', startListening);
-
+// Initial State: Chup rehna (Auto-start hata diya)
+// trigger (✨ button) click par GIA help ke liye puchegi
+if (trigger) {
+    trigger.addEventListener('click', () => {
+        giaSpeak("Hi Rahul! Main aapki kaise madad kar sakti hoon? Aap mujhse price comparison ya 3D view maang sakte hain.");
+        chatActions.innerHTML = `<button onclick="startListening()" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs">🎤 Bol kar batayein</button>`;
+    });
+}
