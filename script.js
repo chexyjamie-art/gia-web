@@ -1,5 +1,5 @@
 // ==========================================
-// GIA SMART AI - INTEGRATED PHASE 1 & 2 LOGIC
+// GIA SMART AI - INTEGRATED ALL PHASES LOGIC
 // ==========================================
 
 // 1. UI Elements Selection
@@ -11,49 +11,86 @@ const floatingProduct = document.getElementById('floating-product');
 const searchInput = document.getElementById('gia-search-input');
 const successOverlay = document.getElementById('success-screen');
 
-let lastQuestion = "";
+// Intelligence Context (Memory)
+const userContext = {
+    name: "Rahul",
+    viewedProducts: 0,
+    lastActions: []
+};
 
-// 2. INITIALIZE ICONS (Lucide)
-if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
-}
+// Personality Arrays (No Repetition)
+const giaResponses = {
+    greetings: [
+        "Hi Rahul! Aaj aapka mood kaafi stylish lag raha hai. Kaise madad karun?",
+        "Welcome back Rahul! Maine kuch naye exclusive deals dhoondi hain aapke liye.",
+        "Namaste Rahul! Kya aaj hum kuch naya try karein?",
+        "Hello Rahul! Aapke style ke hisab se aaj ye collection perfect rahega."
+    ],
+    proactive: [
+        "Rahul, aap kaafi der se watches dekh rahe ho, kya main best 'GIA Score' filter kar doon?",
+        "Maine notice kiya aapko premium brands pasand hain. Seiko ke naye models dekhe?",
+        "Budget ki chinta mat kijiye, main yahan best deals dhoondne ke liye hi hoon!"
+    ],
+    wishlist: [
+        "Great choice! Maine ise save kar liya hai, price kam hote hi bataungi.",
+        "Personal preference? Noted! Is par meri ab 24/7 nazar rahegi.",
+        "Rahul, ye aapke style par suit karega. Wishlist lock kar di hai!"
+    ]
+};
 
-// 3. SPEECH CONFIGURATION
-const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-recognition.lang = 'hi-IN';
+// 2. INITIALIZE ICONS
+if (typeof lucide !== 'undefined') { lucide.createIcons(); }
 
-function giaSpeak(text) {
-    window.speechSynthesis.cancel(); // Overlap rokne ke liye
+// 3. UPDATED SPEAK FUNCTION (With Intelligence & Life)
+function giaSpeak(type, product = "") {
+    window.speechSynthesis.cancel();
+    let text = "";
+
+    // Logic to pick random or custom text
+    if (giaResponses[type]) {
+        const options = giaResponses[type];
+        text = options[Math.floor(Math.random() * options.length)];
+    } else if (type === 'modal') {
+        text = `Rahul, ye raha ${product} ka GIA analysis. Iska trust score kaafi solid hai aur abhi 15 log ise dekh rahe hain.`;
+    } else {
+        text = type; // Direct command response
+    }
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'hi-IN';
+    utterance.pitch = 1.1; 
     window.speechSynthesis.speak(utterance);
-    
-    if (chatText) {
-        chatText.innerHTML = text;
+
+    if (chatText && chatBubble) {
+        chatText.innerText = text;
         chatBubble.classList.remove('hidden');
+        // Auto-hide bubble after 8 seconds
+        setTimeout(() => chatBubble.classList.add('hidden'), 8000);
     }
 }
 
-// 4. SHOW/HIDE FEATURE LOGIC
-function showFeature(id) {
-    const section = document.getElementById(id);
-    if (section) {
-        section.classList.remove('hidden');
-        section.scrollIntoView({ behavior: 'smooth' });
-        chatBubble.classList.add('hidden');
+// 4. USER BEHAVIOR TRACKER (Proactive AI)
+function observeUser() {
+    userContext.viewedProducts++;
+    console.log("Products viewed:", userContext.viewedProducts);
+    
+    // 3 baar browse karne par GIA khud bolegi
+    if (userContext.viewedProducts === 3) {
+        setTimeout(() => giaSpeak('proactive'), 2000);
     }
 }
 
-// 5. MODAL (SCORE & PRICE TREND) LOGIC
+// 5. MODAL (SCORE & TRUTH) LOGIC
 function openTruthModal(productName, score) {
+    observeUser(); // Track behavior
     const modal = document.getElementById('gia-modal-overlay');
     if (modal) {
         document.getElementById('modal-product-name').innerText = productName;
         document.getElementById('modal-score').innerText = score;
         modal.classList.remove('hidden');
         modal.classList.add('flex');
-        
-        giaSpeak(`Rahul, ye hai ${productName} ki detail report. Iska trust score ${score} hai.`);
+
+        giaSpeak('modal', productName);
     }
 }
 
@@ -65,7 +102,13 @@ function closeTruthModal() {
     }
 }
 
-// 6. SUCCESS FEEDBACK
+// 6. WISHLIST LOGIC
+function addToWishlist(itemName) {
+    giaSpeak('wishlist');
+    console.log(`${itemName} added to GIA Database.`);
+}
+
+// 7. SUCCESS FEEDBACK
 function triggerSuccess() {
     if (successOverlay) {
         successOverlay.style.display = 'flex';
@@ -74,33 +117,22 @@ function triggerSuccess() {
     }
 }
 
-// 7. COMMAND HANDLING (VOICE & TEXT)
+// 8. VOICE RECOGNITION & COMMANDS
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+recognition.lang = 'hi-IN';
+
 function handleCommand(command) {
     const cmd = command.toLowerCase();
-
-    // Trigger for Similar/Better Products
-    if (cmd.includes("similar") || cmd.includes("better") || cmd.includes("dusra") || cmd.includes("behtar")) {
-        lastQuestion = "similar";
+    if (cmd.includes("similar") || cmd.includes("behtar")) {
         giaSpeak("Rahul, maine kuch behtar options dhoonde hain. Dikhaoon?");
-        chatActions.innerHTML = `<button onclick="showFeature('gia-similar-section')" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Haan, dikhao</button>`;
-    }
-    // Trigger for Price/Table
-    else if (cmd.includes("table") || cmd.includes("price") || cmd.includes("daam")) {
+        chatActions.innerHTML = `<button onclick="showFeature('gia-similar-section')" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs">Haan, dikhao</button>`;
+    } else if (cmd.includes("table") || cmd.includes("price")) {
         showFeature('gia-comparison-section');
         giaSpeak("Zaroor, ye rahi price comparison table.");
-    }
-    // Trigger for 3D
-    else if (cmd.includes("3d") || cmd.includes("rotate") || cmd.includes("ghumao")) {
+    } else if (cmd.includes("3d") || cmd.includes("rotate")) {
         showFeature('gia-3d-section');
         giaSpeak("Theek hai Rahul, 3D view active kar diya hai.");
     }
-}
-
-// Event Listeners for Search
-if (searchInput) {
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleCommand(e.target.value);
-    });
 }
 
 function listenForResponse() {
@@ -109,12 +141,18 @@ function listenForResponse() {
 }
 
 recognition.onresult = (event) => {
-    const command = event.results[0][0].transcript;
-    console.log("User ne bola:", command);
-    handleCommand(command);
+    handleCommand(event.results[0][0].transcript);
 };
 
-// 8. 3D INTERACTION (Mouse move parallax)
+// 9. UI HELPERS (Show Feature & 3D Parallax)
+function showFeature(id) {
+    const section = document.getElementById(id);
+    if (section) {
+        section.classList.remove('hidden');
+        section.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
 document.addEventListener('mousemove', (e) => {
     const section3d = document.getElementById('gia-3d-section');
     if (floatingProduct && section3d && !section3d.classList.contains('hidden')) {
@@ -124,12 +162,7 @@ document.addEventListener('mousemove', (e) => {
     }
 });
 
-// 9. VIRTUAL TRY-ON (Phase 2 Logic - Saved for later use)
-let currentScale = 1;
-let currentRotation = 0;
-const draggable = document.getElementById('draggable-product');
-const container = document.getElementById('try-on-container');
-
+// Photo Upload for Phase 2 Virtual Try-on
 function handlePhotoUpload(event) {
     const file = event.target.files[0];
     if (file) {
@@ -139,7 +172,6 @@ function handlePhotoUpload(event) {
             if (preview) {
                 preview.src = e.target.result;
                 preview.classList.remove('hidden');
-                document.getElementById('mirror-placeholder')?.classList.add('hidden');
                 giaSpeak("Perfect! Ab product ko drag karke set kar lo.");
             }
         }
@@ -147,106 +179,51 @@ function handlePhotoUpload(event) {
     }
 }
 
-// Trigger ✨ Button
+// 10. INITIAL TRIGGER
 if (trigger) {
-    trigger.addEventListener('click', () => {
-        giaSpeak("Kaise madad karun Rahul? Aap price table ya 3D view maang sakte hain.");
+    trigger.addEventListener('click', () => giaSpeak('greet'));
+}
+
+if (searchInput) {
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') handleCommand(e.target.value);
     });
 }
 
-function openTruthModal(productName, score) {
-    const modal = document.getElementById('gia-modal-overlay');
-    if (modal) {
-        // Data update karein
-        document.getElementById('modal-product-name').innerText = productName;
-        document.getElementById('modal-score').innerText = score;
+// COMBO GENERATOR LOGIC
+const comboDatabase = {
+    "shirt": {
+        matching: "Denim Jeans & White Sneakers",
+        accessories: "Brown Leather Belt",
+        giaComment: "The linen texture works perfectly with matte denim for a semi-formal vibe."
+    },
+    "watch": {
+        matching: "Oxford Shirt & Chinos",
+        accessories: "Cufflinks",
+        giaComment: "A premium watch deserves a clean sleeve and tailored trousers."
+    }
+    // Aur combos yahan add honge
+};
+
+function updateGIACombo(userSearch) {
+    const search = userSearch.toLowerCase();
+    let combo = null;
+
+    if (search.includes("shirt")) combo = comboDatabase.shirt;
+    else if (search.includes("watch")) combo = comboDatabase.watch;
+
+    if (combo) {
+        // GIA Speak about the combo
+        giaSpeak(`Rahul, maine is shirt ke liye ek perfect outfit set kiya hai. Iska combo score 9.8 hai!`);
         
-        // Modal ko visible banayein
-        modal.classList.remove('hidden');
-        modal.classList.add('flex'); // Yeh line important hai
-        
-        // Voice response
-        giaSpeak(`Rahul, ye hai ${productName} ki detail report. Iska GIA trust score ${score} hai.`);
-    } else {
-        console.error("Modal overlay not found in HTML!");
+        // Update the UI dynamically (In real app, we change images/text here)
+        console.log("Combo Suggested:", combo.giaComment);
     }
 }
 
-// 1. Wishlist Logic
-function addToWishlist(itemName) {
-    // Heart icon animation logic can be added here
-    giaSpeak(`Rahul, maine ${itemName} ko aapki wishlist mein add kar diya hai. Price drop hote hi GIA aapko notify karegi!`);
-    
-    // Yahan hum local storage ya database mein save kar sakte hain
-    console.log(`${itemName} added to wishlist.`);
-}
-
-// 2. Updated Modal with Social Proofing
-function openTruthModal(productName, score) {
-    const modal = document.getElementById('gia-modal-overlay');
-    if (modal) {
-        document.getElementById('modal-product-name').innerText = productName;
-        document.getElementById('modal-score').innerText = score;
-        
-        // Modal logic with social proofing dialogue
-        giaSpeak(`Rahul, iska trust score ${score} hai. Abhi 15 log ise dekh rahe hain, aur stock jaldi khatam ho sakta hai.`);
-        
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-    }
-}
-
-// 1. GIA INTELLIGENT RESPONSES (Avoiding Repetition)
-const giaGreetings = [
-    "Hi Rahul! Aaj aapka mood kaafi stylish lag raha hai. Kaise madad karun?",
-    "Welcome back Rahul! Maine kuch naye exclusive deals dhoondi hain aapke liye.",
-    "Namaste Rahul! Kya aaj hum kuch naya try karein?"
-];
-
-const giaWishlistLines = [
-    "Great choice! Maine ise save kar liya hai, price kam hote hi bataungi.",
-    "Personal preference? Noted! Is par meri nazar rahegi.",
-    "Rahul, ye aapke style par suit karega. Wishlist mein add kar diya hai!"
-];
-
-// 2. UPDATED SPEAK FUNCTION (With Life)
-function giaSpeak(type, product = "") {
-    window.speechSynthesis.cancel();
-    let text = "";
-    
-    if (type === 'greet') text = giaGreetings[Math.floor(Math.random() * giaGreetings.length)];
-    else if (type === 'wishlist') text = giaWishlistLines[Math.floor(Math.random() * giaWishlistLines.length)];
-    else if (type === 'modal') text = `Rahul, ye raha ${product} ka GIA analysis. Iska trust score kaafi solid hai.`;
-    else text = type; // Fallback for direct commands
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'hi-IN';
-    window.speechSynthesis.speak(utterance);
-    
-    document.getElementById('gia-chat-text').innerText = text;
-    document.getElementById('gia-chat-bubble').classList.remove('hidden');
-}
-
-// 3. FIXED MODAL TRIGGER
-function openTruthModal(productName, score) {
-    const modal = document.getElementById('gia-modal-overlay');
-    if (modal) {
-        document.getElementById('modal-product-name').innerText = productName;
-        document.getElementById('modal-score').innerText = score;
-        
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        
-        // Modal khulte hi specific dialogue
-        giaSpeak('modal', productName);
-    }
-}
-
-// 4. WISHLIST WITH ALERT
-function addToWishlist(itemName) {
-    giaSpeak('wishlist');
-    console.log(`${itemName} added to GIA Database.`);
-    // Notification logic here
-}
-
-
+// Search handler ko modify karein taaki combo update ho
+const originalHandleCommand = handleCommand;
+handleCommand = function(command) {
+    originalHandleCommand(command);
+    updateGIACombo(command);
+};
