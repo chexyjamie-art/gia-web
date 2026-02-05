@@ -17,9 +17,15 @@
             from { opacity: 0; transform: translateY(50px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* Voice Wave Animation */
         .wave { animation: wave 1s infinite alternate; }
         @keyframes wave { from { height: 4px; } to { height: 16px; } }
+        
+        /* Modal Animation */
+        .modal-animate { animation: modalIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
     </style>
 </head>
 <body class="bg-white text-black overflow-x-hidden">
@@ -57,10 +63,12 @@
         <section class="mb-20">
             <h2 class="text-sm font-bold tracking-[0.2em] uppercase text-gray-400 mb-8">GIA Verified Selections</h2>
             <div class="flex gap-8 overflow-x-auto pb-10 no-scrollbar">
-                
+
                 <div class="min-w-[320px] glass-card p-8 rounded-[3rem] border border-gray-100 shadow-sm relative group">
-                    <div class="absolute top-6 left-8">
-                        <span class="text-[9px] font-bold bg-green-50 text-green-600 px-3 py-1 rounded-full border border-green-100 uppercase">✔ GIA Score: 9.2</span>
+                    <div onclick="openTruthModal('St. Fossil Grant', 9.2)" class="absolute top-6 left-8 cursor-pointer z-10">
+                        <span class="text-[9px] font-bold bg-green-50 text-green-600 px-3 py-1 rounded-full border border-green-100 uppercase italic hover:bg-green-600 hover:text-white transition-all">
+                            ✔ GIA Score: 9.2 ⓘ
+                        </span>
                     </div>
                     <div class="h-48 flex items-center justify-center my-6">
                         <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" class="object-contain h-full drop-shadow-2xl group-hover:scale-105 transition-transform">
@@ -73,8 +81,10 @@
                 </div>
 
                 <div class="min-w-[320px] glass-card p-8 rounded-[3rem] border border-gray-100 shadow-sm relative group">
-                    <div class="absolute top-6 left-8">
-                        <span class="text-[9px] font-bold bg-blue-50 text-blue-600 px-3 py-1 rounded-full border border-blue-100 uppercase">✔ Trusted Seller</span>
+                    <div onclick="openTruthModal('Premium Sunglasses', 8.5)" class="absolute top-6 left-8 cursor-pointer z-10">
+                        <span class="text-[9px] font-bold bg-blue-50 text-blue-600 px-3 py-1 rounded-full border border-blue-100 uppercase italic hover:bg-blue-600 hover:text-white transition-all">
+                            ✔ GIA Score: 8.5 ⓘ
+                        </span>
                     </div>
                     <div class="h-48 flex items-center justify-center my-6">
                         <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200" class="object-contain h-full group-hover:scale-105 transition-transform">
@@ -110,6 +120,53 @@
 
     </main>
 
+    <div id="gia-modal-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-md z-[200] hidden items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-[3rem] shadow-2xl overflow-hidden relative modal-animate">
+            <button onclick="closeTruthModal()" class="absolute top-6 right-6 w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-black hover:text-white transition-all z-10">✕</button>
+            <div class="p-8">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 bg-black rounded-2xl flex items-center justify-center text-2xl text-white">💎</div>
+                    <div>
+                        <h3 id="modal-product-name" class="text-xl font-bold font-serif italic">Product Analysis</h3>
+                        <p class="text-[10px] text-gray-400 uppercase tracking-widest">GIA Intelligence Report</p>
+                    </div>
+                </div>
+                <div class="space-y-5">
+                    <div class="p-5 bg-blue-50/50 rounded-3xl border border-blue-100">
+                        <div class="flex justify-between items-center mb-4 text-xs font-bold uppercase text-blue-700">
+                            <span>Live Price Trend (30 Days)</span>
+                            <span class="bg-blue-100 px-2 py-0.5 rounded-full">Lowest Now</span>
+                        </div>
+                        <div class="h-16 flex items-end gap-1 px-2">
+                            <div class="flex-1 bg-blue-200 rounded-t-sm h-[70%] opacity-50"></div>
+                            <div class="flex-1 bg-blue-200 rounded-t-sm h-[90%] opacity-50"></div>
+                            <div class="flex-1 bg-blue-200 rounded-t-sm h-[60%] opacity-50"></div>
+                            <div class="flex-1 bg-blue-600 rounded-t-sm h-[40%] animate-pulse"></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-5 bg-green-50/50 rounded-3xl border border-green-100">
+                            <p class="text-[10px] text-green-700 font-bold uppercase mb-1">GIA Score</p>
+                            <p id="modal-score" class="text-3xl font-black text-green-700">9.2</p>
+                        </div>
+                        <div class="p-5 bg-red-50/50 rounded-3xl border border-red-100">
+                            <p class="text-[10px] text-red-700 font-bold uppercase mb-1">Fake Reviews</p>
+                            <p class="text-lg font-bold text-red-600 italic">Blocked</p>
+                        </div>
+                    </div>
+                    <div class="p-5 bg-gray-50 rounded-3xl border border-gray-100">
+                        <h4 class="text-xs font-bold uppercase tracking-wider mb-3 text-gray-500">Why GIA Recommends This?</h4>
+                        <div class="space-y-2 text-xs text-gray-600">
+                            <p>🛡️ <span class="font-bold text-black">Seller Trust:</span> Verified authorized dealer history.</p>
+                            <p>✅ <span class="font-bold text-black">Price Integrity:</span> No artificial price hikes detected.</p>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="closeTruthModal()" class="w-full mt-6 py-4 bg-black text-white rounded-[1.5rem] font-bold text-sm shadow-xl">Back to Shopping</button>
+            </div>
+        </div>
+    </div>
+
     <div id="gia-aura-container" class="fixed bottom-8 right-8 z-[100] flex flex-col items-end">
         <div id="gia-chat-bubble" class="hidden w-80 bg-black text-white p-6 rounded-[2rem] shadow-2xl mb-4 border border-white/10">
             <p id="gia-chat-text" class="text-sm leading-relaxed"></p>
@@ -118,21 +175,18 @@
         <button id="aura-trigger" class="w-16 h-16 rounded-full bg-black shadow-2xl flex items-center justify-center border border-white/10 text-2xl hover:scale-110 transition">✨</button>
     </div>
 
-        <script>
-        // ELEMENTS
+    <script>
         const bubble = document.getElementById('gia-chat-bubble');
         const textDisplay = document.getElementById('gia-chat-text');
         const actions = document.getElementById('gia-chat-actions');
         const waves = document.getElementById('voice-waves');
         let currentStep = "";
 
-        // SPEECH RECOGNITION (Listening)
         const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.lang = 'hi-IN';
 
-        // SPEECH SYNTHESIS (Speaking)
         function giaSpeak(text) {
-            window.speechSynthesis.cancel(); // Purani awaaz roko
+            window.speechSynthesis.cancel();
             const msg = new SpeechSynthesisUtterance(text);
             msg.lang = 'hi-IN';
             window.speechSynthesis.speak(msg);
@@ -140,7 +194,6 @@
             bubble.classList.remove('hidden');
         }
 
-        // START LISTENING FOR COMMAND
         function listenForResponse() {
             waves.classList.remove('hidden');
             recognition.start();
@@ -149,24 +202,20 @@
         recognition.onresult = (event) => {
             const voiceMatch = event.results[0][0].transcript.toLowerCase();
             waves.classList.add('hidden');
-            console.log("User ne bola:", voiceMatch);
-
             if (voiceMatch.includes("haan") || voiceMatch.includes("dikhao") || voiceMatch.includes("yes") || voiceMatch.includes("ok")) {
                 handlePositiveResponse();
             }
         };
 
-        // Logic to handle "Yes" response for both steps
         function handlePositiveResponse() {
             if (currentStep === "compare") {
                 revealFeature('gia-comparison-section');
-                // 2 second ka pause dekar 3D ke liye pucho
                 setTimeout(askFor3D, 2000);
             } else if (currentStep === "3d") {
                 revealFeature('gia-3d-section');
-                giaSpeak("3D View active kar diya hai, Rahul. Enjoy your luxury experience!");
+                giaSpeak("3D View active kar diya hai, Rahul. Enjoy!");
                 currentStep = "finished";
-                actions.innerHTML = ""; // Buttons saaf kar do
+                actions.innerHTML = "";
             }
         }
 
@@ -174,37 +223,45 @@
             const el = document.getElementById(id);
             el.classList.remove('hidden');
             el.scrollIntoView({ behavior: 'smooth' });
-            bubble.classList.add('hidden'); // Ek pal ke liye hide karo taaki next question pop-up lage
+            bubble.classList.add('hidden');
         }
 
-        // STEP 1: Ask for Comparison
         function startGIAAssistant() {
             currentStep = "compare";
             giaSpeak("Rahul, maine analysis kar li hai. Kya tum iska price comparison table dekhna chahte ho?");
             actions.innerHTML = `
-                <button onclick="listenForResponse()" class="bg-blue-600 p-2 rounded-xl text-[10px] font-bold text-white hover:scale-105 transition">🎤 Bol kar jawab dein</button>
-                <button onclick="handlePositiveResponse()" class="bg-white/10 p-2 rounded-xl text-[10px] text-white hover:bg-white/20">Haan, dikhao</button>
+                <button onclick="listenForResponse()" class="bg-blue-600 p-2 rounded-xl text-[10px] font-bold text-white">🎤 Bol kar jawab dein</button>
+                <button onclick="handlePositiveResponse()" class="bg-white/10 p-2 rounded-xl text-[10px] text-white">Haan, dikhao</button>
             `;
         }
 
-        // STEP 2: Ask for 3D
         function askFor3D() {
             currentStep = "3d";
             bubble.classList.remove('hidden');
-            giaSpeak("Vaise Rahul, main aapko ye product 3D view mein bhi dikha sakti hoon. Kya aap ise rotate karke dekhna chahte hain?");
+            giaSpeak("Vaise Rahul, kya aap iska 3D experience dekhna chahte hain?");
             actions.innerHTML = `
-                <button onclick="listenForResponse()" class="bg-green-600 p-2 rounded-xl text-[10px] font-bold text-white hover:scale-105 transition">🎤 Haan, 3D dikhao</button>
+                <button onclick="listenForResponse()" class="bg-green-600 p-2 rounded-xl text-[10px] font-bold text-white">🎤 Haan, 3D dikhao</button>
                 <button onclick="handlePositiveResponse()" class="bg-white/10 p-2 rounded-xl text-[10px] text-white">Zaroor</button>
             `;
         }
 
-        // Auto-start after 5 seconds
-        window.addEventListener('load', () => {
-            setTimeout(startGIAAssistant, 5000);
-        });
+        // MODAL FUNCTIONS
+        function openTruthModal(productName, score) {
+            const modal = document.getElementById('gia-modal-overlay');
+            document.getElementById('modal-product-name').innerText = productName;
+            document.getElementById('modal-score').innerText = score;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            giaSpeak(`Rahul, ye hai ${productName} ki detail report. Price abhi 30 din mein sabse kam hai.`);
+        }
 
+        function closeTruthModal() {
+            document.getElementById('gia-modal-overlay').classList.add('hidden');
+            document.getElementById('gia-modal-overlay').classList.remove('flex');
+        }
+
+        window.addEventListener('load', () => setTimeout(startGIAAssistant, 5000));
         document.getElementById('aura-trigger').addEventListener('click', startGIAAssistant);
     </script>
-
 </body>
 </html>
