@@ -227,3 +227,69 @@ handleCommand = function(command) {
     originalHandleCommand(command);
     updateGIACombo(command);
 };
+
+// Combo Database for GIA
+const comboEngine = {
+    "sunscreen": {
+        name: "Complete Sun-Protection Kit",
+        items: [
+            { name: "Sunscreen", img: "sunscreen.png", price: 599 },
+            { name: "Face Wash", img: "facewash.png", price: 349 },
+            { name: "Serum", img: "serum.png", price: 899 }
+        ],
+        reason: "Ye combination sun damage repair aur skin hydration ke liye best hai.",
+        score: "9.7"
+    },
+    "jeans": {
+        name: "Weekend Urban Look",
+        items: [
+            { name: "Denim Jeans", img: "jeans.png", price: 2499 },
+            { name: "White T-Shirt", img: "tshirt.png", price: 799 },
+            { name: "Sneakers", img: "shoes.png", price: 3999 }
+        ],
+        reason: "Light wash denim ke sath white contrast ek classic premium vibe deta hai.",
+        score: "9.9"
+    }
+};
+
+function generateInstantCombo(keyword) {
+    const container = document.getElementById('combo-items-container');
+    const combo = comboEngine[keyword.toLowerCase()] || comboEngine["sunscreen"]; // Fallback
+
+    // GIA "Thinking" Effect
+    container.innerHTML = `<div class="animate-pulse text-blue-600 font-bold text-xs italic">GIA is styling your combo...</div>`;
+
+    setTimeout(() => {
+        container.innerHTML = ""; // Clear
+        let total = 0;
+
+        combo.items.forEach((item, index) => {
+            // Add Item Card
+            container.innerHTML += `
+                <div class="w-24 h-32 bg-white rounded-2xl border border-gray-100 p-2 shadow-sm flex flex-col items-center justify-center">
+                    <img src="${item.img}" class="w-16 h-16 object-contain mb-1">
+                    <p class="text-[8px] font-bold text-center uppercase">${item.name}</p>
+                </div>
+            `;
+            total += item.price;
+            
+            // Add Plus Sign except for the last item
+            if (index < combo.items.length - 1) {
+                container.innerHTML += `<span class="text-gray-300 font-bold">+</span>`;
+            }
+        });
+
+        // Update Text Details
+        document.getElementById('combo-name').innerText = combo.name;
+        document.getElementById('combo-reasoning').innerText = combo.reason;
+        document.getElementById('combo-score').innerText = combo.score;
+        document.getElementById('combo-total').innerText = `₹${total.toLocaleString()}`;
+        
+        giaSpeak(`Rahul, maine aapke liye ek perfect combo set kiya hai. Iska trust score ${combo.score} hai.`);
+    }, 1500); // 1.5 seconds loading feel ke liye
+}
+
+// Search input se link karna
+document.getElementById('gia-search-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') generateInstantCombo(e.target.value);
+});
