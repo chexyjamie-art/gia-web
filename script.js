@@ -132,3 +132,83 @@ if (trigger) {
         chatActions.innerHTML = `<button onclick="startListening()" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs">🎤 Bol kar batayein</button>`;
     });
 }
+
+// Virtual Try-On Logic
+let currentScale = 1;
+let currentRotation = 0;
+const draggable = document.getElementById('draggable-product');
+const container = document.getElementById('try-on-container');
+
+// 1. Photo Upload Handle
+function handlePhotoUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('user-upload-preview');
+            preview.src = e.target.result;
+            preview.classList.remove('hidden');
+            document.getElementById('mirror-placeholder').classList.add('hidden');
+            document.getElementById('webcam-feed').classList.add('hidden');
+            giaSpeak("Perfect! Ab product ko drag karke apne upar set kar lo, Rahul.");
+        }
+        reader.readAsDataURL(file);
+    }
+}
+
+// 2. Live Camera Handle
+async function startLiveMirror() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+        const video = document.getElementById('webcam-feed');
+        video.srcObject = stream;
+        video.classList.remove('hidden');
+        document.getElementById('mirror-placeholder').classList.add('hidden');
+        document.getElementById('user-upload-preview').classList.add('hidden');
+        giaSpeak("Live camera on ho gaya hai. Frame mein khud ko dekhiye!");
+    } catch (err) {
+        alert("Camera access nahi mila. Browser settings check karein.");
+    }
+}
+
+// 3. Simple Drag Logic for Mobile & PC
+let isDragging = false;
+draggable.addEventListener('mousedown', () => isDragging = true);
+window.addEventListener('mouseup', () => isDragging = false);
+
+window.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX - rect.left - (draggable.offsetWidth / 2);
+        const y = e.clientY - rect.top - (draggable.offsetHeight / 2);
+        
+        // Boundaries check
+        if (x > 0 && x < rect.width - draggable.offsetWidth) draggable.style.left = x + 'px';
+        if (y > 0 && y < rect.height - draggable.offsetHeight) draggable.style.top = y + 'px';
+        
+        draggable.style.transform = `translate(0,0) scale(${currentScale}) rotate(${currentRotation}deg)`;
+    }
+});
+
+// Mobile Touch Support for Dragging
+draggable.addEventListener('touchmove', (e) => {
+    const touch = e.touches[0];
+    const rect = container.getBoundingClientRect();
+    const x = touch.clientX - rect.left - (draggable.offsetWidth / 2);
+    const y = touch.clientY - rect.top - (draggable.offsetHeight / 2);
+    
+    draggable.style.left = x + 'px';
+    draggable.style.top = y + 'px';
+    draggable.style.transform = `translate(0,0) scale(${currentScale}) rotate(${currentRotation}deg)`;
+}, { passive: false });
+
+// 4. Zoom & Rotate Controls
+function resizeProduct(factor) {
+    currentScale *= factor;
+    draggable.style.transform = `translate(0,0) scale(${currentScale}) rotate(${currentRotation}deg)`;
+}
+
+function rotateProduct() {
+    currentRotation += 15;
+    draggable.style.transform = `translate(0,0) scale(${currentScale}) rotate(${currentRotation}deg)`;
+}
