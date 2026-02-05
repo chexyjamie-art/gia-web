@@ -196,3 +196,57 @@ function openTruthModal(productName, score) {
     }
 }
 
+// 1. GIA INTELLIGENT RESPONSES (Avoiding Repetition)
+const giaGreetings = [
+    "Hi Rahul! Aaj aapka mood kaafi stylish lag raha hai. Kaise madad karun?",
+    "Welcome back Rahul! Maine kuch naye exclusive deals dhoondi hain aapke liye.",
+    "Namaste Rahul! Kya aaj hum kuch naya try karein?"
+];
+
+const giaWishlistLines = [
+    "Great choice! Maine ise save kar liya hai, price kam hote hi bataungi.",
+    "Personal preference? Noted! Is par meri nazar rahegi.",
+    "Rahul, ye aapke style par suit karega. Wishlist mein add kar diya hai!"
+];
+
+// 2. UPDATED SPEAK FUNCTION (With Life)
+function giaSpeak(type, product = "") {
+    window.speechSynthesis.cancel();
+    let text = "";
+    
+    if (type === 'greet') text = giaGreetings[Math.floor(Math.random() * giaGreetings.length)];
+    else if (type === 'wishlist') text = giaWishlistLines[Math.floor(Math.random() * giaWishlistLines.length)];
+    else if (type === 'modal') text = `Rahul, ye raha ${product} ka GIA analysis. Iska trust score kaafi solid hai.`;
+    else text = type; // Fallback for direct commands
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'hi-IN';
+    window.speechSynthesis.speak(utterance);
+    
+    document.getElementById('gia-chat-text').innerText = text;
+    document.getElementById('gia-chat-bubble').classList.remove('hidden');
+}
+
+// 3. FIXED MODAL TRIGGER
+function openTruthModal(productName, score) {
+    const modal = document.getElementById('gia-modal-overlay');
+    if (modal) {
+        document.getElementById('modal-product-name').innerText = productName;
+        document.getElementById('modal-score').innerText = score;
+        
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        
+        // Modal khulte hi specific dialogue
+        giaSpeak('modal', productName);
+    }
+}
+
+// 4. WISHLIST WITH ALERT
+function addToWishlist(itemName) {
+    giaSpeak('wishlist');
+    console.log(`${itemName} added to GIA Database.`);
+    // Notification logic here
+}
+
+
