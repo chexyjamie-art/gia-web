@@ -118,7 +118,7 @@
         <button id="aura-trigger" class="w-16 h-16 rounded-full bg-black shadow-2xl flex items-center justify-center border border-white/10 text-2xl hover:scale-110 transition">✨</button>
     </div>
 
-    <script>
+        <script>
         // ELEMENTS
         const bubble = document.getElementById('gia-chat-bubble');
         const textDisplay = document.getElementById('gia-chat-text');
@@ -132,6 +132,7 @@
 
         // SPEECH SYNTHESIS (Speaking)
         function giaSpeak(text) {
+            window.speechSynthesis.cancel(); // Purani awaaz roko
             const msg = new SpeechSynthesisUtterance(text);
             msg.lang = 'hi-IN';
             window.speechSynthesis.speak(msg);
@@ -148,38 +149,62 @@
         recognition.onresult = (event) => {
             const voiceMatch = event.results[0][0].transcript.toLowerCase();
             waves.classList.add('hidden');
-            
-            if (voiceMatch.includes("haan") || voiceMatch.includes("dikhao") || voiceMatch.includes("yes")) {
-                if (currentStep === "compare") {
-                    revealFeature('gia-comparison-section');
-                    giaSpeak("Ye raha price comparison! Kya ab aap is product ka 3D experience dekhna chahte hain?");
-                    currentStep = "3d";
-                } else if (currentStep === "3d") {
-                    revealFeature('gia-3d-section');
-                    giaSpeak("3D View active kar diya hai, Rahul. Enjoy your luxury experience!");
-                }
+            console.log("User ne bola:", voiceMatch);
+
+            if (voiceMatch.includes("haan") || voiceMatch.includes("dikhao") || voiceMatch.includes("yes") || voiceMatch.includes("ok")) {
+                handlePositiveResponse();
             }
         };
 
-        function revealFeature(id) {
-            document.getElementById(id).classList.remove('hidden');
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-            bubble.classList.add('hidden');
+        // Logic to handle "Yes" response for both steps
+        function handlePositiveResponse() {
+            if (currentStep === "compare") {
+                revealFeature('gia-comparison-section');
+                // 2 second ka pause dekar 3D ke liye pucho
+                setTimeout(askFor3D, 2000);
+            } else if (currentStep === "3d") {
+                revealFeature('gia-3d-section');
+                giaSpeak("3D View active kar diya hai, Rahul. Enjoy your luxury experience!");
+                currentStep = "finished";
+                actions.innerHTML = ""; // Buttons saaf kar do
+            }
         }
 
-        // AI LOGIC - PROACTIVE ASKING
+        function revealFeature(id) {
+            const el = document.getElementById(id);
+            el.classList.remove('hidden');
+            el.scrollIntoView({ behavior: 'smooth' });
+            bubble.classList.add('hidden'); // Ek pal ke liye hide karo taaki next question pop-up lage
+        }
+
+        // STEP 1: Ask for Comparison
         function startGIAAssistant() {
             currentStep = "compare";
             giaSpeak("Rahul, maine analysis kar li hai. Kya tum iska price comparison table dekhna chahte ho?");
             actions.innerHTML = `
-                <button onclick="listenForResponse()" class="bg-blue-600 p-2 rounded-xl text-[10px] font-bold">🎤 Bol kar jawab dein</button>
-                <button onclick="revealFeature('gia-comparison-section')" class="bg-white/10 p-2 rounded-xl text-[10px]">Haan, dikhao</button>
+                <button onclick="listenForResponse()" class="bg-blue-600 p-2 rounded-xl text-[10px] font-bold text-white hover:scale-105 transition">🎤 Bol kar jawab dein</button>
+                <button onclick="handlePositiveResponse()" class="bg-white/10 p-2 rounded-xl text-[10px] text-white hover:bg-white/20">Haan, dikhao</button>
             `;
         }
 
-        // Auto-start
-        setTimeout(startGIAAssistant, 5000);
+        // STEP 2: Ask for 3D
+        function askFor3D() {
+            currentStep = "3d";
+            bubble.classList.remove('hidden');
+            giaSpeak("Vaise Rahul, main aapko ye product 3D view mein bhi dikha sakti hoon. Kya aap ise rotate karke dekhna chahte hain?");
+            actions.innerHTML = `
+                <button onclick="listenForResponse()" class="bg-green-600 p-2 rounded-xl text-[10px] font-bold text-white hover:scale-105 transition">🎤 Haan, 3D dikhao</button>
+                <button onclick="handlePositiveResponse()" class="bg-white/10 p-2 rounded-xl text-[10px] text-white">Zaroor</button>
+            `;
+        }
+
+        // Auto-start after 5 seconds
+        window.addEventListener('load', () => {
+            setTimeout(startGIAAssistant, 5000);
+        });
+
         document.getElementById('aura-trigger').addEventListener('click', startGIAAssistant);
     </script>
+
 </body>
 </html>
