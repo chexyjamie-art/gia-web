@@ -28,7 +28,7 @@
         .pop-in { animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes pop { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
-        /* NEW: Check Availability Animation */
+        /* Check Availability Animation */
         @keyframes checkIn {
             0% { transform: scale(0) rotate(-45deg); opacity: 0; }
             100% { transform: scale(1) rotate(0deg); opacity: 1; }
@@ -64,7 +64,7 @@
     </div>
 
     <main class="max-w-6xl mx-auto px-4 md:px-6">
-        
+
         <div class="search-wrapper relative max-w-2xl mx-auto">
             <div class="relative group">
                 <input type="text" id="gia-search-input" onkeypress="if(event.key==='Enter') updateGIACombo(this.value)" placeholder="Search luxury or ask GIA..." 
@@ -79,23 +79,22 @@
 
         <section class="mb-12 reveal-section">
             <h2 class="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-6 px-2">Top Selections</h2>
-            
+
             <div id="product-grid" class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
-                <div onclick="updateGIACombo('sunscreen')" class="bg-white rounded-3xl p-4 border border-gray-100 shadow-sm hover:shadow-xl transition-all cursor-pointer text-center group">
-                    <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200" class="w-20 h-20 mx-auto object-contain mb-3 group-hover:scale-110 transition-transform">
-                    <h4 class="text-[10px] font-bold truncate">Matte Sunscreen</h4>
-                    <p class="text-xs font-black text-blue-600 mt-1">₹599</p>
-                </div>
-                <div onclick="updateGIACombo('shirt')" class="bg-white rounded-3xl p-4 border border-gray-100 shadow-sm hover:shadow-xl transition-all cursor-pointer text-center group">
-                    <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=200" class="w-20 h-20 mx-auto object-contain mb-3 group-hover:scale-110 transition-transform">
-                    <h4 class="text-[10px] font-bold truncate">Linen Shirt</h4>
+                <div onclick="openProductGallery('Blue Check Shirt', '₹1,899')" class="bg-white rounded-[2.5rem] p-4 border border-gray-100 shadow-sm hover:shadow-xl transition-all cursor-pointer relative group text-center">
+                    <div onclick="event.stopPropagation(); openTruthModal('Blue Check Shirt', 9.4)" class="absolute top-4 right-4 bg-green-50 text-green-600 text-[9px] font-black px-2 py-1 rounded-full border border-green-100 hover:scale-110 transition-transform">
+                        ★ 9.4
+                    </div>
+                    
+                    <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=200" class="w-24 h-24 mx-auto object-contain mb-3 group-hover:scale-110 transition-transform">
+                    <h4 class="text-[10px] font-bold truncate">Blue Check Linen</h4>
                     <p class="text-xs font-black text-blue-600 mt-1">₹1,899</p>
                 </div>
+                
                 </div>
 
             <div id="gia-combo-card" class="glass-card rounded-[2.5rem] p-6 md:p-10 border border-blue-50 relative overflow-hidden shadow-2xl bg-white/90">
                 <div class="flex flex-col lg:flex-row gap-10 items-center">
-                    
                     <div id="combo-items-container" class="flex items-center gap-4 overflow-x-auto no-scrollbar py-6 min-w-[65%]">
                         <div class="text-gray-400 italic text-sm">Tap a product above to see GIA's Combo...</div>
                     </div>
@@ -109,7 +108,7 @@
                             </div>
                         </div>
                         <p id="combo-reasoning" class="text-gray-500 text-[11px] leading-relaxed mb-8">GIA analysis will appear here.</p>
-                        
+
                         <div class="bg-gray-50 p-5 rounded-[2rem] flex items-center justify-between border border-gray-50">
                             <div>
                                 <p class="text-[8px] text-gray-400 font-bold uppercase tracking-widest">Total Bundle</p>
@@ -135,7 +134,49 @@
 
     <div id="gia-modal-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-xl z-[200] hidden items-center justify-center p-4" onclick="closeTruthModal()">
         <div class="bg-white w-full max-w-md rounded-[3rem] p-8 shadow-2xl pop-in" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="modal-product-name" class="text-xl font-bold font-serif italic">Product Name</h2>
+                <div class="bg-black text-white w-10 h-10 rounded-full flex items-center justify-center font-bold" id="modal-score">9.4</div>
             </div>
+            <div class="space-y-4 mb-8">
+                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
+                    <span class="text-xs font-bold text-gray-500 uppercase">Durability Index</span>
+                    <span class="text-xs font-black text-green-600">Premium</span>
+                </div>
+                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
+                    <span class="text-xs font-bold text-gray-500 uppercase">Seller Trust</span>
+                    <span class="text-xs font-black text-blue-600">Verified</span>
+                </div>
+                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
+                    <span class="text-xs font-bold text-gray-500 uppercase">Fabric Quality</span>
+                    <span class="text-xs font-black text-orange-600">Linen Blend</span>
+                </div>
+            </div>
+            <button onclick="closeTruthModal()" class="w-full bg-black text-white py-4 rounded-2xl font-bold">Close Analysis</button>
+        </div>
+    </div>
+
+    <div id="product-gallery-modal" class="fixed inset-0 bg-white z-[250] hidden flex-col">
+        <nav class="p-6 flex justify-between items-center border-b">
+            <button onclick="closeProductGallery()" class="p-2 bg-gray-100 rounded-full"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+            <h2 id="gallery-title" class="font-bold italic font-serif">Product Details</h2>
+            <button class="p-2 bg-gray-100 rounded-full"><i data-lucide="share" class="w-5 h-5"></i></button>
+        </nav>
+        <div class="flex-1 overflow-y-auto p-6">
+            <div class="flex gap-4 overflow-x-auto no-scrollbar snap-x mb-8">
+                <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600" class="w-[80vw] h-96 object-cover rounded-[3rem] snap-center">
+                <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&angle=2" class="w-[80vw] h-96 object-cover rounded-[3rem] snap-center">
+            </div>
+            <div class="max-w-xl mx-auto">
+                <h3 class="text-2xl font-bold mb-2">Technical Specifications</h3>
+                <p class="text-gray-500 text-sm mb-6 leading-relaxed">This premium blue check shirt is crafted from 100% organic linen. Features include a slim fit silhouette, reinforced stitching, and heat-resistant buttons.</p>
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="border p-4 rounded-2xl"><p class="text-[10px] text-gray-400 font-bold uppercase">Material</p><p class="font-bold">Organic Linen</p></div>
+                    <div class="border p-4 rounded-2xl"><p class="text-[10px] text-gray-400 font-bold uppercase">Fit</p><p class="font-bold">Slim Fit</p></div>
+                </div>
+                <button onclick="triggerSuccess()" class="w-full bg-black text-white py-5 rounded-[2rem] font-bold text-lg">Add to Collection</button>
+            </div>
+        </div>
     </div>
 
     <div id="gia-aura-container" class="fixed bottom-6 right-4 z-[100] flex flex-col items-end">
@@ -146,6 +187,29 @@
     </div>
 
     <script src="script.js"></script>
-    <script>lucide.createIcons();</script>
+    <script>
+        lucide.createIcons();
+        
+        // Modal functions
+        function openTruthModal(name, score) {
+            document.getElementById('modal-product-name').innerText = name;
+            document.getElementById('modal-score').innerText = score;
+            document.getElementById('gia-modal-overlay').classList.remove('hidden');
+            document.getElementById('gia-modal-overlay').classList.add('flex');
+        }
+        function closeTruthModal() {
+            document.getElementById('gia-modal-overlay').classList.add('hidden');
+        }
+        function openProductGallery(name, price) {
+            document.getElementById('gallery-title').innerText = name;
+            document.getElementById('product-gallery-modal').classList.remove('hidden');
+            document.getElementById('product-gallery-modal').classList.add('flex');
+            // Sync combo
+            if(window.updateGIACombo) updateGIACombo(name);
+        }
+        function closeProductGallery() {
+            document.getElementById('product-gallery-modal').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>
