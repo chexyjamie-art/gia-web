@@ -3,172 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA | Profile</title>
+    <title>GIA | Personal Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* Modern Background Tone */
-        body { font-family: 'Inter', sans-serif; background-color: #F1F3F6; }
+        body { 
+            background-color: #fdfbf7; /* Very light Champagne tint */
+            font-family: 'Inter', sans-serif;
+        }
+
         .font-serif { font-family: 'Playfair Display', serif; }
-        
-        /* Glassmorphism with more definition */
-        .glass-card { 
-            background: rgba(255, 255, 255, 0.95); 
-            backdrop-filter: blur(20px); 
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
-        }
-        
-        .nav-blur { background: rgba(241, 243, 246, 0.8); backdrop-filter: blur(15px); }
 
-        .pop-in { animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes pop { 
-            0% { transform: scale(0.9); opacity: 0; } 
-            100% { transform: scale(1); opacity: 1; } 
+        /* HEADER SECTION: Charcoal Dark */
+        .profile-header {
+            background: linear-gradient(135deg, #1a1c1b 0%, #2d3436 100%);
+            height: 300px;
+            border-bottom-left-radius: 4rem;
+            border-bottom-right-radius: 4rem;
         }
 
-        /* Profile Header Gradient */
-        .profile-bg-accent {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 350px;
-            background: linear-gradient(180deg, #E2E8F0 0%, #F1F3F6 100%);
-            z-index: -1;
+        /* LUXE GLASS CARD */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(191, 149, 63, 0.2);
+            box-shadow: 0 40px 100px -20px rgba(0,0,0,0.1);
+        }
+
+        .gold-border-avatar {
+            border: 3px solid #BF953F;
+            padding: 6px;
+            background: white;
+        }
+
+        .champagne-btn {
+            background: linear-gradient(90deg, #BF953F, #AA771C);
+            color: white;
+            box-shadow: 0 15px 30px rgba(170, 119, 28, 0.2);
         }
     </style>
 </head>
 <body class="relative">
 
-    <div class="profile-bg-accent"></div>
-
-    <nav class="fixed top-0 left-0 w-full p-6 flex justify-between items-center nav-blur z-[100] border-b border-gray-200/30">
-        <button onclick="window.location.href='index.html'" class="p-2 bg-white rounded-full shadow-sm hover:bg-gray-100 transition-all">
-            <i data-lucide="arrow-left" class="w-6 h-6 text-black"></i>
+    <nav class="absolute top-0 left-0 w-full p-8 flex justify-between items-center z-50">
+        <button onclick="window.location.href='index.html'" class="w-10 h-10 flex items-center justify-center bg-white/10 rounded-full backdrop-blur-md border border-white/20 text-white">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
         </button>
-        <h1 class="text-[10px] font-black uppercase tracking-[0.4em] text-gray-500">GIA Profile</h1>
-        <button onclick="showLogoutModal()" class="p-2 bg-white rounded-full shadow-sm hover:bg-red-50 transition-colors">
-            <i data-lucide="log-out" class="w-5 h-5 text-red-400"></i>
+        <span class="text-[10px] font-bold text-white/50 uppercase tracking-[0.4em]">Personal Space</span>
+        <button onclick="showLogoutModal()" class="w-10 h-10 flex items-center justify-center bg-white/10 rounded-full backdrop-blur-md border border-white/20 text-red-400">
+            <i data-lucide="power" class="w-5 h-5"></i>
         </button>
     </nav>
 
-    <main class="max-w-xl mx-auto pt-24 pb-20 px-6">
+    <div class="profile-header relative overflow-hidden">
+        <div class="absolute top-20 right-[-50px] w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+    </div>
 
-        <div class="flex justify-center mb-12">
-            <div class="relative group">
-                <div class="w-44 h-60 rounded-[3.5rem] overflow-hidden shadow-[0_35px_60px_-15px_rgba(0,0,0,0.2)] border-4 border-white">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" class="w-full h-full object-cover bg-white" alt="Rahul's Photo">
-                </div>
-                <div class="absolute -bottom-2 -right-2 bg-black text-white p-3 rounded-full shadow-xl border-4 border-[#F1F3F6]">
-                    <i data-lucide="check-circle-2" class="w-5 h-5 text-blue-400"></i>
-                </div>
+    <main class="max-w-xl mx-auto -mt-32 px-6 pb-20 relative z-10">
+
+        <div class="flex flex-col items-center mb-10">
+            <div class="gold-border-avatar w-40 h-40 rounded-[3rem] rotate-3 overflow-hidden shadow-2xl">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" class="-rotate-3 scale-110" alt="Rahul">
+            </div>
+            <div class="mt-6 text-center">
+                <h2 class="text-3xl font-serif italic font-bold text-white">Rahul Kapoor</h2>
+                <p class="text-[9px] font-bold text-[#BF953F] uppercase tracking-[0.3em] mt-2">Gold Member Exclusive</p>
             </div>
         </div>
 
-        <div class="glass-card rounded-[3.5rem] p-8 border border-white mb-8">
-            <div class="text-center mb-8">
-                <h2 class="text-3xl font-serif italic font-bold">Rahul Kapoor</h2>
-                <p class="text-[10px] font-bold text-blue-600 uppercase tracking-widest mt-1">Verified GIA Member</p>
+        <div class="glass-card rounded-[3.5rem] p-10 space-y-8">
+            <div class="flex items-center gap-6">
+                <div class="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-[#AA771C]">
+                    <i data-lucide="mail" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <p class="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-1">Registered Email</p>
+                    <p class="text-sm font-semibold text-gray-800 italic">rahul.kapoor@gia.com</p>
+                </div>
             </div>
 
-            <div class="space-y-6">
-                <div class="flex items-center gap-5">
-                    <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center"><i data-lucide="user" class="w-4 h-4 text-gray-400"></i></div>
-                    <div><p class="text-[8px] font-black text-gray-400 uppercase tracking-tighter">Gender</p><p class="text-sm font-bold">Male</p></div>
+            <div class="flex items-center gap-6">
+                <div class="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-[#AA771C]">
+                    <i data-lucide="map-pin" class="w-5 h-5"></i>
                 </div>
+                <div>
+                    <p class="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-1">Primary Residence</p>
+                    <p class="text-sm font-semibold text-gray-800 leading-relaxed">Flat 402, Royal Enclave, Bandra West, Mumbai</p>
+                </div>
+            </div>
 
-                <div class="flex items-center gap-5">
-                    <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center"><i data-lucide="smartphone" class="w-4 h-4 text-gray-400"></i></div>
-                    <div><p class="text-[8px] font-black text-gray-400 uppercase tracking-tighter">Mobile Number</p><p class="text-sm font-bold">+91 98XXX X0001</p></div>
-                </div>
-
-                <div class="flex items-center gap-5">
-                    <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center"><i data-lucide="mail" class="w-4 h-4 text-gray-400"></i></div>
-                    <div><p class="text-[8px] font-black text-gray-400 uppercase tracking-tighter">Email Address</p><p class="text-sm font-bold">rahul.kapoor@gia.com</p></div>
-                </div>
-
-                <div class="flex items-start gap-5 pt-4 border-t border-gray-100">
-                    <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center shrink-0"><i data-lucide="map-pin" class="w-4 h-4 text-gray-400"></i></div>
-                    <div><p class="text-[8px] font-black text-gray-400 uppercase tracking-tighter">House Full Address</p>
-                    <p class="text-sm font-bold leading-relaxed text-gray-800">Flat 402, Royal Enclave, Bandra West, Mumbai, 400050</p></div>
-                </div>
+            <div class="pt-6 border-t border-gray-100 grid grid-cols-2 gap-4">
+                <button onclick="window.location.href='orders.html'" class="bg-gray-50 p-6 rounded-[2.5rem] text-center border border-gray-100 hover:border-[#BF953F] transition-all">
+                    <p class="text-[8px] font-bold text-gray-400 uppercase mb-2">Vault</p>
+                    <p class="text-xs font-bold text-gray-800 italic">My Orders</p>
+                </button>
+                <button onclick="window.location.href='wishlist.html'" class="bg-gray-50 p-6 rounded-[2.5rem] text-center border border-gray-100 hover:border-[#BF953F] transition-all">
+                    <p class="text-[8px] font-bold text-gray-400 uppercase mb-2">Curation</p>
+                    <p class="text-xs font-bold text-gray-800 italic">Wishlist</p>
+                </button>
             </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
-            <button onclick="window.location.href='orders.html'" class="bg-black text-white p-6 rounded-[2.5rem] flex flex-col items-center justify-center shadow-2xl shadow-black/20 hover:scale-95 transition-all group">
-                <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-3 group-hover:bg-blue-600 transition-colors">
-                    <i data-lucide="shopping-bag" class="w-6 h-6"></i>
-                </div>
-                <p class="text-[10px] font-black uppercase tracking-widest">Orders</p>
-                <p class="text-[8px] text-gray-400 mt-1">Past Purchases</p>
+        <div class="mt-8 space-y-4">
+            <button class="w-full champagne-btn py-6 rounded-[2rem] text-[10px] font-bold uppercase tracking-[0.2em] active:scale-95 transition-all">
+                Customize Stylist Preferences
             </button>
-
-            <button onclick="window.location.href='wishlist.html'" class="bg-white text-black p-6 rounded-[2.5rem] border border-white flex flex-col items-center justify-center shadow-sm hover:scale-95 transition-all group">
-                <div class="w-12 h-12 bg-gray-100 rounded-2xl flex items-center justify-center mb-3 group-hover:bg-red-50 transition-colors">
-                    <i data-lucide="heart" class="w-6 h-6 group-hover:text-red-500 transition-colors"></i>
-                </div>
-                <p class="text-[10px] font-black uppercase tracking-widest">Wishlist</p>
-                <p class="text-[8px] text-gray-400 mt-1">Saved Styles</p>
-            </button>
-        </div>
-
-        <button class="w-full mt-8 bg-white border border-gray-200 text-gray-500 py-5 rounded-[2rem] text-[10px] font-black uppercase tracking-widest hover:bg-gray-50 transition-all shadow-sm">
-            Edit GIA Profile Details
-        </button>
-
-        <button onclick="showLogoutModal()" class="w-full mt-4 flex items-center justify-center gap-2 py-4 text-red-400 text-[10px] font-bold uppercase tracking-[0.2em] hover:text-red-600 transition-all">
-            <i data-lucide="log-out" class="w-4 h-4"></i>
-            Logout from GIA
-        </button>
-
-        <footer class="mt-12 text-center">
-            <p class="text-[8px] text-gray-400 uppercase tracking-tighter leading-relaxed px-6">
-                GIA is an affiliate partner. Orders are fulfilled by Amazon/Myntra. 
-                <br>Our legal disclaimer is at the bottom of the home page.
+            <p class="text-center text-[8px] text-gray-400 uppercase tracking-tighter pt-4">
+                Partnered with Amazon & Myntra • Official GIA Profile
             </p>
-        </footer>
+        </div>
 
     </main>
 
-    <div id="logout-modal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-[300] hidden items-center justify-center p-6">
-        <div class="bg-white w-full max-w-xs rounded-[3rem] p-8 shadow-2xl pop-in text-center">
-            <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i data-lucide="alert-circle" class="w-8 h-8 text-red-500"></i>
+    <div id="logout-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[300] hidden items-center justify-center p-8">
+        <div class="bg-white w-full max-w-xs rounded-[3rem] p-10 text-center shadow-2xl">
+            <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6 text-red-500">
+                <i data-lucide="log-out" class="w-8 h-8"></i>
             </div>
-            <h3 class="text-xl font-serif italic font-bold mb-2">Leaving so soon?</h3>
-            <p class="text-xs text-gray-500 mb-8 leading-relaxed">Are you sure you want to logout? GIA will miss styling you.</p>
-
+            <h3 class="text-xl font-serif italic font-bold mb-3 text-gray-900">End Session?</h3>
+            <p class="text-xs text-gray-400 mb-8 leading-relaxed italic">Your stylist preferences will be saved for your next visit.</p>
             <div class="space-y-3">
-                <button onclick="confirmLogout()" class="w-full bg-black text-white py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg active:scale-95 transition-all">
-                    Yes, Logout
-                </button>
-                <button onclick="closeLogoutModal()" class="w-full bg-gray-100 text-gray-400 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-gray-200 transition-all">
-                    Stay Here
-                </button>
+                <button onclick="confirmLogout()" class="w-full bg-black text-white py-4 rounded-2xl text-[10px] font-bold uppercase tracking-widest shadow-xl">Yes, Close</button>
+                <button onclick="closeLogoutModal()" class="w-full bg-gray-50 text-gray-500 py-4 rounded-2xl text-[10px] font-bold uppercase tracking-widest">Back to Profile</button>
             </div>
         </div>
     </div>
 
     <script>
         lucide.createIcons();
-
-        function showLogoutModal() {
-            const modal = document.getElementById('logout-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function closeLogoutModal() {
-            const modal = document.getElementById('logout-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        function confirmLogout() {
-            window.location.href = 'index.html'; 
-        }
+        function showLogoutModal() { document.getElementById('logout-modal').classList.replace('hidden', 'flex'); }
+        function closeLogoutModal() { document.getElementById('logout-modal').classList.replace('flex', 'hidden'); }
+        function confirmLogout() { window.location.href = 'index.html'; }
     </script>
 </body>
 </html>
