@@ -1,56 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIA | Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F9FAFB; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+        .nav-blur { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(15px); }
+    </style>
+</head>
 <body>
 
-<header class="top-header">
-    <div class="left-header">
-        <i class="fa fa-arrow-left" onclick="history.back()"></i>
-        <div class="logo">My Profile</div>
-    </div>
-</header>
+    <nav class="fixed top-0 left-0 w-full p-6 flex justify-between items-center nav-blur z-[100] border-b border-gray-50">
+        <button onclick="window.location.href='index.html'" class="p-2 bg-gray-50 rounded-full hover:bg-gray-100 transition-all">
+            <i data-lucide="arrow-left" class="w-6 h-6 text-black"></i>
+        </button>
+        <h1 class="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">GIA Profile</h1>
+        <button class="p-2 bg-gray-50 rounded-full"><i data-lucide="log-out" class="w-5 h-5 text-red-400"></i></button>
+    </nav>
 
-<main class="container">
+    <main class="max-w-xl mx-auto pt-24 pb-20 px-6">
+        
+        <div class="flex justify-center mb-12">
+            <div class="relative group">
+                <div class="w-44 h-60 rounded-[3.5rem] overflow-hidden shadow-2xl border-4 border-white">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" class="w-full h-full object-cover bg-blue-50" alt="Rahul's Photo">
+                </div>
+                <div class="absolute -bottom-2 -right-2 bg-black text-white p-3 rounded-full shadow-xl border-4 border-[#F9FAFB]">
+                    <i data-lucide="check-circle-2" class="w-5 h-5 text-blue-400"></i>
+                </div>
+            </div>
+        </div>
 
-    <!-- PROFILE CARD -->
-    <div class="profile-card">
+        <div class="glass-card rounded-[3.5rem] p-8 shadow-sm border border-gray-100 mb-8">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-serif italic font-bold">Rahul Kapoor</h2>
+                <p class="text-[10px] font-bold text-blue-600 uppercase tracking-widest mt-1">Verified GIA Member</p>
+            </div>
 
-        <!-- DP -->
-        <label for="dpUpload">
-            <img src="https://via.placeholder.com/120" id="profileDp">
-        </label>
-        <input type="file" id="dpUpload" hidden>
+            <div class="space-y-6">
+                <div class="flex items-center gap-5">
+                    <div class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center"><i data-lucide="user" class="w-4 h-4 text-gray-400"></i></div>
+                    <div><p class="text-[8px] font-black text-gray-400 uppercase tracking-tighter">Gender</p><p class="text-sm font-bold">Male</p></div>
+                </div>
 
-        <h3>Rahul Kumar</h3>
-        <p>Male</p>
-        <p>📞 7077949086</p>
-        <p>✉️ rahul@email.com</p>
-        <p>🏠 Bhawanipatna, Odisha</p>
+                <div class="flex items-center gap-5">
+                    <div class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center"><i data-lucide="smartphone" class="w-4 h-4 text-gray-400"></i></div>
+                    <div><p class="text-[8px] font-black text-gray-400 uppercase tracking-tighter">Mobile Number</p><p class="text-sm font-bold">+91 98XXX X0001</p></div>
+                </div>
 
-    </div>
+                <div class="flex items-center gap-5">
+                    <div class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center"><i data-lucide="mail" class="w-4 h-4 text-gray-400"></i></div>
+                    <div><p class="text-[8px] font-black text-gray-400 uppercase tracking-tighter">Email Address</p><p class="text-sm font-bold">rahul.kapoor@gia.com</p></div>
+                </div>
 
-    <!-- ACCORDION -->
-    <div class="profile-option" onclick="toggleBox('wishlistBox')">
-        ❤️ Wishlist
-    </div>
-    <div class="accordion-box" id="wishlistBox">
-        No items yet
-    </div>
+                <div class="flex items-start gap-5 pt-4 border-t border-gray-50">
+                    <div class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center shrink-0"><i data-lucide="map-pin" class="w-4 h-4 text-gray-400"></i></div>
+                    <div><p class="text-[8px] font-black text-gray-400 uppercase tracking-tighter">House Full Address</p>
+                    <p class="text-sm font-bold leading-relaxed">Flat 402, Royal Enclave, Bandra West, Mumbai, 400050</p></div>
+                </div>
+            </div>
+        </div>
 
-    <div class="profile-option" onclick="toggleBox('orderBox')">
-        📦 Order History
-    </div>
-    <div class="accordion-box" id="orderBox">
-        No orders yet
-    </div>
+        <div class="grid grid-cols-2 gap-4">
+            <button onclick="window.location.href='orders.html'" class="bg-black text-white p-6 rounded-[2.5rem] flex flex-col items-center justify-center shadow-xl hover:scale-95 transition-all group">
+                <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-3 group-hover:bg-blue-600 transition-colors">
+                    <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+                </div>
+                <p class="text-[10px] font-black uppercase tracking-widest">Orders</p>
+                <p class="text-[8px] text-gray-400 mt-1">Past Purchases</p>
+            </button>
 
-    <div class="profile-option" onclick="toggleBox('aiBox')">
-        🤖 AI Settings
-    </div>
-    <div class="accordion-box" id="aiBox">
-        Coming soon
-    </div>
+            <button onclick="window.location.href='wishlist.html'" class="bg-white text-black p-6 rounded-[2.5rem] border border-gray-100 flex flex-col items-center justify-center shadow-sm hover:scale-95 transition-all group">
+                <div class="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center mb-3 group-hover:bg-red-50 transition-colors">
+                    <i data-lucide="heart" class="w-6 h-6 group-hover:text-red-500 transition-colors"></i>
+                </div>
+                <p class="text-[10px] font-black uppercase tracking-widest">Wishlist</p>
+                <p class="text-[8px] text-gray-400 mt-1">Saved Styles</p>
+            </button>
+        </div>
 
-    <button class="logout-btn">Logout</button>
+        <button class="w-full mt-8 bg-gray-100 text-gray-400 py-5 rounded-[2rem] text-[10px] font-black uppercase tracking-widest hover:bg-gray-200 transition-all">
+            Edit GIA Profile Details
+        </button>
 
-</main>
+    </main>
 
-<script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
+</html>
