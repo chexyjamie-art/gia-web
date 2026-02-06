@@ -1,3 +1,35 @@
+/* Body ko halka sa tone do taaki cards dikhein */
+body { 
+    background-color: #F8F9FA; /* Off-white background */
+    color: #1A1A1A; 
+}
+
+/* Product Cards ko 'Elevated' banao */
+#product-grid > div {
+    background: #ffffff;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03); /* Soft shadow */
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+#product-grid > div:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+/* Search bar ko thoda deep aur premium dikhao */
+#gia-search-input {
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.03);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+}
+
+/* Combo Card ko thoda dark aur bold touch do */
+#gia-combo-card {
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    border: 1px solid rgba(255,255,255,0.8);
+}
+
 :root {
     --gold-premium: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
     --bg-silk: #ffffff;
