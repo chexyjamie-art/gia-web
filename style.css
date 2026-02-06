@@ -110,3 +110,25 @@ h1, h2, h3, .font-serif {
 
 /* Fixed Slider */
 .no-scrollbar::-webkit-scrollbar { display: none; }
+
+.check-tick-container {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #22c55e;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transform: scale(0);
+    animation: popCheck 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popCheck {
+    to { transform: scale(1); }
+}
