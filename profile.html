@@ -5,112 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GIA | Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Plus+Jakarta+Sans:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body { 
-            background: radial-gradient(circle at top right, #f0f9ff 0%, #ffffff 100%);
-            font-family: 'Inter', sans-serif;
-            color: #1e293b;
+            background-color: #F4F4F2; /* Stone/Beige tint - very premium */
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #1a1a1a;
+        }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        
+        /* Thin Sharp Borders */
+        .sharp-card {
+            background: white;
+            border: 1px solid #1a1a1a;
+            box-shadow: 8px 8px 0px #1a1a1a; /* Retro-modern shadow */
         }
 
-        /* The "Frost" Card Effect */
-        .frost-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.03);
+        .avatar-frame {
+            border: 1px solid #1a1a1a;
+            padding: 10px;
+            background: white;
         }
 
-        /* Soft Floating Animation */
-        .float-anim {
-            animation: floating 4s ease-in-out infinite;
-        }
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+        .btn-black {
+            background: #1a1a1a;
+            color: white;
+            transition: all 0.3s ease;
         }
 
-        .avatar-glow {
-            box-shadow: 0 0 40px rgba(59, 130, 246, 0.15);
+        .btn-black:hover {
+            background: transparent;
+            color: #1a1a1a;
+            box-shadow: 4px 4px 0px #1a1a1a;
         }
     </style>
 </head>
-<body class="min-h-screen">
+<body class="p-4">
 
-    <div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-50 rounded-full blur-[120px] -z-10"></div>
-    <div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-50 rounded-full blur-[120px] -z-10"></div>
-
-    <nav class="p-8 flex justify-between items-center">
-        <button onclick="window.location.href='index.html'" class="w-12 h-12 flex items-center justify-center bg-white rounded-2xl shadow-sm border border-gray-100 active:scale-90 transition-all">
-            <i data-lucide="chevron-left" class="w-6 h-6"></i>
+    <header class="flex justify-between items-center py-6 px-2">
+        <button onclick="window.location.href='index.html'" class="hover:scale-110 transition-transform">
+            <i data-lucide="arrow-left" class="w-6 h-6"></i>
         </button>
-        <h1 class="text-xs font-extrabold uppercase tracking-[0.5em] text-gray-400">Identity</h1>
-        <button class="w-12 h-12 flex items-center justify-center bg-white rounded-2xl shadow-sm border border-gray-100 text-red-500">
-            <i data-lucide="power" class="w-5 h-5"></i>
-        </button>
-    </nav>
+        <h1 class="text-sm font-bold uppercase tracking-[0.3em]">Account / Profile</h1>
+        <div class="w-6"></div> </header>
 
-    <main class="max-w-md mx-auto px-6 pt-10 pb-20">
+    <main class="max-w-md mx-auto pt-10 pb-20">
         
-        <div class="flex flex-col items-center mb-12">
-            <div class="relative float-anim">
-                <div class="w-36 h-36 rounded-[3rem] bg-white p-2 avatar-glow overflow-hidden">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" class="w-full h-full object-cover rounded-[2.5rem] bg-blue-50">
+        <div class="text-center mb-12">
+            <div class="inline-block relative">
+                <div class="avatar-frame mb-6">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" class="w-32 h-32 bg-gray-100" alt="Rahul">
                 </div>
-                <div class="absolute -bottom-2 -right-2 bg-blue-600 text-white p-3 rounded-2xl shadow-lg border-4 border-white">
-                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                <div class="absolute -bottom-2 -right-4 bg-[#1a1a1a] text-white text-[8px] px-3 py-1 font-bold uppercase tracking-widest">
+                    Privé Member
                 </div>
             </div>
-            <div class="mt-8 text-center">
-                <h2 class="text-4xl font-black tracking-tight">Rahul K.</h2>
-                <p class="text-sm text-blue-500 font-bold mt-1 tracking-widest uppercase">Style Level: Elite</p>
-            </div>
+            <h2 class="text-5xl font-serif italic font-bold mt-4">Rahul Kapoor</h2>
+            <p class="text-xs text-gray-500 uppercase tracking-widest mt-2">Personalized by GIA AI</p>
         </div>
 
         <div class="space-y-4">
-            <div class="frost-card p-6 rounded-[2.5rem] flex items-center gap-5">
-                <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
-                    <i data-lucide="mail" class="w-5 h-5"></i>
-                </div>
-                <div>
-                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Connect</p>
-                    <p class="text-sm font-semibold">rahul.k@gia.ai</p>
+            <div class="sharp-card p-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">Email Address</p>
+                        <p class="text-sm font-bold italic">rahul.kapoor@gia.com</p>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
                 </div>
             </div>
 
-            <div class="frost-card p-6 rounded-[2.5rem] flex items-center gap-5">
-                <div class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600">
-                    <i data-lucide="map-pin" class="w-5 h-5"></i>
-                </div>
-                <div>
-                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Base</p>
-                    <p class="text-sm font-semibold">Bandra, Mumbai</p>
+            <div class="sharp-card p-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">Shipping</p>
+                        <p class="text-sm font-bold">Bandra West, Mumbai, 400050</p>
+                    </div>
+                    <i data-lucide="map-pin" class="w-4 h-4 text-gray-300"></i>
                 </div>
             </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4 mt-8">
-            <div class="bg-white p-6 rounded-[2.5rem] shadow-sm border border-gray-50 flex flex-col items-center group cursor-pointer active:scale-95 transition-all">
-                <div class="w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                    <i data-lucide="package" class="w-5 h-5"></i>
-                </div>
-                <p class="text-xs font-bold uppercase tracking-widest">Orders</p>
+        <div class="mt-12 border-t border-black/10">
+            <div class="flex items-center justify-between py-6 border-b border-black/10 cursor-pointer group">
+                <span class="text-xl font-serif italic group-hover:pl-4 transition-all">Order History</span>
+                <span class="text-xs text-gray-400">08</span>
             </div>
-            <div class="bg-white p-6 rounded-[2.5rem] shadow-sm border border-gray-50 flex flex-col items-center group cursor-pointer active:scale-95 transition-all">
-                <div class="w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center mb-3 group-hover:bg-red-500 group-hover:text-white transition-all">
-                    <i data-lucide="heart" class="w-5 h-5"></i>
-                </div>
-                <p class="text-xs font-bold uppercase tracking-widest">Wishlist</p>
+            <div class="flex items-center justify-between py-6 border-b border-black/10 cursor-pointer group">
+                <span class="text-xl font-serif italic group-hover:pl-4 transition-all">Saved Items</span>
+                <span class="text-xs text-gray-400">14</span>
+            </div>
+            <div class="flex items-center justify-between py-6 border-b border-black/10 cursor-pointer group">
+                <span class="text-xl font-serif italic group-hover:pl-4 transition-all">Styling Preferences</span>
+                <i data-lucide="settings" class="w-4 h-4"></i>
             </div>
         </div>
 
-        <div class="mt-12 text-center">
-            <button class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 hover:text-blue-500 transition-colors">
-                GIA AI Personal Assistant • v2.0
-            </button>
-        </div>
+        <button class="w-full btn-black py-5 mt-12 text-[10px] font-bold uppercase tracking-[0.3em] border border-black">
+            Log Out from GIA
+        </button>
+
+        <p class="text-[8px] text-center mt-12 text-gray-400 uppercase tracking-widest leading-relaxed">
+            GIA is an affiliate curator for Amazon & Myntra. <br>
+            All rights reserved 2026.
+        </p>
 
     </main>
 
