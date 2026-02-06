@@ -331,3 +331,68 @@ function openTruthModal(name, score) {
     modal.classList.remove('hidden');
     modal.classList.add('flex');
 }
+
+// AI Knowledge Base: Products and their perfect matches
+const giaKnowledge = {
+    "Blue Check Premium": {
+        matches: [
+            { n: "Beige Chinos", p: 2499, i: "pants_url" },
+            { n: "Tan Loafers", p: 3200, i: "shoes_url" },
+            { n: "Leather Belt", p: 899, i: "belt_url" }
+        ],
+        reason: "Blue checks balance perfectly with earthy beige tones for a smart-casual vibe.",
+        score: "9.8"
+    },
+    "White Oxford": {
+        matches: [
+            { n: "Indigo Denim", p: 2999, i: "denim_url" },
+            { n: "White Sneakers", p: 4500, i: "sneaker_url" }
+        ],
+        reason: "A classic minimalist look verified for high-contrast appeal.",
+        score: "9.5"
+    }
+    // Isme hum aur bhi data add karte rahenge
+};
+
+function updateGIACombo(productName) {
+    const data = giaKnowledge[productName];
+    if (!data) return;
+
+    const container = document.getElementById('combo-items-container');
+    container.innerHTML = ""; // Clear existing
+    let total = 0;
+
+    // 1. First item is the selected product itself
+    container.innerHTML += renderComboItem({n: productName, p: 0, i: "current_img"}, true);
+
+    // 2. Add AI recommended matches
+    data.matches.forEach((item, index) => {
+        container.innerHTML += `<span class="text-gray-300 font-black text-xl">+</span>`;
+        container.innerHTML += renderComboItem(item, false, index + 1);
+        total += item.p;
+    });
+
+    // Update Text Details
+    document.getElementById('combo-name').innerText = productName + " Outfit";
+    document.getElementById('combo-reasoning').innerText = data.reason;
+    document.getElementById('combo-score').innerText = data.score;
+    document.getElementById('combo-total').innerText = `₹${total.toLocaleString()}`;
+    
+    // Refresh Icons
+    lucide.createIcons();
+}
+
+function renderComboItem(item, isMain, delay) {
+    return `
+        <div class="relative group">
+            <div class="absolute -top-2 -right-2 bg-green-500 text-white p-1 rounded-full shadow-lg check-tick z-10" style="animation-delay: ${delay * 0.2}s">
+                <i data-lucide="check" class="w-3 h-3"></i>
+            </div>
+            <div class="w-24 h-32 bg-white rounded-[2rem] border border-gray-100 p-3 shadow-sm flex flex-col items-center justify-center">
+                <img src="${item.i}" class="w-14 h-14 object-contain mb-2">
+                <p class="text-[7px] font-bold text-center uppercase">${item.n}</p>
+                <p class="text-[9px] text-blue-600 font-black">${item.p > 0 ? '₹' + item.p : 'Selected'}</p>
+            </div>
+        </div>
+    `;
+}
