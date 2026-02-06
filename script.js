@@ -293,3 +293,41 @@ function generateInstantCombo(keyword) {
 document.getElementById('gia-search-input').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') generateInstantCombo(e.target.value);
 });
+
+// 1. PRODUCT DETAILS MODAL (Photos + Specs)
+function showProductDetails(name, material, price) {
+    // Yahan hum product ki alag-alag photos aur details dikhayenge
+    const detailsHtml = `
+        <div class="p-6 text-center">
+            <div class="flex gap-2 overflow-x-auto mb-4 no-scrollbar">
+                <img src="img1.jpg" class="w-32 h-40 object-cover rounded-2xl">
+                <img src="img2.jpg" class="w-32 h-40 object-cover rounded-2xl">
+                <img src="img3.jpg" class="w-32 h-40 object-cover rounded-2xl">
+            </div>
+            <h2 class="text-xl font-bold font-serif">${name}</h2>
+            <p class="text-xs text-gray-500 mt-2">Material: ${material} | Premium Finish</p>
+            <p class="text-lg font-black mt-4">${price}</p>
+        </div>
+    `;
+    // GIA ko combo sync karne ke liye bolna
+    updateGIACombo(name); 
+}
+
+// 2. TRUTH MODAL (AI Parameters)
+function openTruthModal(name, score) {
+    const modal = document.getElementById('gia-modal-overlay');
+    document.getElementById('modal-product-name').innerText = name;
+    document.getElementById('modal-score').innerText = score;
+    
+    // Yahan aapke 1000082916.png wale parameters inject honge
+    const parameters = `
+        <div class="space-y-3 mt-4">
+            <div class="flex justify-between text-[10px] font-bold"><span>AUTH. SELLER</span> <span class="text-green-500">PASSED</span></div>
+            <div class="flex justify-between text-[10px] font-bold"><span>PRICE TREND</span> <span class="text-blue-500">LOWEST IN 30D</span></div>
+            <div class="flex justify-between text-[10px] font-bold"><span>FAKE REVIEWS</span> <span class="text-green-500">FILTERED</span></div>
+        </div>
+    `;
+    // Modal show logic...
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
