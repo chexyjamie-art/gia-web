@@ -38,8 +38,10 @@
                 <i data-lucide="heart" class="w-5 h-5 text-gray-600"></i>
                 <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
             </button>
-            <div class="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 overflow-hidden shadow-sm cursor-pointer hover:ring-2 ring-blue-100 transition-all">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" alt="Profile">
+            
+            <div onclick="window.location.href='profile.html'" 
+                 class="w-10 h-10 rounded-full bg-blue-50 border border-gray-200 overflow-hidden shadow-sm cursor-pointer hover:ring-2 ring-black transition-all active:scale-90">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" alt="Rahul Profile">
             </div>
         </div>
     </nav>
@@ -65,7 +67,7 @@
         <section class="mb-12 reveal-section">
             <h2 class="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-6 px-2">Top Selections</h2>
             <div id="product-grid" class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
-                
+
                 <div onclick="openProductGallery('Blue Check Linen', '₹1,899')" class="bg-white rounded-[2.5rem] p-4 border border-gray-100 shadow-sm hover:shadow-xl transition-all cursor-pointer relative group text-center">
                     <div onclick="event.stopPropagation(); openTruthModal('Blue Check Linen', 9.4)" class="absolute top-4 right-4 bg-green-50 text-green-600 text-[9px] font-black px-2 py-1 rounded-full border border-green-100">★ 9.4</div>
                     <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=200" class="w-24 h-24 mx-auto object-contain mb-3 group-hover:scale-110 transition-transform">
@@ -193,7 +195,6 @@
             document.getElementById('gallery-title').innerText = name;
             document.getElementById('product-gallery-modal').classList.remove('hidden');
             document.getElementById('product-gallery-modal').classList.add('flex');
-            // AI COMBO SYNC LOGIC
             updateGIACombo(name);
         }
         function closeProductGallery() {
@@ -211,13 +212,12 @@
             setTimeout(() => screen.style.display = 'none', 2000);
         }
 
-        // Mock AI Combo Update
         function updateGIACombo(name) {
             document.getElementById('combo-name').innerText = name + " Set";
             document.getElementById('combo-score').innerText = "9.8";
             document.getElementById('combo-total').innerText = "₹4,299";
-            document.getElementById('combo-reasoning').innerText = "AI matching " + name + " with Beige Chinos and Tan Loafers based on your style profile.";
-            
+            document.getElementById('combo-reasoning').innerText = "AI matching " + name + " with Beige Chinos and Tan Loafers.";
+
             const container = document.getElementById('combo-items-container');
             container.innerHTML = `
                 <div class="relative group">
