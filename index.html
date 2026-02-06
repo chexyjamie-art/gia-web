@@ -3,149 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | Smart Stylist</title>
+    <title>GIA LUXE | Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* EMERALD BLACK & GOLD THEME */
         body { 
-            background-color: #ffffff; /* Base white for that perfume light feel */
+            background-color: #0A0C0B; /* Deep Emerald Black */
+            color: #E2E8F0; /* Light text for contrast */
             font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* PHOTO LOOK: Dark sections with Gold Brushes */
-        .luxe-bg {
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(10, 20, 15, 0.9) 0%, rgba(10, 20, 15, 1) 100%),
-                url('https://www.transparenttextures.com/patterns/dark-leather.png'); /* Subtle texture */
-            color: white;
-        }
+        h1, h2, .font-serif { font-family: 'Playfair Display', serif; }
 
-        .gold-brush {
-            position: absolute;
-            background: linear-gradient(90deg, transparent, #BF953F, #FCF6BA, transparent);
-            height: 100px;
-            width: 300px;
-            filter: blur(40px);
-            opacity: 0.3;
-            transform: rotate(-15deg);
-        }
-
-        .font-serif { font-family: 'Playfair Display', serif; }
-
-        /* Premium Gold Border like the photo frame */
-        .photo-frame {
-            border: 1px solid #BF953F;
-            padding: 5px;
-            display: inline-block;
-        }
-
-        /* Product Card: Light & Dark Contrast */
-        .product-card {
-            background: white;
-            border: 1px solid #f0f0f0;
-            transition: all 0.5s ease;
-        }
-
-        .product-card:hover {
-            border-color: #BF953F;
-            transform: translateY(-5px);
-        }
-
+        /* GOLD TEXT & GRADIENT */
         .gold-text {
-            color: #AA771C;
-            letter-spacing: 0.2em;
-            font-weight: bold;
+            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
+
+        /* BRUSH STROKES - position these carefully */
+        .gold-brush-stroke {
+            position: absolute;
+            background: url('https://i.imgur.com/K3tJp7w.png') no-repeat center center; /* Gold brush image */
+            background-size: cover;
+            opacity: 0.8;
+            filter: drop-shadow(0 0 10px rgba(191, 149, 63, 0.4));
+        }
+
+        /* CARD STYLE - Dark, subtle gold border */
+        .luxury-card {
+            background: linear-gradient(145deg, #1A211D, #0F1311); /* Darker emerald tones */
+            border: 1px solid rgba(191, 149, 63, 0.2); /* Subtle gold border */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .luxury-card:hover {
+            border-color: rgba(191, 149, 63, 0.6);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+
+        /* SPECIAL MARBLE BACKGROUND */
+        .hero-section-bg {
+            background: linear-gradient(to bottom, #111816 0%, #0A0C0B 100%), 
+                        url('https://www.transparenttextures.com/patterns/dark-marble.png'); /* Dark marble texture */
+            background-blend-mode: multiply;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .search-wrapper { margin-top: 15vh; margin-bottom: 8vh; }
     </style>
 </head>
-<body>
+<body class="overflow-x-hidden">
 
-    <nav class="fixed top-0 left-0 w-full px-10 py-8 flex justify-between items-center z-[100] bg-white/90 backdrop-blur-md">
-        <div class="h-[1px] w-20 bg-[#BF953F]/30"></div>
-        <h1 class="text-3xl font-serif tracking-[0.3em] text-[#AA771C] font-bold">GIA LUXE</h1>
-        <div class="flex items-center gap-8">
-            <i data-lucide="search" class="w-5 h-5 text-gray-400"></i>
-            <div onclick="window.location.href='profile.html'" class="w-10 h-10 border border-[#BF953F] p-1 rotate-45 overflow-hidden cursor-pointer">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" class="-rotate-45 scale-125">
+    <div class="gold-brush-stroke top-10 left-[-80px] w-64 h-64 rotate-[-15deg]"></div>
+    <div class="gold-brush-stroke top-1/3 right-[-100px] w-80 h-80 rotate-[20deg]"></div>
+    <div class="gold-brush-stroke bottom-20 left-1/4 w-72 h-72 rotate-[45deg]"></div>
+
+
+    <div id="redirect-screen" class="hidden fixed inset-0 bg-[#0A0C0B] z-[500] flex items-center justify-center">
+        <div class="text-center">
+            <div class="w-16 h-16 border-2 border-[#BF953F] border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+            <h2 class="gold-text text-2xl font-serif italic uppercase tracking-widest">GIA Luxury Stylist</h2>
+            <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-4">Connecting to Official Store</p>
+        </div>
+    </div>
+
+    <nav class="fixed top-0 left-0 w-full px-8 py-6 flex justify-between items-center z-[100] bg-[#0A0C0B]/80 backdrop-blur-xl border-b border-white/5">
+        <button class="p-2 text-gray-400 hover:text-[#BF953F] transition-colors"><i data-lucide="menu" class="w-6 h-6"></i></button>
+        <div class="text-2xl font-bold tracking-[0.4em] gold-text pl-10">GIA</div>
+        <div class="flex items-center gap-6">
+            <button class="text-gray-400 hover:text-red-400 transition-colors"><i data-lucide="heart" class="w-6 h-6"></i></button>
+            <div onclick="window.location.href='profile.html'" class="w-11 h-11 rounded-full border-2 border-[#BF953F]/30 p-0.5 overflow-hidden cursor-pointer active:scale-90 transition-all">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" class="w-full h-full rounded-full bg-[#141816]" alt="Profile">
             </div>
         </div>
     </nav>
 
-    <main class="pt-32">
-        <section class="relative luxe-bg min-h-[60vh] flex items-center justify-center overflow-hidden px-6">
-            <div class="gold-brush top-10 left-[-50px]"></div>
-            <div class="gold-brush bottom-20 right-[-50px]"></div>
-            
-            <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center z-10">
-                <div class="space-y-6">
-                    <p class="text-[10px] tracking-[0.5em] text-[#BF953F] uppercase">Power & Sophistication</p>
-                    <h2 class="text-5xl font-serif italic leading-tight text-white">The Midnight <br> Collection</h2>
-                    <div class="w-20 h-[1px] bg-[#BF953F]"></div>
-                    <p class="text-gray-400 text-sm leading-relaxed max-w-xs">AI-curated selection of Midnight Black and Radiant Gold essentials for the modern man.</p>
-                </div>
-                
-                <div class="flex justify-center">
-                    <div class="photo-frame">
-                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" class="w-64 h-80 object-cover grayscale hover:grayscale-0 transition-all duration-700">
+    <main class="max-w-6xl mx-auto px-6">
+        <section class="hero-section-bg py-20 rounded-b-[4rem] mb-16">
+            <div class="search-wrapper relative max-w-2xl mx-auto text-center">
+                <h2 class="text-4xl font-serif italic gold-text mb-8 tracking-wide">Your Luxury Wardrobe, Curated.</h2>
+                <div class="relative group">
+                    <input type="text" placeholder="Search for your next statement piece..." class="w-full bg-[#1A211D] border border-[#BF953F]/20 py-6 px-10 rounded-[2rem] text-white focus:outline-none focus:ring-1 ring-[#BF953F]/50 transition-all shadow-2xl shadow-black">
+                    <div class="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-5">
+                        <button class="text-[#BF953F] hover:scale-110 transition-transform"><i data-lucide="camera" class="w-6 h-6"></i></button>
+                        <button class="bg-gradient-to-tr from-[#BF953F] to-[#AA771C] text-black p-3 rounded-2xl shadow-lg active:scale-95 transition-all"><i data-lucide="mic" class="w-5 h-5"></i></button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <div class="max-w-2xl mx-auto -mt-10 relative z-20 px-6">
-            <div class="bg-white p-2 shadow-2xl border border-[#BF953F]/20 flex items-center">
-                <input type="text" placeholder="Explore Heritage & Rarity..." class="flex-1 py-4 px-6 outline-none text-xs uppercase tracking-widest">
-                <button class="bg-[#AA771C] text-white px-8 py-4 text-[10px] font-black uppercase tracking-widest">Ask GIA</button>
+        <section class="mb-20">
+            <h2 class="text-[10px] font-bold tracking-[0.4em] uppercase text-[#BF953F] mb-8 px-2">GIA's Top Selections</h2>
+            <div id="product-grid" class="grid grid-cols-2 md:grid-cols-5 gap-6">
+
+                <div onclick="triggerRedirect()" class="luxury-card rounded-[2.5rem] p-6 text-center cursor-pointer relative group">
+                    <div class="absolute top-4 right-4 bg-[#BF953F]/10 text-[#BF953F] text-[9px] font-bold px-3 py-1 rounded-full border border-[#BF953F]/20">★ 9.4</div>
+                    <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300" class="w-32 h-32 mx-auto object-contain mb-4 group-hover:scale-110 transition-transform duration-500">
+                    <h4 class="text-[11px] font-medium text-gray-300 uppercase tracking-wider">Emerald Check Linen</h4>
+                    <p class="text-sm font-bold gold-text mt-2">₹1,899</p>
+                </div>
+
+                <div onclick="triggerRedirect()" class="luxury-card rounded-[2.5rem] p-6 text-center cursor-pointer relative group">
+                    <div class="absolute top-4 right-4 bg-[#BF953F]/10 text-[#BF953F] text-[9px] font-bold px-3 py-1 rounded-full border border-[#BF953F]/20">★ 9.8</div>
+                    <img src="https://images.unsplash.com/photo-1598033129183-c4f50c7176c8?w=300" class="w-32 h-32 mx-auto object-contain mb-4 group-hover:scale-110 transition-transform duration-500">
+                    <h4 class="text-[11px] font-medium text-gray-300 uppercase tracking-wider">Shadow Black Suit</h4>
+                    <p class="text-sm font-bold gold-text mt-2">₹4,799</p>
+                </div>
+
+                <div onclick="triggerRedirect()" class="luxury-card rounded-[2.5rem] p-6 text-center cursor-pointer relative group">
+                    <div class="absolute top-4 right-4 bg-[#BF953F]/10 text-[#BF953F] text-[9px] font-bold px-3 py-1 rounded-full border border-[#BF953F]/20">★ 9.1</div>
+                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300" class="w-32 h-32 mx-auto object-contain mb-4 group-hover:scale-110 transition-transform duration-500">
+                    <h4 class="text-[11px] font-medium text-gray-300 uppercase tracking-wider">White Oxford Shirt</h4>
+                    <p class="text-sm font-bold gold-text mt-2">₹2,199</p>
+                </div>
+
+                <div onclick="triggerRedirect()" class="luxury-card rounded-[2.5rem] p-6 text-center cursor-pointer relative group">
+                    <div class="absolute top-4 right-4 bg-[#BF953F]/10 text-[#BF953F] text-[9px] font-bold px-3 py-1 rounded-full border border-[#BF953F]/20">★ 8.8</div>
+                    <img src="https://images.unsplash.com/photo-1589310243389-96a5483213a8?w=300" class="w-32 h-32 mx-auto object-contain mb-4 group-hover:scale-110 transition-transform duration-500">
+                    <h4 class="text-[11px] font-medium text-gray-300 uppercase tracking-wider">Navy Street Check</h4>
+                    <p class="text-sm font-bold gold-text mt-2">₹1,499</p>
+                </div>
+
+                 <div onclick="triggerRedirect()" class="luxury-card rounded-[2.5rem] p-6 text-center cursor-pointer relative group">
+                    <div class="absolute top-4 right-4 bg-[#BF953F]/10 text-[#BF953F] text-[9px] font-bold px-3 py-1 rounded-full border border-[#BF953F]/20">★ 9.5</div>
+                    <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=300" class="w-32 h-32 mx-auto object-contain mb-4 group-hover:scale-110 transition-transform duration-500">
+                    <h4 class="text-[11px] font-medium text-gray-300 uppercase tracking-wider">Sky Blue Dobby</h4>
+                    <p class="text-sm font-bold gold-text mt-2">₹2,499</p>
+                </div>
+
+            </div>
+        </section>
+
+        <div id="gia-combo-card" class="bg-gradient-to-br from-[#1A211D] to-[#0F1311] rounded-[3rem] p-8 md:p-12 border border-[#BF953F]/20 shadow-3xl mb-20">
+            <div class="flex flex-col lg:flex-row gap-12 items-center">
+                <div class="w-full lg:w-2/3 flex items-center justify-center gap-8 py-10">
+                    <div class="relative"><img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=150" class="w-24 md:w-32 drop-shadow-[0_10px_30px_rgba(16,185,129,0.2)]"></div>
+                    <span class="text-3xl text-[#BF953F]/30">+</span>
+                    <div class="relative"><img src="https://images.unsplash.com/photo-1624373666563-54ec85a14962?w=150" class="w-24 md:w-32 drop-shadow-[0_10px_30px_rgba(16,185,129,0.2)]"></div>
+                </div>
+                <div class="w-full lg:w-1/3 border-t lg:border-t-0 lg:border-l border-white/5 pt-10 lg:pt-0 lg:pl-12">
+                    <h3 class="text-3xl font-serif italic gold-text mb-4">GIA's Selection</h3>
+                    <p class="text-gray-500 text-xs leading-relaxed mb-10 uppercase tracking-widest">AI analysis: The Emerald Linen harmonizes perfectly with Charcoal Chinos for a regal evening look.</p>
+                    <div class="bg-black/40 p-6 rounded-[2rem] flex items-center justify-between border border-white/5">
+                        <div><p class="text-[8px] text-[#BF953F] font-bold uppercase tracking-widest mb-1">Bundle Price</p><p class="text-2xl font-bold text-white font-serif italic">₹4,299</p></div>
+                        <button onclick="triggerRedirect()" class="bg-gradient-to-r from-[#BF953F] to-[#AA771C] text-black px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl">Buy Set</button>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <section class="py-24 px-10 bg-white">
-            <div class="flex justify-between items-end mb-16">
-                <div>
-                    <p class="gold-text text-[9px] mb-2 uppercase">Prestige & Heritage</p>
-                    <h3 class="text-3xl font-serif italic text-black font-bold">Emerald Selections</h3>
-                </div>
-                <div class="text-[10px] border-b border-black pb-1 cursor-pointer">VIEW ALL</div>
-            </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-10">
-                <div class="product-card p-6 text-center group cursor-pointer">
-                    <div class="overflow-hidden mb-6">
-                        <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300" class="w-full h-48 object-contain group-hover:scale-110 transition-transform duration-700">
-                    </div>
-                    <p class="text-[8px] text-gray-400 uppercase tracking-widest mb-1 font-bold">GIA Score: 9.4</p>
-                    <h4 class="text-xs font-serif italic mb-2">Emerald Linen Shirt</h4>
-                    <p class="text-[#AA771C] font-bold text-sm">₹2,499</p>
-                </div>
-
-                <div class="product-card p-6 text-center group cursor-pointer">
-                    <div class="overflow-hidden mb-6 relative">
-                        <div class="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent z-10"></div>
-                        <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=300" class="w-full h-48 object-contain group-hover:scale-110 transition-transform duration-700">
-                    </div>
-                    <p class="text-[8px] text-gray-400 uppercase tracking-widest mb-1 font-bold">GIA Score: 9.8</p>
-                    <h4 class="text-xs font-serif italic mb-2">Luxe Oud Fragrance</h4>
-                    <p class="text-[#AA771C] font-bold text-sm">₹5,200</p>
-                </div>
-            </div>
-        </section>
     </main>
 
-    <footer class="py-20 bg-white border-t border-gray-100 text-center">
-        <div class="max-w-xs mx-auto space-y-4">
-            <h4 class="text-xl font-serif italic font-bold">GIA LUXE</h4>
-            <div class="w-10 h-[1px] bg-[#BF953F] mx-auto"></div>
-            <p class="text-[8px] text-gray-400 leading-relaxed uppercase tracking-widest">
-                Curating wealth and rarity. 
-                Affiliate partner with Amazon & Myntra.
+    <footer class="mt-20 py-16 border-t border-white/5 text-center bg-[#050605]">
+        <div class="max-w-xs mx-auto space-y-6">
+            <p class="gold-text text-[10px] font-black uppercase tracking-[0.4em]">GIA AI Personal Stylist</p>
+            <p class="text-[9px] text-gray-500 leading-relaxed uppercase tracking-tighter">
+                Participant in Amazon & Myntra Affiliate Programs. 
+                Orders and fulfillment handled by official retailers.
             </p>
+            <div class="flex justify-center gap-4 opacity-20">
+                <div class="h-[1px] w-12 bg-[#BF953F]"></div>
+                <div class="h-[1px] w-12 bg-[#BF953F]"></div>
+            </div>
         </div>
     </footer>
 
     <script>
         lucide.createIcons();
+        function triggerRedirect() {
+            const screen = document.getElementById('redirect-screen');
+            screen.classList.remove('hidden');
+            screen.classList.add('flex');
+            setTimeout(() => { screen.classList.remove('flex'); screen.classList.add('hidden'); }, 2000);
+        }
     </script>
 </body>
 </html>
