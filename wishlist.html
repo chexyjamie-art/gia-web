@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIA | Wishlist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-white">
+    <nav class="p-6 flex justify-between items-center border-b border-gray-50">
+        <button onclick="window.history.back()" class="p-2 bg-gray-50 rounded-full"><i data-lucide="arrow-left"></i></button>
+        <h1 class="text-[10px] font-black uppercase tracking-widest">My Wishlist</h1>
+        <button class="text-[8px] font-black uppercase text-red-500">Clear All</button>
+    </nav>
+
+    <main class="p-6">
+        <div class="grid grid-cols-2 gap-4">
+            <div class="relative group">
+                <button class="absolute top-3 right-3 z-10 bg-white/80 p-1.5 rounded-full shadow-sm"><i data-lucide="x" class="w-3 h-3"></i></button>
+                <div class="aspect-[3/4] rounded-[2rem] overflow-hidden bg-gray-50 border border-gray-100 mb-2">
+                    <img src="https://images.unsplash.com/photo-1589310243389-96a5483213a8?w=300" class="w-full h-full object-cover">
+                </div>
+                <h4 class="text-[10px] font-bold">Navy Street Check</h4>
+                <p class="text-xs font-black text-blue-600">₹1,499</p>
+            </div>
+        </div>
+
+        <div class="mt-12 p-8 bg-black rounded-[3rem] text-center text-white relative overflow-hidden">
+            <p class="text-[10px] uppercase tracking-widest text-gray-400 mb-2">Style Strategy</p>
+            <h3 class="text-xl italic font-serif leading-tight">GIA can create a combo with these items.</h3>
+            <button class="mt-6 bg-white text-black px-8 py-3 rounded-full text-[10px] font-bold uppercase">Generate Look</button>
+            <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-blue-600/30 blur-3xl"></div>
+        </div>
+    </main>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>
