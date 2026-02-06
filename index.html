@@ -3,262 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA | Smart AI Stylist</title>
+    <title>GIA | Luxury AI Stylist</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
-        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        /* DARK LUXURY THEME COLORS */
+        body { 
+            background-color: #0A0C0B; /* Deep Black-Green */
+            color: #E2E8F0;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         h1, h2, .font-serif { font-family: 'Playfair Display', serif; }
-        .search-wrapper { margin-top: 28vh; margin-bottom: 8vh; }
-        .reveal-section { animation: slideUp 0.8s ease-out forwards; }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        /* GOLD ACCENTS & GRADIENTS */
+        .gold-text {
+            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        #success-screen, #redirect-screen {
-            display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.95);
-            z-index: 300; align-items: center; justify-content: center; backdrop-filter: blur(15px);
+
+        .luxury-card {
+            background: linear-gradient(145deg, #141816, #0D100F);
+            border: 1px solid rgba(191, 149, 63, 0.2); /* Subtle Gold Border */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .pop-in { animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes pop { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        .check-tick { animation: checkIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        @keyframes checkIn { 0% { transform: scale(0) rotate(-45deg); opacity: 0; } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
+
+        .luxury-card:hover {
+            border-color: rgba(191, 149, 63, 0.6);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .search-wrapper { margin-top: 25vh; margin-bottom: 8vh; }
+        
+        /* EMERALD BLUR EFFECT */
+        .emerald-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        #redirect-screen {
+            display: none; position: fixed; inset: 0; background: #0A0C0B;
+            z-index: 500; align-items: center; justify-content: center;
+        }
     </style>
 </head>
-<body class="bg-[#F2F4F7] text-black overflow-x-hidden">
+<body class="overflow-x-hidden">
 
+    <div class="emerald-glow top-0 left-0"></div>
+    <div class="emerald-glow bottom-0 right-0"></div>
 
     <div id="redirect-screen">
-        <div class="text-center pop-in">
-            <div class="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-            <h2 class="text-xl font-serif italic font-bold">Connecting to Store...</h2>
-            <p class="text-[10px] text-gray-400 uppercase tracking-widest mt-2 px-10">Securing your GIA member discount at Amazon/Myntra</p>
+        <div class="text-center">
+            <div class="w-16 h-16 border-2 border-[#BF953F] border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+            <h2 class="gold-text text-2xl font-serif italic uppercase tracking-widest">GIA Luxury Stylist</h2>
+            <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-4">Connecting to Official Store</p>
         </div>
     </div>
 
-    <nav class="fixed top-0 left-0 w-full px-6 py-4 flex justify-between items-center z-[100] bg-white/80 backdrop-blur-md border-b border-gray-50">
-        <button class="p-2 hover:bg-gray-100 rounded-xl transition-colors"><i data-lucide="menu" class="w-6 h-6"></i></button>
-        <div class="text-xl font-bold tracking-[0.3em] pl-10">GIA</div>
+    <nav class="fixed top-0 left-0 w-full px-8 py-6 flex justify-between items-center z-[100] bg-[#0A0C0B]/80 backdrop-blur-xl border-b border-white/5">
+        <button class="p-2 text-gray-400 hover:text-[#BF953F] transition-colors"><i data-lucide="menu" class="w-6 h-6"></i></button>
+        <div class="text-2xl font-bold tracking-[0.4em] gold-text pl-10">GIA</div>
         <div class="flex items-center gap-6">
-            <button class="relative p-2 hover:bg-gray-100 rounded-xl transition-colors">
-                <i data-lucide="heart" class="w-5 h-5 text-gray-600"></i>
-                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-            </button>
-            <div onclick="window.location.href='profile.html'" 
-                 class="w-10 h-10 rounded-full bg-blue-50 border border-gray-200 overflow-hidden shadow-sm cursor-pointer hover:ring-2 ring-black transition-all active:scale-90">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" alt="Rahul Profile">
+            <button class="text-gray-400 hover:text-red-400 transition-colors"><i data-lucide="heart" class="w-6 h-6"></i></button>
+            <div onclick="window.location.href='profile.html'" class="w-11 h-11 rounded-full border-2 border-[#BF953F]/30 p-0.5 overflow-hidden cursor-pointer active:scale-90 transition-all">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" class="w-full h-full rounded-full bg-[#141816]" alt="Profile">
             </div>
         </div>
     </nav>
 
-    <div id="success-screen">
-        <div class="text-center pop-in">
-            <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-white text-4xl mx-auto mb-4 shadow-xl shadow-green-100">✓</div>
-            <h2 class="text-2xl font-bold italic font-serif">Excellent Choice, Rahul!</h2>
-        </div>
-    </div>
-
-    <main class="max-w-6xl mx-auto px-4 md:px-6">
+    <main class="max-w-6xl mx-auto px-6">
         <div class="search-wrapper relative max-w-2xl mx-auto">
             <div class="relative group">
-                <input type="text" id="gia-search-input" placeholder="Search luxury or ask GIA..." class="w-full bg-white border border-gray-100 shadow-[0_20px_50px_rgba(0,0,0,0.06)] py-5 px-8 pr-32 rounded-[2rem] focus:outline-none focus:ring-2 ring-blue-50 transition-all">
-                <div class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-4">
-                    <button class="text-gray-400 hover:text-black transition-colors p-1"><i data-lucide="camera" class="w-5 h-5"></i></button>
-                    <button id="gia-voice-btn" class="bg-black text-white p-2.5 rounded-2xl hover:scale-110 active:scale-95 transition-all shadow-lg"><i data-lucide="mic" class="w-5 h-5"></i></button>
+                <input type="text" placeholder="Search luxury or ask GIA..." class="w-full bg-[#141816] border border-[#BF953F]/20 py-6 px-10 rounded-[2rem] text-white focus:outline-none focus:ring-1 ring-[#BF953F]/50 transition-all shadow-2xl shadow-black">
+                <div class="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-5">
+                    <button class="text-[#BF953F] hover:scale-110 transition-transform"><i data-lucide="camera" class="w-6 h-6"></i></button>
+                    <button class="bg-gradient-to-tr from-[#BF953F] to-[#AA771C] text-black p-3 rounded-2xl shadow-lg active:scale-95 transition-all"><i data-lucide="mic" class="w-5 h-5"></i></button>
                 </div>
             </div>
         </div>
 
-        <section class="mb-12 reveal-section">
-            <h2 class="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400 mb-6 px-2">Top Selections</h2>
-            <div id="product-grid" class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
+        <section class="mb-20">
+            <h2 class="text-[10px] font-bold tracking-[0.4em] uppercase text-[#BF953F] mb-8 px-2">Handpicked for You</h2>
+            <div id="product-grid" class="grid grid-cols-2 md:grid-cols-5 gap-6">
 
-                <div onclick="openProductGallery('Blue Check Linen', '₹1,899')" class="bg-white rounded-[2.5rem] p-4 border border-gray-100 shadow-sm hover:shadow-xl transition-all cursor-pointer relative group text-center">
-                    <div onclick="event.stopPropagation(); openTruthModal('Blue Check Linen', 9.4)" class="absolute top-4 right-4 bg-green-50 text-green-600 text-[9px] font-black px-2 py-1 rounded-full border border-green-100">★ 9.4</div>
-                    <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=200" class="w-24 h-24 mx-auto object-contain mb-3 group-hover:scale-110 transition-transform">
-                    <h4 class="text-[10px] font-bold truncate">Blue Check Linen</h4>
-                    <p class="text-xs font-black text-blue-600 mt-1">₹1,899</p>
+                <div onclick="triggerRedirect()" class="luxury-card rounded-[2.5rem] p-6 text-center cursor-pointer group">
+                    <div class="absolute top-4 right-4 bg-[#BF953F]/10 text-[#BF953F] text-[9px] font-bold px-3 py-1 rounded-full border border-[#BF953F]/20">★ 9.4</div>
+                    <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300" class="w-32 h-32 mx-auto object-contain mb-4 group-hover:scale-110 transition-transform duration-500">
+                    <h4 class="text-[11px] font-medium text-gray-300 uppercase tracking-wider">Emerald Check Linen</h4>
+                    <p class="text-sm font-bold gold-text mt-2">₹1,899</p>
                 </div>
 
-                <div onclick="openProductGallery('White Oxford', '₹2,199')" class="bg-white rounded-[2.5rem] p-4 border border-gray-100 shadow-sm hover:shadow-xl transition-all cursor-pointer relative group text-center">
-                    <div onclick="event.stopPropagation(); openTruthModal('White Oxford', 9.1)" class="absolute top-4 right-4 bg-green-50 text-green-600 text-[9px] font-black px-2 py-1 rounded-full border border-green-100">★ 9.1</div>
-                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200" class="w-24 h-24 mx-auto object-contain mb-3 group-hover:scale-110 transition-transform">
-                    <h4 class="text-[10px] font-bold truncate">White Oxford</h4>
-                    <p class="text-xs font-black text-blue-600 mt-1">₹2,199</p>
-                </div>
-
-                <div onclick="openProductGallery('Navy Street Check', '₹1,499')" class="bg-white rounded-[2.5rem] p-4 border border-gray-100 shadow-sm hover:shadow-xl transition-all cursor-pointer relative group text-center">
-                    <div onclick="event.stopPropagation(); openTruthModal('Navy Street Check', 8.8)" class="absolute top-4 right-4 bg-green-50 text-green-600 text-[9px] font-black px-2 py-1 rounded-full border border-green-100">★ 8.8</div>
-                    <img src="https://images.unsplash.com/photo-1589310243389-96a5483213a8?w=200" class="w-24 h-24 mx-auto object-contain mb-3 group-hover:scale-110 transition-transform">
-                    <h4 class="text-[10px] font-bold truncate">Navy Street Check</h4>
-                    <p class="text-xs font-black text-blue-600 mt-1">₹1,499</p>
-                </div>
-
-                <div onclick="toggle360Section('Sky Blue Check')" class="bg-blue-50/30 rounded-[2.5rem] p-4 border border-blue-100 shadow-sm hover:shadow-xl transition-all cursor-pointer relative group text-center border-dashed">
-                    <div class="absolute top-4 left-4 bg-blue-600 text-white text-[7px] px-2 py-0.5 rounded-full font-bold uppercase tracking-tighter animate-pulse">360° VIEW</div>
-                    <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=200" class="w-24 h-24 mx-auto object-contain mb-3">
-                    <h4 class="text-[10px] font-bold truncate">Sky Blue Check</h4>
-                    <p class="text-xs font-black text-blue-600 mt-1">₹2,499</p>
-                </div>
-
-                <div onclick="openProductGallery('Dark Shadow Check', '₹1,799')" class="bg-white rounded-[2.5rem] p-4 border border-gray-100 shadow-sm hover:shadow-xl transition-all cursor-pointer relative group text-center">
-                    <div onclick="event.stopPropagation(); openTruthModal('Dark Shadow Check', 9.5)" class="absolute top-4 right-4 bg-green-50 text-green-600 text-[9px] font-black px-2 py-1 rounded-full border border-green-100">★ 9.5</div>
-                    <img src="https://images.unsplash.com/photo-1598033129183-c4f50c7176c8?w=200" class="w-24 h-24 mx-auto object-contain mb-3 group-hover:scale-110 transition-transform">
-                    <h4 class="text-[10px] font-bold truncate">Dark Shadow</h4>
-                    <p class="text-xs font-black text-blue-600 mt-1">₹1,799</p>
-                </div>
-
-            </div>
-
-            <div id="gia-combo-card" class="glass-card rounded-[2.5rem] p-6 md:p-10 border border-blue-50 relative overflow-hidden shadow-2xl bg-white/90">
-                <div class="flex flex-col lg:flex-row gap-10 items-center">
-                    <div id="combo-items-container" class="flex items-center gap-4 overflow-x-auto no-scrollbar py-6 min-w-[65%]">
-                        <div class="text-gray-400 italic text-sm">Tap a product above to see GIA's Combo...</div>
-                    </div>
-                    <div class="w-full lg:w-1/3 border-t lg:border-t-0 lg:border-l border-gray-100 pt-8 lg:pt-0 lg:pl-10">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 id="combo-name" class="text-2xl font-bold italic font-serif text-black leading-tight">Smart Set</h3>
-                            <div class="text-right">
-                                <span class="text-[8px] font-bold text-blue-600 uppercase">Score</span>
-                                <div id="combo-score" class="text-2xl font-black italic">--</div>
-                            </div>
-                        </div>
-                        <p id="combo-reasoning" class="text-gray-500 text-[11px] leading-relaxed mb-8">GIA analysis will appear here.</p>
-                        <div class="bg-gray-50 p-5 rounded-[2rem] flex items-center justify-between border border-gray-50">
-                            <div><p class="text-[8px] text-gray-400 font-bold uppercase tracking-widest">Total Bundle</p><p id="combo-total" class="text-xl font-black text-black">₹0</p></div>
-                            <button onclick="triggerRedirect()" class="bg-black text-white px-8 py-4 rounded-2xl text-[10px] font-bold shadow-lg hover:scale-105 transition-all">Buy Full Set</button>
-                        </div>
-                    </div>
+                <div onclick="triggerRedirect()" class="luxury-card rounded-[2.5rem] p-6 text-center cursor-pointer group">
+                    <div class="absolute top-4 right-4 bg-[#BF953F]/10 text-[#BF953F] text-[9px] font-bold px-3 py-1 rounded-full border border-[#BF953F]/20">★ 9.8</div>
+                    <img src="https://images.unsplash.com/photo-1598033129183-c4f50c7176c8?w=300" class="w-32 h-32 mx-auto object-contain mb-4 group-hover:scale-110 transition-transform duration-500">
+                    <h4 class="text-[11px] font-medium text-gray-300 uppercase tracking-wider">Shadow Black Suit</h4>
+                    <p class="text-sm font-bold gold-text mt-2">₹4,799</p>
                 </div>
             </div>
         </section>
 
-        <section id="gia-3d-section" class="hidden mb-12 reveal-section">
-            <div class="glass-card rounded-[2.5rem] p-8 md:p-12 flex flex-col items-center border border-gray-50 min-h-[400px]">
-                <div class="w-full flex justify-between mb-8"><h3 id="360-title" class="text-xl font-bold italic font-serif">Product 360°</h3><button onclick="document.getElementById('gia-3d-section').classList.add('hidden')" class="text-gray-400 font-bold text-xs uppercase">Close View ×</button></div>
-                <div id="product-3d-container" class="w-64 md:w-80 cursor-grab"><img src="https://images.unsplash.com/photo-1547996160-81dfa63595dd?w=600" id="floating-product" class="w-full drop-shadow-2xl"></div>
-                <p class="text-[10px] font-bold text-gray-400 mt-6 uppercase tracking-widest">Drag to Rotate Product</p>
+        <div id="gia-combo-card" class="bg-gradient-to-br from-[#141816] to-[#0A0C0B] rounded-[3rem] p-8 md:p-12 border border-[#BF953F]/20 shadow-3xl mb-20">
+            <div class="flex flex-col lg:flex-row gap-12 items-center">
+                <div class="w-full lg:w-2/3 flex items-center justify-center gap-8 py-10">
+                    <div class="relative"><img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=150" class="w-24 md:w-32 drop-shadow-[0_10px_30px_rgba(16,185,129,0.2)]"></div>
+                    <span class="text-3xl text-[#BF953F]/30">+</span>
+                    <div class="relative"><img src="https://images.unsplash.com/photo-1624373666563-54ec85a14962?w=150" class="w-24 md:w-32 drop-shadow-[0_10px_30px_rgba(16,185,129,0.2)]"></div>
+                </div>
+                <div class="w-full lg:w-1/3 border-t lg:border-t-0 lg:border-l border-white/5 pt-10 lg:pt-0 lg:pl-12">
+                    <h3 class="text-3xl font-serif italic gold-text mb-4">GIA's Selection</h3>
+                    <p class="text-gray-500 text-xs leading-relaxed mb-10 uppercase tracking-widest">AI analysis: The Emerald Linen harmonizes perfectly with Charcoal Chinos for a regal evening look.</p>
+                    <div class="bg-black/40 p-6 rounded-[2rem] flex items-center justify-between border border-white/5">
+                        <div><p class="text-[8px] text-[#BF953F] font-bold uppercase tracking-widest mb-1">Bundle Price</p><p class="text-2xl font-bold text-white font-serif italic">₹4,299</p></div>
+                        <button onclick="triggerRedirect()" class="bg-gradient-to-r from-[#BF953F] to-[#AA771C] text-black px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl">Buy Set</button>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
     </main>
 
-    <div id="gia-modal-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-xl z-[200] hidden items-center justify-center p-4" onclick="closeTruthModal()">
-        <div class="bg-white w-full max-w-md rounded-[3rem] p-8 shadow-2xl pop-in" onclick="event.stopPropagation()">
-            <div class="flex justify-between items-center mb-6">
-                <h2 id="modal-product-name" class="text-xl font-bold font-serif italic">Product Name</h2>
-                <div class="bg-black text-white w-10 h-10 rounded-full flex items-center justify-center font-bold" id="modal-score">9.4</div>
-            </div>
-            <div class="bg-blue-50/50 p-5 rounded-[2rem] mb-6">
-                <p class="text-[8px] text-blue-600 font-black uppercase mb-3 tracking-tighter">Price Analysis (30 Days)</p>
-                <div class="flex items-end gap-2 h-16 px-2"><div class="bg-blue-200 w-full h-[60%] rounded-t-lg"></div><div class="bg-blue-200 w-full h-[90%] rounded-t-lg"></div><div class="bg-blue-600 w-full h-[40%] rounded-t-lg"></div><div class="bg-blue-200 w-full h-[70%] rounded-t-lg"></div></div>
-            </div>
-            <div class="space-y-3 mb-8">
-                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-xl"><span class="text-[10px] font-bold text-gray-500 uppercase">Auth. Seller</span><span class="text-[10px] font-black text-green-600 uppercase">Passed ✓</span></div>
-                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-xl"><span class="text-[10px] font-bold text-gray-500 uppercase">Fabric Quality</span><span class="text-[10px] font-black text-blue-600 uppercase">Linen Blend</span></div>
-            </div>
-            <button onclick="closeTruthModal()" class="w-full bg-black text-white py-4 rounded-2xl font-bold">Close Analysis</button>
-        </div>
-    </div>
-
-    <div id="product-gallery-modal" class="fixed inset-0 bg-white z-[250] hidden flex-col">
-        <nav class="p-6 flex justify-between items-center border-b">
-            <button onclick="closeProductGallery()" class="p-2 bg-gray-100 rounded-full"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
-            <h2 id="gallery-title" class="font-bold italic font-serif">Product Details</h2>
-            <div class="w-10"></div>
-        </nav>
-        <div class="flex-1 overflow-y-auto p-6">
-            <div class="flex gap-4 overflow-x-auto no-scrollbar snap-x mb-8">
-                <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600" class="w-[80vw] h-96 object-cover rounded-[3rem] snap-center">
-                <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&angle=2" class="w-[80vw] h-96 object-cover rounded-[3rem] snap-center shadow-lg">
-                <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&angle=3" class="w-[80vw] h-96 object-cover rounded-[3rem] snap-center shadow-lg">
-            </div>
-            <div class="max-w-xl mx-auto">
-                <h3 class="text-2xl font-bold mb-2">GIA Tech Specs</h3>
-                <p class="text-gray-500 text-sm mb-6 leading-relaxed">Crafted for Rahul. 100% Organic material. Breathable and AI-verified for durability.</p>
-                <div class="grid grid-cols-2 gap-4 mb-8">
-                    <div class="border p-4 rounded-2xl"><p class="text-[10px] text-gray-400 font-bold uppercase">Material</p><p class="font-bold">Organic Linen</p></div>
-                    <div class="border p-4 rounded-2xl"><p class="text-[10px] text-gray-400 font-bold uppercase">Choice</p><p class="font-bold">4 Colors Avail.</p></div>
-                </div>
-                <button onclick="triggerRedirect(); closeProductGallery();" class="w-full bg-black text-white py-5 rounded-[2rem] font-bold text-lg shadow-xl">Buy Now</button>
-            </div>
-        </div>
-    </div>
-
-    <footer class="mt-20 py-12 border-t border-gray-50 text-center">
-        <div class="max-w-xs mx-auto space-y-4">
-            <p class="text-[9px] font-black uppercase tracking-[0.3em] text-gray-300 italic">GIA AI Personal Stylist</p>
-            <p class="text-[9px] text-gray-400 leading-relaxed uppercase tracking-tighter">
-                GIA is a participant in the Amazon Associates & Myntra Affiliate Program. We may earn a small commission on qualifying purchases at <span class="text-black font-bold">no extra cost to you</span>.
+    <footer class="mt-20 py-16 border-t border-white/5 text-center bg-[#050605]">
+        <div class="max-w-xs mx-auto space-y-6">
+            <p class="gold-text text-[10px] font-black uppercase tracking-[0.4em]">GIA AI Personal Stylist</p>
+            <p class="text-[9px] text-gray-500 leading-relaxed uppercase tracking-tighter">
+                Participant in Amazon & Myntra Affiliate Programs. 
+                Orders and fulfillment handled by official retailers.
             </p>
-            <p class="text-[8px] text-gray-300 italic">
-                *Orders, payments, and returns are managed by the respective retailers. Prices subject to change.
-            </p>
+            <div class="flex justify-center gap-4 opacity-20">
+                <div class="h-[1px] w-12 bg-[#BF953F]"></div>
+                <div class="h-[1px] w-12 bg-[#BF953F]"></div>
+            </div>
         </div>
     </footer>
 
     <script>
         lucide.createIcons();
-
-        function openTruthModal(name, score) {
-            document.getElementById('modal-product-name').innerText = name;
-            document.getElementById('modal-score').innerText = score;
-            document.getElementById('gia-modal-overlay').classList.remove('hidden');
-            document.getElementById('gia-modal-overlay').classList.add('flex');
-        }
-        function closeTruthModal() {
-            document.getElementById('gia-modal-overlay').classList.add('hidden');
-        }
-        function openProductGallery(name, price) {
-            document.getElementById('gallery-title').innerText = name;
-            document.getElementById('product-gallery-modal').classList.remove('hidden');
-            document.getElementById('product-gallery-modal').classList.add('flex');
-            updateGIACombo(name);
-        }
-        function closeProductGallery() {
-            document.getElementById('product-gallery-modal').classList.add('hidden');
-        }
-        function toggle360Section(name) {
-            const section = document.getElementById('gia-3d-section');
-            document.getElementById('360-title').innerText = name + " (360°)";
-            section.classList.toggle('hidden');
-            section.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // AFFILIATE REDIRECT LOGIC
         function triggerRedirect() {
-            const redirectScreen = document.getElementById('redirect-screen');
-            redirectScreen.style.display = 'flex';
-            setTimeout(() => {
-                redirectScreen.style.display = 'none';
-                // Success feedback after redirect simulation
-                const successScreen = document.getElementById('success-screen');
-                successScreen.style.display = 'flex';
-                setTimeout(() => successScreen.style.display = 'none', 1500);
-            }, 1200);
-        }
-
-        function updateGIACombo(name) {
-            document.getElementById('combo-name').innerText = name + " Set";
-            document.getElementById('combo-score').innerText = "9.8";
-            document.getElementById('combo-total').innerText = "₹4,299";
-            document.getElementById('combo-reasoning').innerText = "AI matching " + name + " with Beige Chinos and Tan Loafers.";
-
-            const container = document.getElementById('combo-items-container');
-            container.innerHTML = `
-                <div class="relative group">
-                    <div class="absolute -top-2 -right-2 bg-green-500 text-white p-1 rounded-full check-tick"><i data-lucide="check" class="w-3 h-3"></i></div>
-                    <div class="w-24 h-32 bg-white rounded-3xl border p-2 flex flex-col items-center justify-center"><img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=100" class="w-12 h-12 object-contain"><p class="text-[7px] font-bold mt-2 uppercase">${name}</p></div>
-                </div>
-                <span class="text-2xl text-gray-200">+</span>
-                <div class="relative group">
-                    <div class="absolute -top-2 -right-2 bg-green-500 text-white p-1 rounded-full check-tick"><i data-lucide="check" class="w-3 h-3"></i></div>
-                    <div class="w-24 h-32 bg-white rounded-3xl border p-2 flex flex-col items-center justify-center"><img src="https://images.unsplash.com/photo-1624373666563-54ec85a14962?w=100" class="w-12 h-12 object-contain"><p class="text-[7px] font-bold mt-2 uppercase">Beige Chino</p></div>
-                </div>
-            `;
-            lucide.createIcons();
+            const screen = document.getElementById('redirect-screen');
+            screen.style.display = 'flex';
+            setTimeout(() => { screen.style.display = 'none'; }, 2000);
         }
     </script>
 </body>
