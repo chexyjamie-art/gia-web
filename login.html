@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | Exclusive Entry</title>
+    <title>GIA LUXE | Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* EMERALD SILK TEXTURE BACKGROUND */
+        /* EXACT GEOMETRIC PATTERN FROM PHOTO */
         body { 
-            background: linear-gradient(rgba(6, 26, 18, 0.9), rgba(5, 20, 13, 0.95)), 
-                        url('https://www.transparenttextures.com/patterns/dark-leather.png'), /* Texture layer */
-                        #061a12;
-            background-attachment: fixed;
+            background-color: #04241a;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%230a3629' fill-opacity='0.4'%3E%3Cpath d='M0 0h80v80H0V0zm40 40l40 20V20L40 0 0 20v40l40 20V40z'/%3E%3C/g%3E%3C/svg%3E");
             font-family: 'Inter', sans-serif;
             color: white;
             min-height: 100vh;
@@ -25,139 +23,109 @@
             overflow: hidden;
         }
 
-        /* 1. SMOOTH GIA SUMMON (No Blur) */
-        @keyframes giaFadeIn {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
+        /* SUMMONING ANIMATIONS */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 2. CARD SUMMON (1s Delay) */
-        @keyframes cardFadeUp {
-            0% { opacity: 0; transform: translateY(40px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        .gia-title { 
-            animation: giaFadeIn 2.5s ease-out forwards; /* Dheere se summon hoga */
-        }
-        
-        .login-card { 
-            opacity: 0; 
-            animation: cardFadeUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            animation-delay: 1.2s; 
-        }
+        .gia-header { animation: fadeIn 2s ease-out forwards; }
+        .form-section { opacity: 0; animation: fadeIn 1.5s ease-out 1s forwards; }
 
         .gold-text {
-            background: linear-gradient(to bottom, #BF953F 20%, #FCF6BA 50%, #B38728 80%);
+            background: linear-gradient(to bottom, #BF953F, #FCF6BA, #B38728, #AA771C);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-family: 'Playfair Display', serif;
         }
 
-        /* PREMIUM GLASSMORPHISM */
-        .glass-box {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(30px);
-            border: 1px solid rgba(191, 149, 63, 0.2);
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
-            width: 100%;
-            max-width: 420px;
-        }
-
-        @media (min-width: 1024px) {
-            .glass-box { max-width: 480px; } /* Desktop Size */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-radius: 2rem;
+            border: 1px solid rgba(191, 149, 63, 0.1);
         }
 
         .input-line {
             background: transparent;
-            border-bottom: 1.5px solid rgba(191, 149, 63, 0.25);
-            transition: all 0.4s ease;
+            border-bottom: 1px solid #BF953F;
+            color: #BF953F;
+            outline: none;
+            width: 100%;
+            padding: 8px 0;
+            text-align: center;
         }
 
-        .input-line:focus {
-            border-bottom-color: #BF953F;
-            background: rgba(191, 149, 63, 0.03);
+        .gold-button {
+            background: linear-gradient(to right, #BF953F, #FCF6BA, #AA771C);
+            color: #04241a;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            transition: transform 0.3s;
         }
 
-        .btn-gold {
-            background: linear-gradient(45deg, #BF953F, #FCF6BA, #AA771C);
-            color: #061a12;
-            letter-spacing: 0.3em;
-            font-weight: 800;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .btn-gold:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(191, 149, 63, 0.3);
-        }
+        .gold-button:hover { transform: scale(1.02); }
     </style>
 </head>
 <body>
 
-    <div class="w-full flex flex-col items-center px-6">
-        
-        <div class="text-center mb-12 gia-title">
-            <div class="flex justify-center mb-4">
-                <i data-lucide="crown" class="w-12 h-12" style="color: #BF953F; filter: drop-shadow(0 0 10px rgba(191,149,63,0.3));"></i>
+    <div class="w-full max-w-md px-8">
+        <div class="text-center mb-10 gia-header">
+            <div class="flex justify-center mb-2">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#BF953F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7Z"></path><path d="M12 17H12.01"></path></svg>
             </div>
-            <h1 class="text-7xl md:text-8xl gold-text tracking-widest italic">GIA</h1>
-            <p class="text-[#BF953F]/60 text-[10px] md:text-[12px] tracking-[0.6em] uppercase mt-4 font-light">The Luxury Style Vault</p>
+            <h1 class="text-6xl gold-text tracking-widest uppercase">GIA</h1>
+            <p class="text-[#BF953F] text-[10px] tracking-[0.4em] mt-2 uppercase">Enter The Legacy</p>
         </div>
 
-        <div id="login-form" class="glass-box p-10 md:p-14 rounded-[3rem] login-card">
+        <div id="login-form" class="glass-card p-10 form-section">
             <div id="step-1">
-                <div class="mb-10 group">
-                    <label class="block text-[10px] uppercase tracking-[0.4em] text-[#BF953F] mb-3 text-center opacity-70">Identity Name</label>
-                    <input type="text" id="user-name" placeholder="Rahul Sharma" class="input-line w-full py-4 text-center text-xl outline-none placeholder:text-white/10">
+                <div class="mb-10">
+                    <label class="block text-[10px] uppercase tracking-widest text-[#BF953F] mb-6 text-center">Full Name</label>
+                    <input type="text" id="user-name" placeholder="John Doe" class="input-line text-sm placeholder:opacity-20">
                 </div>
-                <div class="mb-12 group">
-                    <label class="block text-[10px] uppercase tracking-[0.4em] text-[#BF953F] mb-3 text-center opacity-70">Mobile Contact</label>
-                    <input type="tel" id="user-phone" placeholder="+91 00000 00000" class="input-line w-full py-4 text-center text-xl outline-none placeholder:text-white/10">
+                <div class="mb-12">
+                    <label class="block text-[10px] uppercase tracking-widest text-[#BF953F] mb-6 text-center">Mobile Number</label>
+                    <input type="tel" id="user-phone" placeholder="+1 (555) 000-0000" class="input-line text-sm placeholder:opacity-20">
                 </div>
-                <button onclick="sendOTP()" class="w-full btn-gold py-5 rounded-full text-[11px] uppercase">
-                    Open The Vault
+                <button onclick="sendOTP()" class="w-full gold-button py-4 rounded-full text-xs uppercase">
+                    Join The Vault
                 </button>
             </div>
 
             <div id="step-2" class="hidden text-center">
-                <p class="text-[10px] text-[#BF953F] mb-10 uppercase tracking-[0.3em]">Verify Secure Access Code</p>
-                <div class="flex justify-center gap-4 mb-12">
-                    <input type="text" maxlength="1" id="otp1" onkeyup="move(this, 'otp2')" class="w-12 h-16 bg-white/5 border border-white/10 rounded-2xl text-center text-2xl outline-none focus:border-[#BF953F]">
-                    <input type="text" maxlength="1" id="otp2" onkeyup="move(this, 'otp3')" class="w-12 h-16 bg-white/5 border border-white/10 rounded-2xl text-center text-2xl outline-none focus:border-[#BF953F]">
-                    <input type="text" maxlength="1" id="otp3" onkeyup="move(this, 'otp4')" class="w-12 h-16 bg-white/5 border border-white/10 rounded-2xl text-center text-2xl outline-none focus:border-[#BF953F]">
-                    <input type="text" maxlength="1" id="otp4" class="w-12 h-16 bg-white/5 border border-white/10 rounded-2xl text-center text-2xl outline-none focus:border-[#BF953F]">
+                <p class="text-[10px] text-[#BF953F] mb-8 uppercase tracking-widest">Verification Code</p>
+                <div class="flex justify-center gap-3 mb-10">
+                    <input type="text" maxlength="1" id="otp1" onkeyup="move(this,'otp2')" class="w-10 h-12 bg-white/5 border border-white/10 rounded-lg text-center outline-none">
+                    <input type="text" maxlength="1" id="otp2" onkeyup="move(this,'otp3')" class="w-10 h-12 bg-white/5 border border-white/10 rounded-lg text-center outline-none">
+                    <input type="text" maxlength="1" id="otp3" onkeyup="move(this,'otp4')" class="w-10 h-12 bg-white/5 border border-white/10 rounded-lg text-center outline-none">
+                    <input type="text" maxlength="1" id="otp4" class="w-10 h-12 bg-white/5 border border-white/10 rounded-lg text-center outline-none">
                 </div>
-                <button onclick="showTerms()" class="w-full btn-gold py-5 rounded-full text-[11px]">Verify Access</button>
+                <button onclick="showTerms()" class="w-full gold-button py-4 rounded-full text-xs uppercase">Verify Access</button>
             </div>
         </div>
 
-        <p class="text-center mt-16 text-[9px] tracking-[0.5em] text-white/20 uppercase login-card italic">Legacy Edition • 2026</p>
+        <p class="text-center mt-12 text-[8px] tracking-[0.3em] text-white/30 uppercase form-section italic">Est. 2026 • Exclusive Membership</p>
     </div>
 
-    <div id="terms-modal" class="fixed inset-0 bg-black/98 z-[999] hidden items-center justify-center p-8 backdrop-blur-3xl">
-        <div class="glass-box p-12 rounded-[2.5rem] border-[#BF953F]/40 text-center">
-            <h3 class="gold-text text-2xl mb-8 italic">Vault Protocols</h3>
-            <div class="text-[11px] text-white/40 space-y-6 mb-10 leading-loose">
-                <p>1. GIA is an AI-powered affiliate guide. Third-party sellers are responsible for product integrity.</p>
-                <p>2. We do not provide compensation for damages or authenticity issues from external retailers.</p>
+    <div id="terms-modal" class="fixed inset-0 bg-black/95 z-[99] hidden items-center justify-center p-8 backdrop-blur-md">
+        <div class="glass-card p-10 max-w-sm border-[#BF953F]/30 text-center">
+            <h3 class="gold-text text-xl mb-6 italic">Protocols</h3>
+            <p class="text-[10px] text-white/40 mb-8 leading-relaxed italic">GIA is an AI partner. We are not responsible for product integrity from third-party retailers.</p>
+            <div class="flex items-center justify-center gap-3 mb-8">
+                <input type="checkbox" id="agree" class="accent-[#BF953F]">
+                <label for="agree" class="text-[9px] uppercase tracking-widest text-[#BF953F]">Agree</label>
             </div>
-            <div class="flex items-center justify-center gap-4 mb-10">
-                <input type="checkbox" id="agree" class="w-5 h-5 rounded accent-[#BF953F]">
-                <label for="agree" class="text-[10px] uppercase tracking-widest text-[#BF953F]">Agree to Protocols</label>
-            </div>
-            <button onclick="finishLogin()" class="w-full bg-white text-black font-black py-5 rounded-full text-[10px] uppercase tracking-[0.2em] hover:bg-[#BF953F] transition-colors">Enter The Legacy</button>
+            <button onclick="finishLogin()" class="w-full bg-white text-black font-bold py-4 rounded-full text-[10px] uppercase">Enter</button>
         </div>
     </div>
 
     <script>
-        lucide.createIcons();
-
-        function move(curr, next) { if(curr.value.length==1) document.getElementById(next).focus(); }
+        function move(c, n) { if(c.value.length==1) document.getElementById(n).focus(); }
 
         function sendOTP() {
             const n = document.getElementById('user-name').value;
-            if(!n) return alert("Enter Identity Name");
+            if(!n) return alert("Enter Name");
             localStorage.setItem('giaUserName', n);
             document.getElementById('step-1').classList.add('hidden');
             document.getElementById('step-2').classList.remove('hidden');
@@ -169,7 +137,7 @@
         }
 
         function finishLogin() {
-            if(!document.getElementById('agree').checked) return alert(" प्रोटोकॉल स्वीकार करें ");
+            if(!document.getElementById('agree').checked) return alert("Agree first");
             window.location.href = 'index.html';
         }
     </script>
