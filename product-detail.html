@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIA LUXE | Product Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body { 
+            background-color: #04241a;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cpath d='M30 0l30 17.32v34.64L30 69.28 0 51.96V17.32L30 0z' fill='none' stroke='%230a3629' stroke-width='1'/%3E%3Cpath d='M30 103.92L0 86.6V51.96l30 17.32 30-17.32v34.64l-30 17.32z' fill='none' stroke='%230a3629' stroke-width='1'/%3E%3Cpath d='M30 69.28V34.64L0 17.32M30 34.64l30-17.32M30 69.28l30 17.32M30 69.28L0 86.6' fill='none' stroke='%230a3629' stroke-width='1'/%3E%3C/svg%3E");
+            font-family: 'Inter', sans-serif; color: white; min-height: 100vh;
+        }
+
+        .gold-text {
+            background: linear-gradient(to bottom, #BF953F, #FCF6BA, #B38728, #AA771C);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(191, 149, 63, 0.15);
+            border-radius: 3rem;
+        }
+
+        /* AI SCANNING LINE ANIMATION */
+        .scan-line {
+            position: absolute; width: 100%; height: 2px;
+            background: linear-gradient(to right, transparent, #BF953F, transparent);
+            animation: scanMove 3s infinite ease-in-out;
+            z-index: 10;
+        }
+        @keyframes scanMove {
+            0% { top: 0%; opacity: 0; }
+            50% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .buy-button {
+            background: linear-gradient(to right, #BF953F, #FCF6BA, #AA771C);
+            color: #04241a; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .buy-button:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 15px 30px rgba(191, 149, 63, 0.3); }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+    <nav class="max-w-7xl mx-auto flex justify-between items-center mb-10">
+        <button onclick="window.history.back()" class="p-3 bg-white/5 rounded-full border border-white/10 hover:border-[#BF953F] transition-all">
+            <i data-lucide="arrow-left" class="text-[#BF953F]"></i>
+        </button>
+        <h1 class="text-2xl gold-text italic tracking-widest">GIA Intelligence</h1>
+        <div class="w-12"></div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10">
+        
+        <div class="relative group">
+            <div class="glass-panel overflow-hidden sticky top-10">
+                <div class="scan-line"></div>
+                <img id="main-img" src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800" class="w-full h-[600px] object-cover transition-transform duration-700 group-hover:scale-110">
+                
+                <div class="absolute bottom-6 left-6 bg-black/60 backdrop-blur-md border border-[#BF953F]/30 p-4 rounded-2xl flex items-center gap-3">
+                    <i data-lucide="scan-eye" class="text-[#BF953F]"></i>
+                    <div>
+                        <p class="text-[10px] uppercase text-white/40 font-bold">GIA Style Match</p>
+                        <p class="text-lg font-bold text-green-500">98.4% Accuracy</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col justify-center">
+            <p id="brand-name" class="text-[#BF953F] text-[12px] font-bold uppercase tracking-[0.4em] mb-2">Amazon Premium</p>
+            <h2 id="product-title" class="text-5xl md:text-6xl gold-text italic mb-6">Emerald Linen Shirt</h2>
+            
+            <div class="flex items-center gap-4 mb-8">
+                <span class="text-3xl font-black text-white">₹2,499</span>
+                <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] uppercase text-white/40">Verified Price</span>
+            </div>
+
+            <div class="glass-panel p-8 mb-10 border-l-4 border-l-[#BF953F]">
+                <div class="flex items-center gap-2 mb-4">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-[#BF953F]"></i>
+                    <h4 class="text-[10px] uppercase tracking-widest text-[#BF953F] font-bold">GIA Stylist Lens</h4>
+                </div>
+                <p id="gia-insight" class="text-sm italic leading-loose text-white/70">
+                    "Bhai, ye shirt pure linen se bani hai jo summer parties ke liye best hai. GIA analysis dikhata hai ki iska color light skin tone par bohot royal lagta hai. White trousers ke sath ye look elite ban jayega!"
+                </p>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 mb-10">
+                <div class="text-center p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <i data-lucide="refresh-ccw" class="w-4 h-4 mx-auto mb-2 text-orange-400"></i>
+                    <p class="text-[8px] uppercase text-white/30">Returns</p>
+                    <p class="text-xs font-bold">Very Low</p>
+                </div>
+                <div class="text-center p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <i data-lucide="star" class="w-4 h-4 mx-auto mb-2 text-yellow-400"></i>
+                    <p class="text-[8px] uppercase text-white/30">Rating</p>
+                    <p class="text-xs font-bold">4.8 / 5</p>
+                </div>
+                <div class="text-center p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <i data-lucide="shield-check" class="w-4 h-4 mx-auto mb-2 text-green-400"></i>
+                    <p class="text-[8px] uppercase text-white/30">Seller</p>
+                    <p class="text-xs font-bold">Certified</p>
+                </div>
+            </div>
+
+            <button class="buy-button w-full py-5 rounded-full font-black text-xs uppercase tracking-[0.3em] mb-4">
+                Purchase at Brand Store
+            </button>
+            <p class="text-center text-[9px] text-white/20 uppercase tracking-widest italic">
+                Secure transaction via our affiliate partner.
+            </p>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+        
+        // Logic to dynamically load product info can be added here
+        // For now, it's hardcoded to match the style you wanted.
+    </script>
+</body>
+</html>
