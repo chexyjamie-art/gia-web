@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | Member Profile</title>
+    <title>GIA LUXE | Profile Settings</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* CONSISTENT EMERALD CUBE BACKGROUND */
+        /* SAME BACKGROUND - NO CHANGE */
         body { 
             background-color: #04241a;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cpath d='M30 0l30 17.32v34.64L30 69.28 0 51.96V17.32L30 0z' fill='none' stroke='%230a3629' stroke-width='1'/%3E%3Cpath d='M30 103.92L0 86.6V51.96l30 17.32 30-17.32v34.64l-30 17.32z' fill='none' stroke='%230a3629' stroke-width='1'/%3E%3Cpath d='M30 69.28V34.64L0 17.32M30 34.64l30-17.32M30 69.28l30 17.32M30 69.28L0 86.6' fill='none' stroke='%230a3629' stroke-width='1'/%3E%3C/svg%3E");
@@ -27,114 +27,162 @@
 
         .glass-card {
             background: rgba(255, 255, 255, 0.015);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(191, 149, 63, 0.15);
-            border-radius: 2rem;
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(191, 149, 63, 0.12);
+            border-radius: 2.5rem;
         }
 
-        .profile-summon {
-            animation: profileFade 1.2s ease-out forwards;
-        }
-
-        @keyframes profileFade {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .stat-card {
-            background: rgba(191, 149, 63, 0.05);
-            border-left: 2px solid #BF953F;
-            transition: all 0.3s ease;
-        }
-        .stat-card:hover { background: rgba(191, 149, 63, 0.1); }
-
-        .btn-outline-gold {
-            border: 1px solid #BF953F;
-            color: #BF953F;
+        .input-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(191, 149, 63, 0.2);
+            border-radius: 12px;
+            padding: 12px 15px;
+            width: 100%;
+            outline: none;
+            color: white;
+            font-size: 0.9rem;
             transition: all 0.3s;
         }
-        .btn-outline-gold:hover { background: #BF953F; color: #04241a; }
+
+        .input-box:focus { border-color: #BF953F; background: rgba(191, 149, 63, 0.05); }
+
+        .field-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #BF953F;
+            margin-bottom: 6px;
+            display: block;
+            font-weight: 600;
+        }
+
+        /* DP Modal Style */
+        .modal-bg {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-6">
 
-    <nav class="max-w-4xl mx-auto flex justify-between items-center mb-12">
-        <button onclick="window.location.href='index.html'" class="text-[#BF953F] hover:scale-110 transition-transform">
-            <i data-lucide="arrow-left"></i>
-        </button>
-        <h1 class="text-3xl gold-text italic tracking-widest">GIA LUXE</h1>
-        <div class="w-10"></div> </nav>
+    <div class="max-w-xl mx-auto flex justify-between items-center mb-8">
+        <button onclick="window.location.href='index.html'" class="text-[#BF953F]"><i data-lucide="chevron-left"></i></button>
+        <h1 class="text-2xl gold-text italic">Profile Vault</h1>
+        <div class="w-6"></div>
+    </div>
 
-    <main class="max-w-2xl mx-auto profile-summon">
-        <div class="glass-card p-8 md:p-12 text-center relative overflow-hidden">
-            <div class="absolute -top-4 -right-4 opacity-10 rotate-12">
-                <i data-lucide="crown" class="w-32 h-32 text-[#BF953F]"></i>
+    <main class="max-w-xl mx-auto">
+        <div class="glass-card p-8 shadow-2xl">
+            
+            <div class="flex flex-col items-center mb-10">
+                <div class="relative group cursor-pointer" onclick="toggleDPModal()">
+                    <div class="w-28 h-28 rounded-full border-2 border-[#BF953F] p-1 overflow-hidden">
+                        <img id="user-dp" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Gia" class="w-full h-full rounded-full object-cover">
+                    </div>
+                    <div class="absolute bottom-0 right-0 bg-[#BF953F] p-1.5 rounded-full border-2 border-[#04241a]">
+                        <i data-lucide="camera" class="w-3 h-3 text-black"></i>
+                    </div>
+                </div>
+                <p class="text-[10px] text-white/40 mt-3 uppercase tracking-widest">Click to view or change</p>
             </div>
 
-            <div class="relative inline-block mb-6">
-                <div class="w-32 h-32 rounded-full border-2 border-[#BF953F] p-1">
-                    <img id="profile-img" src="" alt="User Avatar" class="w-full h-full rounded-full bg-black/40">
+            <div class="space-y-6">
+                <div>
+                    <label class="field-label">Full Name</label>
+                    <input type="text" id="p-name" class="input-box" placeholder="Your Name">
                 </div>
-                <div class="absolute bottom-0 right-0 bg-[#BF953F] p-2 rounded-full border-4 border-[#04241a]">
-                    <i data-lucide="shield-check" class="w-4 h-4 text-black"></i>
-                </div>
-            </div>
 
-            <h2 id="display-name" class="text-4xl gold-text italic mb-2 tracking-tight">Loading...</h2>
-            <p class="text-[#BF953F]/60 text-[10px] uppercase tracking-[0.4em] mb-8 font-bold">Verified Style Member</p>
-
-            <div class="grid grid-cols-2 gap-4 mb-10">
-                <div class="stat-card p-4 rounded-xl text-center">
-                    <p class="text-[8px] uppercase text-white/40 mb-1 tracking-widest">Style Accuracy</p>
-                    <p class="text-xl font-bold text-[#BF953F]">98.4%</p>
+                <div>
+                    <label class="field-label">Gender</label>
+                    <select id="p-gender" class="input-box">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
                 </div>
-                <div class="stat-card p-4 rounded-xl text-center">
-                    <p class="text-[8px] uppercase text-white/40 mb-1 tracking-widest">Curation Level</p>
-                    <p class="text-xl font-bold text-[#BF953F]">Elite</p>
-                </div>
-            </div>
 
-            <div class="space-y-4">
-                <button onclick="editName()" class="w-full py-4 rounded-full bg-gradient-to-r from-[#BF953F] to-[#AA771C] text-black font-bold text-[10px] uppercase tracking-widest shadow-lg shadow-black/40">
-                    Update Identity
+                <div>
+                    <label class="field-label">Mobile Number</label>
+                    <input type="tel" id="p-phone" class="input-box" readonly style="opacity: 0.6;">
+                </div>
+
+                <div>
+                    <label class="field-label">Email Address</label>
+                    <input type="email" id="p-email" class="input-box" placeholder="email@luxury.com">
+                </div>
+
+                <div>
+                    <label class="field-label">Permanent Delivery Address</label>
+                    <textarea id="p-address" rows="3" class="input-box" placeholder="House No, Street, City, Pincode"></textarea>
+                </div>
+
+                <button onclick="saveProfile()" class="w-full py-4 mt-4 bg-gradient-to-r from-[#BF953F] to-[#AA771C] text-black font-bold rounded-full text-[10px] uppercase tracking-[0.2em]">
+                    Update Profile
                 </button>
-                <div class="flex gap-4">
-                    <button class="flex-1 py-4 rounded-full btn-outline-gold text-[10px] uppercase font-bold tracking-widest">
-                        Saved Looks
-                    </button>
-                    <button onclick="logout()" class="flex-1 py-4 rounded-full border border-red-900/50 text-red-500 text-[10px] uppercase font-bold tracking-widest hover:bg-red-500 hover:text-white transition-all">
-                        Exit Vault
-                    </button>
-                </div>
             </div>
         </div>
-
-        <p class="text-center mt-12 text-[8px] tracking-[0.4em] text-white/20 uppercase italic">Your style data is protected by GIA AI Systems.</p>
     </main>
+
+    <div id="dp-modal" class="modal-bg">
+        <div class="text-center p-6 w-full max-w-sm">
+            <div class="mb-8">
+                <img id="full-dp-view" src="" class="w-64 h-64 mx-auto rounded-3xl border border-[#BF953F]/30 object-cover shadow-2xl">
+            </div>
+            <div class="flex flex-col gap-4">
+                <input type="file" id="upload-dp" accept="image/*" class="hidden" onchange="previewImage(event)">
+                <button onclick="document.getElementById('upload-dp').click()" class="bg-[#BF953F] text-black font-bold py-4 rounded-xl text-xs uppercase">Upload New Photo</button>
+                <button onclick="toggleDPModal()" class="text-white/60 text-xs uppercase tracking-widest border border-white/10 py-4 rounded-xl">Close</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         lucide.createIcons();
 
-        // LOAD USER DATA
+        // Load data from Storage
         window.onload = function() {
-            const name = localStorage.getItem('giaUserName') || "Guest";
-            document.getElementById('display-name').innerText = name;
-            document.getElementById('profile-img').src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`;
+            document.getElementById('p-name').value = localStorage.getItem('giaUserName') || "";
+            document.getElementById('p-phone').value = localStorage.getItem('giaUserPhone') || "+91 0000000000";
+            document.getElementById('p-email').value = localStorage.getItem('giaUserEmail') || "";
+            document.getElementById('p-address').value = localStorage.getItem('giaUserAddress') || "";
+            
+            const savedDP = localStorage.getItem('giaUserDP');
+            if(savedDP) {
+                document.getElementById('user-dp').src = savedDP;
+                document.getElementById('full-dp-view').src = savedDP;
+            } else {
+                document.getElementById('full-dp-view').src = document.getElementById('user-dp').src;
+            }
         };
 
-        function editName() {
-            const newName = prompt("Bhai, naya naam batao:");
-            if(newName) {
-                localStorage.setItem('giaUserName', newName);
-                location.reload();
-            }
+        function toggleDPModal() {
+            const modal = document.getElementById('dp-modal');
+            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
         }
 
-        function logout() {
-            if(confirm("Exit the Vault? All session data will be cleared.")) {
-                localStorage.clear();
-                window.location.href = 'login.html';
-            }
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const dataURL = reader.result;
+                document.getElementById('user-dp').src = dataURL;
+                document.getElementById('full-dp-view').src = dataURL;
+                localStorage.setItem('giaUserDP', dataURL); // Save DP to browser
+            };
+            reader.readAsDataURL(event.target.files[0]);
+            setTimeout(toggleDPModal, 500);
+        }
+
+        function saveProfile() {
+            localStorage.setItem('giaUserName', document.getElementById('p-name').value);
+            localStorage.setItem('giaUserEmail', document.getElementById('p-email').value);
+            localStorage.setItem('giaUserAddress', document.getElementById('p-address').value);
+            alert("Profile Updated successfully in the Vault!");
         }
     </script>
 </body>
