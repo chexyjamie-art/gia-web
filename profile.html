@@ -3,163 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA | Personal Profile</title>
+    <title>GIA LUXE | Member Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <style>
+        /* CONSISTENT EMERALD CUBE BACKGROUND */
         body { 
-            background-color: #F8F0EC; /* Very soft, warm beige/rose tint */
+            background-color: #04241a;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cpath d='M30 0l30 17.32v34.64L30 69.28 0 51.96V17.32L30 0z' fill='none' stroke='%230a3629' stroke-width='1'/%3E%3Cpath d='M30 103.92L0 86.6V51.96l30 17.32 30-17.32v34.64l-30 17.32z' fill='none' stroke='%230a3629' stroke-width='1'/%3E%3Cpath d='M30 69.28V34.64L0 17.32M30 34.64l30-17.32M30 69.28l30 17.32M30 69.28L0 86.6' fill='none' stroke='%230a3629' stroke-width='1'/%3E%3C/svg%3E");
             font-family: 'Inter', sans-serif;
-            color: #2D0F1F; /* Dark Plum text for contrast */
+            color: white;
+            min-height: 100vh;
         }
 
-        .font-serif { font-family: 'Playfair Display', serif; }
-
-        /* HEADER SECTION: Deep Plum Gradient */
-        .profile-header {
-            background: linear-gradient(135deg, #2D0F1F 0%, #4D1A2F 100%); /* Deep Plum to slightly lighter plum */
-            height: 320px;
-            border-bottom-left-radius: 5rem;
-            border-bottom-right-radius: 5rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-        }
-
-        /* ROSE GOLD TEXT & GRADIENT */
-        .rose-gold-text {
-            background: linear-gradient(to right, #B87333, #FFC0CB, #B87333); /* Rose gold tones */
+        .gold-text {
+            background: linear-gradient(to bottom, #BF953F, #FCF6BA, #B38728, #AA771C);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            font-family: 'Playfair Display', serif;
         }
-        .rose-gold-gradient-btn {
-            background: linear-gradient(90deg, #B87333, #FFC0CB);
-            color: white;
-            box-shadow: 0 10px 20px rgba(184, 115, 51, 0.3);
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.015);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(191, 149, 63, 0.15);
+            border-radius: 2rem;
+        }
+
+        .profile-summon {
+            animation: profileFade 1.2s ease-out forwards;
+        }
+
+        @keyframes profileFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stat-card {
+            background: rgba(191, 149, 63, 0.05);
+            border-left: 2px solid #BF953F;
             transition: all 0.3s ease;
         }
-        .rose-gold-gradient-btn:hover {
-            box-shadow: 0 15px 30px rgba(184, 115, 51, 0.5);
-            transform: translateY(-2px);
-        }
+        .stat-card:hover { background: rgba(191, 149, 63, 0.1); }
 
-        /* LUXE GLASS CARD - Light background for contrast */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            box-shadow: 0 30px 60px -15px rgba(0,0,0,0.1);
+        .btn-outline-gold {
+            border: 1px solid #BF953F;
+            color: #BF953F;
+            transition: all 0.3s;
         }
-
-        .avatar-border {
-            border: 4px solid #F8F0EC; /* Matches body background */
-            background: white;
-            box-shadow: 0 0 0 2px #B87333; /* Thin rose gold outer border */
-        }
-
-        /* Subtle texture for header */
-        .header-texture {
-            background: url('https://www.transparenttextures.com/patterns/clean-textile.png'); /* Light subtle texture */
-            opacity: 0.1;
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-        }
+        .btn-outline-gold:hover { background: #BF953F; color: #04241a; }
     </style>
 </head>
-<body class="relative">
+<body class="p-4 md:p-8">
 
-    <div class="profile-header">
-        <div class="header-texture"></div>
-        <nav class="absolute top-0 left-0 w-full p-8 flex justify-between items-center z-10">
-            <button onclick="window.location.href='index.html'" class="w-10 h-10 flex items-center justify-center bg-white/10 rounded-full backdrop-blur-md border border-white/20 text-white hover:bg-white/20">
-                <i data-lucide="arrow-left" class="w-5 h-5"></i>
-            </button>
-            <span class="text-[10px] font-bold text-white/50 uppercase tracking-[0.4em]">My GIA Space</span>
-            <button onclick="showLogoutModal()" class="w-10 h-10 flex items-center justify-center bg-white/10 rounded-full backdrop-blur-md border border-white/20 text-red-300 hover:bg-white/20">
-                <i data-lucide="power" class="w-5 h-5"></i>
-            </button>
-        </nav>
-        <div class="absolute bottom-[-50px] left-[-50px] w-48 h-48 bg-white/5 rounded-full blur-3xl z-0"></div>
-        <div class="absolute top-20 right-[-30px] w-60 h-60 bg-white/5 rounded-full blur-3xl z-0"></div>
-    </div>
+    <nav class="max-w-4xl mx-auto flex justify-between items-center mb-12">
+        <button onclick="window.location.href='index.html'" class="text-[#BF953F] hover:scale-110 transition-transform">
+            <i data-lucide="arrow-left"></i>
+        </button>
+        <h1 class="text-3xl gold-text italic tracking-widest">GIA LUXE</h1>
+        <div class="w-10"></div> </nav>
 
-    <main class="max-w-xl mx-auto -mt-32 px-6 pb-20 relative z-10">
-
-        <div class="flex flex-col items-center mb-10">
-            <div class="avatar-border w-40 h-40 rounded-[3rem] p-1 overflow-hidden shadow-2xl">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" class="w-full h-full object-cover rounded-[2.5rem] bg-gray-100" alt="Rahul">
+    <main class="max-w-2xl mx-auto profile-summon">
+        <div class="glass-card p-8 md:p-12 text-center relative overflow-hidden">
+            <div class="absolute -top-4 -right-4 opacity-10 rotate-12">
+                <i data-lucide="crown" class="w-32 h-32 text-[#BF953F]"></i>
             </div>
-            <div class="mt-6 text-center">
-                <h2 class="text-3xl font-serif italic font-bold text-white">Rahul Kapoor</h2>
-                <p class="text-[9px] font-bold rose-gold-text uppercase tracking-[0.3em] mt-2">Elite Curator Member</p>
-            </div>
-        </div>
 
-        <div class="glass-card rounded-[3.5rem] p-10 space-y-8">
-            <div class="flex items-center gap-6">
-                <div class="w-12 h-12 bg-[#F8F0EC] rounded-2xl flex items-center justify-center text-[#B87333]">
-                    <i data-lucide="mail" class="w-5 h-5"></i>
+            <div class="relative inline-block mb-6">
+                <div class="w-32 h-32 rounded-full border-2 border-[#BF953F] p-1">
+                    <img id="profile-img" src="" alt="User Avatar" class="w-full h-full rounded-full bg-black/40">
                 </div>
-                <div>
-                    <p class="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1">Registered Email</p>
-                    <p class="text-sm font-semibold text-[#2D0F1F] italic">rahul.kapoor@gia.com</p>
+                <div class="absolute bottom-0 right-0 bg-[#BF953F] p-2 rounded-full border-4 border-[#04241a]">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-black"></i>
                 </div>
             </div>
 
-            <div class="flex items-center gap-6">
-                <div class="w-12 h-12 bg-[#F8F0EC] rounded-2xl flex items-center justify-center text-[#B87333]">
-                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+            <h2 id="display-name" class="text-4xl gold-text italic mb-2 tracking-tight">Loading...</h2>
+            <p class="text-[#BF953F]/60 text-[10px] uppercase tracking-[0.4em] mb-8 font-bold">Verified Style Member</p>
+
+            <div class="grid grid-cols-2 gap-4 mb-10">
+                <div class="stat-card p-4 rounded-xl text-center">
+                    <p class="text-[8px] uppercase text-white/40 mb-1 tracking-widest">Style Accuracy</p>
+                    <p class="text-xl font-bold text-[#BF953F]">98.4%</p>
                 </div>
-                <div>
-                    <p class="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1">Primary Residence</p>
-                    <p class="text-sm font-semibold text-[#2D0F1F] leading-relaxed">Flat 402, Royal Enclave, Bandra West, Mumbai</p>
+                <div class="stat-card p-4 rounded-xl text-center">
+                    <p class="text-[8px] uppercase text-white/40 mb-1 tracking-widest">Curation Level</p>
+                    <p class="text-xl font-bold text-[#BF953F]">Elite</p>
                 </div>
             </div>
 
-            <div class="pt-6 border-t border-gray-100 grid grid-cols-2 gap-4">
-                <button onclick="window.location.href='orders.html'" class="bg-[#F8F0EC] p-6 rounded-[2.5rem] text-center border border-white hover:border-[#FFC0CB] transition-all">
-                    <p class="text-[8px] font-bold text-gray-500 uppercase mb-2">Vault</p>
-                    <p class="text-xs font-bold text-[#2D0F1F] italic">My Orders</p>
+            <div class="space-y-4">
+                <button onclick="editName()" class="w-full py-4 rounded-full bg-gradient-to-r from-[#BF953F] to-[#AA771C] text-black font-bold text-[10px] uppercase tracking-widest shadow-lg shadow-black/40">
+                    Update Identity
                 </button>
-                <button onclick="window.location.href='wishlist.html'" class="bg-[#F8F0EC] p-6 rounded-[2.5rem] text-center border border-white hover:border-[#FFC0CB] transition-all">
-                    <p class="text-[8px] font-bold text-gray-500 uppercase mb-2">Curation</p>
-                    <p class="text-xs font-bold text-[#2D0F1F] italic">Wishlist</p>
-                </button>
+                <div class="flex gap-4">
+                    <button class="flex-1 py-4 rounded-full btn-outline-gold text-[10px] uppercase font-bold tracking-widest">
+                        Saved Looks
+                    </button>
+                    <button onclick="logout()" class="flex-1 py-4 rounded-full border border-red-900/50 text-red-500 text-[10px] uppercase font-bold tracking-widest hover:bg-red-500 hover:text-white transition-all">
+                        Exit Vault
+                    </button>
+                </div>
             </div>
         </div>
 
-        <div class="mt-8 space-y-4">
-            <button class="w-full rose-gold-gradient-btn py-6 rounded-[2rem] text-[10px] font-bold uppercase tracking-[0.2em]">
-                Customize Stylist Preferences
-            </button>
-            <p class="text-center text-[8px] text-gray-500 uppercase tracking-tighter pt-4">
-                Partnered with Amazon & Myntra • Official GIA Profile
-            </p>
-        </div>
-
+        <p class="text-center mt-12 text-[8px] tracking-[0.4em] text-white/20 uppercase italic">Your style data is protected by GIA AI Systems.</p>
     </main>
-
-    <div id="logout-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[300] hidden items-center justify-center p-8">
-        <div class="bg-white w-full max-w-xs rounded-[3rem] p-10 text-center shadow-2xl">
-            <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6 text-red-500">
-                <i data-lucide="log-out" class="w-8 h-8"></i>
-            </div>
-            <h3 class="text-xl font-serif italic font-bold mb-3 text-gray-900">End Session?</h3>
-            <p class="text-xs text-gray-400 mb-8 leading-relaxed italic">Your stylist preferences will be saved for your next visit.</p>
-            <div class="space-y-3">
-                <button onclick="confirmLogout()" class="w-full bg-black text-white py-4 rounded-2xl text-[10px] font-bold uppercase tracking-widest shadow-xl">Yes, Close</button>
-                <button onclick="closeLogoutModal()" class="w-full bg-gray-100 text-gray-500 py-4 rounded-2xl text-[10px] font-bold uppercase tracking-widest">Back to Profile</button>
-            </div>
-        </div>
-    </div>
 
     <script>
         lucide.createIcons();
-        function showLogoutModal() { document.getElementById('logout-modal').classList.replace('hidden', 'flex'); }
-        function closeLogoutModal() { document.getElementById('logout-modal').classList.replace('flex', 'hidden'); }
-        function confirmLogout() { window.location.href = 'index.html'; }
+
+        // LOAD USER DATA
+        window.onload = function() {
+            const name = localStorage.getItem('giaUserName') || "Guest";
+            document.getElementById('display-name').innerText = name;
+            document.getElementById('profile-img').src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`;
+        };
+
+        function editName() {
+            const newName = prompt("Bhai, naya naam batao:");
+            if(newName) {
+                localStorage.setItem('giaUserName', newName);
+                location.reload();
+            }
+        }
+
+        function logout() {
+            if(confirm("Exit the Vault? All session data will be cleared.")) {
+                localStorage.clear();
+                window.location.href = 'login.html';
+            }
+        }
     </script>
 </body>
 </html>
