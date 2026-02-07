@@ -24,7 +24,7 @@
 
         .royal-logo { font-family: 'Playfair Display', serif; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; }
         .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
+
         .product-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border-radius: 1.5rem; transition: 0.3s; border: 1px solid rgba(191, 149, 63, 0.1); cursor: pointer; }
         .product-card:hover { transform: translateY(-5px); border: 1px solid #BF953F; }
 
@@ -73,13 +73,13 @@
             <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
         </section>
 
-        <section id="combo-area" class="mb-20 hidden">
+        <section id="combo-area" class="mb-20">
             <div class="flex justify-between items-center mb-8">
                 <h3 class="text-[10px] font-bold tracking-[0.4em] uppercase text-[#BF953F]">GIA Suggested Bundle</h3>
                 <a href="combos.html" id="view-more-btn" class="text-[10px] gold-text font-bold uppercase tracking-widest border-b border-[#BF953F] pb-1">View More Combos</a>
             </div>
             <div id="dynamic-combo-card" class="p-10 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl">
-                </div>
+            </div>
         </section>
     </main>
 
@@ -121,14 +121,17 @@
                     <p class="text-xl font-black mt-2">₹${p.price}</p>
                 </div>
             `).join('');
-            
-            // Show combo only when searching
+
+            // Testing Mode: Hamesha visible
             const comboArea = document.getElementById('combo-area');
+            comboArea.style.display = 'block'; 
+
             if(data.length < allDatabase.length && data.length > 0) {
-                comboArea.classList.remove('hidden');
+                // Search condition
                 updateDynamicCombo(data[0]);
             } else {
-                comboArea.classList.add('hidden');
+                // Default Testing Look
+                showDefaultCombo();
             }
             lucide.createIcons();
         }
@@ -139,10 +142,32 @@
             renderProducts(filtered);
         });
 
+        function showDefaultCombo() {
+            const comboCard = document.getElementById('dynamic-combo-card');
+            comboCard.innerHTML = `
+                <div class="flex flex-col lg:flex-row items-center gap-12">
+                    <div class="w-full lg:w-1/2">
+                        <h4 class="text-xs gold-text font-bold mb-6 uppercase tracking-[0.3em]">GIA Master Lifestyle Vault (Testing)</h4>
+                        <div class="flex items-center gap-6 opacity-40">
+                            <div class="w-24 h-24 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-center"><i data-lucide="shirt" class="text-white/20"></i></div>
+                            <span class="text-2xl text-white/20">+</span>
+                            <div class="w-24 h-24 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-center"><i data-lucide="smartphone" class="text-white/20"></i></div>
+                            <span class="text-2xl text-white/20">+</span>
+                            <div class="w-24 h-24 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-center"><i data-lucide="sparkles" class="text-white/20"></i></div>
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-1/2">
+                        <p class="text-sm italic text-white/60 mb-8 leading-relaxed">"Bhai, ye default testing look hai. Search bar mein kuch type karke dekho, ye combo turant us product ke hisab se badal jayega!"</p>
+                        <button onclick="window.location.href='combos.html'" class="bg-[#BF953F] text-black px-10 py-4 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#FCF6BA] transition-all">Explore All Combos</button>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
         function updateDynamicCombo(product) {
             const comboCard = document.getElementById('dynamic-combo-card');
             const searchVal = document.getElementById('ai-search-input').value;
-            // Update "View More" link with search query
             document.getElementById('view-more-btn').href = `combos.html?query=${searchVal}`;
 
             comboCard.innerHTML = `
