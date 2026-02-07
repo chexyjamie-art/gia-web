@@ -1,181 +1,139 @@
-/* Body ko halka sa tone do taaki cards dikhein */
-body { 
-    background-color: #F8F9FA; /* Off-white background */
-    color: #1A1A1A; 
-}
-
-/* Product Cards ko 'Elevated' banao */
-#product-grid > div {
-    background: #ffffff;
-    border: none;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.03); /* Soft shadow */
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-#product-grid > div:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-}
-
-/* Search bar ko thoda deep aur premium dikhao */
-#gia-search-input {
-    background: #ffffff;
-    border: 1px solid rgba(0,0,0,0.03);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.08);
-}
-
-/* Combo Card ko thoda dark aur bold touch do */
-#gia-combo-card {
-    background: linear-gradient(145deg, #ffffff, #f0f0f0);
-    border: 1px solid rgba(255,255,255,0.8);
-}
+/* ==========================================
+   GIA LUXE - PRE-INTEGRATED PREMIUM STYLING
+   ========================================== */
 
 :root {
     --gold-premium: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+    --emerald-deep: #0a140f;
     --bg-silk: #ffffff;
-    --text-main: #000000;
+    --text-main: #1A1A1A;
     --card-shadow: 0 20px 50px rgba(0,0,0,0.05);
+    --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    cursor: default;
-}
-
-body {
+/* Base Body Update (As per your request) */
+body { 
     background-color: var(--bg-silk);
     color: var(--text-main);
-    font-family: 'Inter', sans-serif; /* Standard Inter for body */
+    font-family: 'Inter', sans-serif;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    background-image: radial-gradient(circle at top right, rgba(191, 149, 63, 0.05), transparent);
 }
 
-/* Headings keep the luxury serif font */
+/* Headings: Luxury Serif */
 h1, h2, h3, .font-serif {
     font-family: 'Playfair Display', serif;
 }
 
-/* World Class Glassmorphism */
-.glass-card {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(30px) saturate(180%);
-    border: 1px solid rgba(0,0,0,0.03);
-    border-radius: 40px;
+/* 1. PRODUCT CARDS: Elevated Luxury Look */
+#product-grid > div, .product-card {
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.02);
     box-shadow: var(--card-shadow);
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: var(--transition-smooth);
+    border-radius: 2rem;
+    overflow: hidden;
 }
 
-.glass-card:hover {
-    transform: scale(1.02) translateY(-5px);
-    box-shadow: 0 40px 80px rgba(0,0,0,0.08);
+#product-grid > div:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.12);
+    border-color: #BF953F;
 }
 
-/* Golden Text for GIA Branding */
-.premium-text {
+/* 2. SEARCH BAR: Deep & Premium (As requested) */
+#gia-search-input {
+    background: #ffffff;
+    border: 1px solid rgba(191, 149, 63, 0.2);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+    transition: var(--transition-smooth);
+}
+
+#gia-search-input:focus {
+    box-shadow: 0 30px 60px rgba(191, 149, 63, 0.15);
+    border-color: #BF953F;
+}
+
+/* 3. GIA TRUTH-METER: Emerald Popups */
+#analysis-modal .modal-box {
+    background: var(--emerald-deep);
+    border: 1px solid #BF953F;
+    box-shadow: 0 0 50px rgba(191, 149, 63, 0.2);
+    border-radius: 2.5rem;
+}
+
+.sentiment-box {
+    background: rgba(191, 149, 63, 0.08);
+    border-left: 4px solid #BF953F;
+    padding: 1.5rem;
+    border-radius: 0 1.5rem 1.5rem 0;
+    font-style: italic;
+    color: #eee;
+}
+
+/* 4. COMBO CARD: Gradient Touch (As requested) */
+#gia-combo-card {
+    background: linear-gradient(145deg, #ffffff, #f9f9f9);
+    border: 1px solid rgba(191, 149, 63, 0.1);
+    border-radius: 3rem;
+}
+
+/* 5. GIA BRANDING: Golden Text */
+.premium-text, .gold-text {
     background: var(--gold-premium);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    display: inline-block;
+    font-weight: 700;
 }
 
-/* 3D Container Styling (Crucial for visibility) */
+/* 6. 3D FLOATING EFFECTS */
 #product-3d-container {
-    perspective: 1200px;
-    transform-style: preserve-3d;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    perspective: 1500px;
 }
 
 #floating-product {
-    width: 100%;
-    max-width: 350px;
-    filter: drop-shadow(0 30px 50px rgba(0,0,0,0.2));
-    animation: float 4s ease-in-out infinite;
-    transition: transform 0.1s ease-out;
+    filter: drop-shadow(0 50px 70px rgba(0,0,0,0.15));
+    animation: float 5s ease-in-out infinite;
 }
 
 @keyframes float {
-    0% { transform: translateY(0px) rotateY(0deg); }
-    50% { transform: translateY(-20px) rotateY(10deg); }
-    100% { transform: translateY(0px) rotateY(0deg); }
+    0%, 100% { transform: translateY(0px) rotateY(0deg); }
+    50% { transform: translateY(-25px) rotateY(12deg); }
 }
 
-/* Voice Wave UI Improvements */
-.wave {
-    width: 4px;
-    border-radius: 10px;
-    margin: 0 2px;
-}
-
-/* Reveal Section Animation */
-.reveal-section {
-    animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* --- PURANE FEATURES (STAYING INTACT) --- */
+/* 7. SCANNING & TRUST ANIMATIONS */
 .scanning-line {
     position: absolute;
-    width: 100%; height: 2px;
+    width: 100%; height: 3px;
     background: var(--gold-premium);
-    animation: scan 2s infinite linear;
-}
-@keyframes scan {
-    0% { transform: translateY(-100%); opacity: 0; }
-    50% { opacity: 1; }
-    100% { transform: translateY(100%); opacity: 0; }
+    box-shadow: 0 0 15px #BF953F;
+    animation: scanLine 2.5s infinite ease-in-out;
 }
 
-.trust-verified { animation: pulse-green 2s infinite; }
+@keyframes scanLine {
+    0% { top: 0%; opacity: 0; }
+    50% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+
+.trust-verified { 
+    animation: pulse-green 2s infinite; 
+}
+
 @keyframes pulse-green {
     0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
-    70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+    70% { box-shadow: 0 0 0 12px rgba(34, 197, 94, 0); }
     100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
 }
 
-/* Fixed Slider */
-.no-scrollbar::-webkit-scrollbar { display: none; }
-
+/* 8. COMBO ITEM POP-UP */
 .check-tick-container {
-    position: absolute;
-    top: -5px;
-    right: -5px;
     background: #22c55e;
-    color: white;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid white;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transform: scale(0);
-    animation: popCheck 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+    animation: popCheck 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-@keyframes popCheck {
-    to { transform: scale(1); }
-}
-
-.scanning-line {
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-    animation: scan 2s infinite;
-}
-
-@keyframes scan {
-    0% { left: -100%; }
-    100% { left: 100%; }
-}
+/* Utility: Hide Scrollbar but keep functionality */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
