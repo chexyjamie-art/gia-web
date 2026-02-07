@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GIA LUXE | Visual AI Stylist</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <script>
-        /* LOGIN CHECK LOGIC */
         (function() {
             const userName = localStorage.getItem('giaUserName');
             if (!userName) { window.location.href = 'login.html'; }
@@ -18,202 +17,209 @@
 
     <style>
         body { 
-            background: linear-gradient(rgba(4, 36, 26, 0.9), rgba(4, 36, 26, 0.98)), 
+            background: linear-gradient(rgba(4, 36, 26, 0.95), rgba(4, 36, 26, 0.98)), 
                         url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1920&q=80');
-            background-size: cover; background-attachment: fixed; font-family: 'Inter', sans-serif; color: white; min-height: 100vh; overflow-x: hidden;
+            background-size: cover; background-attachment: fixed; font-family: 'Inter', sans-serif; color: white; min-height: 100vh;
         }
 
-        @keyframes giaSummon { 0% { opacity: 0; transform: scale(0.98); } 100% { opacity: 1; transform: scale(1); } }
-        @keyframes sectionSummon { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
-
-        .animate-summon-gia { animation: giaSummon 1.5s ease-out forwards; }
-        .animate-summon-section { opacity: 0; animation: sectionSummon 1s ease-out 0.8s forwards; }
-
+        .royal-logo { font-family: 'Playfair Display', serif; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; }
         .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .gold-icon { color: #BF953F; }
-
-        .product-card {
-            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); color: white; border-radius: 1.5rem; 
-            transition: all 0.3s ease; border: 1px solid rgba(191, 149, 63, 0.1); cursor: pointer;
-        }
-        .product-card:hover { transform: translateY(-5px); border: 1px solid #BF953F; background: rgba(255, 255, 255, 0.06); }
-
-        .sentiment-box { background: rgba(191, 149, 63, 0.05); border-left: 4px solid #BF953F; padding: 1.25rem; border-radius: 0 1rem 1rem 0; font-style: italic; color: #eee; }
         
-        /* VOICE ANIMATION */
+        .product-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border-radius: 1.5rem; transition: 0.3s; border: 1px solid rgba(191, 149, 63, 0.1); cursor: pointer; }
+        .product-card:hover { transform: translateY(-5px); border: 1px solid #BF953F; }
+
+        .stylist-lens-box { border-left: 3px solid #BF953F; background: rgba(191, 149, 63, 0.08); border-radius: 0 1.5rem 1.5rem 0; padding: 1.5rem; font-style: italic; }
+        .stat-badge { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 0.75rem; border-radius: 0.75rem; text-align: center; }
+
         .mic-active { color: #ef4444 !important; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
-        
-        #analysis-modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); z-index: 200; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+        #details-modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); z-index: 500; display: none; overflow-y: auto; padding: 2rem 0; backdrop-filter: blur(15px); }
     </style>
 </head>
-<body class="animate-summon-gia">
+<body>
 
-    <header class="py-6 px-4 md:px-8 border-b border-[#BF953F]/30 backdrop-blur-md sticky top-0 z-[100]">
+    <header class="py-6 px-4 md:px-8 border-b border-[#BF953F]/20 backdrop-blur-md sticky top-0 z-[100]">
         <nav class="max-w-7xl mx-auto flex justify-between items-center">
-            <button onclick="window.location.href='offers.html'" class="relative p-2.5 bg-white/5 rounded-full border border-[#BF953F]/20 hover:border-[#BF953F] transition-all">
+            <a href="offers.html" class="p-2.5 bg-white/5 rounded-full border border-[#BF953F]/20 hover:border-[#BF953F]">
                 <i data-lucide="percent" class="w-5 h-5 text-[#BF953F]"></i>
-            </button>
-            <h1 class="text-2xl md:text-3xl font-serif italic tracking-widest gold-text cursor-pointer" onclick="window.location.href='index.html'">GIA LUXE</h1>
+            </a>
+            <h1 class="text-2xl md:text-3xl royal-logo gold-text cursor-pointer" onclick="window.location.href='index.html'">GIA LUXE</h1>
             <div class="flex items-center gap-3">
-                <p class="text-[9px] uppercase tracking-widest gold-text font-bold hidden sm:block" id="header-user-name">Loading...</p>
-                <div onclick="window.location.href='profile.html'" class="w-10 h-10 border border-[#BF953F] rounded-full p-0.5 cursor-pointer">
+                <p id="header-user-name" class="text-[9px] font-bold gold-text tracking-widest uppercase hidden sm:block">Loading...</p>
+                <a href="profile.html" class="w-10 h-10 border border-[#BF953F] rounded-full p-0.5 overflow-hidden">
                     <img id="user-avatar" src="" class="w-full h-full rounded-full object-cover">
-                </div>
+                </a>
             </div>
         </nav>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 md:px-8 py-12 animate-summon-section">
-        <section class="text-center mb-24">
-            <h2 class="text-4xl md:text-6xl font-serif italic gold-text mb-8 leading-tight">Welcome to the Vault, <br><span id="hero-user-name" class="font-bold">Style Enthusiast</span></h2>
-            
-            <div class="relative max-w-2xl mx-auto flex items-center border border-[#BF953F]/40 rounded-full p-1.5 bg-black/40 backdrop-blur-xl">
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        <section class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl royal-logo gold-text mb-8 italic">Welcome, <span id="hero-user-name">Stylist</span></h2>
+            <div class="relative max-w-2xl mx-auto flex items-center border border-[#BF953F]/30 rounded-full p-1.5 bg-black/40 backdrop-blur-xl">
                 <i data-lucide="search" class="ml-4 text-white/30 w-5 h-5"></i>
-                <input type="text" id="ai-search-input" placeholder="Search Style, Beauty or Tech..." class="flex-grow bg-transparent text-white/90 text-sm py-3 px-4 outline-none">
-                
-                <div class="flex items-center gap-2 pr-2">
-                    <button id="mic-btn" class="p-2.5 hover:bg-white/5 rounded-full transition-all" onclick="startVoiceSearch()">
-                        <i data-lucide="mic" class="w-5 h-5 text-[#BF953F]"></i>
-                    </button>
-                    <button class="gold-text flex items-center gap-2 py-2.5 px-6 rounded-full text-xs font-bold bg-white/5 hover:bg-white/10" onclick="alert('Camera Scan Active')">
-                        <i data-lucide="camera" class="w-4 h-4"></i>
-                    </button>
-                </div>
+                <input type="text" id="ai-search-input" placeholder="Search skin, gadgets, or clothes..." class="flex-grow bg-transparent text-white text-sm py-3 px-4 outline-none">
+                <button id="mic-btn" onclick="startVoiceSearch()" class="p-2.5 hover:bg-white/5 rounded-full"><i data-lucide="mic" class="text-[#BF953F] w-5 h-5"></i></button>
+                <button onclick="document.getElementById('image-upload').click()" class="gold-text py-2.5 px-6 rounded-full text-xs font-bold bg-white/5 flex items-center gap-2">
+                    <i data-lucide="camera" class="w-4 h-4"></i> <span class="hidden sm:inline">Visual AI</span>
+                </button>
+                <input type="file" id="image-upload" class="hidden" onchange="alert('GIA is analyzing your photo...')">
             </div>
         </section>
 
         <section class="mb-20">
-            <div class="flex justify-between items-end mb-10">
-                <h3 class="text-xs font-bold tracking-[0.4em] uppercase text-[#BF953F]">AI Intelligence Grid</h3>
-                <button onclick="logout()" class="text-[8px] uppercase tracking-widest text-red-500/60 hover:text-red-500">Exit Vault</button>
+            <h3 class="text-[10px] font-bold tracking-[0.4em] uppercase text-[#BF953F] mb-10">AI Curated Picks</h3>
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
+        </section>
+
+        <section id="combo-area" class="mb-20 hidden">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-[10px] font-bold tracking-[0.4em] uppercase text-[#BF953F]">GIA Suggested Bundle</h3>
+                <a href="combos.html" id="view-more-btn" class="text-[10px] gold-text font-bold uppercase tracking-widest border-b border-[#BF953F] pb-1">View More Combos</a>
             </div>
-            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"></div>
+            <div id="dynamic-combo-card" class="p-10 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl">
+                </div>
         </section>
     </main>
 
-    <div id="analysis-modal">
-        <div class="bg-[#04241a] border border-[#BF953F]/30 max-w-2xl w-[92%] rounded-[2.5rem] p-8 relative overflow-y-auto max-h-[90vh]">
-            <button onclick="closeAnalysis()" class="absolute top-8 right-8 text-white/30 hover:text-white"><i data-lucide="x"></i></button>
+    <div id="details-modal">
+        <div class="max-w-xl mx-auto px-6 relative">
+            <button onclick="closeDetails()" class="fixed top-8 right-8 text-white/40 hover:text-white z-50"><i data-lucide="x"></i></button>
             <div id="modal-content"></div>
         </div>
     </div>
 
     <footer class="py-16 text-center border-t border-white/5">
-        <h2 class="gold-text text-xl italic mb-6">GIA LUXE</h2>
-        <p class="text-[9px] leading-relaxed max-w-md mx-auto px-6 text-white/30 italic">Disclaimer: GIA is an AI-powered affiliate platform. We earn commissions on qualifying purchases.</p>
+        <h2 class="royal-logo gold-text text-xl italic mb-4">GIA LUXE</h2>
+        <p class="text-[9px] text-white/30 italic max-w-xs mx-auto">GIA is an AI-powered affiliate platform. © 2026 All Rights Reserved.</p>
     </footer>
 
     <script>
         lucide.createIcons();
 
-        /* DATABASE: CATEGORY-WISE */
         const allDatabase = [
-            { id: 1, category: 'fashion', name: "Emerald Linen Shirt", price: "2,499", score: 98, sentiment: "Bhai, pure linen hai, bindass le lo!", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400", styleTip: "Pair this with white trousers for an elite summer look." },
-            { id: 101, category: 'beauty', name: "Salicylic Face Wash", price: "499", score: 95, sentiment: "Oily skin ke liye ye best hai.", img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400", routine: "1. Cleanse with this. \n2. Apply Serum. \n3. Sunscreen is must!", before: "Use a makeup remover if needed.", after: "Apply a light moisturizer." },
-            { id: 201, category: 'tech', name: "ANC Earbuds Pro", price: "4,499", score: 92, sentiment: "Bhai, noise cancellation next level hai.", img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400", specs: "24h Battery, 10mm Drivers, IPX5", use: "Long press right bud to toggle ANC mode." }
+            { id: 1, category: 'fashion', name: "Emerald Linen Shirt", price: "2,499", match: "98.4", returns: "Very Low", rating: "4.8 / 5", seller: "Certified", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600", sentiment: "Bhai, ye shirt pure linen se bani hai jo summer parties ke liye best hai. GIA analysis dikhata hai ki iska color light skin tone par bohot royal lagta hai. White trousers ke sath ye look elite ban jayega!" },
+            { id: 101, category: 'beauty', name: "Salicylic Face Wash", price: "499", match: "95.2", returns: "Low", rating: "4.9 / 5", seller: "Verified", img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600", sentiment: "Bhai, pimples ke liye ye sabse effective cleanser hai. Iske baad light moisturizer zaroor lagayein." },
+            { id: 201, category: 'tech', name: "ANC Earbuds Pro", price: "4,499", match: "92.8", returns: "Medium", rating: "4.7 / 5", seller: "Premium", img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600", sentiment: "Noise cancellation kamaal ka hai. Gym aur travel ke liye perfect choice hai." }
         ];
 
-        window.onload = function() {
-            const savedName = localStorage.getItem('giaUserName');
-            if(savedName) {
-                document.getElementById('header-user-name').innerText = savedName;
-                document.getElementById('hero-user-name').innerText = savedName;
-                document.getElementById('user-avatar').src = localStorage.getItem('giaUserDP') || `https://api.dicebear.com/7.x/avataaars/svg?seed=${savedName}`;
-            }
-            renderResults(allDatabase);
+        window.onload = () => {
+            const name = localStorage.getItem('giaUserName') || 'Stylist';
+            document.getElementById('header-user-name').innerText = name;
+            document.getElementById('hero-user-name').innerText = name;
+            document.getElementById('user-avatar').src = localStorage.getItem('giaUserDP') || `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`;
+            renderProducts(allDatabase);
         };
 
-        /* SEARCH LOGIC */
-        document.getElementById('ai-search-input').addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            const filtered = allDatabase.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
-            renderResults(filtered);
-        });
-
-        function renderResults(results) {
+        function renderProducts(data) {
             const grid = document.getElementById('product-grid');
-            grid.innerHTML = results.map(p => `
-                <div class="product-card p-6 relative group" onclick="openGiaAssistant(${p.id})">
-                    <div class="absolute top-4 left-4 bg-black/80 text-[#BF953F] text-[8px] font-bold px-2 py-1 rounded border border-[#BF953F]/40 uppercase">${p.category}</div>
-                    <img src="${p.img}" class="w-full h-52 object-cover mb-5 rounded-2xl">
-                    <h4 class="text-sm font-bold text-white/90">${p.name}</h4>
+            grid.innerHTML = data.map(p => `
+                <div class="product-card p-6" onclick="openDetails(${p.id})">
+                    <img src="${p.img}" class="w-full h-52 object-cover rounded-2xl mb-4">
+                    <h4 class="text-sm font-bold text-white/80">${p.name}</h4>
                     <p class="text-xl font-black mt-2">₹${p.price}</p>
                 </div>
             `).join('');
+            
+            // Show combo only when searching
+            const comboArea = document.getElementById('combo-area');
+            if(data.length < allDatabase.length && data.length > 0) {
+                comboArea.classList.remove('hidden');
+                updateDynamicCombo(data[0]);
+            } else {
+                comboArea.classList.add('hidden');
+            }
             lucide.createIcons();
         }
 
-        /* VOICE SEARCH */
-        function startVoiceSearch() {
-            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-            recognition.lang = 'en-US';
-            const micBtn = document.querySelector('#mic-btn i');
-            
-            recognition.onstart = () => micBtn.classList.add('mic-active');
-            recognition.onresult = (event) => {
-                const transcript = event.results[0][0].transcript;
-                document.getElementById('ai-search-input').value = transcript;
-                document.getElementById('ai-search-input').dispatchEvent(new Event('input'));
-                micBtn.classList.remove('mic-active');
-            };
-            recognition.start();
-        }
+        document.getElementById('ai-search-input').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = allDatabase.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
+            renderProducts(filtered);
+        });
 
-        /* AI ASSISTANT DIALOGUE */
-        function openGiaAssistant(id) {
-            const p = allDatabase.find(x => x.id === id);
-            const modal = document.getElementById('analysis-modal');
-            const content = document.getElementById('modal-content');
+        function updateDynamicCombo(product) {
+            const comboCard = document.getElementById('dynamic-combo-card');
+            const searchVal = document.getElementById('ai-search-input').value;
+            // Update "View More" link with search query
+            document.getElementById('view-more-btn').href = `combos.html?query=${searchVal}`;
 
-            let aiQuestion = "";
-            if(p.category === 'beauty') aiQuestion = "Bhai, kya aapko iska **Routine** aur **Use method** janna hai?";
-            else if(p.category === 'tech') aiQuestion = "Bhai, iske **Specs** aur **Kaise use karein** bataun?";
-            else aiQuestion = "Bhai, iska **Styling Tip** dekhna hai?";
-
-            content.innerHTML = `
-                <div class="flex flex-col md:flex-row gap-8">
-                    <img src="${p.img}" class="w-full md:w-1/2 rounded-3xl border border-[#BF953F]/20 shadow-2xl">
-                    <div class="flex-1">
-                        <h2 class="text-3xl gold-text italic font-serif">${p.name}</h2>
-                        <div class="sentiment-box my-6">"${p.sentiment}"</div>
-                        
-                        <div id="ai-chat-box" class="bg-black/30 p-6 rounded-2xl border border-white/5">
-                            <p class="text-xs text-[#BF953F] font-bold mb-2">GIA Assistant:</p>
-                            <p class="text-sm text-white/80 mb-6">${aiQuestion}</p>
-                            <button onclick="askGia('detail', ${p.id})" class="bg-[#BF953F] text-black text-[10px] font-black px-6 py-3 rounded-full uppercase tracking-widest hover:scale-105 transition-all">Yes, Explain Me</button>
+            comboCard.innerHTML = `
+                <div class="flex flex-col lg:flex-row items-center gap-12">
+                    <div class="w-full lg:w-1/2">
+                        <h4 class="text-xs gold-text font-bold mb-6 uppercase tracking-[0.3em]">AI Suggested Bundle for "${product.name}"</h4>
+                        <div class="flex items-center gap-6">
+                            <div class="w-24 h-24 bg-white/5 rounded-2xl border border-[#BF953F]/30 p-1"><img src="${product.img}" class="w-full h-full object-cover rounded-xl"></div>
+                            <span class="text-2xl text-white/20">+</span>
+                            <div class="w-24 h-24 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-center"><i data-lucide="plus" class="text-white/10"></i></div>
+                            <span class="text-2xl text-white/20">+</span>
+                            <div class="w-24 h-24 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-center"><i data-lucide="plus" class="text-white/10"></i></div>
                         </div>
+                    </div>
+                    <div class="w-full lg:w-1/2">
+                        <p class="text-sm italic text-white/60 mb-8 leading-relaxed">"Bhai, kyunki aapne ${product.name} search kiya hai, GIA ne uske sath match hone wale aur items bundle kiye hain perfect look ke liye."</p>
+                        <button onclick="window.location.href='combos.html?query=${searchVal}'" class="bg-[#BF953F] text-black px-10 py-4 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#FCF6BA] transition-all shadow-xl">Build My Bundle</button>
                     </div>
                 </div>
             `;
-            modal.style.display = 'flex';
+            lucide.createIcons();
         }
 
-        function askGia(type, id) {
+        function openDetails(id) {
             const p = allDatabase.find(x => x.id === id);
-            const chatBox = document.getElementById('ai-chat-box');
-            
-            let response = "";
-            if(p.category === 'beauty') {
-                response = `<p class="mb-4"><b>Before:</b> ${p.before}</p>
-                            <p class="mb-4"><b>Routine:</b><br>${p.routine}</p>
-                            <p><b>After:</b> ${p.after}</p>`;
-            } else if(p.category === 'tech') {
-                response = `<p class="mb-4"><b>Specs:</b> ${p.specs}</p>
-                            <p><b>Pro Tip:</b> ${p.use}</p>`;
-            } else {
-                response = `<p><b>Styling Tip:</b> ${p.styleTip}</p>`;
-            }
-
-            chatBox.innerHTML = `
-                <p class="text-xs text-[#BF953F] font-bold mb-4">GIA's Guide:</p>
-                <div class="text-sm text-white/70 leading-relaxed">${response}</div>
-                <button onclick="window.open('https://amazon.in')" class="mt-6 w-full border border-[#BF953F] text-[#BF953F] py-3 rounded-full text-[10px] font-black uppercase">Buy Product</button>
+            const modal = document.getElementById('details-modal');
+            const content = document.getElementById('modal-content');
+            content.innerHTML = `
+                <div class="bg-[#04241a] rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl">
+                    <div class="relative">
+                        <img src="${p.img}" class="w-full h-[450px] object-cover">
+                        <div class="absolute bottom-6 left-6 bg-black/60 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
+                            <p class="text-[8px] uppercase text-white/60 mb-1">GIA STYLE MATCH</p>
+                            <p class="text-green-400 font-bold">${p.match}% Accuracy</p>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <p class="text-[10px] gold-text font-bold uppercase tracking-[0.2em] mb-2">AMAZON PREMIUM</p>
+                        <h2 class="text-4xl royal-logo gold-text italic mb-4">${p.name}</h2>
+                        <div class="flex items-center gap-4 mb-8">
+                            <span class="text-2xl font-bold">₹${p.price}</span>
+                            <span class="text-[8px] border border-white/20 px-2 py-1 rounded text-white/40 uppercase">Verified Price</span>
+                        </div>
+                        <div class="stylist-lens-box mb-8">
+                            <p class="text-[10px] gold-text font-black uppercase mb-3 flex items-center gap-2"><i data-lucide="sparkles" class="w-3 h-3"></i> GIA STYLIST LENS</p>
+                            <p class="text-sm text-white/80 leading-relaxed italic">"${p.sentiment}"</p>
+                        </div>
+                        <div class="grid grid-cols-3 gap-3 mb-10">
+                            <div class="stat-badge"><p class="text-[8px] text-white/30 mb-1 uppercase">Returns</p><p class="text-[10px] font-bold">${p.returns}</p></div>
+                            <div class="stat-badge"><p class="text-[8px] text-white/30 mb-1 uppercase">Rating</p><p class="text-[10px] font-bold">${p.rating}</p></div>
+                            <div class="stat-badge"><p class="text-[8px] text-white/30 mb-1 uppercase">Seller</p><p class="text-[10px] font-bold text-green-400">${p.seller}</p></div>
+                        </div>
+                        <button onclick="window.open('https://amazon.in')" class="w-full bg-gradient-to-r from-[#BF953F] to-[#B38728] text-black py-5 rounded-full font-black uppercase text-[12px] tracking-widest shadow-xl">Purchase at Brand Store</button>
+                    </div>
+                </div>
             `;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
         }
 
-        function closeAnalysis() { document.getElementById('analysis-modal').style.display = 'none'; }
-        function logout() { localStorage.clear(); window.location.href = 'login.html'; }
+        function closeDetails() {
+            document.getElementById('details-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function startVoiceSearch() {
+            const rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            rec.lang = 'en-US';
+            rec.onstart = () => document.querySelector('#mic-btn i').classList.add('mic-active');
+            rec.onresult = (e) => {
+                document.getElementById('ai-search-input').value = e.results[0][0].transcript;
+                document.getElementById('ai-search-input').dispatchEvent(new Event('input'));
+                document.querySelector('#mic-btn i').classList.remove('mic-active');
+            };
+            rec.start();
+        }
     </script>
 </body>
 </html>
