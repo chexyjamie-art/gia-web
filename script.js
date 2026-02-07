@@ -244,3 +244,58 @@ function handlePhotoUpload(event) {
 }
 
 console.log("GIA System Online: Structure Fixed, Intelligence Integrated.");
+
+// GIA Combo Intelligence Data
+const comboKnowledge = {
+    "emerald": {
+        name: "Emerald 'Old Money' Look",
+        items: [
+            { n: "Linen Shirt", p: 2499, i: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=150" },
+            { n: "Charcoal Chinos", p: 1899, i: "https://images.unsplash.com/photo-1624373666563-54ec85a14962?w=150" },
+            { n: "Tan Loafers", p: 2900, i: "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=150" }
+        ],
+        reason: "Bhai, Emerald green ke saath Charcoal grey ka combination kaafi sophisticated lagta hai. Linen texture summer evening ke liye best hai.",
+        score: "9.8"
+    }
+    // Baaki products ka data yahan add hoga
+};
+
+function triggerCombo(type = "emerald") {
+    const data = comboKnowledge[type];
+    const container = document.getElementById('combo-items-container');
+    if(!container) return;
+
+    container.innerHTML = "";
+    let total = 0;
+
+    data.items.forEach((item, index) => {
+        container.innerHTML += `
+            <div class="relative group flex-shrink-0">
+                <div class="check-tick-container"><i data-lucide="check" class="w-3 h-3"></i></div>
+                <div class="w-32 h-44 bg-white rounded-[2rem] border border-gray-100 p-4 shadow-sm flex flex-col items-center justify-center">
+                    <img src="${item.i}" class="w-20 h-20 object-cover rounded-xl mb-2 group-hover:scale-110 transition-transform">
+                    <p class="text-[8px] font-bold text-center uppercase text-black">${item.n}</p>
+                    <p class="text-[10px] text-[#BF953F] font-black mt-1">₹${item.p}</p>
+                </div>
+            </div>
+        `;
+        total += item.p;
+        if (index < data.items.length - 1) {
+            container.innerHTML += `<span class="text-gray-300 font-black text-xl">+</span>`;
+        }
+    });
+
+    document.getElementById('combo-name').innerText = data.name;
+    document.getElementById('combo-reasoning').innerText = data.reason;
+    document.getElementById('combo-score').innerText = data.score;
+    document.getElementById('combo-total').innerText = `₹${total.toLocaleString()}`;
+    
+    lucide.createIcons();
+    giaSpeak(`Rahul, maine is product ke liye ek perfect combo set kiya hai. Iska style score ${data.score} hai.`);
+}
+
+// Page load par pehla combo dikhao
+window.addEventListener('load', () => {
+    setTimeout(() => triggerCombo('emerald'), 2000);
+});
+
