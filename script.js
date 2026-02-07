@@ -344,4 +344,71 @@ function displayAIResults(aiConfidenceScore, matchedProducts) {
     });
 }
 
+// GIA Smart Confidence & Brand Intelligence
+function processAIResults(confidenceScore, searchMatches) {
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = ""; 
+    
+    // User's style profile (future mein hum ise database se uthayenge)
+    const userPreference = ["U.S. Polo Assn.", "Nike", "Levi's"]; 
+
+    let displayList = [];
+    let giaMessage = "";
+
+    // 1. DYNAMIC SCALING LOGIC
+    if (confidenceScore >= 95) {
+        // High Confidence: Exact Match across different brands (Max 3-4)
+        displayList = searchMatches.filter(p => p.score >= 95).slice(0, 4);
+        giaMessage = "Rahul, mujhe exactly wahi designs mil gaye hain jo aap dhoond rahe hain. Alag-alag brands mein best options ye rahe!";
+    } 
+    else if (confidenceScore >= 60) {
+        // Medium Confidence: Show top matches (Max 6)
+        displayList = searchMatches.slice(0, 6);
+        giaMessage = "Rahul, ye products aapke criteria se kaafi match karte hain. Check kijiye!";
+    } 
+    else {
+        // Low Confidence (<60%): AI Discovery Mode (Max 12)
+        displayList = searchMatches.slice(0, 12);
+        giaMessage = "Rahul, exact match toh nahi mila, par ye options aapke style ke hisab se best hain.";
+    }
+
+    // 2. HANDLE "NO PRODUCTS FOUND"
+    if (displayList.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-20 text-white/50 italic">
+            "Sorry Rahul, filhal aisa koi product humare partner brands ke paas nahi hai jo aapke search se match kare."
+        </div>`;
+        giaSpeak("I'm sorry Rahul, par abhi aisa koi product available nahi hai.");
+        return;
+    }
+
+    // 3. RENDER PRODUCTS WITH STOCK STATUS
+    displayList.forEach(p => {
+        const isSoldOut = p.stock === 0; // Logic for sold out
+        
+        grid.innerHTML += `
+            <div class="product-card p-6 relative group ${isSoldOut ? 'opacity-60 grayscale' : ''}" onclick="${isSoldOut ? '' : `openAnalysis(${p.id})`}">
+                <div class="absolute top-4 left-4 bg-black/80 text-[#BF953F] text-[9px] font-bold px-2 py-1 rounded-md border border-[#BF953F]/40">
+                    ${confidenceScore}% AI MATCH
+                </div>
+
+                ${isSoldOut ? `<div class="absolute inset-0 flex items-center justify-center z-10 font-black text-red-500 text-xl rotate-12">SOLD OUT</div>` : ''}
+                
+                <img src="${p.img}" class="w-full h-48 object-cover mb-4 rounded-md">
+                
+                <h4 class="text-sm font-semibold mb-1 text-black">${p.name}</h4>
+                <p class="text-[10px] text-gray-500 uppercase font-bold">${p.brand} • ${isSoldOut ? 'Out of Stock' : 'Live Price'}</p>
+                
+                <div class="flex justify-between items-center mt-3">
+                    <p class="text-lg font-bold text-gray-900">₹${p.price}</p>
+                    <button class="${isSoldOut ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#1a1a1a] hover:bg-[#BF953F]'} text-white px-4 py-2 rounded-full text-[10px] font-bold">
+                        ${isSoldOut ? 'NOTIFY ME' : 'DETAILS'}
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+
+    giaSpeak(giaMessage);
+}
+
 
