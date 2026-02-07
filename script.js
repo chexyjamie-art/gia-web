@@ -299,3 +299,49 @@ window.addEventListener('load', () => {
     setTimeout(() => triggerCombo('emerald'), 2000);
 });
 
+// GIA Smart Confidence Logic
+function displayAIResults(aiConfidenceScore, matchedProducts) {
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = ""; // Clear old results
+
+    let productsToShow = [];
+
+    // 1. CONFIDENCE SCALING LOGIC
+    if (aiConfidenceScore >= 95) {
+        // High Confidence: Exact Match
+        productsToShow = matchedProducts.slice(0, 1); 
+        giaSpeak("Rahul, mujhe 100% confidence hai ki ye wahi product hai jo aap dhoond rahe ho!");
+    } 
+    else if (aiConfidenceScore >= 80) {
+        // Medium Confidence: Top 4 matches
+        productsToShow = matchedProducts.slice(0, 4);
+        giaSpeak("Rahul, mujhe ye 4 products kaafi similar lage hain. Check kar lijiye.");
+    } 
+    else {
+        // Low Confidence: Show up to 12 similar products
+        productsToShow = matchedProducts.slice(0, 12);
+        giaSpeak("Rahul, thoda confusion hai, par ye 12 options aapke search se kaafi match karte hain.");
+    }
+
+    // 2. RENDER PRODUCTS WITH ANALYSIS
+    productsToShow.forEach(p => {
+        grid.innerHTML += `
+            <div class="product-card p-6 relative group" onclick="openAnalysis(${p.id})">
+                <div class="absolute top-4 left-4 bg-black/80 text-[#BF953F] text-[9px] font-bold px-2 py-1 rounded-md border border-[#BF953F]/40">
+                    ${aiConfidenceScore}% AI CONFIDENCE
+                </div>
+                
+                <img src="${p.img}" class="w-full h-48 object-cover mb-4 rounded-md group-hover:scale-105 transition-transform">
+                <h4 class="text-sm font-semibold mb-1 text-black">${p.name}</h4>
+                <p class="text-[10px] text-gray-500 uppercase font-bold">${p.brand} • AI Verified</p>
+                
+                <div class="flex justify-between items-center mt-3">
+                    <p class="text-lg font-bold text-gray-900">₹${p.price}</p>
+                    <button class="bg-[#1a1a1a] text-white px-4 py-2 rounded-full text-[10px] font-bold">VIEW TRUTH</button>
+                </div>
+            </div>
+        `;
+    });
+}
+
+
