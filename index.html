@@ -41,6 +41,10 @@
         }
         .product-card:hover { transform: translateY(-5px); border: 1px solid #BF953F; background: rgba(255, 255, 255, 0.06); }
 
+        /* COMBO CARD SPECIAL HOVER */
+        #gia-combo-card { cursor: pointer; transition: all 0.4s ease; }
+        #gia-combo-card:hover { border-color: #BF953F; transform: scale(1.01); background: rgba(255, 255, 255, 0.04); }
+
         .ai-scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(to right, transparent, #BF953F, transparent); animation: scan 2s infinite linear alternate; display: none; }
         @keyframes scan { 0% { transform: translateY(0%); opacity: 0.5; } 100% { transform: translateY(100%); opacity: 1; } }
 
@@ -98,24 +102,42 @@
         </section>
 
         <section id="combo-area" class="mb-20">
-            <div id="gia-combo-card" class="p-8 md:p-12 rounded-[2.5rem] bg-white/[0.02] border border-white/10 backdrop-blur-3xl">
-                <div class="flex flex-col lg:flex-row items-center gap-12">
+            <div id="gia-combo-card" onclick="window.location.href='combos.html'" class="p-8 md:p-12 rounded-[2.5rem] bg-white/[0.02] border border-white/10 backdrop-blur-3xl relative overflow-hidden group">
+                
+                <div class="absolute -right-10 -top-10 w-40 h-40 bg-[#BF953F]/10 blur-[80px] rounded-full"></div>
+
+                <div class="flex flex-col lg:flex-row items-center gap-12 relative z-10">
                     <div class="w-full lg:w-1/2">
                         <div class="flex items-center gap-4 mb-8">
                             <div class="w-12 h-12 bg-black rounded-full flex items-center justify-center border border-[#BF953F]"><i data-lucide="sparkles" class="w-6 h-6 gold-icon"></i></div>
                             <div>
-                                <h3 class="text-xl font-serif gold-text italic">GIA Style Recommendation</h3>
-                                <p class="text-[9px] uppercase tracking-[0.3em] text-white/30 font-bold">Match Score: <span id="combo-score" class="text-green-500">--</span></p>
+                                <h3 class="text-xl font-serif gold-text italic">GIA Master Combos</h3>
+                                <p class="text-[9px] uppercase tracking-[0.3em] text-white/30 font-bold">Discover Curated Sets</p>
                             </div>
                         </div>
-                        <div id="combo-items-container" class="flex items-center gap-4 overflow-x-auto no-scrollbar py-4 min-h-[100px]"><p class="text-white/20 italic text-xs">Select a product...</p></div>
+                        <div id="combo-items-container" class="flex items-center gap-4 overflow-x-auto no-scrollbar py-4 min-h-[100px]">
+                            <div class="flex gap-6 items-center">
+                                <i data-lucide="shirt" class="text-white/40 w-8 h-8"></i>
+                                <span class="text-white/20">+</span>
+                                <i data-lucide="smartphone" class="text-white/40 w-8 h-8"></i>
+                                <span class="text-white/20">+</span>
+                                <i data-lucide="beaker" class="text-white/40 w-8 h-8"></i>
+                            </div>
+                        </div>
                     </div>
                     <div class="w-full lg:w-1/2 lg:border-l border-white/10 lg:pl-12">
-                        <h4 class="text-lg font-bold mb-4 text-white uppercase tracking-widest">Ensemble Preview</h4>
-                        <div class="sentiment-box mb-8 text-xs leading-relaxed"><p id="combo-reasoning" class="text-white/70">"Waiting for your choice!"</p></div>
+                        <h4 class="text-lg font-bold mb-4 text-white uppercase tracking-widest">The Lifestyle Engine</h4>
+                        <div class="sentiment-box mb-8 text-xs leading-relaxed">
+                            <p id="combo-reasoning" class="text-white/70 italic">"Bhai, GIA ne aapke liye Tech, Fashion aur Skincare ke best combos prepare kiye hain. Ek click mein pura system dekho."</p>
+                        </div>
                         <div class="flex items-center justify-between">
-                            <div><p class="text-[9px] text-white/30 uppercase font-bold tracking-tighter">Total Investment</p><p id="combo-total" class="text-2xl font-black gold-text">₹0</p></div>
-                            <button class="bg-[#BF953F] text-black px-10 py-4 rounded-full text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all">Secure Look</button>
+                            <div>
+                                <p class="text-[9px] text-white/30 uppercase font-bold tracking-tighter">Starting From</p>
+                                <p id="combo-total" class="text-2xl font-black gold-text">₹3,250</p>
+                            </div>
+                            <button class="bg-[#BF953F] text-black px-10 py-4 rounded-full text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl group-hover:bg-[#FCF6BA]">
+                                Explore Vault
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -138,7 +160,7 @@
 
     <footer class="py-16 text-center border-t border-white/5 mt-20">
         <h2 class="gold-text text-xl italic mb-6">GIA LUXE</h2>
-        <p id="legal-disclaimer" class="text-[9px] leading-relaxed max-w-md mx-auto px-6 text-white/30 italic">GIA is an AI-powered affiliate platform.</p>
+        <p id="legal-disclaimer" class="text-[9px] leading-relaxed max-w-md mx-auto px-6 text-white/30 italic">GIA is an AI-powered affiliate platform. We earn commissions on qualifying purchases. We are not responsible for product integrity or delivery issues from third-party sellers.</p>
     </footer>
 
     <script>
@@ -179,9 +201,7 @@
             lucide.createIcons();
         }
 
-        // REDIRECT TO NEW CINEMATIC PAGE
         function goToProductDetail(id) {
-            // Hum detail page par data bhej rahe hain via URL
             window.location.href = `product-detail.html?id=${id}`;
         }
 
