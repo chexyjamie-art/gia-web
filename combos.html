@@ -3,165 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | Lifestyle Combos</title>
+    <title>GIA LUXE | Lifestyle Bundles</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    
     <style>
         body { 
-            background: #04241a;
-            background-image: radial-gradient(circle at 50% 50%, #063a2a 0%, #04241a 100%);
+            background: #021a12;
             font-family: 'Inter', sans-serif; color: white; min-height: 100vh;
         }
-        .gold-text {
-            background: linear-gradient(to bottom, #BF953F, #FCF6BA, #B38728, #AA771C);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            font-family: 'Playfair Display', serif;
+        .royal-logo { font-family: 'Playfair Display', serif; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; }
+        .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .combo-card { 
+            background: rgba(255, 255, 255, 0.03); 
+            border: 1px solid rgba(191, 149, 63, 0.1); 
+            transition: 0.4s;
         }
-        .combo-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(191, 149, 63, 0.1);
-            border-radius: 2.5rem;
-            transition: all 0.4s ease;
-        }
-        .combo-card:hover {
-            border-color: #BF953F;
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-        .category-pill {
-            padding: 8px 20px;
-            border-radius: 99px;
-            font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border: 1px solid rgba(255,255,255,0.1);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .category-pill.active {
-            background: #BF953F; color: #04241a; border-color: #BF953F;
-        }
-        .item-dot {
-            width: 8px; height: 8px; background: #BF953F; border-radius: 50%;
-            display: inline-block; margin-right: 8px; box-shadow: 0 0 10px #BF953F;
-        }
+        .combo-card:hover { border-color: #BF953F; transform: scale(1.02); }
     </style>
 </head>
-<body class="pb-20">
+<body>
 
-    <header class="p-8 flex justify-between items-center sticky top-0 z-50 backdrop-blur-md">
-        <button onclick="window.history.back()" class="text-[#BF953F]"><i data-lucide="arrow-left"></i></button>
-        <h1 class="text-2xl gold-text italic tracking-widest">Master Combos</h1>
-        <i data-lucide="sparkles" class="text-[#BF953F] animate-pulse"></i>
+    <header class="py-6 px-8 border-b border-[#BF953F]/20 sticky top-0 bg-[#021a12]/80 backdrop-blur-md z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button onclick="history.back()" class="text-[#BF953F] flex items-center gap-2 text-xs font-bold tracking-widest uppercase">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
+            </button>
+            <h1 class="text-xl royal-logo gold-text">GIA BUNDLES</h1>
+            <div class="w-10"></div> </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-6">
-        
-        <div class="flex flex-wrap gap-4 justify-center mb-16">
-            <div class="category-pill active">All Looks</div>
-            <div class="category-pill">Fashion</div>
-            <div class="category-pill">Tech Ecosystem</div>
-            <div class="category-pill">Glow Routine</div>
-        </div>
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        <header class="mb-12">
+            <h2 id="page-title" class="text-3xl royal-logo gold-text italic mb-2">Curated Vault</h2>
+            <p class="text-white/40 text-sm">Bhai, GIA ne aapke style ke liye ye exclusive combos select kiye hain.</p>
+        </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-            
-            <div class="combo-card p-8 group">
-                <div class="relative h-72 rounded-2xl overflow-hidden mb-6">
-                    <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#04241a] to-transparent"></div>
-                    <div class="absolute bottom-4 left-4">
-                        <span class="bg-black/60 text-[#BF953F] text-[8px] px-3 py-1 rounded-full border border-[#BF953F]/30 uppercase font-black tracking-widest">Fashion Bundle</span>
-                        <h3 class="text-2xl font-serif italic mt-2">The Midnight CEO</h3>
-                    </div>
-                </div>
-                <ul class="space-y-3 mb-8 text-sm text-white/70">
-                    <li><span class="item-dot"></span> Italian Slim Suit (Wool Blend)</li>
-                    <li><span class="item-dot"></span> Silk Maroon Tie + Pocket Square</li>
-                    <li><span class="item-dot"></span> Oxford Leather Brogues</li>
-                    <li><span class="item-dot"></span> GIA Choice: Gold Wristwatch</li>
-                </ul>
-                <div class="flex justify-between items-center border-t border-white/10 pt-6">
-                    <div><p class="text-[10px] text-white/40 uppercase">Combo Value</p><p class="text-2xl font-black gold-text">₹15,499</p></div>
-                    <button class="bg-white text-black px-6 py-3 rounded-full text-[10px] font-black uppercase hover:bg-[#BF953F] transition-all">Get Full Look</button>
-                </div>
+        <div id="bundles-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
             </div>
-
-            <div class="combo-card p-8 group">
-                <div class="relative h-72 rounded-2xl overflow-hidden mb-6">
-                    <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=800" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#04241a] to-transparent"></div>
-                    <div class="absolute bottom-4 left-4">
-                        <span class="bg-black/60 text-[#BF953F] text-[8px] px-3 py-1 rounded-full border border-[#BF953F]/30 uppercase font-black tracking-widest">Tech Ecosystem</span>
-                        <h3 class="text-2xl font-serif italic mt-2">The Productivity Kit</h3>
-                    </div>
-                </div>
-                <ul class="space-y-3 mb-8 text-sm text-white/70">
-                    <li><span class="item-dot"></span> Android Flagship (12GB RAM)</li>
-                    <li><span class="item-dot"></span> ANC Wireless Earbuds (Hi-Res)</li>
-                    <li><span class="item-dot"></span> Suede Texture Back Cover</li>
-                    <li><span class="item-dot"></span> 65W GaN Fast Charger</li>
-                </ul>
-                <div class="flex justify-between items-center border-t border-white/10 pt-6">
-                    <div><p class="text-[10px] text-white/40 uppercase">Combo Value</p><p class="text-2xl font-black gold-text">₹74,200</p></div>
-                    <button class="bg-white text-black px-6 py-3 rounded-full text-[10px] font-black uppercase hover:bg-[#BF953F] transition-all">Shop System</button>
-                </div>
-            </div>
-
-            <div class="combo-card p-8 group">
-                <div class="relative h-72 rounded-2xl overflow-hidden mb-6">
-                    <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#04241a] to-transparent"></div>
-                    <div class="absolute bottom-4 left-4">
-                        <span class="bg-black/60 text-[#BF953F] text-[8px] px-3 py-1 rounded-full border border-[#BF953F]/30 uppercase font-black tracking-widest">Beauty Ritual</span>
-                        <h3 class="text-2xl font-serif italic mt-2">Glass Skin Routine</h3>
-                    </div>
-                </div>
-                <p class="text-[10px] text-[#BF953F] font-bold mb-4 uppercase italic">Target: Oily/Combination Skin</p>
-                <ul class="space-y-3 mb-8 text-sm text-white/70">
-                    <li><span class="item-dot"></span> Salicylic Acid Cleanser</li>
-                    <li><span class="item-dot"></span> Hyaluronic Acid Serum (Hydration)</li>
-                    <li><span class="item-dot"></span> Ceramide Matte Moisturizer</li>
-                    <li><span class="item-dot"></span> SPF 50+ Aqua Gel Sunscreen</li>
-                </ul>
-                <div class="flex justify-between items-center border-t border-white/10 pt-6">
-                    <div><p class="text-[10px] text-white/40 uppercase">Combo Value</p><p class="text-2xl font-black gold-text">₹3,250</p></div>
-                    <button class="bg-white text-black px-6 py-3 rounded-full text-[10px] font-black uppercase hover:bg-[#BF953F] transition-all">Buy Routine</button>
-                </div>
-            </div>
-
-            <div class="combo-card p-8 group">
-                <div class="relative h-72 rounded-2xl overflow-hidden mb-6">
-                    <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#04241a] to-transparent"></div>
-                    <div class="absolute bottom-4 left-4">
-                        <span class="bg-black/60 text-[#BF953F] text-[8px] px-3 py-1 rounded-full border border-[#BF953F]/30 uppercase font-black tracking-widest">Essentials</span>
-                        <h3 class="text-2xl font-serif italic mt-2">Urban Voyager</h3>
-                    </div>
-                </div>
-                <ul class="space-y-3 mb-8 text-sm text-white/70">
-                    <li><span class="item-dot"></span> Polarized Wayfarer Sunglasses</li>
-                    <li><span class="item-dot"></span> Genuine Leather Wallet</li>
-                    <li><span class="item-dot"></span> Signature Oud Perfume (30ml)</li>
-                    <li><span class="item-dot"></span> Minimalist Key Organizer</li>
-                </ul>
-                <div class="flex justify-between items-center border-t border-white/10 pt-6">
-                    <div><p class="text-[10px] text-white/40 uppercase">Combo Value</p><p class="text-2xl font-black gold-text">₹5,800</p></div>
-                    <button class="bg-white text-black px-6 py-3 rounded-full text-[10px] font-black uppercase hover:bg-[#BF953F] transition-all">Grab Bundle</button>
-                </div>
-            </div>
-
-        </div>
-
-        <p class="text-center mt-20 text-[8px] tracking-[1em] text-white/20 uppercase italic">Power by GIA LUXE Intelligence</p>
     </main>
 
     <script>
-        lucide.createIcons();
+        // Fake Bundles Database
+        const bundles = [
+            {
+                id: 1,
+                tag: "Night Out",
+                name: "The Emerald Elite",
+                keyword: "shirt",
+                items: [
+                    { name: "Emerald Linen Shirt", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400" },
+                    { name: "Silver Chrono Watch", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" },
+                    { name: "Oud Intense Perfume", img: "https://images.unsplash.com/photo-1541643600914-78b084683601?w=400" }
+                ],
+                totalPrice: "7,999",
+                discount: "15% Off"
+            },
+            {
+                id: 2,
+                tag: "Self Care",
+                name: "Glow & Clear Kit",
+                keyword: "beauty",
+                items: [
+                    { name: "Salicylic Face Wash", img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400" },
+                    { name: "Sunscreen SPF 50", img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=400" }
+                ],
+                totalPrice: "1,249",
+                discount: "10% Off"
+            }
+        ];
+
+        window.onload = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const query = urlParams.get('query')?.toLowerCase() || "";
+            
+            if(query) {
+                document.getElementById('page-title').innerText = `Bundles for "${query}"`;
+            }
+
+            const filtered = query 
+                ? bundles.filter(b => b.keyword.includes(query) || b.name.toLowerCase().includes(query))
+                : bundles;
+
+            renderBundles(filtered);
+            lucide.createIcons();
+        };
+
+        function renderBundles(data) {
+            const grid = document.getElementById('bundles-grid');
+            if(data.length === 0) {
+                grid.innerHTML = `<p class="text-white/20 italic">Bhai, is search ke liye koi bundle nahi mila. Try 'shirt' or 'beauty'.</p>`;
+                return;
+            }
+
+            grid.innerHTML = data.map(b => `
+                <div class="combo-card p-8 rounded-[2rem]">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <span class="text-[8px] gold-text font-black uppercase tracking-[0.3em]">${b.tag}</span>
+                            <h3 class="text-xl font-bold mt-1">${b.name}</h3>
+                        </div>
+                        <span class="bg-green-500/10 text-green-500 text-[10px] font-bold px-3 py-1 rounded-full border border-green-500/20">${b.discount}</span>
+                    </div>
+                    
+                    <div class="flex items-center gap-4 mb-8">
+                        ${b.items.map((item, idx) => `
+                            <div class="relative group">
+                                <img src="${item.img}" class="w-20 h-20 object-cover rounded-xl border border-white/10">
+                                <p class="text-[7px] text-white/40 mt-2 text-center w-20 truncate">${item.name}</p>
+                            </div>
+                            ${idx < b.items.length - 1 ? '<span class="text-white/20">+</span>' : ''}
+                        `).join('')}
+                    </div>
+
+                    <div class="flex justify-between items-center pt-6 border-t border-white/5">
+                        <div>
+                            <p class="text-[8px] text-white/30 uppercase tracking-widest">Bundle Price</p>
+                            <p class="text-2xl font-black italic gold-text">₹${b.totalPrice}</p>
+                        </div>
+                        <button class="bg-[#BF953F] text-black px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all">Buy Bundle</button>
+                    </div>
+                </div>
+            `).join('');
+        }
     </script>
 </body>
 </html>
