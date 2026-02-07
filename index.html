@@ -12,9 +12,7 @@
         /* LOGIN CHECK LOGIC */
         (function() {
             const userName = localStorage.getItem('giaUserName');
-            if (!userName) {
-                window.location.href = 'login.html';
-            }
+            if (!userName) { window.location.href = 'login.html'; }
         })();
     </script>
 
@@ -26,36 +24,27 @@
             background-size: cover; background-attachment: fixed; font-family: 'Inter', sans-serif; color: white; min-height: 100vh; overflow-x: hidden;
         }
 
-        /* SUMMONING ANIMATION (Match with Login Page) */
-        @keyframes giaSummon {
-            0% { opacity: 0; transform: scale(0.98); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-        @keyframes sectionSummon {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
+        /* SUMMONING ANIMATION */
+        @keyframes giaSummon { 0% { opacity: 0; transform: scale(0.98); } 100% { opacity: 1; transform: scale(1); } }
+        @keyframes sectionSummon { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
 
         .animate-summon-gia { animation: giaSummon 1.5s ease-out forwards; }
         .animate-summon-section { opacity: 0; animation: sectionSummon 1s ease-out 0.8s forwards; }
 
-        /* PREMIUM UI ELEMENTS */
         .gold-border { border: 1px solid #BF953F; box-shadow: 0 0 15px rgba(191, 149, 63, 0.3); }
         .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .gold-icon { color: #BF953F; }
 
-        /* PRODUCT CARDS */
         .product-card {
             background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); color: white; border-radius: 1.5rem; 
             transition: all 0.3s ease; border: 1px solid rgba(191, 149, 63, 0.1); cursor: pointer;
         }
         .product-card:hover { transform: translateY(-5px); border: 1px solid #BF953F; background: rgba(255, 255, 255, 0.06); }
 
-        /* AI SCANNING */
         .ai-scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(to right, transparent, #BF953F, transparent); animation: scan 2s infinite linear alternate; display: none; }
         @keyframes scan { 0% { transform: translateY(0%); opacity: 0.5; } 100% { transform: translateY(100%); opacity: 1; } }
 
-        #upload-overlay, #analysis-modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); z-index: 200; display: none; align-items: center; justify-content: center; flex-direction: column; backdrop-blur: 10px; }
+        #upload-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); z-index: 200; display: none; align-items: center; justify-content: center; flex-direction: column; backdrop-blur: 10px; }
         .ai-scan-box { border: 2px dashed #BF953F; width: 80%; max-width: 500px; height: 300px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; flex-direction: column; text-align: center; }
 
         .sentiment-box { background: rgba(191, 149, 63, 0.05); border-left: 4px solid #BF953F; padding: 1.25rem; border-radius: 0 1rem 1rem 0; font-style: italic; color: #eee; }
@@ -66,19 +55,17 @@
 
     <header class="py-6 px-4 md:px-8 border-b border-[#BF953F]/30 backdrop-blur-md sticky top-0 z-[100]">
         <nav class="max-w-7xl mx-auto flex justify-between items-center">
-            
             <button onclick="window.location.href='offers.html'" class="relative p-2.5 bg-white/5 rounded-full border border-[#BF953F]/20 hover:border-[#BF953F] transition-all group">
                 <i data-lucide="percent" class="w-5 h-5 text-[#BF953F] group-hover:scale-110 transition-transform"></i>
                 <span class="absolute -top-1 -right-1 bg-red-600 text-[8px] w-3.5 h-3.5 flex items-center justify-center rounded-full animate-pulse font-bold text-white">!</span>
             </button>
 
             <h1 class="text-2xl md:text-3xl font-serif italic tracking-widest gold-text cursor-pointer" onclick="window.location.href='index.html'">GIA LUXE</h1>
-            
+
             <div class="flex items-center gap-3 md:gap-6">
                 <button class="p-2 bg-white/5 rounded-full border border-white/10 hidden md:block">
                     <i data-lucide="bell" class="w-5 h-5 text-white/70"></i>
                 </button>
-                
                 <div class="flex items-center gap-3">
                     <p class="text-[9px] uppercase tracking-widest gold-text font-bold hidden sm:block" id="header-user-name">Loading...</p>
                     <div onclick="window.location.href='profile.html'" class="w-10 h-10 md:w-12 md:h-12 border border-[#BF953F] rounded-full p-0.5 cursor-pointer hover:scale-105 transition-transform">
@@ -90,11 +77,10 @@
     </header>
 
     <main class="max-w-7xl mx-auto px-6 md:px-8 py-12 animate-summon-section">
-
         <section class="text-center mb-24">
             <h2 class="text-4xl md:text-6xl font-serif italic gold-text mb-8 leading-tight">Welcome to the Vault, <br><span id="hero-user-name" class="font-bold">Style Enthusiast</span></h2>
             <p class="text-sm md:text-lg text-white/60 max-w-2xl mx-auto mb-12">GIA Vision is active. Experience pinpoint AI accuracy in luxury fashion.</p>
-            
+
             <div class="relative max-w-2xl mx-auto flex items-center border border-[#BF953F]/40 rounded-full p-1.5 bg-black/40 backdrop-blur-xl">
                 <input type="text" id="ai-search-input" placeholder="Search luxury style..." class="flex-grow bg-transparent text-white/90 text-sm py-3 px-6 outline-none">
                 <button class="gold-text flex items-center gap-2 py-2.5 px-6 rounded-full text-xs font-bold bg-white/5 hover:bg-white/10" onclick="toggleUploadOverlay()">
@@ -108,8 +94,7 @@
                 <h3 class="text-xs font-bold tracking-[0.4em] uppercase text-[#BF953F]">AI Curated Picks</h3>
                 <button onclick="logout()" class="text-[8px] uppercase tracking-widest text-red-500/60 hover:text-red-500">Exit Vault</button>
             </div>
-            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-                </div>
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"></div>
         </section>
 
         <section id="combo-area" class="mb-20">
@@ -117,46 +102,28 @@
                 <div class="flex flex-col lg:flex-row items-center gap-12">
                     <div class="w-full lg:w-1/2">
                         <div class="flex items-center gap-4 mb-8">
-                            <div class="w-12 h-12 bg-black rounded-full flex items-center justify-center border border-[#BF953F]">
-                                <i data-lucide="sparkles" class="w-6 h-6 gold-icon"></i>
-                            </div>
+                            <div class="w-12 h-12 bg-black rounded-full flex items-center justify-center border border-[#BF953F]"><i data-lucide="sparkles" class="w-6 h-6 gold-icon"></i></div>
                             <div>
                                 <h3 class="text-xl font-serif gold-text italic">GIA Style Recommendation</h3>
                                 <p class="text-[9px] uppercase tracking-[0.3em] text-white/30 font-bold">Match Score: <span id="combo-score" class="text-green-500">--</span></p>
                             </div>
                         </div>
-                        <div id="combo-items-container" class="flex items-center gap-4 overflow-x-auto no-scrollbar py-4 min-h-[100px]">
-                            <p class="text-white/20 italic text-xs">Select a product to generate an ensemble...</p>
-                        </div>
+                        <div id="combo-items-container" class="flex items-center gap-4 overflow-x-auto no-scrollbar py-4 min-h-[100px]"><p class="text-white/20 italic text-xs">Select a product...</p></div>
                     </div>
-
                     <div class="w-full lg:w-1/2 lg:border-l border-white/10 lg:pl-12">
-                        <h4 id="combo-name" class="text-lg font-bold mb-4 text-white uppercase tracking-widest">Ensemble Preview</h4>
-                        <div class="sentiment-box mb-8 text-xs leading-relaxed">
-                            <p id="combo-reasoning" class="text-white/70">"Waiting for your choice! I'll match the perfect accessories for you."</p>
-                        </div>
+                        <h4 class="text-lg font-bold mb-4 text-white uppercase tracking-widest">Ensemble Preview</h4>
+                        <div class="sentiment-box mb-8 text-xs leading-relaxed"><p id="combo-reasoning" class="text-white/70">"Waiting for your choice!"</p></div>
                         <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-[9px] text-white/30 uppercase font-bold tracking-tighter">Total Investment</p>
-                                <p id="combo-total" class="text-2xl font-black gold-text">₹0</p>
-                            </div>
-                            <button class="bg-[#BF953F] text-black px-10 py-4 rounded-full text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-black/50">
-                                Secure Look
-                            </button>
+                            <div><p class="text-[9px] text-white/30 uppercase font-bold tracking-tighter">Total Investment</p><p id="combo-total" class="text-2xl font-black gold-text">₹0</p></div>
+                            <button class="bg-[#BF953F] text-black px-10 py-4 rounded-full text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all">Secure Look</button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
     </main>
 
-    <div id="analysis-modal">
-        <div class="bg-[#04241a] border border-[#BF953F]/30 max-w-2xl w-[92%] rounded-[2.5rem] p-8 md:p-12 relative overflow-y-auto max-h-[90vh]">
-            <button onclick="closeAnalysis()" class="absolute top-8 right-8 text-white/30 hover:text-white"><i data-lucide="x"></i></button>
-            <div id="modal-content"></div>
-        </div>
-    </div>
+    <div id="analysis-modal" style="display:none;"></div>
 
     <div id="upload-overlay">
         <button class="absolute top-8 right-8 text-white/50" onclick="toggleUploadOverlay()"><i data-lucide="x"></i></button>
@@ -164,38 +131,32 @@
             <div class="ai-scan-line" id="scan-line"></div>
             <i data-lucide="aperture" class="w-16 h-16 text-[#BF953F] mb-6 animate-spin-slow"></i>
             <p class="text-white/90 text-xl font-serif italic mb-2">Vision Analysis</p>
-            <p class="text-white/40 text-[10px] uppercase tracking-widest mb-6">Drop your style reference</p>
             <input type="file" id="file-upload" class="hidden" accept="image/*" onchange="startAIScan()">
-            <label for="file-upload" class="gold-text py-4 px-10 rounded-full bg-white/5 cursor-pointer border border-[#BF953F]/30 text-[10px] font-bold uppercase tracking-widest hover:bg-[#BF953F]/10">Browse Vault</label>
+            <label for="file-upload" class="gold-text py-4 px-10 rounded-full bg-white/5 cursor-pointer border border-[#BF953F]/30 text-[10px] font-bold uppercase tracking-widest">Browse Vault</label>
         </div>
     </div>
 
     <footer class="py-16 text-center border-t border-white/5 mt-20">
         <h2 class="gold-text text-xl italic mb-6">GIA LUXE</h2>
-        <p class="text-[9px] uppercase tracking-[0.5em] text-white/20 mb-6">Affiliate Style Partner • 2026</p>
-        <p id="legal-disclaimer" class="text-[9px] leading-relaxed max-w-md mx-auto px-6 text-white/30 italic">
-            Disclaimer: GIA is an AI-powered affiliate platform. We earn commissions on qualifying purchases. We are not responsible for product integrity or delivery issues from third-party sellers.
-        </p>
+        <p id="legal-disclaimer" class="text-[9px] leading-relaxed max-w-md mx-auto px-6 text-white/30 italic">GIA is an AI-powered affiliate platform.</p>
     </footer>
 
     <script>
         lucide.createIcons();
 
         const products = [
-            { id: 1, name: "Emerald Linen Shirt", brand: "Amazon", price: "2,499", score: 98, returns: "Low", rating: "4.8", reviews: "Positive", sentiment: "Bhai, ye perfect choice hai! Myntra par iska price abhi lowest hai aur fabric pure linen hai. Bindass le lo!", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400" },
-            { id: 2, name: "Midnight Black Suit", brand: "Myntra", price: "8,899", score: 95, returns: "Medium", rating: "4.2", reviews: "Mixed", sentiment: "Look toh sexy hai par dhyaan dena, size thoda chhota nikal raha hai reviews ke hisab se. Ek size bada order karna.", img: "https://images.unsplash.com/photo-1598033129183-c4f50c7176c8?w=400" },
-            { id: 3, name: "Radiant Gold Chain", brand: "Ajio", price: "4,999", score: 91, returns: "Very Low", rating: "4.9", reviews: "Exceptional", sentiment: "Ye product genuine gold plating ke saath aata hai. Highly recommended by GIA!", img: "https://images.unsplash.com/photo-1542291026-79eedf4c3bb7?w=400" },
-            { id: 4, name: "Azure Blue Shoes", brand: "Amazon", price: "6,299", score: 96, returns: "Low", rating: "4.5", reviews: "Positive", sentiment: "Quality wise ye shoes best rated products mein hain. Comfort top-notch hai.", img: "https://images.unsplash.com/photo-1593922370959-702316e6d080?w=400" }
+            { id: 1, name: "Emerald Linen Shirt", brand: "Amazon", price: "2,499", score: 98, returns: "Low", rating: "4.8", reviews: "Positive", sentiment: "Bhai, ye perfect choice hai! fabric pure linen hai. Bindass le lo!", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400" },
+            { id: 2, name: "Midnight Black Suit", brand: "Myntra", price: "8,899", score: 95, returns: "Medium", rating: "4.2", reviews: "Mixed", sentiment: "Look toh sexy hai par size thoda chhota nikal raha hai.", img: "https://images.unsplash.com/photo-1598033129183-c4f50c7176c8?w=400" },
+            { id: 3, name: "Radiant Gold Chain", brand: "Ajio", price: "4,999", score: 91, returns: "Very Low", rating: "4.9", reviews: "Exceptional", sentiment: "Ye product genuine gold plating ke saath aata hai.", img: "https://images.unsplash.com/photo-1542291026-79eedf4c3bb7?w=400" },
+            { id: 4, name: "Azure Blue Shoes", brand: "Amazon", price: "6,299", score: 96, returns: "Low", rating: "4.5", reviews: "Positive", sentiment: "Quality wise ye shoes best rated products mein hain.", img: "https://images.unsplash.com/photo-1593922370959-702316e6d080?w=400" }
         ];
 
         window.onload = function() {
             const savedName = localStorage.getItem('giaUserName');
             const savedDP = localStorage.getItem('giaUserDP');
-            
             if(savedName) {
                 document.getElementById('header-user-name').innerText = savedName;
                 document.getElementById('hero-user-name').innerText = savedName;
-                // Priority to uploaded DP, else fallback to Dicebear
                 document.getElementById('user-avatar').src = savedDP || `https://api.dicebear.com/7.x/avataaars/svg?seed=${savedName}`;
             }
             loadProducts();
@@ -204,7 +165,7 @@
         function loadProducts() {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = products.map(p => `
-                <div class="product-card p-6 relative group" onclick="openAnalysis(${p.id})">
+                <div class="product-card p-6 relative group" onclick="goToProductDetail(${p.id})">
                     <div class="absolute top-4 left-4 bg-black/80 text-[#BF953F] text-[8px] font-bold px-2 py-1 rounded border border-[#BF953F]/40">${p.score}% MATCH</div>
                     <img src="${p.img}" class="w-full h-52 object-cover mb-5 rounded-2xl group-hover:scale-105 transition-transform duration-500">
                     <h4 class="text-sm font-bold mb-1 text-white/90">${p.name}</h4>
@@ -218,45 +179,12 @@
             lucide.createIcons();
         }
 
-        function openAnalysis(id) {
-            const p = products.find(x => x.id === id);
-            const modal = document.getElementById('analysis-modal');
-            const content = document.getElementById('modal-content');
-            const savedName = localStorage.getItem('giaUserName') || "Style Member";
-
-            content.innerHTML = `
-                <div class="flex flex-col md:flex-row gap-10">
-                    <img src="${p.img}" class="w-full md:w-2/5 rounded-3xl border border-[#BF953F]/20 shadow-2xl">
-                    <div class="flex-1">
-                        <h2 class="text-3xl font-serif gold-text mb-2 italic">${p.name}</h2>
-                        <p class="text-[9px] text-[#BF953F] uppercase tracking-[0.4em] mb-6">Expert Analysis</p>
-                        
-                        <div class="sentiment-box mb-8 text-xs leading-relaxed">
-                            <span class="gold-text font-bold uppercase tracking-widest block mb-2">GIA Vision:</span> 
-                            "${p.sentiment.replace('Bhai', savedName)}"
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4 mb-10">
-                            <div class="bg-white/5 p-4 rounded-2xl border border-white/5">
-                                <p class="text-[8px] text-white/30 uppercase font-bold mb-1">Return Risk</p>
-                                <p class="text-sm font-bold ${p.returns === 'Low' ? 'text-green-500' : 'text-orange-500'}">${p.returns}</p>
-                            </div>
-                            <div class="bg-white/5 p-4 rounded-2xl border border-white/5">
-                                <p class="text-[8px] text-white/30 uppercase font-bold mb-1">Rating</p>
-                                <p class="text-sm font-bold gold-text">${p.rating} / 5</p>
-                            </div>
-                        </div>
-
-                        <button onclick="window.open('https://amazon.in', '_blank')" class="w-full bg-gradient-to-r from-[#BF953F] to-[#AA771C] text-black font-black py-5 rounded-full uppercase tracking-widest text-[10px] hover:scale-[1.02] transition-all shadow-2xl">
-                            Purchase at ${p.brand}
-                        </button>
-                    </div>
-                </div>
-            `;
-            modal.style.display = 'flex';
+        // REDIRECT TO NEW CINEMATIC PAGE
+        function goToProductDetail(id) {
+            // Hum detail page par data bhej rahe hain via URL
+            window.location.href = `product-detail.html?id=${id}`;
         }
 
-        function closeAnalysis() { document.getElementById('analysis-modal').style.display = 'none'; }
         function toggleUploadOverlay() {
             const overlay = document.getElementById('upload-overlay');
             overlay.style.display = (overlay.style.display === 'flex') ? 'none' : 'flex';
@@ -265,18 +193,11 @@
         function startAIScan() {
             const line = document.getElementById('scan-line');
             line.style.display = 'block';
-            setTimeout(() => { 
-                line.style.display = 'none';
-                toggleUploadOverlay();
-                alert('Analysis Complete: 4 Matches found in the Vault!'); 
-            }, 3000);
+            setTimeout(() => { line.style.display = 'none'; toggleUploadOverlay(); alert('AI Found Matches!'); }, 2000);
         }
 
         function logout() {
-            if(confirm("Exit the Vault?")) {
-                localStorage.clear();
-                window.location.href = 'login.html';
-            }
+            if(confirm("Exit the Vault?")) { localStorage.clear(); window.location.href = 'login.html'; }
         }
     </script>
 </body>
