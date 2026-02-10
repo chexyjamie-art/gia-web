@@ -1,5 +1,5 @@
 // ==========================================
-// GIA SMART AI - MASTER LOGIC (FIXED)
+// GIA SMART AI - MASTER LOGIC (FINAL FIXED)
 // ==========================================
 
 const GEMINI_API_KEY = "AIzaSyBooGwe97LGLxzaDBzr0txng2_sHfFfhdI"; 
@@ -11,17 +11,16 @@ const allDatabase = [
     { id: 201, category: 'tech', name: "ANC Earbuds Pro", price: "4,499", img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600" }
 ];
 
-// 1. REAL GEMINI AI CALL (Fixed for Dynamic Response)
+// 1. REAL GEMINI AI CALL (Improved Error Handling)
 async function askRealGiaAI(userQuery) {
     const aiBox = document.getElementById('gia-ai-box');
     const aiText = document.getElementById('gia-ai-text');
 
     if (aiBox) {
-        aiBox.classList.remove('hidden'); // Box dikhao
-        aiBox.style.display = "block";   // Force display agar hidden class clash kare
+        aiBox.classList.remove('hidden');
+        aiBox.style.display = "block"; 
     }
-    
-    // Purana save message turant delete karne ke liye loading dikhao
+
     if (aiText) aiText.innerHTML = "<span class='animate-pulse text-[#BF953F]'>GIA soch rahi hai...</span>";
 
     const prompt = `System: Tera naam GIA hai. Tu Rahul ki Best Friend aur Stylist hai. User ne pucha: "${userQuery}". Ekdum real desi doston wali chat kar (Bhai, Yaar, Mast). Styling advice do aur pucho gift hai ya personal use. Max 2 lines. No fixed templates.`;
@@ -34,22 +33,25 @@ async function askRealGiaAI(userQuery) {
         });
 
         const data = await response.json();
-        
-        // CHECK: Kya API se data aaya?
-        if (data.candidates && data.candidates[0].content.parts[0].text) {
-            const giaReply = data.candidates[0].content.parts[0].text;
 
-            // Purana text yahan overwrite ho raha hai (FIX)
+        // Check if response has valid data structure
+        if (data && data.candidates && data.candidates[0].content && data.candidates[0].content.parts) {
+            const giaReply = data.candidates[0].content.parts[0].text;
             aiText.innerText = giaReply; 
 
+            // Voice Speech
+            window.speechSynthesis.cancel(); // Purani awaz ko stop karne ke liye
             const utterance = new SpeechSynthesisUtterance(giaReply);
             utterance.lang = 'hi-IN';
             window.speechSynthesis.speak(utterance);
+        } else {
+            aiText.innerText = "Bhai, Gemini thoda busy hai, ek baar firse try kar na!";
         }
 
     } catch (e) {
         console.error("GIA Error:", e);
-        aiText.innerText = "Bhai, net thoda slow hai, par tera style top hai!";
+        // Sirf asli error hone par hi ye dikhayega
+        aiText.innerText = "Bhai, signal thoda weak hai, par tera style ekdum aag hai!";
     }
 }
 
@@ -66,20 +68,24 @@ function renderProducts(data) {
     `).join('');
 }
 
-// 3. SEARCH HANDLER (ENTER KEY - Fixed for Trigger)
-document.getElementById('ai-search-input').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        const query = e.target.value;
-        if (query.trim() !== "") {
-            askRealGiaAI(query);
-            const filtered = allDatabase.filter(p => 
-                p.name.toLowerCase().includes(query.toLowerCase()) || 
-                p.category.toLowerCase().includes(query.toLowerCase())
-            );
-            renderProducts(filtered);
+// 3. SEARCH HANDLER (Fix for Mobile Arrow/Enter)
+const searchInput = document.getElementById('ai-search-input');
+if (searchInput) {
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Stop page refresh
+            const query = searchInput.value.trim();
+            if (query !== "") {
+                askRealGiaAI(query);
+                const filtered = allDatabase.filter(p => 
+                    p.name.toLowerCase().includes(query.toLowerCase()) || 
+                    p.category.toLowerCase().includes(query.toLowerCase())
+                );
+                renderProducts(filtered);
+            }
         }
-    }
-});
+    });
+}
 
 // 4. MODAL LOGIC (No change)
 function openDetails(id) {
@@ -104,10 +110,15 @@ window.onload = () => {
     lucide.createIcons();
     renderProducts(allDatabase);
 
-    // Disclaimer exactly at center bottom as requested
+    // Disclaimer center bottom
     const footer = document.querySelector('footer');
     if (footer) {
+        // Clear old disclaimer if exists to avoid double text
+        const oldDisclaimer = document.getElementById('gia-legal');
+        if (oldDisclaimer) oldDisclaimer.remove();
+
         const disclaimer = document.createElement('p');
+        disclaimer.id = "gia-legal";
         disclaimer.style = "font-size: 8px; color: rgba(191,149,63,0.5); margin-top: 30px; text-align: center; text-transform: uppercase; letter-spacing: 2px; width: 100%;";
         disclaimer.innerText = "© 2026 ALTER PROJECT | LEGAL DISCLAIMER: AI-Generated styling advice. No manual speech saved.";
         footer.appendChild(disclaimer);
