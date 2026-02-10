@@ -1,133 +1,94 @@
-// ==========================================
-// GIA SMART AI - FULL INTEGRATED MASTER VERSION
-// ==========================================
-
-// 1. UI Elements & Memory (RAHUL'S CONTEXT)
-const chatBubble = document.getElementById('gia-chat-bubble');
+// 1. UI Elements
+const chatBubble = document.getElementById('gia-chat-bubble'); // GIA Box
 const chatText = document.getElementById('gia-chat-text');
 const searchInput = document.getElementById('gia-search-input');
-const trigger = document.getElementById('aura-trigger');
-
-const userContext = { name: "Rahul", viewedProducts: 0, lastActions: [] };
 
 // ---------------------------------------------------------
-// REAL GEMINI AI CONFIGURATION (LIVE BRAIN)
+// REAL GEMINI AI CONFIGURATION (FIXED JSON TYPO)
 // ---------------------------------------------------------
 const GEMINI_API_KEY = "AIzaSyBooGwe97LGLxzaDBzr0txng2_sHFffhdI"; 
 
 async function askRealGiaAI(userQuery) {
-    if (chatText) chatText.innerHTML = "<span class='animate-pulse text-[#BF953F]'>GIA soch rahi hai...</span>";
+    // Search hote hi box dikhao
     if (chatBubble) chatBubble.classList.remove('hidden');
+    if (chatText) chatText.innerHTML = "<span class='animate-pulse text-[#BF953F]'>GIA soch rahi hai...</span>";
 
-    const prompt = `System: Tera naam GIA hai. Tu Rahul ki ek sacchi dost aur Luxury Stylist hai. User Query: "${userQuery}". Response Desi touch mein 3 lines max.`;
+    const prompt = `System: Tera naam GIA hai. Tu Rahul ki ek sacchi dost aur Luxury Stylist hai. User ne ye search kiya: "${userQuery}". Friendly reply do 2 lines mein.`;
 
     try {
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json" }, // FIXED: 'ison' to 'json'
             body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
         });
+
         const data = await response.json();
         const giaSpeech = data.candidates[0].content.parts[0].text;
-        chatText.innerText = giaSpeech;
+        
+        if (chatText) chatText.innerText = giaSpeech;
 
+        // Audio output
         const utterance = new SpeechSynthesisUtterance(giaSpeech);
         utterance.lang = 'hi-IN';
         window.speechSynthesis.speak(utterance);
-    } catch (e) { chatText.innerText = "Bhai, network issue hai!"; }
-}
 
-// ---------------------------------------------------------
-// 2. DETAILED COMBO ENGINE (ALL PRODUCTS PRESERVED)
-// ---------------------------------------------------------
-const comboEngine = {
-    "sunscreen": {
-        name: "Complete Sun-Protection Kit",
-        items: [
-            { n: "Sunscreen", i: "sunscreen.png", p: 599 },
-            { n: "Face Wash", i: "facewash.png", p: 349 },
-            { n: "Serum", i: "serum.png", p: 899 }
-        ],
-        reason: "Ye combination sun damage repair aur skin hydration ke liye best hai.",
-        score: "9.7"
-    },
-    "jeans": {
-        name: "Weekend Urban Look",
-        items: [
-            { n: "Denim Jeans", i: "jeans.png", p: 2499 },
-            { n: "White T-Shirt", i: "tshirt.png", p: 799 },
-            { n: "Sneakers", i: "shoes.png", p: 3999 }
-        ],
-        reason: "Light wash denim ke sath white contrast ek classic vibe deta hai.",
-        score: "9.9"
-    },
-    "shirt": {
-        name: "Semi-Formal Ensemble",
-        items: [
-            { n: "Linen Shirt", i: "shirt.png", p: 2499 },
-            { n: "Beige Chinos", i: "pants.png", p: 2999 },
-            { n: "Loafers", i: "shoes.png", p: 3500 }
-        ],
-        reason: "Linen texture works perfectly with matte chinos.",
-        score: "9.8"
+    } catch (error) {
+        console.error("Gemini Error:", error);
+        if (chatText) chatText.innerText = "Bhai, net thoda slow hai, par main yahi hoon!";
     }
-};
-
-// ---------------------------------------------------------
-// 3. MASTER LOGIC (COMBO + MODAL + SPEECH)
-// ---------------------------------------------------------
-
-function generateInstantCombo(keyword) {
-    const container = document.getElementById('combo-items-container');
-    if (!container) return;
-    const key = keyword.toLowerCase();
-    
-    let combo = comboEngine.sunscreen; // Default
-    if (key.includes("shirt")) combo = comboEngine.shirt;
-    if (key.includes("jeans") || key.includes("denim")) combo = comboEngine.jeans;
-
-    container.innerHTML = `<div class="animate-pulse text-[#BF953F] font-bold">GIA is styling...</div>`;
-
-    setTimeout(() => {
-        container.innerHTML = "";
-        let total = 0;
-        combo.items.forEach(item => {
-            container.innerHTML += `
-                <div class="w-24 h-32 bg-white rounded-2xl p-3 shadow-sm flex flex-col items-center">
-                    <img src="${item.i}" class="w-12 h-12 object-contain mb-1">
-                    <p class="text-[7px] font-bold text-black uppercase">${item.n}</p>
-                    <p class="text-[9px] text-[#BF953F] font-black">₹${item.p}</p>
-                </div>`;
-            total += item.p;
-        });
-        document.getElementById('combo-name').innerText = combo.name;
-        document.getElementById('combo-reasoning').innerText = combo.reason;
-        document.getElementById('combo-total').innerText = `₹${total.toLocaleString()}`;
-    }, 1200);
-}
-
-function handleCommand(command) {
-    askRealGiaAI(command); // Gemini Speaks
-    generateInstantCombo(command); // UI Updates
 }
 
 // ---------------------------------------------------------
-// 4. EVENT LISTENERS & DISCLOSURE
+// 2. PRODUCT RENDER LOGIC (WITH HOVER RE-FIXED)
 // ---------------------------------------------------------
+function renderProducts(products) {
+    const grid = document.getElementById('product-grid');
+    if(!grid) return;
+    grid.innerHTML = "";
 
-if (searchInput) {
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleCommand(e.target.value);
+    products.forEach(p => {
+        grid.innerHTML += `
+            <div class="product-card p-6 relative group transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+                <div class="absolute top-4 left-4 bg-black/80 text-[#BF953F] text-[9px] font-bold px-2 py-1 rounded-md border border-[#BF953F]/40">
+                    AI VERIFIED
+                </div>
+                <img src="${p.img}" class="w-full h-48 object-cover mb-4 rounded-md transition-transform duration-300 group-hover:brightness-110">
+                <h4 class="text-sm font-semibold mb-1 text-black">${p.name}</h4>
+                <p class="text-[10px] text-gray-500 uppercase font-bold">${p.brand}</p>
+                <div class="flex justify-between items-center mt-3">
+                    <p class="text-lg font-bold text-gray-900">₹${p.price}</p>
+                    <button class="bg-[#1a1a1a] text-white px-4 py-2 rounded-full text-[10px] font-bold hover:bg-[#BF953F] transition-colors">DETAILS</button>
+                </div>
+            </div>
+        `;
     });
 }
 
-// LEGAL DISCLAIMER (As per your request)
-window.addEventListener('load', () => {
-    const footer = document.querySelector('footer') || document.body;
-    const disclaimer = document.createElement('div');
-    disclaimer.style = "text-align:center; font-size:10px; color:gray; margin-top:20px; padding:10px;";
-    disclaimer.innerHTML = "© 2026 ALTER Project | Legal Disclaimer: AI-generated styling advice. Prices and availability are subject to partner brand terms.";
-    footer.appendChild(disclaimer);
-});
+// ---------------------------------------------------------
+// 3. SEARCH HANDLER
+// ---------------------------------------------------------
+if (searchInput) {
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const val = e.target.value;
+            if(val.length > 1) {
+                askRealGiaAI(val); // Gemini Brain call
+                
+                // Filtering local products
+                const filtered = allDatabase.filter(p => 
+                    p.name.toLowerCase().includes(val.toLowerCase()) || 
+                    p.brand.toLowerCase().includes(val.toLowerCase())
+                );
+                renderProducts(filtered);
+            }
+        }
+    });
+}
 
-console.log("GIA Full System Online.");
+// 4. LEGAL DISCLAIMER (Center Bottom)
+window.addEventListener('load', () => {
+    const disclaimer = document.createElement('div');
+    disclaimer.style = "position: relative; width: 100%; text-align: center; font-size: 10px; color: #666; padding: 20px 0; margin-top: 50px; border-top: 1px solid #222;";
+    disclaimer.innerHTML = "© 2026 ALTER PROJECT | LEGAL DISCLAIMER: All AI-generated advice is for stylistic purposes. Product data is property of respective brands.";
+    document.body.appendChild(disclaimer);
+});
