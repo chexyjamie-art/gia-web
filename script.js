@@ -232,3 +232,23 @@ function observeUser() { userContext.viewedProducts++; }
 function closeAnalysis() { document.getElementById('analysis-modal').style.display = 'none'; }
 
 console.log("GIA System: Fully Integrated & Live.");
+
+// 1. Sync Lab / Claim Outfit Button
+const claimButtons = document.querySelectorAll('.claim-btn, .sync-lab-btn'); // Aapki class jo bhi ho
+claimButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        alert("Bhai, thoda sabar! 'Sync Lab' feature agle update mein live hoga. GIA abhi fitting check kar rahi hai.");
+        // Yahan aap checkout page ka link bhi daal sakte ho:
+        // window.location.href = "checkout.html";
+    });
+});
+
+// 2. Start My Rituals Button
+const ritualBtn = document.querySelector('.start-rituals-btn'); // Check your button class
+if (ritualBtn) {
+    ritualBtn.addEventListener('click', () => {
+        giaSpeak("Rahul, aapka morning styling ritual start ho raha hai. Pehle ye combo try kijiye!");
+        // Isse GIA bolne lagegi
+    });
+}
+
