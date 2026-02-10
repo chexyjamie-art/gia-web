@@ -1,76 +1,97 @@
 // ==========================================
-// GIA SMART AI - 100% WORKING FIXED CODE
+// GIA SMART AI - MASTER LOGIC (GEMINI READY)
 // ==========================================
 
-const chatBubble = document.getElementById('gia-chat-bubble');
-const chatText = document.getElementById('gia-chat-text');
-const searchInput = document.getElementById('gia-search-input');
-
-// API KEY (Fixed Syntax)
 const GEMINI_API_KEY = "AIzaSyBooGwe97LGLxzaDBzr0txng2_sHfFfhdI"; 
 
+const allDatabase = [
+    { id: 1, category: 'fashion', name: "Emerald Linen Shirt", price: "2,499", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600" },
+    { id: 2, category: 'fashion', name: "Charcoal Chinos", price: "1,899", img: "https://images.unsplash.com/photo-1624373666563-54ec85a14962?w=600" },
+    { id: 101, category: 'beauty', name: "Salicylic Face Wash", price: "499", img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600" },
+    { id: 201, category: 'tech', name: "ANC Earbuds Pro", price: "4,499", img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600" }
+];
+
+// 1. REAL GEMINI AI CALL
 async function askRealGiaAI(userQuery) {
-    if (!userQuery) return;
+    const aiBox = document.getElementById('gia-ai-box');
+    const aiText = document.getElementById('gia-ai-text');
 
-    // 1. Box ko tabhi dikhao jab user search kare
-    if (chatBubble) {
-        chatBubble.classList.remove('hidden');
-        chatBubble.style.display = "block"; // Extra safety for visibility
-    }
-    
-    // 2. Loading state dikhao
-    if (chatText) chatText.innerHTML = "<span class='animate-pulse text-[#BF953F]'>GIA soch rahi hai...</span>";
+    if (aiBox) aiBox.classList.remove('hidden');
+    if (aiText) aiText.innerHTML = "<span class='animate-pulse text-[#BF953F]'>GIA soch rahi hai...</span>";
 
-    const prompt = `System: Tera naam GIA hai. Tu ek Luxury Stylist hai. User Query: "${userQuery}". Response frankly aur Desi touch mein dena 2 lines max. Styling tip bhi dena.`;
+    const prompt = `System: Tera naam GIA hai. Tu Rahul ki Best Friend aur Stylist hai. User ne pucha: "${userQuery}". Ekdum real desi doston wali chat kar (Bhai, Yaar, Mast). Styling advice do aur pucho gift hai ya personal use. Max 2 lines.`;
 
     try {
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
             method: "POST",
-            headers: { 
-                "Content-Type": "application/json" // <--- FIXED: 'ison' se 'json' kar diya
-            },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }]
-            })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
         });
 
         const data = await response.json();
-        
-        if (data.candidates && data.candidates[0].content.parts[0].text) {
-            const giaSpeech = data.candidates[0].content.parts[0].text;
-            
-            // 3. Real AI reply yahan insert hoga (Purana text gayab ho jayega)
-            chatText.innerText = giaSpeech; 
+        const giaReply = data.candidates[0].content.parts[0].text;
 
-            // Voice output
-            const utterance = new SpeechSynthesisUtterance(giaSpeech);
-            utterance.lang = 'hi-IN';
-            window.speechSynthesis.speak(utterance);
-        }
+        aiText.innerText = giaReply;
 
-    } catch (error) {
-        console.error("GIA Error:", error);
-        chatText.innerText = "Bhai, net slow hai ya API key block ho gayi hai. Check karo!";
+        const utterance = new SpeechSynthesisUtterance(giaReply);
+        utterance.lang = 'hi-IN';
+        window.speechSynthesis.speak(utterance);
+
+    } catch (e) {
+        aiText.innerText = "Bhai, net thoda slow hai, par tera style top hai!";
     }
 }
 
-// Search Event Listener
-if (searchInput) {
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            const query = e.target.value;
-            askRealGiaAI(query);
-            
-            // Yahan aap apna purana product filter logic bhi chala sakte ho
-            console.log("Searching for:", query);
-        }
-    });
+// 2. RENDER PRODUCTS
+function renderProducts(data) {
+    const grid = document.getElementById('product-grid');
+    if(!grid) return;
+    grid.innerHTML = data.map(p => `
+        <div class="product-card p-6" onclick="openDetails(${p.id})">
+            <img src="${p.img}" class="w-full h-52 object-cover rounded-2xl mb-4">
+            <h4 class="text-sm font-bold text-white/80">${p.name}</h4>
+            <p class="text-xl font-black mt-2 gold-text">₹${p.price}</p>
+        </div>
+    `).join('');
 }
 
-// Legal Disclaimer (Center Bottom)
-window.addEventListener('load', () => {
-    const disclaimer = document.createElement('div');
-    disclaimer.style = "text-align:center; font-size:10px; color:gray; margin: 40px 0; padding:10px; width:100%; border-top: 1px solid #1a1a1a;";
-    disclaimer.innerHTML = "© 2026 ALTER PROJECT | LEGAL DISCLAIMER: AI-generated styling advice. Prices and availability are subject to partner brand terms.";
-    document.body.appendChild(disclaimer);
+// 3. SEARCH HANDLER (ENTER KEY)
+document.getElementById('ai-search-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        const query = e.target.value;
+        askRealGiaAI(query);
+        const filtered = allDatabase.filter(p => p.name.toLowerCase().includes(query.toLowerCase()));
+        renderProducts(filtered);
+    }
 });
+
+// 4. MODAL LOGIC
+function openDetails(id) {
+    const p = allDatabase.find(x => x.id === id);
+    const modal = document.getElementById('details-modal');
+    document.getElementById('modal-content').innerHTML = `
+        <div class="bg-[#04241a] rounded-[2.5rem] overflow-hidden border border-white/10">
+            <img src="${p.img}" class="w-full h-[400px] object-cover">
+            <div class="p-8">
+                <h2 class="text-3xl royal-logo gold-text mb-4">${p.name}</h2>
+                <p class="text-xl font-bold mb-6">₹${p.price}</p>
+                <button class="w-full bg-[#BF953F] text-black py-4 rounded-full font-black uppercase text-xs">Buy Now</button>
+            </div>
+        </div>`;
+    modal.style.display = 'block';
+}
+
+function closeDetails() { document.getElementById('details-modal').style.display = 'none'; }
+
+// 5. LEGAL DISCLAIMER & INIT
+window.onload = () => {
+    lucide.createIcons();
+    renderProducts(allDatabase);
+    
+    // Center Bottom Disclaimer
+    const footer = document.getElementById('main-footer');
+    const disclaimer = document.createElement('p');
+    disclaimer.style = "font-size: 8px; color: gray; margin-top: 20px; text-transform: uppercase; letter-spacing: 2px;";
+    disclaimer.innerText = "© 2026 ALTER PROJECT | LEGAL: AI-Generated Advice. Verified by GIA.";
+    footer.appendChild(disclaimer);
+};
