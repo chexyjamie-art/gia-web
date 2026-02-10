@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    
+
     <style>
         /* EXACT CUBE PATTERN BACKGROUND */
         body { 
@@ -36,19 +36,17 @@
         .gia-header { animation: giaSummon 2s ease-out forwards; }
         .form-section { opacity: 0; animation: formSummon 1.2s ease-out 1s forwards; }
 
-        /* EXACT GIA FONT FROM PHOTO */
         .gold-text {
             background: linear-gradient(to bottom, #BF953F, #FCF6BA, #B38728, #AA771C);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-family: 'Playfair Display', serif;
-            font-weight: 400; /* Matching the photo's sleek look */
+            font-weight: 400;
         }
 
-        /* MORE TRANSPARENT & LESS BLUR */
         .glass-card {
-            background: rgba(255, 255, 255, 0.015); /* Very transparent */
-            backdrop-filter: blur(6px); /* Reduced blur as requested */
+            background: rgba(255, 255, 255, 0.015);
+            backdrop-filter: blur(6px);
             border-radius: 2rem;
             border: 1px solid rgba(191, 149, 63, 0.12);
         }
@@ -65,9 +63,7 @@
             transition: border-bottom 0.3s ease;
         }
 
-        .input-line:focus {
-            border-bottom: 1px solid #FCF6BA;
-        }
+        .input-line:focus { border-bottom: 1px solid #FCF6BA; }
 
         .gold-button {
             background: linear-gradient(to right, #BF953F, #FCF6BA, #AA771C);
@@ -77,7 +73,6 @@
             letter-spacing: 0.1em;
             transition: all 0.3s ease;
         }
-
         .gold-button:hover { transform: scale(1.01); box-shadow: 0 5px 15px rgba(191,149,63,0.2); }
     </style>
 </head>
@@ -100,7 +95,7 @@
                 </div>
                 <div class="mb-12 text-center">
                     <label class="block text-[10px] uppercase tracking-[0.3em] text-[#BF953F]/80 mb-4">Mobile Number</label>
-                    <input type="tel" id="user-phone" placeholder="+1 (555) 000-0000" class="input-line placeholder:opacity-10">
+                    <input type="tel" id="user-phone" placeholder="+91 00000 00000" class="input-line placeholder:opacity-10">
                 </div>
                 <button onclick="sendOTP()" class="w-full gold-button py-4 rounded-full text-[10px]">
                     Join The Vault
@@ -136,20 +131,39 @@
 
     <script>
         lucide.createIcons();
+
+        // Check if already logged in
+        window.onload = function() {
+            if(localStorage.getItem('giaUserName') && localStorage.getItem('giaUserPhone')) {
+                window.location.href = 'index.html'; // Direct home agar pehle se login hai
+            }
+        }
+
         function next(c, n) { if(c.value.length==1) document.getElementById(n).focus(); }
+
         function sendOTP() {
             const n = document.getElementById('user-name').value;
-            if(!n) return alert("Please enter name");
+            const p = document.getElementById('user-phone').value;
+            if(!n || !p) return alert("Please fill name and mobile");
+            
+            // Temporary storage before verification
             localStorage.setItem('giaUserName', n);
+            localStorage.setItem('giaUserPhone', p);
+
             document.getElementById('step-1').classList.add('hidden');
             document.getElementById('step-2').classList.remove('hidden');
         }
+
         function showTerms() {
             document.getElementById('terms-modal').classList.remove('hidden');
             document.getElementById('terms-modal').classList.add('flex');
         }
+
         function finishLogin() {
             if(!document.getElementById('agree').checked) return alert("Accept terms");
+            
+            // Session Lock
+            localStorage.setItem('giaSession', 'active'); 
             window.location.href = 'index.html';
         }
     </script>
