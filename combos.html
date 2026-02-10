@@ -3,129 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | Lifestyle Bundles</title>
+    <title>GIA LUXE | Sync Lab</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
         body { 
-            background: #021a12;
-            font-family: 'Inter', sans-serif; color: white; min-height: 100vh;
+            background: linear-gradient(rgba(4, 36, 26, 0.95), rgba(4, 36, 26, 0.98)), 
+                        url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-attachment: fixed; font-family: 'Inter', sans-serif; color: white; min-height: 100vh;
         }
         .royal-logo { font-family: 'Playfair Display', serif; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; }
         .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .combo-card { 
-            background: rgba(255, 255, 255, 0.03); 
-            border: 1px solid rgba(191, 149, 63, 0.1); 
-            transition: 0.4s;
+        
+        .summon-effect { animation: summon 1s ease-out forwards; }
+        @keyframes summon {
+            from { opacity: 0; transform: translateY(20px); filter: blur(10px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
         }
-        .combo-card:hover { border-color: #BF953F; transform: scale(1.02); }
+
+        .combo-card { 
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); 
+            border: 1px solid rgba(191, 149, 63, 0.1); border-radius: 2.5rem; 
+            padding: 2rem; transition: 0.4s; position: relative; overflow: hidden;
+        }
+        .combo-card:hover { border-color: #BF953F; transform: scale(1.01); }
+        
+        .sync-line { height: 2px; background: linear-gradient(90deg, transparent, #BF953F, transparent); width: 100%; position: relative; }
+        .sync-dot { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #04241a; border: 1px solid #BF953F; padding: 4px; border-radius: 50%; }
+
+        .mobile-nav { display: none; }
+        @media (max-width: 768px) {
+            .mobile-nav { 
+                display: flex; position: fixed; bottom: 0; left: 0; right: 0; 
+                background: rgba(4, 36, 26, 0.95); backdrop-filter: blur(20px);
+                border-top: 1px solid rgba(191, 149, 63, 0.2); z-index: 1000;
+                padding: 1rem; justify-content: space-around;
+            }
+        }
     </style>
 </head>
-<body>
+<body class="pb-24">
 
-    <header class="py-6 px-8 border-b border-[#BF953F]/20 sticky top-0 bg-[#021a12]/80 backdrop-blur-md z-50">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <button onclick="history.back()" class="text-[#BF953F] flex items-center gap-2 text-xs font-bold tracking-widest uppercase">
-                <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
-            </button>
-            <h1 class="text-xl royal-logo gold-text">GIA BUNDLES</h1>
-            <div class="w-10"></div> </div>
+    <header class="py-6 px-4 md:px-8 border-b border-[#BF953F]/20 backdrop-blur-md sticky top-0 z-[100]">
+        <nav class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="p-2.5 bg-white/5 rounded-full border border-[#BF953F]/20"><i data-lucide="arrow-left" class="w-5 h-5 text-[#BF953F]"></i></a>
+            <h1 class="text-2xl royal-logo gold-text">Sync Lab</h1>
+            <div class="w-10 h-10"></div>
+        </nav>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 py-12">
-        <header class="mb-12">
-            <h2 id="page-title" class="text-3xl royal-logo gold-text italic mb-2">Curated Vault</h2>
-            <p class="text-white/40 text-sm">Bhai, GIA ne aapke style ke liye ye exclusive combos select kiye hain.</p>
-        </header>
+    <main class="max-w-5xl mx-auto px-6 py-12">
+        <div class="text-center mb-16 summon-effect">
+            <p class="text-[10px] tracking-[0.5em] text-[#BF953F] uppercase font-bold mb-4">Psychological Pairing</p>
+            <h2 class="text-3xl md:text-5xl royal-logo gold-text italic">GIA Curated Bundles</h2>
+        </div>
 
-        <div id="bundles-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            </div>
-    </main>
-
-    <script>
-        // Fake Bundles Database
-        const bundles = [
-            {
-                id: 1,
-                tag: "Night Out",
-                name: "The Emerald Elite",
-                keyword: "shirt",
-                items: [
-                    { name: "Emerald Linen Shirt", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400" },
-                    { name: "Silver Chrono Watch", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" },
-                    { name: "Oud Intense Perfume", img: "https://images.unsplash.com/photo-1541643600914-78b084683601?w=400" }
-                ],
-                totalPrice: "7,999",
-                discount: "15% Off"
-            },
-            {
-                id: 2,
-                tag: "Self Care",
-                name: "Glow & Clear Kit",
-                keyword: "beauty",
-                items: [
-                    { name: "Salicylic Face Wash", img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400" },
-                    { name: "Sunscreen SPF 50", img: "https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?w=400" }
-                ],
-                totalPrice: "1,249",
-                discount: "10% Off"
-            }
-        ];
-
-        window.onload = () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const query = urlParams.get('query')?.toLowerCase() || "";
-            
-            if(query) {
-                document.getElementById('page-title').innerText = `Bundles for "${query}"`;
-            }
-
-            const filtered = query 
-                ? bundles.filter(b => b.keyword.includes(query) || b.name.toLowerCase().includes(query))
-                : bundles;
-
-            renderBundles(filtered);
-            lucide.createIcons();
-        };
-
-        function renderBundles(data) {
-            const grid = document.getElementById('bundles-grid');
-            if(data.length === 0) {
-                grid.innerHTML = `<p class="text-white/20 italic">Bhai, is search ke liye koi bundle nahi mila. Try 'shirt' or 'beauty'.</p>`;
-                return;
-            }
-
-            grid.innerHTML = data.map(b => `
-                <div class="combo-card p-8 rounded-[2rem]">
-                    <div class="flex justify-between items-start mb-6">
-                        <div>
-                            <span class="text-[8px] gold-text font-black uppercase tracking-[0.3em]">${b.tag}</span>
-                            <h3 class="text-xl font-bold mt-1">${b.name}</h3>
-                        </div>
-                        <span class="bg-green-500/10 text-green-500 text-[10px] font-bold px-3 py-1 rounded-full border border-green-500/20">${b.discount}</span>
+        <section class="mb-12 summon-effect" style="animation-delay: 0.2s;">
+            <div class="combo-card">
+                <div class="flex justify-between items-start mb-8">
+                    <div>
+                        <span class="text-[8px] bg-[#BF953F] text-black px-2 py-1 rounded font-black tracking-tighter">THE EXECUTIVE SYNC</span>
+                        <h3 class="text-xl font-bold mt-2">Modern Productivity Pack</h3>
                     </div>
-                    
-                    <div class="flex items-center gap-4 mb-8">
-                        ${b.items.map((item, idx) => `
-                            <div class="relative group">
-                                <img src="${item.img}" class="w-20 h-20 object-cover rounded-xl border border-white/10">
-                                <p class="text-[7px] text-white/40 mt-2 text-center w-20 truncate">${item.name}</p>
-                            </div>
-                            ${idx < b.items.length - 1 ? '<span class="text-white/20">+</span>' : ''}
-                        `).join('')}
-                    </div>
+                    <p class="text-xl font-black gold-text">₹12,499</p>
+                </div>
 
-                    <div class="flex justify-between items-center pt-6 border-t border-white/5">
-                        <div>
-                            <p class="text-[8px] text-white/30 uppercase tracking-widest">Bundle Price</p>
-                            <p class="text-2xl font-black italic gold-text">₹${b.totalPrice}</p>
-                        </div>
-                        <button class="bg-[#BF953F] text-black px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all">Buy Bundle</button>
+                <div class="flex flex-col md:flex-row items-center gap-6 mb-8">
+                    <div class="w-full md:w-1/3 text-center">
+                        <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400" class="w-32 h-32 object-cover rounded-2xl mx-auto border border-white/10 mb-2">
+                        <p class="text-[10px] font-bold text-white/60">ANC Earbuds Pro</p>
+                    </div>
+                    <div class="hidden md:block flex-grow"><div class="sync-line"><div class="sync-dot"><i data-lucide="zap" class="w-3 h-3 text-[#BF953F]"></i></div></div></div>
+                    <div class="w-full md:w-1/3 text-center">
+                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" class="w-32 h-32 object-cover rounded-2xl mx-auto border border-white/10 mb-2">
+                        <p class="text-[10px] font-bold text-white/60">Minimalist Smart Watch</p>
                     </div>
                 </div>
-            `).join('');
-        }
+                
+                <div class="bg-white/5 p-4 rounded-xl border-l-2 border-[#BF953F] italic text-xs text-white/70">
+                    "GIA Intel: Psychology says tech-sync reduces decision fatigue. Is bundle ka matte finish aapke formal workspace par ek professional elite vibe deta hai."
+                </div>
+                <button class="w-full mt-6 bg-white/5 border border-[#BF953F]/30 py-4 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#BF953F] hover:text-black transition-all">Claim Bundle</button>
+            </div>
+        </section>
+
+        <section class="mb-12 summon-effect" style="animation-delay: 0.4s;">
+            <div class="combo-card">
+                <div class="flex justify-between items-start mb-8">
+                    <div>
+                        <span class="text-[8px] bg-[#BF953F] text-black px-2 py-1 rounded font-black tracking-tighter">THE ROYAL NIGHT</span>
+                        <h3 class="text-xl font-bold mt-2">Elite Evening Aura</h3>
+                    </div>
+                    <p class="text-xl font-black gold-text">₹4,899</p>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center gap-6 mb-8">
+                    <div class="w-full md:w-1/3 text-center">
+                        <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400" class="w-32 h-32 object-cover rounded-2xl mx-auto border border-white/10 mb-2">
+                        <p class="text-[10px] font-bold text-white/60">Emerald Linen Shirt</p>
+                    </div>
+                    <div class="hidden md:block flex-grow"><div class="sync-line"><div class="sync-dot"><i data-lucide="sparkles" class="w-3 h-3 text-[#BF953F]"></i></div></div></div>
+                    <div class="w-full md:w-1/3 text-center">
+                        <img src="https://images.unsplash.com/photo-1557170334-a7c3c4675829?w=400" class="w-32 h-32 object-cover rounded-2xl mx-auto border border-white/10 mb-2">
+                        <p class="text-[10px] font-bold text-white/60">Oud Intense Perfume</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white/5 p-4 rounded-xl border-l-2 border-[#BF953F] italic text-xs text-white/70">
+                    "GIA Intel: Visual aur Scent ka pairing memory retention badhata hai. Ye combo parties mein aapki presence ko 'Unforgettable' banata hai."
+                </div>
+                <button class="w-full mt-6 bg-white/5 border border-[#BF953F]/30 py-4 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#BF953F] hover:text-black transition-all">Claim Bundle</button>
+            </div>
+        </section>
+
+        <section class="mb-12 summon-effect" style="animation-delay: 0.6s;">
+            <div class="combo-card">
+                <div class="flex justify-between items-start mb-8">
+                    <div>
+                        <span class="text-[8px] bg-[#BF953F] text-black px-2 py-1 rounded font-black tracking-tighter">THE GLOW RITUAL</span>
+                        <h3 class="text-xl font-bold mt-2">Derm-Pure Confidence</h3>
+                    </div>
+                    <p class="text-xl font-black gold-text">₹1,299</p>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center gap-6 mb-8">
+                    <div class="w-full md:w-1/3 text-center">
+                        <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400" class="w-32 h-32 object-cover rounded-2xl mx-auto border border-white/10 mb-2">
+                        <p class="text-[10px] font-bold text-white/60">Salicylic Face Wash</p>
+                    </div>
+                    <div class="hidden md:block flex-grow"><div class="sync-line"><div class="sync-dot"><i data-lucide="heart" class="w-3 h-3 text-[#BF953F]"></i></div></div></div>
+                    <div class="w-full md:w-1/3 text-center">
+                        <img src="https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=400" class="w-32 h-32 object-cover rounded-2xl mx-auto border border-white/10 mb-2">
+                        <p class="text-[10px] font-bold text-white/60">Jade Roller / Gua Sha</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white/5 p-4 rounded-xl border-l-2 border-[#BF953F] italic text-xs text-white/70">
+                    "GIA Intel: Chemical treatment ke baad physical massage skin blood flow badhata hai. Psychology ke hisab se ye 'Self-Care' routine stress levels kam karta hai."
+                </div>
+                <button class="w-full mt-6 bg-white/5 border border-[#BF953F]/30 py-4 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#BF953F] hover:text-black transition-all">Claim Bundle</button>
+            </div>
+        </section>
+    </main>
+
+    <nav class="mobile-nav">
+        <button onclick="window.location.href='index.html'" class="flex flex-col items-center gap-1 text-white/40">
+            <i data-lucide="home" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Home</span>
+        </button>
+        <button onclick="window.location.href='index.html'" class="flex flex-col items-center gap-1 text-white/40">
+            <i data-lucide="search" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Search</span>
+        </button>
+        <button onclick="window.location.href='combos.html'" class="flex flex-col items-center gap-1 text-[#BF953F]">
+            <i data-lucide="package" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Combos</span>
+        </button>
+        <button onclick="window.location.href='profile.html'" class="flex flex-col items-center gap-1 text-white/40">
+            <i data-lucide="user" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Profile</span>
+        </button>
+    </nav>
+
+    <footer class="py-12 text-center">
+        <p class="text-[9px] text-white/20 tracking-[0.5em] uppercase">GIA LUXE LEGACY • 2026</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
     </script>
 </body>
 </html>
