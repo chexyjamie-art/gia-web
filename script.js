@@ -1,41 +1,25 @@
 // ==========================================
-// GIA SMART AI - FINAL INTEGRATED MASTER CODE
+// GIA SMART AI - FULL INTEGRATED MASTER VERSION
 // ==========================================
 
-// 1. UI Elements Selection
+// 1. UI Elements & Memory (RAHUL'S CONTEXT)
 const chatBubble = document.getElementById('gia-chat-bubble');
 const chatText = document.getElementById('gia-chat-text');
-const chatActions = document.getElementById('gia-chat-actions');
-const trigger = document.getElementById('aura-trigger');
-const floatingProduct = document.getElementById('floating-product');
 const searchInput = document.getElementById('gia-search-input');
-const successOverlay = document.getElementById('success-screen');
+const trigger = document.getElementById('aura-trigger');
 
-// Intelligence Context
-const userContext = {
-    name: "Rahul",
-    viewedProducts: 0,
-    lastActions: []
-};
+const userContext = { name: "Rahul", viewedProducts: 0, lastActions: [] };
 
 // ---------------------------------------------------------
-// REAL GEMINI AI CONFIGURATION
+// REAL GEMINI AI CONFIGURATION (LIVE BRAIN)
 // ---------------------------------------------------------
-const GEMINI_API_KEY = AIzaSyBooGwe97LGLxzaDBzr0txng2_sHfFfhdI // <--- Bhai, apni Key yahan paste 
+const GEMINI_API_KEY = "AIzaSyBooGwe97LGLxzaDBzr0txng2_sHFffhdI"; 
 
 async function askRealGiaAI(userQuery) {
     if (chatText) chatText.innerHTML = "<span class='animate-pulse text-[#BF953F]'>GIA soch rahi hai...</span>";
     if (chatBubble) chatBubble.classList.remove('hidden');
 
-    const prompt = `
-        System: Tera naam GIA hai. Tu Rahul ki ek sacchi dost aur Luxury Stylist hai. 
-        User Query: "${userQuery}"
-        Instructions:
-        - Response ekdum frankly aur Desi touch mein dena (Bhai, Yaar, Arey wah!).
-        - Gift ya personal use ke bare mein pucho.
-        - Ek pro styling tip do.
-        - Response 3 lines max.
-    `;
+    const prompt = `System: Tera naam GIA hai. Tu Rahul ki ek sacchi dost aur Luxury Stylist hai. User Query: "${userQuery}". Response Desi touch mein 3 lines max.`;
 
     try {
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
@@ -43,105 +27,93 @@ async function askRealGiaAI(userQuery) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
         });
-
         const data = await response.json();
         const giaSpeech = data.candidates[0].content.parts[0].text;
-
-        if (chatText) chatText.innerText = giaSpeech;
+        chatText.innerText = giaSpeech;
 
         const utterance = new SpeechSynthesisUtterance(giaSpeech);
         utterance.lang = 'hi-IN';
         window.speechSynthesis.speak(utterance);
-
-    } catch (error) {
-        console.error("GIA AI Error:", error);
-        giaSpeak("greetings"); 
-    }
+    } catch (e) { chatText.innerText = "Bhai, network issue hai!"; }
 }
 
-// 2. PERSONALITY ARRAYS (Fallback)
-const giaResponses = {
-    greetings: ["Hi Rahul! Aaj kya stylish plan hai?", "Namaste Rahul! Kuch premium dikhaun?"],
-    proactive: ["Rahul, aap kaafi der se dekh rahe ho, help karun?"],
-    wishlist: ["Great choice! Save kar liya hai."]
-};
-
-// 3. COMBO ENGINE DATA
+// ---------------------------------------------------------
+// 2. DETAILED COMBO ENGINE (ALL PRODUCTS PRESERVED)
+// ---------------------------------------------------------
 const comboEngine = {
     "sunscreen": {
         name: "Complete Sun-Protection Kit",
         items: [
             { n: "Sunscreen", i: "sunscreen.png", p: 599 },
-            { n: "Face Wash", i: "facewash.png", p: 349 }
+            { n: "Face Wash", i: "facewash.png", p: 349 },
+            { n: "Serum", i: "serum.png", p: 899 }
         ],
-        reason: "Sun damage repair ke liye best combo hai.",
+        reason: "Ye combination sun damage repair aur skin hydration ke liye best hai.",
         score: "9.7"
+    },
+    "jeans": {
+        name: "Weekend Urban Look",
+        items: [
+            { n: "Denim Jeans", i: "jeans.png", p: 2499 },
+            { n: "White T-Shirt", i: "tshirt.png", p: 799 },
+            { n: "Sneakers", i: "shoes.png", p: 3999 }
+        ],
+        reason: "Light wash denim ke sath white contrast ek classic vibe deta hai.",
+        score: "9.9"
     },
     "shirt": {
         name: "Semi-Formal Ensemble",
         items: [
             { n: "Linen Shirt", i: "shirt.png", p: 2499 },
-            { n: "Beige Chinos", i: "pants.png", p: 2999 }
+            { n: "Beige Chinos", i: "pants.png", p: 2999 },
+            { n: "Loafers", i: "shoes.png", p: 3500 }
         ],
-        reason: "Linen texture + Chinos = Pure Class.",
+        reason: "Linen texture works perfectly with matte chinos.",
         score: "9.8"
     }
 };
 
-// 4. CORE FUNCTIONS (Speak, Combo, Modal)
-function giaSpeak(type, product = "") {
-    if (!window.speechSynthesis) return;
-    let text = giaResponses[type] ? giaResponses[type][0] : type;
-    if (type === 'modal') text = `Rahul, ye raha ${product} ka GIA analysis.`;
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'hi-IN';
-    window.speechSynthesis.speak(utterance);
-
-    if (chatText) {
-        chatText.innerText = text;
-        chatBubble.classList.remove('hidden');
-    }
-}
+// ---------------------------------------------------------
+// 3. MASTER LOGIC (COMBO + MODAL + SPEECH)
+// ---------------------------------------------------------
 
 function generateInstantCombo(keyword) {
     const container = document.getElementById('combo-items-container');
     if (!container) return;
     const key = keyword.toLowerCase();
-    let combo = key.includes("shirt") ? comboEngine.shirt : comboEngine.sunscreen;
+    
+    let combo = comboEngine.sunscreen; // Default
+    if (key.includes("shirt")) combo = comboEngine.shirt;
+    if (key.includes("jeans") || key.includes("denim")) combo = comboEngine.jeans;
 
-    container.innerHTML = `<div class="animate-pulse text-[#BF953F]">Styling...</div>`;
+    container.innerHTML = `<div class="animate-pulse text-[#BF953F] font-bold">GIA is styling...</div>`;
+
     setTimeout(() => {
         container.innerHTML = "";
         let total = 0;
         combo.items.forEach(item => {
-            container.innerHTML += `<div class="w-24 bg-white p-2 rounded-xl shadow-sm text-center">
-                <p class="text-[7px] font-bold">${item.n}</p>
-                <p class="text-[9px] text-[#BF953F]">₹${item.p}</p>
-            </div>`;
+            container.innerHTML += `
+                <div class="w-24 h-32 bg-white rounded-2xl p-3 shadow-sm flex flex-col items-center">
+                    <img src="${item.i}" class="w-12 h-12 object-contain mb-1">
+                    <p class="text-[7px] font-bold text-black uppercase">${item.n}</p>
+                    <p class="text-[9px] text-[#BF953F] font-black">₹${item.p}</p>
+                </div>`;
             total += item.p;
         });
         document.getElementById('combo-name').innerText = combo.name;
+        document.getElementById('combo-reasoning').innerText = combo.reason;
         document.getElementById('combo-total').innerText = `₹${total.toLocaleString()}`;
-    }, 1000);
+    }, 1200);
 }
 
-function openTruthModal(name, score) {
-    const modal = document.getElementById('analysis-modal');
-    const content = document.getElementById('modal-content');
-    if (modal && content) {
-        content.innerHTML = `<h2 class="gold-text text-xl">${name}</h2><p class="text-4xl font-black">${score}%</p>
-        <button onclick="closeAnalysis()" class="mt-4 bg-[#BF953F] px-4 py-2 rounded-lg">Got it!</button>`;
-        modal.style.display = 'flex';
-        giaSpeak('modal', name);
-    }
-}
-
-// 5. SEARCH & COMMAND HANDLER
 function handleCommand(command) {
-    askRealGiaAI(command); // Gemini Live Brain
-    generateInstantCombo(command); // Local Combo Engine
+    askRealGiaAI(command); // Gemini Speaks
+    generateInstantCombo(command); // UI Updates
 }
+
+// ---------------------------------------------------------
+// 4. EVENT LISTENERS & DISCLOSURE
+// ---------------------------------------------------------
 
 if (searchInput) {
     searchInput.addEventListener('keypress', (e) => {
@@ -149,8 +121,13 @@ if (searchInput) {
     });
 }
 
-if (trigger) trigger.addEventListener('click', () => giaSpeak('greetings'));
+// LEGAL DISCLAIMER (As per your request)
+window.addEventListener('load', () => {
+    const footer = document.querySelector('footer') || document.body;
+    const disclaimer = document.createElement('div');
+    disclaimer.style = "text-align:center; font-size:10px; color:gray; margin-top:20px; padding:10px;";
+    disclaimer.innerHTML = "© 2026 ALTER Project | Legal Disclaimer: AI-generated styling advice. Prices and availability are subject to partner brand terms.";
+    footer.appendChild(disclaimer);
+});
 
-function closeAnalysis() { document.getElementById('analysis-modal').style.display = 'none'; }
-
-console.log("GIA SYSTEM: Fully Integrated & Live.");
+console.log("GIA Full System Online.");
