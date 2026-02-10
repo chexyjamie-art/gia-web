@@ -3,177 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | My Profile</title>
+    <title>GIA LUXE | Profile Settings</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
         body { 
-            background: linear-gradient(rgba(4, 36, 26, 0.95), rgba(4, 36, 26, 0.98)), 
-                        url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1920&q=80');
-            background-size: cover; background-attachment: fixed; font-family: 'Inter', sans-serif; color: white; min-height: 100vh;
+            background-color: #04241a;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cpath d='M30 0l30 17.32v34.64L30 69.28 0 51.96V17.32L30 0z' fill='none' stroke='%230a3629' stroke-width='1'/%3E%3Cpath d='M30 103.92L0 86.6V51.96l30 17.32 30-17.32v34.64l-30 17.32z' fill='none' stroke='%230a3629' stroke-width='1'/%3E%3Cpath d='M30 69.28V34.64L0 17.32M30 34.64l30-17.32M30 69.28l30 17.32M30 69.28L0 86.6' fill='none' stroke='%230a3629' stroke-width='1'/%3E%3C/svg%3E");
+            font-family: 'Inter', sans-serif; color: white; min-height: 100vh;
         }
-        .royal-logo { font-family: 'Playfair Display', serif; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; }
-        .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .card-bg { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(191, 149, 63, 0.1); border-radius: 2rem; }
-        
-        input, select { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; outline: none; }
-        input:focus { border-color: #BF953F !important; }
-
-        .toggle-active { background: #BF953F !important; color: black !important; }
-
-        .mobile-nav { 
-            display: flex; position: fixed; bottom: 0; left: 0; right: 0; 
-            background: rgba(4, 36, 26, 0.95); backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(191, 149, 63, 0.2); z-index: 1000;
-            padding: 1rem; justify-content: space-around;
-        }
+        .gold-text { background: linear-gradient(to bottom, #BF953F, #FCF6BA, #B38728, #AA771C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Playfair Display', serif; }
+        .glass-card { background: rgba(255, 255, 255, 0.015); backdrop-filter: blur(6px); border: 1px solid rgba(191, 149, 63, 0.12); border-radius: 2.5rem; }
+        .input-box { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(191, 149, 63, 0.2); border-radius: 12px; padding: 12px 15px; width: 100%; outline: none; color: white; font-size: 0.9rem; transition: all 0.3s; }
+        .field-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #BF953F; margin-bottom: 6px; display: block; font-weight: 600; }
+        .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; backdrop-filter: blur(10px); align-items: center; justify-content: center; }
+        .toggle-btn { border: 1px solid rgba(191,149,63,0.3); padding: 8px 16px; border-radius: 10px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
+        .active-toggle { background: #BF953F; color: black; }
     </style>
 </head>
-<body class="pb-32">
+<body class="p-6 pb-32">
 
-    <header class="py-6 px-6 border-b border-[#BF953F]/20 backdrop-blur-md sticky top-0 z-[100]">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 class="text-xl royal-logo gold-text">Customer Vault</h1>
-            <button onclick="logout()" class="text-[10px] font-black uppercase text-red-500 bg-red-500/10 px-4 py-2 rounded-full border border-red-500/20">Logout</button>
+    <div class="max-w-xl mx-auto flex justify-between items-center mb-8">
+        <button onclick="window.location.href='index.html'" class="text-[#BF953F]"><i data-lucide="chevron-left"></i></button>
+        <h1 class="text-2xl gold-text italic">Profile Vault</h1>
+        <button onclick="logout()" class="text-[10px] text-red-500 font-bold uppercase tracking-widest bg-red-500/10 px-3 py-1.5 rounded-lg">Logout</button>
+    </div>
+
+    <main class="max-w-xl mx-auto space-y-8">
+        <div class="glass-card p-8">
+            <div class="flex flex-col items-center mb-10">
+                <div class="relative group cursor-pointer" onclick="toggleDPModal()">
+                    <div class="w-24 h-24 rounded-full border-2 border-[#BF953F] p-1 overflow-hidden">
+                        <img id="user-dp" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Gia" class="w-full h-full rounded-full object-cover">
+                    </div>
+                </div>
+                <p class="text-[9px] text-white/40 mt-3 uppercase tracking-widest">Customer Identity</p>
+            </div>
+
+            <div class="space-y-6">
+                <div>
+                    <label class="field-label">Full Name</label>
+                    <input type="text" id="p-name" class="input-box" readonly style="opacity: 0.7;">
+                </div>
+                <div>
+                    <label class="field-label">Mobile Number</label>
+                    <input type="tel" id="p-phone" class="input-box" readonly style="opacity: 0.7;">
+                </div>
+                <div>
+                    <label class="field-label">Email Address</label>
+                    <input type="email" id="p-email" class="input-box" placeholder="Add Email">
+                </div>
+                <div>
+                    <label class="field-label">Delivery Address</label>
+                    <textarea id="p-address" rows="2" class="input-box" placeholder="Full Address"></textarea>
+                </div>
+            </div>
         </div>
-    </header>
 
-    <main class="max-w-2xl mx-auto px-6 py-10">
-        
-        <section class="mb-10">
-            <p class="text-[10px] font-black gold-text uppercase tracking-[0.3em] mb-4 ml-2">Personal Information</p>
-            <div class="card-bg p-8">
-                <div class="space-y-6">
-                    <div>
-                        <label class="text-[10px] text-white/40 uppercase font-bold mb-2 block">Full Name</label>
-                        <input type="text" id="cust-name" class="w-full p-4 rounded-xl text-sm" readonly>
+        <div class="glass-card p-8">
+            <h3 class="text-sm gold-text font-bold uppercase tracking-widest mb-6 flex items-center gap-2">
+                <i data-lucide="settings-2" class="w-4 h-4"></i> AI Assistant Settings
+            </h3>
+            
+            <div class="space-y-8">
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-semibold">AI Gender</span>
+                    <div class="flex gap-2">
+                        <button onclick="setAIGender('male')" id="ai-m" class="toggle-btn">Male</button>
+                        <button onclick="setAIGender('female')" id="ai-f" class="toggle-btn active-toggle">Female</button>
                     </div>
-                    <div>
-                        <label class="text-[10px] text-white/40 uppercase font-bold mb-2 block">Mobile Number</label>
-                        <input type="text" id="cust-phone" class="w-full p-4 rounded-xl text-sm" readonly>
-                    </div>
-                    <div>
-                        <label class="text-[10px] text-white/40 uppercase font-bold mb-2 block">Email Address (Optional)</label>
-                        <input type="email" id="cust-email" placeholder="Add your email" class="w-full p-4 rounded-xl text-sm">
-                    </div>
-                    <div>
-                        <label class="text-[10px] text-white/40 uppercase font-bold mb-2 block">Delivery Address</label>
-                        <textarea id="cust-address" placeholder="Enter your full address" class="w-full p-4 rounded-xl text-sm bg-white/5 border border-white/10 outline-none focus:border-[#BF953F] h-24"></textarea>
-                    </div>
-                    <button onclick="saveDetails()" class="w-full bg-white/5 border border-[#BF953F]/30 py-3 rounded-full text-[10px] font-black gold-text uppercase tracking-widest hover:bg-[#BF953F] hover:text-black transition-all">Save Profile</button>
                 </div>
-            </div>
-        </section>
 
-        <section class="mb-10">
-            <p class="text-[10px] font-black gold-text uppercase tracking-[0.3em] mb-4 ml-2">GIA Assistant Settings</p>
-            <div class="card-bg p-8">
-                <div class="space-y-8">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="text-sm font-bold">AI Gender Persona</p>
-                            <p class="text-[9px] text-white/30">Choose GIA's identity</p>
-                        </div>
-                        <div class="flex gap-2">
-                            <button onclick="setAI('male')" id="ai-male" class="px-4 py-2 rounded-lg text-[9px] font-black uppercase border border-white/10">Male</button>
-                            <button onclick="setAI('female')" id="ai-female" class="px-4 py-2 rounded-lg text-[9px] font-black uppercase border border-white/10 toggle-active">Female</button>
-                        </div>
-                    </div>
-
-                    <div>
-                        <p class="text-sm font-bold mb-4">Voice Modulation</p>
-                        <div class="grid grid-cols-2 gap-3">
-                            <button onclick="setVoice('energetic')" id="v-energetic" class="p-4 rounded-xl border border-[#BF953F]/20 text-[9px] font-bold uppercase bg-white/5">Energetic / Fast</button>
-                            <button onclick="setVoice('soft')" id="v-soft" class="p-4 rounded-xl border border-[#BF953F]/20 text-[9px] font-bold uppercase bg-white/5">Soft / Luxury</button>
-                        </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-semibold">Voice Persona</span>
+                    <div class="flex gap-2">
+                        <button onclick="setAIVoice('soft')" id="v-soft" class="toggle-btn">Soft</button>
+                        <button onclick="setAIVoice('pro')" id="v-pro" class="toggle-btn active-toggle">Pro</button>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
+        <button onclick="saveProfile()" class="w-full py-4 bg-gradient-to-r from-[#BF953F] to-[#AA771C] text-black font-black rounded-full text-[10px] uppercase tracking-[0.2em] shadow-xl">
+            Update All Settings
+        </button>
     </main>
 
-    <footer class="py-16 text-center border-t border-white/5">
-        <div class="max-w-md mx-auto">
-            <h2 class="royal-logo gold-text text-lg italic mb-4">GIA LUXE</h2>
-            <p class="text-[9px] text-white/30 italic leading-relaxed uppercase tracking-[0.2em]">
-                GIA IS AN AI-POWERED AFFILIATE PLATFORM. WE CURATE PRODUCTS BASED ON ANALYSIS. 
-                COMMISSIONS MAY BE EARNED THROUGH YOUR PURCHASES. ALL RIGHTS RESERVED 2026.
-            </p>
-        </div>
+    <footer class="max-w-xl mx-auto mt-20 text-center opacity-30">
+        <p class="text-[8px] uppercase tracking-[0.3em] leading-loose">
+            GIA LUXE is an AI-powered affiliate platform. Products are curated via psychological analysis. Commissions may be earned on purchases. © 2026.
+        </p>
     </footer>
 
-    <nav class="mobile-nav">
-        <button onclick="window.location.href='index.html'" class="flex flex-col items-center gap-1 text-white/40">
-            <i data-lucide="home" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Home</span>
-        </button>
-        <button onclick="window.location.href='index.html'" class="flex flex-col items-center gap-1 text-white/40">
-            <i data-lucide="search" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Search</span>
-        </button>
-        <button onclick="window.location.href='combos.html'" class="flex flex-col items-center gap-1 text-white/40">
-            <i data-lucide="package" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Combos</span>
-        </button>
-        <button onclick="window.location.href='profile.html'" class="flex flex-col items-center gap-1 text-[#BF953F]">
-            <i data-lucide="user" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Profile</span>
-        </button>
-    </nav>
+    <div id="dp-modal" class="modal-bg">
+        <div class="text-center p-6 w-full max-w-sm">
+            <img id="full-dp-view" src="" class="w-64 h-64 mx-auto rounded-3xl border border-[#BF953F]/30 object-cover mb-6">
+            <input type="file" id="upload-dp" accept="image/*" class="hidden" onchange="previewImage(event)">
+            <button onclick="document.getElementById('upload-dp').click()" class="w-full bg-[#BF953F] text-black font-bold py-4 rounded-xl text-xs uppercase mb-3">Change Photo</button>
+            <button onclick="toggleDPModal()" class="text-white/60 text-xs">Close</button>
+        </div>
+    </div>
 
     <script>
         lucide.createIcons();
 
-        // 1. SESSION MANAGEMENT & AUTO-FILL
-        window.onload = () => {
-            // Login ke waqt save kiye gaye data ko uthana
-            const userName = localStorage.getItem('giaUserName');
-            const userPhone = localStorage.getItem('giaUserPhone');
-            
-            if (!userName || !userPhone) {
-                window.location.href = 'login.html'; // Agar data nahi hai toh login bhej do
+        window.onload = function() {
+            // Auto-Fill from Login Data
+            const storedName = localStorage.getItem('giaUserName');
+            const storedPhone = localStorage.getItem('giaUserPhone');
+
+            if(!storedName || !storedPhone) {
+                window.location.href = 'login.html';
             } else {
-                document.getElementById('cust-name').value = userName;
-                document.getElementById('cust-phone').value = userPhone;
+                document.getElementById('p-name').value = storedName;
+                document.getElementById('p-phone').value = storedPhone;
+                document.getElementById('p-email').value = localStorage.getItem('giaUserEmail') || "";
+                document.getElementById('p-address').value = localStorage.getItem('giaUserAddress') || "";
                 
-                // Extra details agar pehle save ki thi
-                document.getElementById('cust-email').value = localStorage.getItem('giaUserEmail') || '';
-                document.getElementById('cust-address').value = localStorage.getItem('giaUserAddress') || '';
+                const savedDP = localStorage.getItem('giaUserDP');
+                if(savedDP) {
+                    document.getElementById('user-dp').src = savedDP;
+                    document.getElementById('full-dp-view').src = savedDP;
+                }
             }
         };
 
-        // 2. SAVE ADDITIONAL DETAILS
-        function saveDetails() {
-            const email = document.getElementById('cust-email').value;
-            const address = document.getElementById('cust-address').value;
-            
-            localStorage.setItem('giaUserEmail', email);
-            localStorage.setItem('giaUserAddress', address);
-            alert("GIA Vault Updated Successfully!");
+        function setAIGender(g) {
+            document.getElementById('ai-m').classList.toggle('active-toggle', g === 'male');
+            document.getElementById('ai-f').classList.toggle('active-toggle', g === 'female');
+            localStorage.setItem('gia_ai_gender', g);
         }
 
-        // 3. AI SETTINGS LOGIC
-        function setAI(gender) {
-            document.getElementById('ai-male').classList.toggle('toggle-active', gender === 'male');
-            document.getElementById('ai-female').classList.toggle('toggle-active', gender === 'female');
-            localStorage.setItem('gia_ai_gender', gender);
+        function setAIVoice(v) {
+            document.getElementById('v-soft').classList.toggle('active-toggle', v === 'soft');
+            document.getElementById('v-pro').classList.toggle('active-toggle', v === 'pro');
+            localStorage.setItem('gia_ai_voice', v);
         }
 
-        function setVoice(type) {
-            document.getElementById('v-energetic').classList.toggle('border-[#BF953F]', type === 'energetic');
-            document.getElementById('v-soft').classList.toggle('border-[#BF953F]', type === 'soft');
-            localStorage.setItem('gia_ai_voice', type);
+        function saveProfile() {
+            localStorage.setItem('giaUserEmail', document.getElementById('p-email').value);
+            localStorage.setItem('giaUserAddress', document.getElementById('p-address').value);
+            alert("GIA Vault Updated!");
         }
 
-        // 4. LOGOUT
         function logout() {
-            if(confirm("Bhai, logout karna hai? Aapki settings save rahengi.")) {
-                // Hum name aur phone nahi hatayenge agar session sirf logout karna hai, 
-                // par agar full clean chahiye toh localStorage.clear() use kar sakte hain.
+            if(confirm("Exit the Vault?")) {
                 localStorage.removeItem('giaUserName');
                 localStorage.removeItem('giaUserPhone');
                 window.location.href = 'login.html';
             }
+        }
+
+        function toggleDPModal() {
+            const modal = document.getElementById('dp-modal');
+            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                document.getElementById('user-dp').src = reader.result;
+                document.getElementById('full-dp-view').src = reader.result;
+                localStorage.setItem('giaUserDP', reader.result);
+            };
+            reader.readAsDataURL(event.target.files[0]);
+            toggleDPModal();
         }
     </script>
 </body>
