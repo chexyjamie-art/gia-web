@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | Profile & Settings</title>
+    <title>GIA LUXE | My Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -17,20 +17,12 @@
         .royal-logo { font-family: 'Playfair Display', serif; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; }
         .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        .summon-effect { animation: summon 0.8s ease-out forwards; }
-        @keyframes summon {
-            from { opacity: 0; transform: translateY(15px); filter: blur(5px); }
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
-        }
+        .card-bg { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(191, 149, 63, 0.1); border-radius: 2rem; }
+        
+        input, select { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; outline: none; }
+        input:focus { border-color: #BF953F !important; }
 
-        .setting-card { 
-            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); 
-            border: 1px solid rgba(191, 149, 63, 0.1); border-radius: 2rem; 
-            padding: 1.5rem; margin-bottom: 1.5rem;
-        }
-
-        .toggle-btn.active { background: #BF953F; color: black; border-color: #BF953F; }
-        .toggle-btn { border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+        .toggle-active { background: #BF953F !important; color: black !important; }
 
         .mobile-nav { 
             display: flex; position: fixed; bottom: 0; left: 0; right: 0; 
@@ -44,70 +36,73 @@
 
     <header class="py-6 px-6 border-b border-[#BF953F]/20 backdrop-blur-md sticky top-0 z-[100]">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 class="text-xl royal-logo gold-text">My GIA Vault</h1>
-            <button onclick="logout()" class="text-[10px] font-black uppercase text-red-500 tracking-widest bg-red-500/10 px-4 py-2 rounded-full border border-red-500/20">Logout</button>
+            <h1 class="text-xl royal-logo gold-text">Customer Vault</h1>
+            <button onclick="logout()" class="text-[10px] font-black uppercase text-red-500 bg-red-500/10 px-4 py-2 rounded-full border border-red-500/20">Logout</button>
         </div>
     </header>
 
     <main class="max-w-2xl mx-auto px-6 py-10">
         
-        <div class="text-center mb-12 summon-effect">
-            <div class="w-24 h-24 bg-gradient-to-b from-[#BF953F] to-[#B38728] rounded-full mx-auto mb-4 p-1">
-                <div class="w-full h-full bg-[#04241a] rounded-full flex items-center justify-center">
-                    <i data-lucide="user" class="w-10 h-10 text-[#BF953F]"></i>
-                </div>
-            </div>
-            <h2 id="userNameDisplay" class="text-2xl font-bold">Luxe Member</h2>
-            <p id="userPhoneDisplay" class="text-white/40 text-xs mt-1">+91 XXXXX XXXXX</p>
-        </div>
-
-        <div class="summon-effect" style="animation-delay: 0.2s;">
-            <p class="text-[10px] font-black gold-text uppercase tracking-[0.3em] mb-4 ml-2">AI Identity Settings</p>
-            <div class="setting-card">
-                <div class="flex justify-between items-center mb-6">
+        <section class="mb-10">
+            <p class="text-[10px] font-black gold-text uppercase tracking-[0.3em] mb-4 ml-2">Personal Information</p>
+            <div class="card-bg p-8">
+                <div class="space-y-6">
                     <div>
-                        <p class="text-sm font-bold">GIA Gender</p>
-                        <p class="text-[10px] text-white/40">Choose your AI Assistant's persona</p>
+                        <label class="text-[10px] text-white/40 uppercase font-bold mb-2 block">Full Name</label>
+                        <input type="text" id="cust-name" class="w-full p-4 rounded-xl text-sm" readonly>
                     </div>
-                    <div class="flex gap-2">
-                        <button onclick="setGender('male')" id="btn-male" class="toggle-btn px-4 py-2 rounded-xl text-[10px] font-bold uppercase">Male</button>
-                        <button onclick="setGender('female')" id="btn-female" class="toggle-btn active px-4 py-2 rounded-xl text-[10px] font-bold uppercase">Female</button>
+                    <div>
+                        <label class="text-[10px] text-white/40 uppercase font-bold mb-2 block">Mobile Number</label>
+                        <input type="text" id="cust-phone" class="w-full p-4 rounded-xl text-sm" readonly>
                     </div>
+                    <div>
+                        <label class="text-[10px] text-white/40 uppercase font-bold mb-2 block">Email Address (Optional)</label>
+                        <input type="email" id="cust-email" placeholder="Add your email" class="w-full p-4 rounded-xl text-sm">
+                    </div>
+                    <div>
+                        <label class="text-[10px] text-white/40 uppercase font-bold mb-2 block">Delivery Address</label>
+                        <textarea id="cust-address" placeholder="Enter your full address" class="w-full p-4 rounded-xl text-sm bg-white/5 border border-white/10 outline-none focus:border-[#BF953F] h-24"></textarea>
+                    </div>
+                    <button onclick="saveDetails()" class="w-full bg-white/5 border border-[#BF953F]/30 py-3 rounded-full text-[10px] font-black gold-text uppercase tracking-widest hover:bg-[#BF953F] hover:text-black transition-all">Save Profile</button>
                 </div>
+            </div>
+        </section>
 
-                <div class="space-y-4">
-                    <p class="text-sm font-bold">Voice Tone</p>
-                    <div class="grid grid-cols-3 gap-2">
-                        <button onclick="setVoice('soft')" class="voice-option p-3 rounded-xl border border-white/5 bg-white/5 text-[9px] font-bold uppercase hover:border-[#BF953F]">Soft/Calm</button>
-                        <button onclick="setVoice('pro')" class="voice-option p-3 rounded-xl border border-[#BF953F] bg-[#BF953F]/10 text-[9px] font-bold uppercase text-[#BF953F]">Professional</button>
-                        <button onclick="setVoice('energetic')" class="voice-option p-3 rounded-xl border border-white/5 bg-white/5 text-[9px] font-bold uppercase hover:border-[#BF953F]">Energetic</button>
+        <section class="mb-10">
+            <p class="text-[10px] font-black gold-text uppercase tracking-[0.3em] mb-4 ml-2">GIA Assistant Settings</p>
+            <div class="card-bg p-8">
+                <div class="space-y-8">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-sm font-bold">AI Gender Persona</p>
+                            <p class="text-[9px] text-white/30">Choose GIA's identity</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="setAI('male')" id="ai-male" class="px-4 py-2 rounded-lg text-[9px] font-black uppercase border border-white/10">Male</button>
+                            <button onclick="setAI('female')" id="ai-female" class="px-4 py-2 rounded-lg text-[9px] font-black uppercase border border-white/10 toggle-active">Female</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="text-sm font-bold mb-4">Voice Modulation</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="setVoice('energetic')" id="v-energetic" class="p-4 rounded-xl border border-[#BF953F]/20 text-[9px] font-bold uppercase bg-white/5">Energetic / Fast</button>
+                            <button onclick="setVoice('soft')" id="v-soft" class="p-4 rounded-xl border border-[#BF953F]/20 text-[9px] font-bold uppercase bg-white/5">Soft / Luxury</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="summon-effect" style="animation-delay: 0.4s;">
-            <p class="text-[10px] font-black gold-text uppercase tracking-[0.3em] mb-4 ml-2">Smart Preferences</p>
-            <div class="setting-card space-y-6">
-                <div class="flex justify-between items-center">
-                    <p class="text-sm font-bold">Auto-Sync Lab Bundles</p>
-                    <div class="w-10 h-5 bg-[#BF953F] rounded-full relative"><div class="w-4 h-4 bg-black rounded-full absolute right-0.5 top-0.5"></div></div>
-                </div>
-                <div class="flex justify-between items-center">
-                    <p class="text-sm font-bold">High-Res Product Previews</p>
-                    <div class="w-10 h-5 bg-white/10 rounded-full relative"><div class="w-4 h-4 bg-white/40 rounded-full absolute left-0.5 top-0.5"></div></div>
-                </div>
-            </div>
-        </div>
+        </section>
 
     </main>
 
-    <footer class="mt-10 mb-24 px-6 text-center">
-        <div class="max-w-xl mx-auto border-t border-white/5 pt-8">
-            <p class="text-[9px] text-white/30 leading-relaxed uppercase tracking-widest">
-                GIA LUXE is an AI-driven affiliate discovery platform. We curate products based on psychological analysis. Commissions may be earned on qualifying purchases. All rights reserved 2026.
+    <footer class="py-16 text-center border-t border-white/5">
+        <div class="max-w-md mx-auto">
+            <h2 class="royal-logo gold-text text-lg italic mb-4">GIA LUXE</h2>
+            <p class="text-[9px] text-white/30 italic leading-relaxed uppercase tracking-[0.2em]">
+                GIA IS AN AI-POWERED AFFILIATE PLATFORM. WE CURATE PRODUCTS BASED ON ANALYSIS. 
+                COMMISSIONS MAY BE EARNED THROUGH YOUR PURCHASES. ALL RIGHTS RESERVED 2026.
             </p>
-            <p class="gold-text text-[8px] mt-4 font-black tracking-[0.5em]">CENTERED • SECURE • LUXURY</p>
         </div>
     </footer>
 
@@ -129,23 +124,54 @@
     <script>
         lucide.createIcons();
 
-        // Data Load from LocalStorage
+        // 1. SESSION MANAGEMENT & AUTO-FILL
         window.onload = () => {
-            const savedName = localStorage.getItem('gia_user_name') || "Luxe Member";
-            const savedPhone = localStorage.getItem('gia_user_phone') || "+91 98XXX XXXXX";
-            document.getElementById('userNameDisplay').innerText = savedName;
-            document.getElementById('userPhoneDisplay').innerText = savedPhone;
+            // Login ke waqt save kiye gaye data ko uthana
+            const userName = localStorage.getItem('giaUserName');
+            const userPhone = localStorage.getItem('giaUserPhone');
+            
+            if (!userName || !userPhone) {
+                window.location.href = 'login.html'; // Agar data nahi hai toh login bhej do
+            } else {
+                document.getElementById('cust-name').value = userName;
+                document.getElementById('cust-phone').value = userPhone;
+                
+                // Extra details agar pehle save ki thi
+                document.getElementById('cust-email').value = localStorage.getItem('giaUserEmail') || '';
+                document.getElementById('cust-address').value = localStorage.getItem('giaUserAddress') || '';
+            }
         };
 
-        function setGender(g) {
-            document.getElementById('btn-male').classList.toggle('active', g === 'male');
-            document.getElementById('btn-female').classList.toggle('active', g === 'female');
-            localStorage.setItem('gia_ai_gender', g);
+        // 2. SAVE ADDITIONAL DETAILS
+        function saveDetails() {
+            const email = document.getElementById('cust-email').value;
+            const address = document.getElementById('cust-address').value;
+            
+            localStorage.setItem('giaUserEmail', email);
+            localStorage.setItem('giaUserAddress', address);
+            alert("GIA Vault Updated Successfully!");
         }
 
+        // 3. AI SETTINGS LOGIC
+        function setAI(gender) {
+            document.getElementById('ai-male').classList.toggle('toggle-active', gender === 'male');
+            document.getElementById('ai-female').classList.toggle('toggle-active', gender === 'female');
+            localStorage.setItem('gia_ai_gender', gender);
+        }
+
+        function setVoice(type) {
+            document.getElementById('v-energetic').classList.toggle('border-[#BF953F]', type === 'energetic');
+            document.getElementById('v-soft').classList.toggle('border-[#BF953F]', type === 'soft');
+            localStorage.setItem('gia_ai_voice', type);
+        }
+
+        // 4. LOGOUT
         function logout() {
-            if(confirm("Are you sure you want to exit the Vault?")) {
-                localStorage.clear();
+            if(confirm("Bhai, logout karna hai? Aapki settings save rahengi.")) {
+                // Hum name aur phone nahi hatayenge agar session sirf logout karna hai, 
+                // par agar full clean chahiye toh localStorage.clear() use kar sakte hain.
+                localStorage.removeItem('giaUserName');
+                localStorage.removeItem('giaUserPhone');
                 window.location.href = 'login.html';
             }
         }
