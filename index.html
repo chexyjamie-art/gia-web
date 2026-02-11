@@ -23,19 +23,39 @@
         }
         .royal-logo { font-family: 'Playfair Display', serif; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; }
         .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .product-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border-radius: 1.5rem; transition: 0.3s; border: 1px solid rgba(191, 149, 63, 0.1); cursor: pointer; }
-        .product-card:hover { transform: translateY(-5px); border: 1px solid #BF953F; }
+        
+        /* AUTO-EXPANDING GRID & SPOTLIGHT CARDS */
+        .product-card { 
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); 
+            border-radius: 2rem; transition: 0.4s; border: 1px solid rgba(191, 149, 63, 0.1); 
+            position: relative; overflow: hidden; height: auto; display: flex; flex-direction: column;
+        }
+        .product-card:hover { transform: translateY(-10px); border: 1px solid #BF953F; box-shadow: 0 0 30px rgba(191, 149, 63, 0.2); }
+        
+        .match-badge {
+            position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.7); 
+            backdrop-filter: blur(5px); padding: 4px 10px; border-radius: 20px; 
+            border: 1px solid #BF953F; font-size: 10px; font-weight: 900; color: #BF953F; z-index: 10;
+        }
+
         .stylist-lens-box { border-left: 3px solid #BF953F; background: rgba(191, 149, 63, 0.08); border-radius: 0 1.5rem 1.5rem 0; padding: 1.5rem; font-style: italic; }
         .gia-insight-panel { background: rgba(191, 149, 63, 0.05); border: 1px dashed rgba(191, 149, 63, 0.3); border-radius: 1.5rem; animation: fadeIn 0.8s ease; }
+        
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .mic-active { color: #ef4444 !important; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        
         #details-modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); z-index: 500; display: none; overflow-y: auto; padding: 2rem 0; backdrop-filter: blur(15px); }
-        .mobile-nav { display: none; }
-        @media (max-width: 768px) { .mobile-nav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: rgba(4, 36, 26, 0.95); backdrop-filter: blur(20px); border-top: 1px solid rgba(191, 149, 63, 0.2); z-index: 1000; padding: 1rem; justify-content: space-around; } }
+        
+        .mobile-nav { 
+            display: flex; position: fixed; bottom: 0; left: 0; right: 0; 
+            background: rgba(4, 36, 26, 0.95); backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(191, 149, 63, 0.2); z-index: 1000;
+            padding: 1rem; justify-content: space-around;
+        }
     </style>
 </head>
-<body class="pb-24 md:pb-0"> 
+<body class="pb-24"> 
 
     <header class="py-6 px-4 md:px-8 border-b border-[#BF953F]/20 backdrop-blur-md sticky top-0 z-[100]">
         <nav class="max-w-7xl mx-auto flex justify-between items-center">
@@ -74,23 +94,22 @@
 
         <section class="mb-20">
             <h3 class="text-[10px] font-bold tracking-[0.4em] uppercase text-[#BF953F] mb-10">AI Curated Picks</h3>
-            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
-        </section>
-
-        <section id="combo-area" class="mb-20">
-            <div class="flex justify-between items-center mb-8">
-                <h3 class="text-[10px] font-bold tracking-[0.4em] uppercase text-[#BF953F]">GIA Suggested Bundle</h3>
-                <a href="combos.html" class="text-[10px] gold-text font-bold uppercase tracking-widest border-b border-[#BF953F] pb-1">View More Combos</a>
-            </div>
-            <div id="dynamic-combo-card" class="p-10 rounded-[2.5rem] bg-white/[0.03] border border-white/10 backdrop-blur-3xl"></div>
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                </div>
         </section>
     </main>
 
-    <footer class="py-16 text-center border-t border-white/5">
-        <h2 class="royal-logo gold-text text-xl italic mb-4">GIA LUXE</h2>
-        <p class="text-[9px] text-white/30 italic max-w-xs mx-auto mb-4">GIA is an AI-powered affiliate platform. Psychological curation.</p>
-        <p class="text-[8px] text-[#BF953F]/40 uppercase tracking-[0.3em] font-bold">© 2026 ALTER PROJECT | LEGAL DISCLAIMER: AI-Generated Advice. Verified by GIA.</p>
-    </footer>
+    <nav class="mobile-nav">
+        <button onclick="window.location.href='index.html'" class="flex flex-col items-center gap-1 text-[#BF953F]">
+            <i data-lucide="home" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Home</span>
+        </button>
+        <button onclick="window.location.href='combos.html'" class="flex flex-col items-center gap-1 text-white/40">
+            <i data-lucide="package" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Combos</span>
+        </button>
+        <button onclick="window.location.href='profile.html'" class="flex flex-col items-center gap-1 text-white/40">
+            <i data-lucide="user" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Profile</span>
+        </button>
+    </nav>
 
     <div id="details-modal">
         <div class="max-w-xl mx-auto px-6 relative">
@@ -99,14 +118,21 @@
         </div>
     </div>
 
+    <footer class="py-16 text-center border-t border-white/5">
+        <h2 class="royal-logo gold-text text-xl italic mb-4">GIA LUXE</h2>
+        <p class="text-[9px] text-white/30 italic max-w-xs mx-auto mb-8">GIA is an AI-powered affiliate platform. Psychological curation.</p>
+        <p class="text-[8px] text-[#BF953F]/60 uppercase tracking-[0.3em] font-bold text-center">© 2026 ALTER PROJECT | LEGAL DISCLAIMER: AI-Generated Advice. Verified by GIA.</p>
+    </footer>
+
     <script>
         const GEMINI_API_KEY = "AIzaSyBooGwe97LGLxzaDBzr0txng2_sHfFfhdI"; 
         lucide.createIcons();
 
         const allDatabase = [
-            { id: 1, category: 'fashion', name: "Emerald Linen Shirt", price: "2,499", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600", sentiment: "Summer parties ke liye best royal choice." },
-            { id: 101, category: 'beauty', name: "Salicylic Face Wash", price: "499", img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600", sentiment: "Pimples ke liye sabse effective cleanser." },
-            { id: 201, category: 'tech', name: "ANC Earbuds Pro", price: "4,499", img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600", sentiment: "Gym aur travel ke liye perfect choice." }
+            { id: 1, category: 'fashion', name: "Emerald Linen Shirt", price: "2,499", match: "98.4", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600", sentiment: "Summer parties ke liye best royal choice." },
+            { id: 101, category: 'beauty', name: "Salicylic Face Wash", price: "499", match: "95.2", img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600", sentiment: "Pimples ke liye sabse effective cleanser." },
+            { id: 2, category: 'fashion', name: "Charcoal Chinos", price: "1,899", match: "94.2", img: "https://images.unsplash.com/photo-1624373666563-54ec85a14962?w=600", sentiment: "Durable aur comfortable chinos." },
+            { id: 201, category: 'tech', name: "ANC Earbuds Pro", price: "4,499", match: "92.8", img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600", sentiment: "Gym aur travel ke liye perfect choice." }
         ];
 
         window.onload = () => {
@@ -115,10 +141,8 @@
             document.getElementById('hero-user-name').innerText = name;
             document.getElementById('user-avatar').src = localStorage.getItem('giaUserDP') || `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`;
             renderProducts(allDatabase);
-            showDefaultCombo();
         };
 
-        // REAL GEMINI AI CALL - NO SAVE SPEECH
         async function askGiaAI(query) {
             const aiBox = document.getElementById('gia-ai-box');
             const aiText = document.getElementById('gia-ai-text');
@@ -129,7 +153,7 @@
             aiText.innerHTML = "<span class='animate-pulse text-[#BF953F]'>GIA soch rahi hai...</span>";
             tipContainer.classList.add('hidden');
 
-            const prompt = `System: Tera naam GIA hai. Tu Rahul ki Best Friend aur Luxury Stylist hai. User Query: "${query}". Real desi doston wali chat kar (Bhai, Yaar, Mast). Styling advice de aur pucho gift hai ya personal use. Max 2 lines. Add a tip at the end with 'Tip:' prefix.`;
+            const prompt = `System: Tera naam GIA hai. Tu Rahul ki Best Friend aur Luxury Stylist hai. User Query: "${query}". Real desi doston wali chat kar. Styling advice de. Max 2 lines. Add a tip with 'Tip:' prefix.`;
 
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
@@ -139,22 +163,16 @@
                 });
                 const data = await response.json();
                 const fullText = data.candidates[0].content.parts[0].text;
-                
                 const parts = fullText.split('Tip:');
                 aiText.innerText = parts[0].trim();
                 if(parts[1]) {
                     aiTip.innerText = "GIA TIP: " + parts[1].trim();
                     tipContainer.classList.remove('hidden');
                 }
-
-                const utterance = new SpeechSynthesisUtterance(parts[0]);
-                utterance.lang = 'hi-IN';
-                window.speechSynthesis.speak(utterance);
-            } catch (e) { aiText.innerText = "Bhai, net thoda slow hai!"; }
+            } catch (e) { aiText.innerText = "Bhai, GIA thoda rest kar rahi hai!"; }
         }
 
-        // ARROW/ENTER KEY SEARCH FIX
-        document.getElementById('ai-search-input').addEventListener('keypress', (e) => {
+        document.getElementById('ai-search-input').addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 const query = e.target.value.trim();
                 if(query.length > 0) {
@@ -169,12 +187,17 @@
             const grid = document.getElementById('product-grid');
             grid.innerHTML = data.map(p => `
                 <div class="product-card p-6" onclick="openDetails(${p.id})">
+                    <div class="match-badge">${p.match}% MATCH</div>
                     <img src="${p.img}" class="w-full h-52 object-cover rounded-2xl mb-4">
                     <h4 class="text-sm font-bold text-white/80">${p.name}</h4>
                     <p class="text-xl font-black mt-2 gold-text">₹${p.price}</p>
+                    <div class="mt-4 pt-3 border-t border-white/5">
+                        <a href="combos.html?id=${p.id}" class="text-[10px] text-[#BF953F] font-bold uppercase tracking-widest flex items-center gap-2 hover:underline">
+                            <i data-lucide="package" class="w-3 h-3"></i> Get GIA Combo →
+                        </a>
+                    </div>
                 </div>
             `).join('');
-            if(data.length > 0) updateDynamicCombo(data[0]);
             lucide.createIcons();
         }
 
@@ -186,39 +209,26 @@
                     <img src="${p.img}" class="w-full h-[450px] object-cover">
                     <div class="p-8">
                         <h2 class="text-4xl royal-logo gold-text italic mb-4">${p.name}</h2>
-                        <p class="text-2xl font-bold mb-8">₹${p.price}</p>
+                        
+                        <div class="bg-white/5 p-4 rounded-xl mb-6">
+                            <table class="w-full text-xs text-white/60">
+                                <tr class="border-b border-white/5"><td class="py-2">Base Price:</td><td class="text-right">₹${p.price}</td></tr>
+                                <tr><td class="py-2">AI Styling Fee:</td><td class="text-right text-[#BF953F]">INCLUDED</td></tr>
+                            </table>
+                        </div>
+
                         <div class="stylist-lens-box mb-8"><p class="text-sm text-white/80 italic">"${p.sentiment}"</p></div>
                         <button onclick="window.open('https://amazon.in')" class="w-full bg-[#BF953F] text-black py-5 rounded-full font-black uppercase text-[12px]">Purchase Now</button>
                     </div>
                 </div>`;
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
+            lucide.createIcons();
         }
 
         function closeDetails() {
             document.getElementById('details-modal').style.display = 'none';
             document.body.style.overflow = 'auto';
-        }
-
-        function showDefaultCombo() {
-            document.getElementById('dynamic-combo-card').innerHTML = `<p class="text-center italic text-white/40">Search something to see GIA Bundles!</p>`;
-        }
-
-        function updateDynamicCombo(product) {
-            const comboCard = document.getElementById('dynamic-combo-card');
-            comboCard.innerHTML = `
-                <div class="flex flex-col lg:flex-row items-center gap-12">
-                    <div class="w-full lg:w-1/2 flex items-center gap-6">
-                        <div class="w-24 h-24 border border-[#BF953F]/30 p-1 rounded-xl"><img src="${product.img}" class="w-full h-full object-cover rounded-lg"></div>
-                        <span class="text-2xl text-white/20">+</span>
-                        <div class="w-24 h-24 bg-white/5 rounded-xl flex items-center justify-center"><i data-lucide="plus" class="text-white/10"></i></div>
-                    </div>
-                    <div class="w-full lg:w-1/2">
-                        <p class="text-sm italic text-white/60 mb-6">"GIA Suggested: Pair this with a minimalist watch for a complete look."</p>
-                        <button onclick="window.location.href='combos.html'" class="bg-[#BF953F] text-black px-10 py-4 rounded-full text-[10px] font-black uppercase">Build My Bundle</button>
-                    </div>
-                </div>`;
-            lucide.createIcons();
         }
 
         function startVoiceSearch() {
