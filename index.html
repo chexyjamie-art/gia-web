@@ -8,6 +8,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <script>
+        (function() {
+            const userName = localStorage.getItem('giaUserName');
+            if (!userName) { window.location.href = 'login.html'; }
+        })();
+    </script>
+
     <style>
         body { 
             background: linear-gradient(rgba(4, 36, 26, 0.95), rgba(4, 36, 26, 0.98)), 
@@ -17,7 +24,7 @@
         .royal-logo { font-family: 'Playfair Display', serif; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; }
         .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* GRID: Mobile 2 Col, Web 4-5 Col */
+        /* [GRID] Mobile: 2 Column | Web: 5 Column */
         #product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         @media (min-width: 1024px) { #product-grid { grid-template-columns: repeat(5, 1fr); gap: 24px; } }
 
@@ -28,49 +35,50 @@
         }
         .product-card:hover { transform: translateY(-5px); border: 1px solid #BF953F; }
 
-        /* Try On & Match Labels */
+        /* Labels & Try On */
         .match-badge { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 3px 8px; border-radius: 6px; border: 1px solid #BF953F; font-size: 8px; font-weight: 900; color: #BF953F; z-index: 10; cursor: pointer; }
         .try-on-btn { position: absolute; bottom: 85px; right: 8px; background: #BF953F; color: black; font-size: 7px; font-weight: 900; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; z-index: 20; cursor: pointer; }
 
-        /* Navigation: Desktop Hide */
+        /* [RESTORED] Nav: Web Hide | Mobile Bottom */
         .mobile-nav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: rgba(4, 36, 26, 0.98); backdrop-filter: blur(20px); border-top: 1px solid rgba(191, 149, 63, 0.2); z-index: 1000; padding: 1rem; justify-content: space-around; }
         @media (min-width: 1024px) { .mobile-nav { display: none; } }
 
         #details-modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); z-index: 2000; display: none; overflow-y: auto; backdrop-filter: blur(15px); }
+        .score-card-white { background: white; border-radius: 2.5rem; color: #04241a; padding: 2.5rem; max-width: 480px; margin: auto; }
         .img-slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
         .img-slider::-webkit-scrollbar { display: none; }
-        .img-slider img, .img-slider video { flex: 0 0 100%; scroll-snap-align: start; object-fit: cover; aspect-ratio: 1/1; }
-
-        .score-card-white { background: white; border-radius: 2.5rem; color: #04241a; padding: 2.5rem; max-width: 480px; margin: auto; }
-        .stylist-lens-box { border-left: 3px solid #BF953F; background: rgba(191, 149, 63, 0.08); padding: 1.2rem; font-style: italic; border-radius: 0 1rem 1rem 0; }
+        .img-slider img { flex: 0 0 100%; scroll-snap-align: start; object-fit: cover; aspect-ratio: 1/1; }
     </style>
 </head>
 <body class="pb-24 lg:pb-0"> 
 
     <header class="py-6 px-4 md:px-8 border-b border-[#BF953F]/20 sticky top-0 z-[100] bg-[#04241a]">
         <nav class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="#" onclick="openOffers()" class="p-2.5 bg-white/5 rounded-full border border-[#BF953F]/20"><i data-lucide="percent" class="w-5 h-5 text-[#BF953F]"></i></a>
+            <a href="#" onclick="openOffers()" class="p-2.5 bg-white/5 rounded-full border border-[#BF953F]/20 hover:border-[#BF953F] transition-all"><i data-lucide="percent" class="w-5 h-5 text-[#BF953F]"></i></a>
             <h1 class="text-2xl royal-logo gold-text cursor-pointer" onclick="location.reload()">GIA LUXE</h1>
+            
             <div class="hidden lg:flex gap-8 text-[10px] font-bold uppercase tracking-widest items-center">
                 <a href="#" onclick="location.reload()" class="gold-text">Home</a>
                 <a href="#" onclick="openCombos()">Combos</a>
                 <a href="#" onclick="openOffers()">Offers</a>
-                <a href="#" class="w-8 h-8 rounded-full border border-gold overflow-hidden"><img id="user-avatar-web" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul"></a>
+                <a href="profile.html" class="w-8 h-8 rounded-full border border-gold overflow-hidden"><img id="web-avatar" src=""></a>
             </div>
-            <div class="lg:hidden w-8 h-8 rounded-full border border-gold overflow-hidden"><img id="user-avatar-mob" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul"></div>
+            <div class="lg:hidden w-8 h-8 rounded-full border border-gold overflow-hidden"><img id="mob-avatar" src=""></div>
         </nav>
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-8">
         <section class="text-center mb-10">
-            <h2 class="text-3xl royal-logo gold-text mb-8 italic">Welcome Back</h2>
+            <h2 class="text-3xl royal-logo gold-text mb-8 italic">Welcome, <span id="hero-name">Stylist</span></h2>
+            
             <div class="relative max-w-2xl mx-auto flex items-center border border-[#BF953F]/30 rounded-full p-1.5 bg-black/40 backdrop-blur-xl">
                 <i data-lucide="search" class="ml-4 text-white/30 w-5 h-5"></i>
-                <input type="text" id="ai-search-input" placeholder="Ask something to GIA..." class="flex-grow bg-transparent text-white text-sm py-3 px-4 outline-none">
+                <input type="text" id="ai-search-input" placeholder="Ask GIA something..." class="flex-grow bg-transparent text-white text-sm py-3 px-4 outline-none">
                 <button onclick="startVoiceSearch()" class="p-2"><i data-lucide="mic" class="text-[#BF953F] w-5 h-5"></i></button>
                 <button onclick="document.getElementById('image-upload').click()" class="gold-text py-2 px-4 rounded-full text-[10px] font-bold bg-white/5 flex items-center gap-2 border border-gold/20 mr-1"><i data-lucide="camera" class="w-4 h-4"></i> Visual AI</button>
                 <input type="file" id="image-upload" class="hidden">
             </div>
+
             <div id="gia-ai-box" class="max-w-2xl mx-auto mt-6 p-6 bg-white/5 border border-dashed border-[#BF953F]/30 rounded-3xl text-left hidden">
                 <p id="gia-ai-text" class="text-sm italic text-white/80 leading-relaxed font-light"></p>
             </div>
@@ -81,48 +89,57 @@
     </main>
 
     <div id="details-modal">
-        <div id="modal-content" class="min-h-screen flex items-center justify-center p-4 relative"></div>
+        <div id="modal-content" class="min-h-screen flex items-center justify-center p-4"></div>
     </div>
 
     <nav class="mobile-nav">
         <button onclick="location.reload()" class="flex flex-col items-center gap-1 text-[#BF953F]"><i data-lucide="home" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Home</span></button>
         <button onclick="openCombos()" class="flex flex-col items-center gap-1 text-white/40"><i data-lucide="package" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Combos</span></button>
         <button onclick="openOffers()" class="flex flex-col items-center gap-1 text-white/40"><i data-lucide="percent" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Offers</span></button>
-        <button class="flex flex-col items-center gap-1 text-white/40"><i data-lucide="user" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Profile</span></button>
+        <button onclick="window.location.href='profile.html'" class="flex flex-col items-center gap-1 text-white/40"><i data-lucide="user" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Profile</span></button>
     </nav>
 
-    <footer class="py-10 text-center border-t border-white/5 opacity-50">
+    <footer class="py-10 text-center border-t border-white/5">
         <p class="text-[8px] text-[#BF953F]/60 uppercase tracking-[0.3em] font-bold mb-2">© 2026 ALTER PROJECT</p>
-        <p class="text-[7px] max-w-xs mx-auto">LEGAL DISCLAIMER: AI-Generated Advice. Verified by GIA.</p>
+        <p class="text-[7px] max-w-xs mx-auto text-white/30">LEGAL DISCLAIMER: AI-Generated Advice. Verified by GIA.</p>
     </footer>
 
     <script>
         const GEMINI_API_KEY = "AIzaSyBooGwe97LGLxzaDBzr0txng2_sHfFfhdI"; 
         
+        // [DATABASE] 10 Products for Structure Testing
         const allDatabase = [
-            { id: 1, category: 'fashion', name: "Emerald Linen Shirt", price: "2,499", match: "98.4", images: ["https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600", "https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=600"], brand: 'Amazon', sentiment: "Bhai elite vibe hai, summer ke liye aag!" },
-            { id: 2, category: 'fashion', name: "Charcoal Chinos", price: "1,899", match: "94.2", images: ["https://images.unsplash.com/photo-1624373666563-54ec85a14962?w=600"], brand: 'Ajio', sentiment: "Office ke liye best hai." },
-            { id: 3, category: 'fashion', name: "Leather Boots", price: "4,500", match: "88.5", images: ["https://images.unsplash.com/photo-1520639885833-92c51b3983e2?w=600"], brand: 'Myntra', sentiment: "Pure leather, durable stuff." },
-            { id: 101, category: 'beauty', name: "Salicylic Face Wash", price: "499", match: "95.2", images: ["https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600"], brand: 'Nykaa', sentiment: "Acne ke liye best cleanser." },
-            { id: 4, category: 'tech', name: "Earbuds Pro", price: "2,999", match: "91.0", images: ["https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600"], brand: 'Amazon', sentiment: "ANC is killer at this price." },
-            { id: 5, category: 'fashion', name: "College Bag", price: "1,200", match: "92.0", images: ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600"], brand: 'Amazon', sentiment: "Stylish for campus." },
-            { id: 6, category: 'fashion', name: "Denim Jacket", price: "3,200", match: "84.2", images: ["https://images.unsplash.com/photo-1576871337622-98d48d890e49?w=600"], brand: 'Flipkart', sentiment: "Classic winter look." },
-            { id: 7, category: 'fashion', name: "Cargo Pants", price: "1,500", match: "79.8", images: ["https://images.unsplash.com/photo-1517438476312-10d79c6775e3?w=600"], brand: 'Ajio', sentiment: "Pocket friendly and cool." },
-            { id: 8, category: 'beauty', name: "Sunscreen SPF 50", price: "650", match: "96.1", images: ["https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600"], brand: 'Nykaa', sentiment: "No white cast, oily skin friendly." },
-            { id: 9, category: 'fashion', name: "Cotton Kurta", price: "999", match: "89.4", images: ["https://images.unsplash.com/photo-1589156229687-496a31ad1d1f?w=600"], brand: 'Myntra', sentiment: "Desi swag sorted." }
+            { id: 1, category: 'fashion', name: "Emerald Linen Shirt", price: "2,499", match: "98.4", images: ["https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600"], brand: 'Amazon', sentiment: "Elite vibe for summer!" },
+            { id: 2, category: 'fashion', name: "Charcoal Chinos", price: "1,899", match: "94.2", images: ["https://images.unsplash.com/photo-1624373666563-54ec85a14962?w=600"], brand: 'Ajio', sentiment: "Perfect fit for office." },
+            { id: 3, category: 'fashion', name: "Leather Boots", price: "4,500", match: "88.5", images: ["https://images.unsplash.com/photo-1520639885833-92c51b3983e2?w=600"], brand: 'Myntra', sentiment: "Rugged and durable." },
+            { id: 4, category: 'tech', name: "Earbuds Pro", price: "2,999", match: "91.0", images: ["https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600"], brand: 'Amazon', sentiment: "Best ANC in budget." },
+            { id: 5, category: 'fashion', name: "Denim Jacket", price: "3,200", match: "84.2", images: ["https://images.unsplash.com/photo-1576871337622-98d48d890e49?w=600"], brand: 'Myntra', sentiment: "Classic cool look." },
+            { id: 6, category: 'beauty', name: "Acne Face Wash", price: "499", match: "95.2", images: ["https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600"], brand: 'Nykaa', sentiment: "Dermally tested." },
+            { id: 7, category: 'fashion', name: "College Bag", price: "1,200", match: "92.0", images: ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600"], brand: 'Amazon', sentiment: "Spacious and stylish." },
+            { id: 8, category: 'fashion', name: "Cargo Pants", price: "1,500", match: "79.8", images: ["https://images.unsplash.com/photo-1517438476312-10d79c6775e3?w=600"], brand: 'Ajio', sentiment: "Comfortable utility." },
+            { id: 9, category: 'beauty', name: "Sunscreen SPF 50", price: "650", match: "96.1", images: ["https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600"], brand: 'Nykaa', sentiment: "No white cast." },
+            { id: 10, category: 'fashion', name: "Cotton Kurta", price: "999", match: "89.4", images: ["https://images.unsplash.com/photo-1589156229687-496a31ad1d1f?w=600"], brand: 'Myntra', sentiment: "Ethnic swag sorted." }
         ];
 
-        window.onload = () => { renderProducts(allDatabase); lucide.createIcons(); };
+        window.onload = () => {
+            const name = localStorage.getItem('giaUserName') || 'Stylist';
+            document.getElementById('hero-name').innerText = name;
+            const dp = localStorage.getItem('giaUserDP') || `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`;
+            document.getElementById('web-avatar').src = dp;
+            document.getElementById('mob-avatar').src = dp;
+            renderProducts(allDatabase);
+            lucide.createIcons();
+        };
 
         function renderProducts(data) {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = data.map(p => `
-                <div class="product-card" onclick="openProductDetails(${p.id})">
+                <div class="product-card" onclick="openProductPage(${p.id})">
                     <div class="match-badge" onclick="event.stopPropagation(); openScorePage(${p.id})">${p.match}%</div>
                     ${p.category === 'fashion' ? `<div class="try-on-btn" onclick="event.stopPropagation(); openTryOnStudio(${p.id})">TRY ON</div>` : ''}
                     <img src="${p.images[0]}" class="w-full h-40 object-cover rounded-t-1.5rem">
                     <div class="p-3 text-left">
-                        <p class="text-[8px] text-white/30 uppercase font-bold">${p.brand}</p>
+                        <p class="text-[8px] text-white/30 uppercase font-bold tracking-widest">${p.brand}</p>
                         <h4 class="text-[10px] font-bold truncate">${p.name}</h4>
                         <p class="gold-text font-black text-xs mt-1">₹${p.price}</p>
                     </div>
@@ -131,68 +148,72 @@
             lucide.createIcons();
         }
 
-        // Score Page (1:1 Accurate to Photo)
+        // [RESTORED] 1:1 Screenshot Accurate Score Page
         function openScorePage(id) {
             const p = allDatabase.find(x => x.id === id);
             const modal = document.getElementById('details-modal');
             document.getElementById('modal-content').innerHTML = `
-                <div class="score-card-white shadow-2xl relative text-left">
+                <div class="score-card-white relative text-left shadow-2xl">
                     <button onclick="closeModal()" class="absolute top-8 right-8 text-black/20"><i data-lucide="x"></i></button>
                     <span class="bg-black text-white text-[7px] px-3 py-1.5 rounded-full font-black uppercase">Verified by GIA AI</span>
                     <h2 class="text-3xl royal-logo italic text-black my-8">${p.name}</h2>
-                    <div class="border border-blue-100 rounded-[2.5rem] p-6 mb-8 bg-blue-50/20">
-                        <div class="flex justify-between text-[10px] font-black text-blue-900 mb-6 uppercase"><span>Price Analysis</span><span>30 Days</span></div>
+                    <div class="border border-blue-50 rounded-[2.5rem] p-6 mb-8 bg-blue-50/30">
+                        <p class="text-[9px] font-black text-blue-900 mb-6 uppercase">Price Analysis (30 Days)</p>
                         <div class="flex items-end gap-2 h-20 mb-4">
-                            <div class="flex-grow bg-blue-100 rounded h-1/2"></div><div class="flex-grow bg-blue-500 rounded h-full"></div><div class="flex-grow bg-blue-100 rounded h-1/3"></div>
+                            <div class="flex-grow bg-blue-100 rounded h-1/2"></div>
+                            <div class="flex-grow bg-blue-500 rounded h-full"></div>
+                            <div class="flex-grow bg-blue-100 rounded h-1/3"></div>
+                        </div>
+                        <div class="flex justify-between border-t border-blue-100 pt-4 text-[9px] font-bold uppercase text-blue-800">
+                            <span>Status: Lowest</span><span>Trend: Stable</span>
                         </div>
                     </div>
                     <div class="bg-black text-white p-6 rounded-[2rem] text-[11px] italic leading-relaxed">
-                        "Bhai, GIA ne price history check kar li hai. Ye purchase range mein hai, wait karne ka fayda nahi."
+                        "Bhai, GIA intelligence ne price check kar liya hai. Purchase range safe hai!"
                     </div>
                 </div>`;
             modal.style.display = 'flex';
             lucide.createIcons();
         }
 
-        // Try On Page
+        // [RESTORED] Combo & Offers Logic
+        function openCombos() { 
+            document.getElementById('section-title').innerText = "Flash Match Combos"; 
+            renderProducts([...allDatabase].sort(() => Math.random() - 0.5)); 
+        }
+        function openOffers() { 
+            document.getElementById('section-title').innerText = "Hot Deals & Offers"; 
+            renderProducts(allDatabase.filter(p => p.price < 2000)); 
+        }
+
         function openTryOnStudio(id) {
-            const p = allDatabase.find(x => x.id === id);
             const modal = document.getElementById('details-modal');
             document.getElementById('modal-content').innerHTML = `
                 <div class="bg-[#04241a] p-10 rounded-[3rem] border border-white/10 w-full max-w-md text-center">
                     <button onclick="closeModal()" class="float-right text-white/20"><i data-lucide="x"></i></button>
                     <h2 class="gold-text royal-logo text-lg mb-8 italic">Virtual Studio</h2>
                     <div class="aspect-[3/4] bg-black/40 rounded-[2.5rem] border-2 border-dashed border-white/10 flex flex-col items-center justify-center p-8 mb-6">
-                        <i data-lucide="upload-cloud" class="w-10 h-10 text-white/10 mb-4"></i>
-                        <p class="text-[10px] text-white/30">Upload full size photo to see how this fits you!</p>
+                        <i data-lucide="camera" class="w-10 h-10 text-white/10 mb-4"></i>
+                        <p class="text-[10px] text-white/30 italic">Upload photo to start Try-On</p>
                     </div>
-                    <button class="w-full bg-[#BF953F] text-black py-4 rounded-2xl font-black uppercase text-[10px]">Upload Photo</button>
+                    <button class="w-full bg-[#BF953F] text-black py-4 rounded-2xl font-black uppercase text-[10px]">Upload Now</button>
                 </div>`;
             modal.style.display = 'flex';
             lucide.createIcons();
         }
 
-        // Product Details Page (Slider & 360)
-        function openProductDetails(id) {
+        function openProductPage(id) {
             const p = allDatabase.find(x => x.id === id);
             const modal = document.getElementById('details-modal');
             document.getElementById('modal-content').innerHTML = `
-                <div class="bg-[#04241a] rounded-[3rem] overflow-hidden border border-white/10 w-full max-w-5xl">
-                    <div class="grid grid-cols-1 lg:grid-cols-2">
-                        <div class="relative">
-                            <div class="img-slider">
-                                ${p.images.map(img => `<img src="${img}">`).join('')}
-                                <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls class="w-full"></video>
-                            </div>
-                            ${p.category === 'fashion' ? `<div class="absolute bottom-6 left-6 animate-spin text-gold"><i data-lucide="rotate-cw"></i></div>` : ''}
-                        </div>
+                <div class="bg-[#04241a] rounded-[3rem] overflow-hidden border border-white/10 w-full max-w-4xl">
+                    <div class="grid grid-cols-1 md:grid-cols-2">
+                        <div class="img-slider"><img src="${p.images[0]}"></div>
                         <div class="p-10 flex flex-col justify-center">
                             <button onclick="closeModal()" class="self-end text-white/20 mb-4"><i data-lucide="x"></i></button>
-                            <span class="text-[10px] gold-text font-black uppercase tracking-widest">${p.brand}</span>
-                            <h2 class="text-4xl royal-logo gold-text my-4 italic">${p.name}</h2>
-                            <p class="text-2xl font-black mb-8">₹${p.price}</p>
-                            <div class="stylist-lens-box text-sm mb-10">"${p.sentiment}"</div>
-                            <button onclick="window.open('https://amazon.in')" class="w-full bg-[#BF953F] text-black py-5 rounded-2xl font-black uppercase text-xs">Buy Now</button>
+                            <h2 class="text-3xl royal-logo gold-text mb-4 italic">${p.name}</h2>
+                            <p class="text-2xl font-black mb-6">₹${p.price}</p>
+                            <button onclick="window.open('https://amazon.in')" class="w-full bg-[#BF953F] text-black py-4 rounded-2xl font-black uppercase text-xs">Buy Now</button>
                         </div>
                     </div>
                 </div>`;
@@ -201,8 +222,6 @@
         }
 
         function closeModal() { document.getElementById('details-modal').style.display = 'none'; }
-        function openCombos() { document.getElementById('section-title').innerText = "Flash Match Combos"; renderProducts(allDatabase.sort(() => Math.random() - 0.5)); }
-        function openOffers() { document.getElementById('section-title').innerText = "Hot Deals & Offers"; renderProducts(allDatabase.filter(p => p.price < 2000)); }
 
         async function askGiaAI(query) {
             const box = document.getElementById('gia-ai-box');
@@ -212,7 +231,7 @@
             try {
                 const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
                     method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: `You are GIA, Rahul's stylist friend. Answer in 2 lines: ${query}` }] }] })
+                    body: JSON.stringify({ contents: [{ parts: [{ text: `You are GIA, a witty stylist friend. Reply to: ${query}` }] }] })
                 });
                 const data = await res.json();
                 text.innerText = data.candidates[0].content.parts[0].text;
@@ -222,7 +241,7 @@
         document.getElementById('ai-search-input').addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 const q = e.target.value.trim();
-                if(q) { askGiaAI(q); renderProducts(allDatabase.filter(p => p.name.toLowerCase().includes(q.toLowerCase()))); }
+                if(q) { askGiaAI(q); }
             }
         });
 
