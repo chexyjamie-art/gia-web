@@ -151,8 +151,9 @@
             askGemini(query);
 
             // 2. Fetch from Google if Keys are present
-            if(GOOGLE_API_KEY !== "PASTE_YOUR_GOOGLE_KEY_HERE") {
-                try {
+            // Line 154 ko aise likhein:
+if(GOOGLE_API_KEY && GOOGLE_CX_ID) { 
+
                     const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX_ID}&q=${query}&searchType=image&num=10`);
                     const data = await res.json();
                     
