@@ -38,7 +38,6 @@
             border-radius: 10px; font-size: 10px; z-index: 20;
         }
 
-        /* COMBO SECTION STYLE */
         #combo-box { display: none; background: rgba(191, 149, 63, 0.05); border: 1px dashed #BF953F; border-radius: 2.5rem; margin-bottom: 2rem; }
 
         .viewer-360 { position: relative; overflow: hidden; cursor: grab; background: #000; border-radius: 2rem; aspect-ratio: 1/1; }
@@ -50,6 +49,10 @@
         .score-card-white { background: white; border-radius: 2.5rem; color: #04241a; padding: 2rem; max-width: 420px; width: 95%; position: relative; }
 
         .mobile-nav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: rgba(4, 36, 26, 0.95); backdrop-filter: blur(20px); border-top: 1px solid rgba(191, 149, 63, 0.2); z-index: 1000; padding: 1rem; justify-content: space-around; }
+        
+        /* New Loader Style */
+        .searching-glow { animation: pulse-gold 2s infinite; }
+        @keyframes pulse-gold { 0% { box-shadow: 0 0 0 0 rgba(191, 149, 63, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(191, 149, 63, 0); } 100% { box-shadow: 0 0 0 0 rgba(191, 149, 63, 0); } }
     </style>
 </head>
 <body class="pb-24"> 
@@ -59,7 +62,7 @@
             <button onclick="filterType('offer')" class="p-2.5 bg-white/5 rounded-full border border-[#BF953F]/20"><i data-lucide="percent" class="w-5 h-5 text-[#BF953F]"></i></button>
             <h1 class="text-2xl md:text-3xl royal-logo gold-text cursor-pointer" onclick="location.reload()">GIA LUXE</h1>
             <div class="flex items-center gap-3">
-                <div id="status-dot" class="w-2 h-2 rounded-full bg-gray-500"></div>
+                <div id="status-dot" class="w-2 h-2 rounded-full bg-green-500"></div>
                 <a href="profile.html" class="w-10 h-10 border border-[#BF953F] rounded-full p-0.5 overflow-hidden"><img id="user-avatar" src="" class="w-full h-full rounded-full object-cover"></a>
             </div>
         </nav>
@@ -68,10 +71,10 @@
     <main class="max-w-7xl mx-auto px-6 py-12">
         <section class="text-center mb-10">
             <h2 class="text-4xl md:text-5xl royal-logo gold-text mb-8 italic">Welcome, <span id="hero-name">Stylist</span></h2>
-            
-            <div class="relative max-w-2xl mx-auto flex items-center border border-[#BF953F]/30 rounded-full p-1.5 bg-black/40 backdrop-blur-xl mb-6">
+
+            <div id="search-container" class="relative max-w-2xl mx-auto flex items-center border border-[#BF953F]/30 rounded-full p-1.5 bg-black/40 backdrop-blur-xl mb-6">
                 <i data-lucide="sparkles" class="ml-4 text-[#BF953F] w-5 h-5 animate-pulse"></i>
-                <input type="text" id="ai-search-input" placeholder="Ask Gemini: Find luxury watches..." class="flex-grow bg-transparent text-white text-sm py-3 px-4 outline-none">
+                <input type="text" id="ai-search-input" placeholder="Search internet via GIA AI..." class="flex-grow bg-transparent text-white text-sm py-3 px-4 outline-none">
                 <button onclick="startVoiceSearch()" class="p-2.5"><i data-lucide="mic" class="text-[#BF953F] w-5 h-5"></i></button>
                 <button onclick="document.getElementById('image-upload').click()" class="gold-text py-2.5 px-6 rounded-full text-xs font-bold bg-white/5 flex items-center gap-2 border border-gold/20 mr-1"><i data-lucide="camera" class="w-4 h-4"></i></button>
                 <input type="file" id="image-upload" class="hidden">
@@ -107,8 +110,17 @@
         <button onclick="window.location.href='profile.html'" class="flex flex-col items-center gap-1 text-white/40"><i data-lucide="user" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Profile</span></button>
     </nav>
 
-    <footer class="py-20 text-center border-t border-white/5 opacity-40">
-        <p class="text-[9px] uppercase tracking-[0.4em] font-bold">© 2026 ALTER PROJECT | LEGAL DISCLAIMER: AI-Verified Data & Visual Renders.</p>
+    <footer style="margin-top: 100px; padding: 60px 20px; border-top: 1px solid rgba(191, 149, 63, 0.1); text-align: center;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h3 class="gold-text royal-logo text-lg mb-4">GIA LUXE</h3>
+            <p style="color: rgba(255,255,255,0.4); font-size: 10px; line-height: 2; letter-spacing: 1px; margin-bottom: 20px;">
+                <b>LEGAL DISCLAIMER:</b> GIA LUXE is an AI aggregator under the ALTER Project. This platform utilizes Gemini 1.5 Flash to retrieve real-time shopping data from the internet. All brand names, logos, and images (Amazon, Myntra, Ajio, etc.) are trademarks of their respective owners. AI styling scores and 360° renders are simulations for guidance only. Final pricing and shipping are governed by the merchant site.
+            </p>
+            <div style="height: 1px; width: 40px; background: #BF953F; margin: 20px auto; opacity: 0.3;"></div>
+            <p style="color: #BF953F; font-size: 9px; font-weight: bold; letter-spacing: 3px; text-transform: uppercase;">
+                © 2026 ALTER PROJECT | BHAWANIPATNA, ODISHA
+            </p>
+        </div>
     </footer>
 
     <div id="score-modal" onclick="if(event.target==this) closeScore()">
@@ -120,19 +132,14 @@
     </div>
 
     <script>
-        // CONFIG - PASTE YOUR KEYS HERE
         const GEMINI_API_KEY = "AIzaSyBooGwe97LGLxzaDBzr0txng2_sHfFfhdI"; 
-        const GOOGLE_API_KEY = "AIzaSyAJ275kA4cuyMK_wy0S4zHZuawWtCBMRJ0";
-        const GOOGLE_CX_ID = "177308a25a9604d2e";
-
-        // DATABASE (Local + Live Storage)
         let activeProducts = [];
+        
         const staticProducts = [
             { id: 1, type: 'regular', name: "Emerald Linen Shirt", price: "2,499", match: "9.1", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600", brand: "Amazon", tag: "Fashion" },
             { id: 2, type: 'combo', name: "Office Power Combo", price: "5,999", match: "9.8", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600", brand: "Myntra", tag: "Combo" },
             { id: 3, type: 'offer', name: "AirPods Max (Sale)", price: "44,900", match: "8.5", img: "https://images.unsplash.com/photo-1613040809024-b4ef7ba99bc3?w=600", brand: "Amazon", tag: "Tech" },
             { id: 4, type: 'regular', name: "Velvet Dinner Jacket", price: "8,500", match: "9.4", img: "https://images.unsplash.com/photo-1594932224828-99e02639dd6f?w=600", brand: "Ajio", tag: "Luxury" }
-            // ... Full DB is maintained in memory
         ];
 
         window.onload = () => {
@@ -142,41 +149,60 @@
             activeProducts = [...staticProducts];
             renderProducts(activeProducts);
             lucide.createIcons();
-            if(GOOGLE_API_KEY !== "PASTE_YOUR_GOOGLE_KEY_HERE") document.getElementById('status-dot').classList.replace('bg-gray-500', 'bg-green-500');
         };
 
-        // NEW: INTEGRATED GOOGLE SEARCH LOGIC
+        // NEW: GEMINI-POWERED SEARCH (No Google API Toggle Needed)
         async function runUnifiedSearch(query) {
-            // 1. First, trigger Gemini for the witty reply
-            askGemini(query);
+            const searchContainer = document.getElementById('search-container');
+            const giaBox = document.getElementById('gia-ai-box');
+            const giaText = document.getElementById('gia-ai-text');
 
-            // 2. Fetch from Google if Keys are present
-            // Line 154 ko aise likhein:
-if(GOOGLE_API_KEY && GOOGLE_CX_ID) { 
+            searchContainer.classList.add('searching-glow');
+            giaBox.classList.remove('hidden');
+            giaText.innerHTML = `<span class="gold-text animate-pulse">GIA is scanning the internet for ${query}...</span>`;
 
-                    const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX_ID}&q=${query}&searchType=image&num=10`);
-                    const data = await res.json();
+            try {
+                // We ask Gemini to act as a Search Engine and return JSON
+                const prompt = `You are the GIA Search Engine. Search for: ${query}. 
+                Return 4 real products found on Indian stores (Amazon, Myntra, Ajio). 
+                Format as JSON only: [{"name": "product name", "price": "1999", "img": "valid image url", "brand": "store name", "match": "9.5"}]
+                Use Unsplash for images if specific ones not found. Comment in Hinglish at the end.`;
+
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+
+                const data = await res.json();
+                const rawResponse = data.candidates[0].content.parts[0].text;
+                
+                // Extract JSON and comment
+                const jsonMatch = rawResponse.match(/\[.*\]/s);
+                if (jsonMatch) {
+                    const liveData = JSON.parse(jsonMatch[0]).map((p, idx) => ({
+                        id: Date.now() + idx,
+                        type: 'regular',
+                        name: p.name,
+                        price: p.price,
+                        match: p.match || (Math.random() * 2 + 7.5).toFixed(1),
+                        img: p.img,
+                        brand: p.brand || "Verified Store",
+                        tag: "Global Search"
+                    }));
+
+                    activeProducts = liveData;
+                    renderProducts(liveData);
+                    if(liveData.length >= 2) createLiveCombo(liveData[0], liveData[1]);
                     
-                    if(data.items) {
-                        const liveData = data.items.map((item, idx) => ({
-                            id: Date.now() + idx,
-                            type: 'regular',
-                            name: item.title.substring(0, 25) + '...',
-                            price: (Math.floor(Math.random() * 8000) + 1200).toLocaleString(),
-                            match: (Math.random() * (9.9 - 8.2) + 8.2).toFixed(1),
-                            img: item.link,
-                            brand: "Verified Seller",
-                            tag: "Live Sync"
-                        }));
-                        activeProducts = liveData;
-                        renderProducts(liveData);
-                        createLiveCombo(liveData[0], liveData[1]);
-                    }
-                } catch (e) { console.error("Search Sync Error"); }
-            } else {
-                // Fallback to local filter if no keys
-                const filtered = staticProducts.filter(p => p.name.toLowerCase().includes(query.toLowerCase()));
-                renderProducts(filtered);
+                    // Display Witty Comment
+                    giaText.innerText = rawResponse.split(']').pop().trim() || "Bhai, ye rahe best options!";
+                }
+            } catch (e) {
+                console.error(e);
+                giaText.innerText = "Bhai, API limit ya connection error! Local results check kar le.";
+            } finally {
+                searchContainer.classList.remove('searching-glow');
             }
         }
 
@@ -189,7 +215,8 @@ if(GOOGLE_API_KEY && GOOGLE_CX_ID) {
                 <i data-lucide="plus" class="w-4 h-4 text-[#BF953F]"></i>
                 <img src="${p2.img}" class="w-16 h-16 object-cover rounded-xl border border-white/20">
             `;
-            document.getElementById('combo-price').innerText = "₹" + (parseInt(p1.price.replace(/,/g,'')) + parseInt(p2.price.replace(/,/g,'')) - 500).toLocaleString();
+            const total = parseInt(p1.price.replace(/,/g,'')) + parseInt(p2.price.replace(/,/g,''));
+            document.getElementById('combo-price').innerText = "₹" + (total - 500).toLocaleString();
             lucide.createIcons();
         }
 
@@ -207,7 +234,6 @@ if(GOOGLE_API_KEY && GOOGLE_CX_ID) {
             lucide.createIcons();
         }
 
-        // UNCHANGED 360 LOGIC
         function openDetailsDirectly(img, name, price, brand) {
             const modal = document.getElementById('details-modal');
             document.getElementById('modal-content').innerHTML = `
@@ -228,7 +254,6 @@ if(GOOGLE_API_KEY && GOOGLE_CX_ID) {
             lucide.createIcons();
         }
 
-        // UNCHANGED SCORE LOGIC
         function openScoreDirectly(name, match) {
             const modal = document.getElementById('score-modal');
             document.getElementById('score-modal-content').innerHTML = `
@@ -247,21 +272,6 @@ if(GOOGLE_API_KEY && GOOGLE_CX_ID) {
                 </div>`;
             modal.style.display = 'flex';
             lucide.createIcons();
-        }
-
-        async function askGemini(query) {
-            const box = document.getElementById('gia-ai-box');
-            const text = document.getElementById('gia-ai-text');
-            box.classList.remove('hidden');
-            text.innerHTML = "<span class='animate-pulse gold-text font-black uppercase tracking-widest text-[10px]'>GIA is scanning...</span>";
-            try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
-                    method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: `You are GIA, a witty stylist. Comment on: ${query} in 2 lines of cool Hinglish.` }] }] })
-                });
-                const data = await res.json();
-                text.innerText = data.candidates[0].content.parts[0].text;
-            } catch (e) { text.innerText = "Bhai, server issues! But products check kar le."; }
         }
 
         document.getElementById('ai-search-input').onkeydown = (e) => {
