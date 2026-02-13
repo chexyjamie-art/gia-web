@@ -49,7 +49,7 @@
         .score-card-white { background: white; border-radius: 2.5rem; color: #04241a; padding: 2rem; max-width: 420px; width: 95%; position: relative; }
 
         .mobile-nav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: rgba(4, 36, 26, 0.95); backdrop-filter: blur(20px); border-top: 1px solid rgba(191, 149, 63, 0.2); z-index: 1000; padding: 1rem; justify-content: space-around; }
-        
+
         .searching-glow { animation: pulse-gold 2s infinite; }
         @keyframes pulse-gold { 0% { box-shadow: 0 0 0 0 rgba(191, 149, 63, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(191, 149, 63, 0); } 100% { box-shadow: 0 0 0 0 rgba(191, 149, 63, 0); } }
     </style>
@@ -133,7 +133,7 @@
     <script>
         const GEMINI_API_KEY = "AIzaSyAL9f1bOKI-ELUayNG9PzCHok3wZmkk_Bc"; 
         let activeProducts = [];
-        
+
         const staticProducts = [
             { id: 1, type: 'regular', name: "Emerald Linen Shirt", price: "2,499", match: "9.1", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600", brand: "Amazon", tag: "Fashion" },
             { id: 2, type: 'combo', name: "Office Power Combo", price: "5,999", match: "9.8", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600", brand: "Myntra", tag: "Combo" },
@@ -150,7 +150,6 @@
             lucide.createIcons();
         };
 
-        // FIXED: GEMINI SEARCH WITH GROUNDING
         async function runUnifiedSearch(query) {
             const searchContainer = document.getElementById('search-container');
             const giaBox = document.getElementById('gia-ai-box');
@@ -158,43 +157,55 @@
 
             searchContainer.classList.add('searching-glow');
             giaBox.classList.remove('hidden');
-            giaText.innerHTML = `<span class="gold-text animate-pulse italic">GIA is live-searching "${query}" across the web...</span>`;
+            giaText.innerHTML = `<span class="gold-text animate-pulse italic">GIA is searching the global luxury market for "${query}"...</span>`;
 
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Search the web for real products related to: ${query}. Return exactly 4 products from stores like Amazon.in, Myntra, Ajio. Return ONLY a JSON array with these keys: name, price, img, brand. Image should be a direct product photo link. After the JSON, add a one-line witty Hinglish comment about the items.` }] }],
+                        contents: [{ 
+                            parts: [{ 
+                                text: `URGENT: Do a broad web search for real products: ${query}. 
+                                DO NOT limit search to just one site. Explore Myntra, Ajio, Amazon, and other luxury Indian stores.
+                                Return ONLY a JSON array: [{"name": "product name", "price": "1999", "img": "direct link", "brand": "store name"}]. 
+                                After the JSON, add a witty one-line Hinglish comment about the items.` 
+                            }] 
+                        }],
                         tools: [{ google_search: {} }] 
                     })
                 });
 
                 const data = await response.json();
-                const rawResponse = data.candidates[0].content.parts[0].text;
                 
+                if (data.error) {
+                    throw new Error(data.error.message);
+                }
+
+                const rawResponse = data.candidates[0].content.parts[0].text;
                 const jsonMatch = rawResponse.match(/\[[\s\S]*\]/);
+
                 if (jsonMatch) {
                     const liveData = JSON.parse(jsonMatch[0]).map((p, idx) => ({
                         id: Date.now() + idx,
                         type: 'regular',
-                        name: p.name.substring(0, 35) + '...',
-                        price: p.price.toString().replace('₹', '').trim(),
+                        name: p.name.length > 35 ? p.name.substring(0, 35) + '...' : p.name,
+                        price: p.price.toString().replace(/[^\d]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ","),
                         match: (Math.random() * 1.5 + 8.4).toFixed(1),
                         img: p.img || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
                         brand: p.brand || "Verified Store",
-                        tag: "Live Result"
+                        tag: "Global Search"
                     }));
 
                     activeProducts = liveData;
                     renderProducts(liveData);
                     if(liveData.length >= 2) createLiveCombo(liveData[0], liveData[1]);
-                    
+
                     giaText.innerText = rawResponse.replace(jsonMatch[0], '').replace(/```json|```/g, '').trim() || "Bhai, ye rahe tere liye sabse gazab picks!";
                 }
             } catch (e) {
-                console.error(e);
-                giaText.innerText = "API Limit ya internet issue, par darna nahi, GIA koshish jaari rakhegi!";
+                console.error("Search Error:", e);
+                giaText.innerText = "Bhai, server thoda busy hai, par GIA haar nahi maanegi. Ek baar fir try kar!";
             } finally {
                 searchContainer.classList.remove('searching-glow');
             }
@@ -209,8 +220,10 @@
                 <i data-lucide="plus" class="w-4 h-4 text-[#BF953F]"></i>
                 <img src="${p2.img}" class="w-16 h-16 object-cover rounded-xl border border-white/20">
             `;
-            const total = parseInt(p1.price.replace(/,/g,'')) + parseInt(p2.price.replace(/,/g,''));
-            document.getElementById('combo-price').innerText = "₹" + (total - 500).toLocaleString();
+            const p1Val = parseInt(p1.price.replace(/,/g,'')) || 0;
+            const p2Val = parseInt(p2.price.replace(/,/g,'')) || 0;
+            const total = p1Val + p2Val;
+            document.getElementById('combo-price').innerText = "₹" + (total > 0 ? (total - 500).toLocaleString() : "TBD");
             lucide.createIcons();
         }
 
@@ -237,10 +250,12 @@
                         <img src="${img}" id="rotate-img">
                     </div>
                     <div class="flex flex-col justify-center">
-                        <button onclick="closeDetails()" class="self-end text-white/20 mb-4"><i data-lucide="x"></i></button>
-                        <h2 class="text-5xl royal-logo gold-text my-6 leading-tight">${name}</h2>
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-4xl royal-logo gold-text leading-tight">${name}</h2>
+                            <button onclick="closeDetails()" class="text-white/40 hover:text-white transition-all"><i data-lucide="x"></i></button>
+                        </div>
                         <p class="text-3xl font-black mb-10 italic">₹${price}</p>
-                        <button class="w-full bg-[#BF953F] text-black py-6 rounded-[2rem] font-black uppercase text-xs">Buy Now on ${brand}</button>
+                        <button class="w-full bg-[#BF953F] text-black py-6 rounded-[2rem] font-black uppercase text-xs hover:bg-[#FCF6BA] transition-all">Buy Now on ${brand}</button>
                     </div>
                 </div>`;
             modal.style.display = 'flex';
@@ -275,6 +290,7 @@
         function init360() {
             const box = document.getElementById('viewer-box');
             const img = document.getElementById('rotate-img');
+            if(!box || !img) return;
             let startX, isDown = false;
             box.onmousedown = (e) => { isDown = true; startX = e.pageX; };
             window.onmouseup = () => isDown = false;
