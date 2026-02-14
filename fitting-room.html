@@ -3,187 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | Virtual Studio</title>
+    <title>GIA LUXE | Cinematic VTO 4.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/RGBELoader.js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,900&family=Inter:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+        body { background: #020a08; color: white; font-family: 'Inter', sans-serif; overflow: hidden; margin: 0; }
         
-        body { background: #051612; color: white; font-family: 'Inter', sans-serif; overflow: hidden; margin: 0; }
-        .gold-border { border: 1.5px solid #BF953F; }
-        .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Playfair Display', serif; }
-        .glass-panel { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(15px); border: 1px solid rgba(191, 149, 63, 0.3); border-radius: 24px; }
+        /* Premium UI Elements */
+        .gold-glow { text-shadow: 0 0 15px rgba(191, 149, 63, 0.5); color: #FCF6BA; }
+        .glass-ui { background: rgba(15, 25, 22, 0.7); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; }
+        .active-tab { border-bottom: 2px solid #BF953F; color: #BF953F; }
         
-        /* Mobile vs Desktop View */
-        .main-container { display: flex; height: 100vh; width: 100vw; }
+        /* Mobile vs Web View */
+        .side-panel { width: 380px; position: fixed; right: 20px; top: 20px; bottom: 20px; z-index: 100; transition: 0.3s; }
         @media (max-width: 768px) {
-            .main-container { flex-direction: column; }
-            .control-panel { width: 100% !important; height: 40% !important; border-left: none !important; border-top: 2px solid #BF953F; position: absolute; bottom: 0; }
+            .side-panel { width: calc(100% - 40px); height: 40%; top: auto; bottom: 20px; }
         }
 
-        /* Gold Slider */
-        input[type="range"] { -webkit-appearance: none; background: rgba(191, 149, 63, 0.2); height: 2px; border-radius: 5px; }
-        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: #BF953F; border-radius: 50%; border: 2px solid #FCF6BA; }
+        /* Natural Range Slider */
+        input[type="range"] { -webkit-appearance: none; background: rgba(255,255,255,0.1); height: 4px; border-radius: 10px; width: 100%; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: #BF953F; border-radius: 50%; box-shadow: 0 0 10px rgba(191, 149, 63, 0.8); cursor: pointer; }
 
-        #loader { position: fixed; inset: 0; background: #051612; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .loading-progress { width: 200px; height: 2px; background: rgba(191, 149, 63, 0.1); margin-top: 20px; position: relative; }
-        #bar { height: 100%; background: #BF953F; width: 0%; transition: 0.3s; }
+        #loader { position: fixed; inset: 0; background: #020a08; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
 
     <div id="loader">
-        <h1 class="text-4xl gold-text italic">GIA LUXE</h1>
-        <div class="loading-progress"><div id="bar"></div></div>
+        <h1 class="text-3xl font-bold tracking-[10px] gold-glow mb-2 italic">GIA LUXE</h1>
+        <p class="text-[10px] opacity-40 uppercase tracking-[5px]">Cinematic Rendering Engine 4.0</p>
+        <div class="w-48 h-[1px] bg-white/10 mt-10 overflow-hidden"><div id="bar" class="h-full bg-gold-glow w-0 transition-all"></div></div>
     </div>
 
-    <div class="main-container">
-        <div class="flex-grow relative overflow-hidden">
-            <div id="canvas-container" class="w-full h-full cursor-move"></div>
-            
-            <div class="absolute top-10 left-10 pointer-events-none">
-                <h1 class="text-3xl gold-text italic leading-none">VIRTUAL<br>STUDIO</h1>
-                <p class="text-[9px] tracking-[4px] uppercase text-white/40 mt-2 flex items-center gap-2">
-                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span> Hyper-Real PBR Engine
-                </p>
+    <div id="vto-viewport" class="w-full h-screen"></div>
+
+    <div class="absolute top-10 left-10 z-50 pointer-events-none">
+        <h2 class="text-xl font-light tracking-[8px] opacity-80 uppercase">Ultra-Real VTO</h2>
+        <p class="text-[9px] gold-glow uppercase font-bold mt-1">GIA LUXE Digital Twin System</p>
+    </div>
+
+    <div class="side-panel glass-ui p-6 flex flex-col">
+        <div class="flex justify-between items-center mb-8">
+            <div class="flex gap-4 text-[11px] font-bold tracking-widest">
+                <button class="active-tab pb-2">ANATOMY</button>
+                <button class="opacity-30 pb-2">OUTFIT</button>
+                <button class="opacity-30 pb-2">STUDIO</button>
+            </div>
+            <div class="flex bg-black/40 p-1 rounded-full border border-white/5">
+                <button id="f-toggle" onclick="setGender('female')" class="px-4 py-1 text-[9px] font-bold rounded-full bg-[#BF953F] text-black">FEMALE</button>
+                <button id="m-toggle" onclick="setGender('male')" class="px-4 py-1 text-[9px] font-bold rounded-full opacity-40">MALE</button>
+            </div>
+        </div>
+
+        <div class="space-y-8 overflow-y-auto pr-2 custom-scroll">
+            <div>
+                <div class="flex justify-between text-[10px] uppercase font-bold mb-3 opacity-60"><span>Body Mass</span><span id="mass-label">100%</span></div>
+                <input type="range" min="0.8" max="1.3" step="0.01" value="1" oninput="changeBody('mass', this.value)">
             </div>
 
-            <div class="absolute bottom-10 left-10 glass-panel p-4 flex items-center gap-4 gold-border">
-                <div class="w-16 h-16 bg-white/5 rounded-xl border border-white/10 overflow-hidden">
-                    <img id="p-img" src="https://images.unsplash.com/photo-1579216377317-1065c71d382d?w=200" class="w-full h-full object-cover">
+            <div>
+                <div class="flex justify-between text-[10px] uppercase font-bold mb-3 opacity-60"><span>Statue (Height)</span><span id="height-label">175cm</span></div>
+                <input type="range" min="0.85" max="1.15" step="0.01" value="1" oninput="changeBody('height', this.value)">
+            </div>
+
+            <div>
+                <p class="text-[10px] uppercase font-bold mb-4 opacity-60 tracking-widest">Melanin (Skin Tone)</p>
+                <div class="flex gap-3">
+                    <button onclick="setSkin('#f8d5c2')" class="w-10 h-10 rounded-xl border border-white/10" style="background: #f8d5c2;"></button>
+                    <button onclick="setSkin('#d9a181')" class="w-10 h-10 rounded-xl border border-white/10" style="background: #d9a181;"></button>
+                    <button onclick="setSkin('#8d5524')" class="w-10 h-10 rounded-xl border border-white/10" style="background: #8d5524;"></button>
+                    <button onclick="setSkin('#3d2314')" class="w-10 h-10 rounded-xl border border-white/10" style="background: #3d2314;"></button>
                 </div>
-                <div>
-                    <p class="text-[8px] text-gold font-bold tracking-widest uppercase">GIA LUXE</p>
-                    <h3 id="p-name" class="text-xl italic font-serif text-white">Denim Classic</h3>
+            </div>
+
+            <div>
+                <p class="text-[10px] uppercase font-bold mb-4 opacity-60 tracking-widest">Studio Poses</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="playAnim('idle')" class="py-4 rounded-xl bg-white/5 border border-white/10 text-[9px] font-bold tracking-widest hover:border-gold-glow">CLASSIC IDLE</button>
+                    <button onclick="playAnim('walk')" class="py-4 rounded-xl bg-white/5 border border-white/10 text-[9px] font-bold tracking-widest hover:border-gold-glow">CATWALK</button>
                 </div>
             </div>
         </div>
 
-        <div class="w-[400px] control-panel glass-panel m-6 p-8 flex flex-col gold-border">
-            <div class="flex justify-between items-center mb-8">
-                <button class="text-[10px] font-bold uppercase tracking-widest opacity-50">← Exit</button>
-                <div class="flex gap-2 bg-black/40 p-1 rounded-full border border-white/10">
-                    <button id="btn-female" onclick="switchGender('female')" class="px-4 py-1 text-[9px] font-bold rounded-full bg-gold text-black transition-all">FEMALE</button>
-                    <button id="btn-male" onclick="switchGender('male')" class="px-4 py-1 text-[9px] font-bold rounded-full opacity-40 transition-all">MALE</button>
-                </div>
-            </div>
-
-            <div class="flex gap-4 border-b border-white/10 mb-8">
-                <button class="pb-3 text-[10px] font-black tracking-widest border-b-2 border-gold text-gold">ANATOMY</button>
-                <button class="pb-3 text-[10px] font-black tracking-widest opacity-30">STUDIO</button>
-            </div>
-
-            <div class="space-y-10">
-                <div>
-                    <div class="flex justify-between text-[10px] font-bold uppercase mb-4 tracking-widest opacity-60"><span>Body Mass</span><span id="mass-label">100%</span></div>
-                    <input type="range" min="0.8" max="1.3" step="0.01" value="1" class="w-full" oninput="updateMorph('mass', this.value)">
-                </div>
-                <div>
-                    <div class="flex justify-between text-[10px] font-bold uppercase mb-4 tracking-widest opacity-60"><span>Height</span><span id="height-label">175cm</span></div>
-                    <input type="range" min="0.85" max="1.15" step="0.01" value="1" class="w-full" oninput="updateMorph('height', this.value)">
-                </div>
-                <div>
-                    <p class="text-[10px] font-bold uppercase mb-4 tracking-widest opacity-60">Skin Tone</p>
-                    <div class="grid grid-cols-5 gap-3">
-                        <div onclick="setSkin('#f5cbad')" class="h-8 rounded-lg border border-white/10" style="background: #f5cbad"></div>
-                        <div onclick="setSkin('#e3a173')" class="h-8 rounded-lg border border-white/10" style="background: #e3a173"></div>
-                        <div onclick="setSkin('#a5673f')" class="h-8 rounded-lg border border-white/10" style="background: #a5673f"></div>
-                        <div onclick="setSkin('#5c3317')" class="h-8 rounded-lg border border-white/10" style="background: #5c3317"></div>
-                        <div onclick="setSkin('#2a1a12')" class="h-8 rounded-lg border border-white/10 gold-border" style="background: #2a1a12"></div>
-                    </div>
-                </div>
-                
-                <div class="pt-4 grid grid-cols-2 gap-3">
-                    <button onclick="playPose('idle')" class="py-4 rounded-2xl bg-white/5 border border-white/10 text-[10px] font-bold tracking-widest hover:border-gold transition-all">IDLE POSE</button>
-                    <button onclick="playPose('walk')" class="py-4 rounded-2xl bg-white/5 border border-white/10 text-[10px] font-bold tracking-widest hover:border-gold transition-all">WALK RUNWAY</button>
-                </div>
-            </div>
-
-            <div class="mt-auto text-center pt-6 opacity-20">
-                <p class="text-[8px] uppercase tracking-[4px]">GIA LUXE | ALTER PROJECT 2026</p>
-            </div>
-        </div>
+        <button class="mt-auto w-full py-5 bg-gradient-to-r from-[#BF953F] to-[#FCF6BA] text-black font-black text-[11px] uppercase tracking-widest rounded-2xl shadow-lg shadow-gold/20">
+            Capture Snapshot & Share
+        </button>
     </div>
 
     <script>
-        let scene, camera, renderer, model, mixer, controls, clock = new THREE.Clock();
-        let currentGender = 'female';
+        let sc, cam, rend, model, mix, ctrl, clock = new THREE.Clock();
         const loader = new THREE.GLTFLoader();
 
         function init() {
-            scene = new THREE.Scene();
-            // Deep Greenish Gradient Background (Like your image)
-            scene.background = new THREE.Color(0x051612);
+            sc = new THREE.Scene();
+            // Deep Cinematic Green/Black
+            sc.background = new THREE.Color(0x020a08);
             
-            camera = new THREE.PerspectiveCamera(35, (window.innerWidth) / window.innerHeight, 0.1, 1000);
-            camera.position.set(0, 1.4, 4.5);
+            cam = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1000);
+            cam.position.set(0, 1.4, 5);
 
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.toneMapping = THREE.ACESFilmicToneMapping;
-            document.getElementById('canvas-container').appendChild(renderer.domElement);
+            rend = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+            rend.setSize(window.innerWidth, window.innerHeight);
+            rend.setPixelRatio(window.devicePixelRatio);
+            rend.toneMapping = THREE.ACESFilmicToneMapping;
+            rend.outputEncoding = THREE.sRGBEncoding;
+            document.getElementById('vto-viewport').appendChild(rend.domElement);
 
-            // Orbit Controls (360 Degree rotation)
-            controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.minDistance = 2;
-            controls.maxDistance = 6;
-            controls.enablePan = false;
-            controls.target.set(0, 1, 0);
+            // Orbit Controls for 360 view
+            ctrl = new THREE.OrbitControls(cam, rend.domElement);
+            ctrl.enableDamping = true;
+            ctrl.minDistance = 2;
+            ctrl.maxDistance = 7;
+            ctrl.target.set(0, 1, 0);
 
-            // Lights
-            const ambient = new THREE.AmbientLight(0xffffff, 0.6);
-            scene.add(ambient);
-            const spot = new THREE.DirectionalLight(0xffffff, 1);
-            spot.position.set(5, 10, 5);
-            scene.add(spot);
+            // Lighting for "Natural" Look
+            const amb = new THREE.AmbientLight(0xffffff, 0.4);
+            sc.add(amb);
+            
+            const keyLight = new THREE.DirectionalLight(0xffffff, 1.5);
+            keyLight.position.set(2, 4, 5);
+            sc.add(keyLight);
 
-            // Floor Shadow Circle (Like image)
-            const circleGeo = new THREE.CircleGeometry(0.6, 32);
-            const circleMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.4 });
-            const circle = new THREE.Mesh(circleGeo, circleMat);
-            circle.rotation.x = -Math.PI / 2;
-            circle.position.y = 0.01;
-            scene.add(circle);
+            // Floor Reflection Panel (Like your image)
+            const glassGeo = new THREE.PlaneGeometry(3, 3);
+            const glassMat = new THREE.MeshPhysicalMaterial({ 
+                color: 0xffffff, metalness: 0.1, roughness: 0.05, transmission: 0.9, transparent: true, opacity: 0.1 
+            });
+            const glassFloor = new THREE.Mesh(glassGeo, glassMat);
+            glassFloor.rotation.x = -Math.PI / 2;
+            sc.add(glassFloor);
 
-            loadModel('female');
-            window.addEventListener('resize', onWindowResize);
+            loadBody('female');
             animate();
         }
 
-        function loadModel(gender) {
-            // Placeholder stable models
+        function loadBody(gender) {
+            // Using stable High-Quality ReadyPlayerMe links
             const url = gender === 'female' 
-                ? 'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/Soldier.glb' // Soldier as placeholder
-                : 'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/RobotExpressive/RobotExpressive.glb';
+                ? 'https://models.readyplayer.me/64db42b39f375084931a2936.glb' 
+                : 'https://models.readyplayer.me/64db432a9f375084931a2a4d.glb';
 
-            loader.load(url, (gltf) => {
-                if(model) scene.remove(model);
-                model = gltf.scene;
-                scene.add(model);
-                mixer = new THREE.AnimationMixer(model);
-                if(gltf.animations[0]) mixer.clipAction(gltf.animations[0]).play();
+            loader.load(url, (g) => {
+                if(model) sc.remove(model);
+                model = g.scene;
+                sc.add(model);
+                mix = new THREE.AnimationMixer(model);
                 document.getElementById('loader').style.display = 'none';
             }, (xhr) => {
-                const p = (xhr.loaded / xhr.total * 100);
-                document.getElementById('bar').style.width = p + '%';
+                document.getElementById('bar').style.width = (xhr.loaded / xhr.total * 100) + '%';
             });
         }
 
-        function switchGender(g) {
-            currentGender = g;
-            document.getElementById('btn-female').className = g === 'female' ? 'px-4 py-1 text-[9px] font-bold rounded-full bg-gold text-black' : 'px-4 py-1 text-[9px] font-bold rounded-full opacity-40';
-            document.getElementById('btn-male').className = g === 'male' ? 'px-4 py-1 text-[9px] font-bold rounded-full bg-gold text-black' : 'px-4 py-1 text-[9px] font-bold rounded-full opacity-40';
+        function setGender(g) {
             document.getElementById('loader').style.display = 'flex';
-            loadModel(g);
+            document.getElementById('f-toggle').className = g === 'female' ? "px-4 py-1 text-[9px] font-bold rounded-full bg-[#BF953F] text-black" : "px-4 py-1 text-[9px] font-bold rounded-full opacity-40";
+            document.getElementById('m-toggle').className = g === 'male' ? "px-4 py-1 text-[9px] font-bold rounded-full bg-[#BF953F] text-black" : "px-4 py-1 text-[9px] font-bold rounded-full opacity-40";
+            loadBody(g);
         }
 
-        function updateMorph(type, val) {
+        function changeBody(type, val) {
             if(!model) return;
             if(type === 'mass') {
                 model.scale.x = model.scale.z = val;
@@ -195,23 +178,26 @@
         }
 
         function setSkin(color) {
-            model.traverse(o => { if(o.isMesh) o.material.color.set(color); });
+            model.traverse(o => {
+                if(o.isMesh && o.material.name.toLowerCase().includes('skin')) {
+                    o.material.color.set(color);
+                }
+            });
         }
 
         function animate() {
             requestAnimationFrame(animate);
-            if(mixer) mixer.update(clock.getDelta());
-            controls.update();
-            renderer.render(scene, camera);
-        }
-
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            if(mix) mix.update(clock.getDelta());
+            ctrl.update();
+            rend.render(sc, cam);
         }
 
         window.onload = init;
+        window.onresize = () => {
+            cam.aspect = window.innerWidth / window.innerHeight;
+            cam.updateProjectionMatrix();
+            rend.setSize(window.innerWidth, window.innerHeight);
+        };
     </script>
 </body>
 </html>
