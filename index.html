@@ -154,7 +154,6 @@
             lucide.createIcons();
         };
 
-        // FULL SEARCH + GENERATION LOGIC
         async function runUnifiedSearch(query) {
             const searchContainer = document.getElementById('search-container');
             const giaBox = document.getElementById('gia-ai-box');
@@ -174,8 +173,8 @@
                         contents: [{ 
                             parts: [{ 
                                 text: isGenRequest ? 
-                                `User wants to visualize a custom outfit: "${query}". Describe a stunning 3D render. Return ONLY a JSON: {"name": "GIA Custom Design", "desc": "detailed description", "img": "https://source.unsplash.com/featured/?fashion,luxury,${query.replace(/ /g, ',')}"}. Add a witty Hinglish compliment.` :
-                                `URGENT: Do a broad web search for real products: ${query}. Use Google Search. Explore Myntra, Ajio, Amazon India. Return ONLY a JSON array: [{"name": "product name", "price": "1999", "img": "direct link", "brand": "store name"}]. After the JSON, add a witty one-line Hinglish comment.` 
+                                `User wants to visualize a custom outfit: "${query}". Describe a stunning, high-fashion 3D render of this outfit in detail. Return ONLY a JSON: {"name": "GIA Custom Design", "desc": "detailed description", "img": "https://source.unsplash.com/featured/?fashion,luxury,${query.replace(/ /g, ',')}"}. Add a witty Hinglish compliment for the creator.` :
+                                `URGENT: Do a broad web search for real products: ${query}. DO NOT limit search to just one site. Explore Myntra, Ajio, Amazon, and other luxury Indian stores. Return ONLY a JSON array: [{"name": "product name", "price": "1999", "img": "direct link", "brand": "store name"}]. After the JSON, add a witty one-line Hinglish comment about the items.` 
                             }] 
                         }],
                         tools: [{ google_search: {} }]
@@ -192,7 +191,7 @@
                         const genProduct = { id: Date.now(), type: 'regular', name: genData.name, price: "AI Generated", match: "10/10", img: genData.img, brand: "GIA AI Studio", tag: "Custom" };
                         activeProducts = [genProduct, ...staticProducts];
                         renderProducts(activeProducts);
-                        giaText.innerText = "Bhai, ye raha tera exclusive design! Bilkul unique.";
+                        giaText.innerText = "Bhai, ye raha tera exclusive design! Bilkul unique, sirf tere liye.";
                     }
                 } else {
                     const jsonMatch = rawResponse.match(/\[[\s\S]*\]/);
@@ -210,17 +209,17 @@
                         activeProducts = liveData;
                         renderProducts(liveData);
                         if(liveData.length >= 2) createLiveCombo(liveData[0], liveData[1]);
-                        giaText.innerText = rawResponse.replace(jsonMatch[0], '').replace(/```json|```/g, '').trim() || "Bhai, ye rahe tere liye gazab picks!";
+                        giaText.innerText = rawResponse.replace(jsonMatch[0], '').replace(/```json|```/g, '').trim() || "Bhai, ye rahe tere liye sabse gazab picks!";
                     }
                 }
             } catch (e) {
-                giaText.innerText = "Connection thoda slow hai, par GIA try kar rahi hai!";
+                console.error("Search Error:", e);
+                giaText.innerText = "Connection thoda slow hai, par GIA haar nahi maanegi. Ek baar fir try kar!";
             } finally {
                 searchContainer.classList.remove('searching-glow');
             }
         }
 
-        // FULL COMBO CALCULATION LOGIC
         function createLiveCombo(p1, p2) {
             const box = document.getElementById('combo-box');
             const items = document.getElementById('combo-items');
@@ -230,9 +229,10 @@
                 <i data-lucide="plus" class="w-4 h-4 text-[#BF953F]"></i>
                 <img src="${p2.img}" class="w-16 h-16 object-cover rounded-xl border border-white/20">
             `;
-            const v1 = parseInt(p1.price.replace(/,/g,'')) || 0;
-            const v2 = parseInt(p2.price.replace(/,/g,'')) || 0;
-            document.getElementById('combo-price').innerText = "₹" + (v1 + v2 - 500).toLocaleString();
+            const p1Val = parseInt(p1.price.replace(/,/g,'')) || 0;
+            const p2Val = parseInt(p2.price.replace(/,/g,'')) || 0;
+            const total = p1Val + p2Val;
+            document.getElementById('combo-price').innerText = "₹" + (total > 0 ? (total - 500).toLocaleString() : "TBD");
             lucide.createIcons();
         }
 
@@ -250,32 +250,32 @@
             lucide.createIcons();
         }
 
-        // FULL DETAILS MODAL + 3D TRY ON BUTTON
         function openDetailsDirectly(img, name, price, brand) {
             const modal = document.getElementById('details-modal');
             document.getElementById('modal-content').innerHTML = `
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-[#04241a] p-10 rounded-[3rem] border border-white/10 shadow-2xl">
                     <div class="viewer-360 group" id="viewer-box">
                         <div class="scan-line"></div>
-                        <img src="${img}" id="rotate-img">
+                        <img src="${img}" id="rotate-img" class="transition-transform duration-500">
+                        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 px-4 py-1 rounded-full text-[8px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">Drag to rotate 360°</div>
                     </div>
                     <div class="flex flex-col justify-center">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-4xl royal-logo gold-text leading-tight">${name}</h2>
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <p class="text-[10px] gold-text font-black uppercase tracking-[0.3em] mb-2">${brand} Official</p>
+                                <h2 class="text-4xl royal-logo text-white leading-tight">${name}</h2>
+                            </div>
                             <button onclick="closeDetails()" class="text-white/40 hover:text-white transition-all"><i data-lucide="x"></i></button>
                         </div>
-                        <p class="text-3xl font-black mb-8 italic">₹${price}</p>
-                        
+                        <p class="text-3xl font-black mb-8 italic text-white/90">₹${price}</p>
                         <div class="flex flex-col gap-4">
-                            <button onclick="window.location.href='fitting-room.html?item=${encodeURIComponent(img)}'" 
-                                class="w-full bg-transparent border-2 border-[#BF953F] text-[#BF953F] py-5 rounded-[2rem] font-black uppercase text-xs hover:bg-[#BF953F] hover:text-black transition-all flex items-center justify-center gap-3">
+                            <button onclick="window.location.href='fitting-room.html?item=${encodeURIComponent(img)}'" class="w-full bg-transparent border-2 border-[#BF953F] text-[#BF953F] py-5 rounded-[2rem] font-black uppercase text-xs hover:bg-[#BF953F] hover:text-black transition-all flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(191,149,63,0.2)]">
                                 <i data-lucide="user-round-search" class="w-5 h-5"></i>
                                 3D Virtual Try-On (PUBG Style)
                             </button>
-                            <button class="w-full bg-[#BF953F] text-black py-5 rounded-[2rem] font-black uppercase text-xs hover:bg-[#FCF6BA] transition-all">
-                                Buy Now on ${brand}
-                            </button>
+                            <button class="w-full bg-[#BF953F] text-black py-5 rounded-[2rem] font-black uppercase text-xs hover:bg-[#FCF6BA] transition-all shadow-lg">Buy Now from ${brand}</button>
                         </div>
+                        <p class="text-[9px] text-center mt-6 text-white/30 uppercase tracking-widest italic">Powered by GIA Vision Engine 2.0</p>
                     </div>
                 </div>`;
             modal.style.display = 'flex';
@@ -283,7 +283,6 @@
             lucide.createIcons();
         }
 
-        // FULL SCORE MODAL LOGIC
         function openScoreDirectly(name, match) {
             const modal = document.getElementById('score-modal');
             document.getElementById('score-modal-content').innerHTML = `
