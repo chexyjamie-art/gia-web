@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | Hyper-Real 3D Studio</title>
+    <title>GIA LUXE | Hyper-Real 3D Studio (Full Version)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -14,124 +14,140 @@
         body { background: #000; color: white; font-family: 'Inter', sans-serif; overflow: hidden; }
         .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .studio-overlay { pointer-events: none; position: absolute; inset: 0; border: 40px solid rgba(191, 149, 63, 0.05); }
-        .control-panel { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(30px); border-left: 1px solid rgba(191, 149, 63, 0.3); }
+        .control-panel { background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(40px); border-left: 1px solid rgba(191, 149, 63, 0.3); z-index: 100; }
 
+        /* Loader Style */
         #loader { position: fixed; inset: 0; background: #04241a; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .loading-bar { width: 200px; height: 2px; background: rgba(191, 149, 63, 0.2); margin-top: 20px; position: relative; overflow: hidden; }
+        .loading-bar { width: 250px; height: 2px; background: rgba(191, 149, 63, 0.2); margin-top: 20px; position: relative; overflow: hidden; }
         .loading-progress { width: 0%; height: 100%; background: #BF953F; transition: 0.3s; }
 
+        /* Tabs UI */
         .tab-button {
-            padding: 0.75rem 1.25rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s ease-in-out;
-            cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6); background: transparent;
+            padding: 12px 20px; border-radius: 9999px; font-size: 11px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;
+            cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.5);
         }
-
-        .tab-button.active { background: #BF953F; color: black; border-color: #BF953F; box-shadow: 0 0 20px rgba(191, 149, 63, 0.3); }
-        .tab-content { display: none; }
+        .tab-button.active { background: #BF953F; color: black; border-color: #BF953F; box-shadow: 0 0 20px rgba(191, 149, 63, 0.4); }
+        .tab-content { display: none; animation: fadeIn 0.5s ease forwards; }
         .tab-content.active { display: block; }
 
-        .thumbnail-button { width: 80px; height: 80px; object-fit: cover; border-radius: 0.5rem; border: 2px solid transparent; cursor: pointer; transition: all 0.2s ease-in-out; }
-        .thumbnail-button:hover { border-color: rgba(255, 255, 255, 0.4); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Grid Items */
+        .thumbnail-button { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; border: 2px solid transparent; cursor: pointer; transition: 0.3s; background: rgba(255,255,255,0.05); }
+        .thumbnail-button:hover { border-color: rgba(191, 149, 63, 0.5); transform: scale(1.05); }
         .thumbnail-button.active { border-color: #BF953F; box-shadow: 0 0 15px rgba(191, 149, 63, 0.4); }
-        
-        /* New Styles for Walk/Pose Buttons */
-        .pose-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(191, 149, 63, 0.2); padding: 10px; border-radius: 12px; font-size: 10px; text-transform: uppercase; transition: 0.3s; }
-        .pose-btn:hover { background: rgba(191, 149, 63, 0.2); }
+
+        .pose-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(191, 149, 63, 0.1); padding: 12px; border-radius: 12px; font-size: 10px; text-transform: uppercase; font-weight: bold; transition: 0.3s; width: 100%; }
+        .pose-btn:hover { background: rgba(191, 149, 63, 0.15); border-color: #BF953F; }
         .pose-btn.active { background: #BF953F; color: black; }
+
+        /* Custom Scrollbar */
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #BF953F; border-radius: 10px; }
     </style>
 </head>
 <body class="flex h-screen">
 
     <div id="loader">
-        <h2 class="text-2xl royal-logo gold-text animate-pulse">GIA META-HUMAN STUDIO</h2>
+        <h2 class="text-3xl font-black gold-text italic tracking-tighter mb-2">GIA LUXE</h2>
+        <p class="text-[10px] tracking-[4px] opacity-60 uppercase">Hyper-Real Meta-Human Engine</p>
         <div class="loading-bar"><div id="progress" class="loading-progress"></div></div>
-        <p id="load-status" class="text-[8px] uppercase tracking-widest mt-4 opacity-50">Syncing Avatar Data...</p>
+        <p id="load-status" class="text-[9px] uppercase tracking-widest mt-6 opacity-40">Initializing Neural Textures...</p>
     </div>
 
     <div class="flex-grow relative h-full">
         <div class="studio-overlay"></div>
         <div id="canvas-container" class="w-full h-full"></div>
-        
+
         <div class="absolute top-10 left-10">
             <h1 class="text-3xl font-black gold-text italic tracking-tighter">ULTRA-REAL VTO</h1>
-            <p class="text-[10px] opacity-40">CINEMATIC RENDERING ENGINE 4.0</p>
+            <p class="text-[10px] opacity-40 tracking-[3px]">CINEMATIC RENDERING ENGINE 4.0</p>
         </div>
 
-        <div id="selected-item-info" class="absolute bottom-10 left-10 bg-black/60 backdrop-blur-lg p-5 rounded-3xl border border-gold/20 flex items-center gap-4 hidden">
-            <img id="item-preview-img" src="" class="w-20 h-20 rounded-xl object-cover border-2 border-gold/40">
+        <div id="selected-item-info" class="absolute bottom-10 left-10 bg-black/70 backdrop-blur-2xl p-6 rounded-[32px] border border-white/10 flex items-center gap-5 hidden">
+            <img id="item-preview-img" src="" class="w-24 h-24 rounded-2xl object-cover border border-gold/30">
             <div>
-                <p class="text-[9px] uppercase text-gold font-bold">Currently Fitting</p>
-                <h4 id="item-preview-name" class="text-lg font-bold"></h4>
-                <p id="item-preview-brand" class="text-xs opacity-60"></p>
+                <p class="text-[10px] uppercase text-[#BF953F] font-black tracking-widest mb-1">Virtual Fitting</p>
+                <h4 id="item-preview-name" class="text-xl font-bold text-white"></h4>
+                <p id="item-preview-brand" class="text-sm opacity-50"></p>
             </div>
         </div>
     </div>
 
-    <div class="w-96 h-full control-panel p-10 overflow-y-auto custom-scroll">
-        <div class="mb-10 text-center">
-            <button onclick="window.history.back()" class="text-[9px] border border-white/20 px-4 py-1 rounded-full hover:bg-white/10 transition-all mb-4 uppercase">← Return to Boutique</button>
+    <div class="w-[400px] h-full control-panel p-10 flex flex-col overflow-hidden">
+        <div class="mb-10 flex justify-between items-center">
+            <button onclick="window.history.back()" class="text-[10px] font-bold border border-white/20 px-5 py-2 rounded-full hover:bg-white/10 transition-all uppercase tracking-widest">← Back</button>
+            <i data-lucide="settings" class="w-4 h-4 opacity-40"></i>
         </div>
 
-        <div class="flex justify-center space-x-3 mb-10">
-            <button class="tab-button active" onclick="openTab('anatomy', this)">Anatomy</button>
-            <button class="tab-button" onclick="openTab('clothes', this)">Outfit</button>
-            <button class="tab-button" onclick="openTab('studio', this)">Studio</button>
+        <div class="flex justify-between gap-2 mb-10 bg-white/5 p-1 rounded-full border border-white/5">
+            <button class="tab-button active flex-1" onclick="openTab('anatomy', this)">Anatomy</button>
+            <button class="tab-button flex-1" onclick="openTab('clothes', this)">Outfits</button>
+            <button class="tab-button flex-1" onclick="openTab('studio', this)">Studio</button>
         </div>
 
-        <div id="anatomy" class="tab-content active">
-            <h3 class="text-xs font-bold gold-text uppercase mb-8 tracking-widest">Anatomy Adjustments</h3>
-            <div class="space-y-8">
-                <div>
-                    <label class="flex justify-between text-[10px] uppercase mb-3"><span>Body Mass (Fat/Muscle)</span><span id="mass-label">100%</span></label>
-                    <input type="range" id="mass-slider" min="0.7" max="1.4" step="0.01" value="1" class="w-full accent-[#BF953F]" oninput="morphBody('mass', this.value)">
-                </div>
-                <div>
-                    <label class="flex justify-between text-[10px] uppercase mb-3"><span>Stature (Height)</span><span id="height-label">175cm</span></label>
-                    <input type="range" id="height-slider" min="0.85" max="1.15" step="0.01" value="1" class="w-full accent-[#BF953F]" oninput="morphBody('height', this.value)">
-                </div>
-                <div>
-                    <label class="text-[10px] uppercase mb-3 block">Melanin (Skin Tone)</label>
-                    <div class="grid grid-cols-5 gap-2">
-                        <button onclick="updateSkin('#f5cbad')" class="h-8 rounded-sm" style="background: #f5cbad"></button>
-                        <button onclick="updateSkin('#e3a173')" class="h-8 rounded-sm" style="background: #e3a173"></button>
-                        <button onclick="updateSkin('#a5673f')" class="h-8 rounded-sm" style="background: #a5673f"></button>
-                        <button onclick="updateSkin('#5c3317')" class="h-8 rounded-sm" style="background: #5c3317"></button>
-                        <button onclick="updateSkin('#2a1a12')" class="h-8 rounded-sm" style="background: #2a1a12"></button>
+        <div class="flex-grow overflow-y-auto custom-scroll pr-2">
+            
+            <div id="anatomy" class="tab-content active">
+                <h3 class="text-xs font-black gold-text uppercase mb-8 tracking-[2px]">Anatomy Calibration</h3>
+                <div class="space-y-10">
+                    <div>
+                        <div class="flex justify-between text-[11px] uppercase mb-4 font-bold"><span class="opacity-60">Body Mass Index</span><span id="mass-label" class="text-gold">100%</span></div>
+                        <input type="range" id="mass-slider" min="0.8" max="1.3" step="0.01" value="1" class="w-full accent-[#BF953F]" oninput="morphBody('mass', this.value)">
                     </div>
+                    <div>
+                        <div class="flex justify-between text-[11px] uppercase mb-4 font-bold"><span class="opacity-60">Stature (Height)</span><span id="height-label" class="text-gold">175cm</span></div>
+                        <input type="range" id="height-slider" min="0.85" max="1.15" step="0.01" value="1" class="w-full accent-[#BF953F]" oninput="morphBody('height', this.value)">
+                    </div>
+                    <div>
+                        <label class="text-[11px] uppercase mb-4 block font-bold opacity-60">Melanin Concentration</label>
+                        <div class="grid grid-cols-5 gap-3">
+                            <button onclick="updateSkin('#f5cbad')" class="h-10 rounded-lg border border-white/10" style="background: #f5cbad"></button>
+                            <button onclick="updateSkin('#e3a173')" class="h-10 rounded-lg border border-white/10" style="background: #e3a173"></button>
+                            <button onclick="updateSkin('#a5673f')" class="h-10 rounded-lg border border-white/10" style="background: #a5673f"></button>
+                            <button onclick="updateSkin('#5c3317')" class="h-10 rounded-lg border border-white/10" style="background: #5c3317"></button>
+                            <button onclick="updateSkin('#2a1a12')" class="h-10 rounded-lg border border-white/10" style="background: #2a1a12"></button>
+                        </div>
+                    </div>
+                    <button onclick="saveAvatarProfile()" class="w-full py-5 rounded-2xl border-2 border-gold/20 text-[10px] gold-text uppercase font-black hover:bg-gold hover:text-black transition-all mt-4">Save My Digital Twin</button>
                 </div>
-                <button onclick="saveAvatarProfile()" class="w-full py-3 rounded-xl border border-gold/40 text-[9px] gold-text uppercase font-bold hover:bg-gold hover:text-black transition-all">Save My 3D Avatar</button>
+            </div>
+
+            <div id="clothes" class="tab-content">
+                <h3 class="text-xs font-black gold-text uppercase mb-8 tracking-[2px]">Wardrobe Catalog</h3>
+                <div id="outfit-options" class="grid grid-cols-3 gap-4">
+                    </div>
+            </div>
+
+            <div id="studio" class="tab-content">
+                <h3 class="text-xs font-black gold-text uppercase mb-8 tracking-[2px]">Motion Controls</h3>
+                <div class="grid grid-cols-2 gap-3 mb-10">
+                    <button onclick="playPose('idle')" class="pose-btn active">Breathe Idle</button>
+                    <button onclick="playPose('walk')" class="pose-btn">Runway Walk</button>
+                    <button onclick="playPose('pose_catwalk')" class="pose-btn">Catwalk Pose</button>
+                    <button onclick="playPose('casual')" class="pose-btn">Casual Pose</button>
+                </div>
+
+                <h3 class="text-xs font-black gold-text uppercase mb-8 tracking-[2px]">Environment Lighting</h3>
+                <div class="grid grid-cols-3 gap-3">
+                    <button onclick="setEnvironment('studio_small_08_1k.hdr')" class="thumbnail-button flex items-center justify-center text-[9px] font-bold p-2 text-center">STUDIO WHITE</button>
+                    <button onclick="setEnvironment('outdoor_park_1k.hdr')" class="thumbnail-button flex items-center justify-center text-[9px] font-bold p-2 text-center">NATURAL SUN</button>
+                    <button onclick="setEnvironment('night_city_1k.hdr')" class="thumbnail-button flex items-center justify-center text-[9px] font-bold p-2 text-center">NIGHT CLUB</button>
+                </div>
             </div>
         </div>
 
-        <div id="clothes" class="tab-content">
-            <h3 class="text-xs font-bold gold-text uppercase mb-8 tracking-widest">Outfit Selection</h3>
-            <div id="outfit-options" class="grid grid-cols-3 gap-4"></div>
-        </div>
-
-        <div id="studio" class="tab-content">
-            <h3 class="text-xs font-bold gold-text uppercase mb-8 tracking-widest">Animation & Poses</h3>
-            <div class="grid grid-cols-2 gap-3 mb-10">
-                <button onclick="playPose('idle')" class="pose-btn active">Relaxed Idle</button>
-                <button onclick="playPose('walk')" class="pose-btn">Runway Walk</button>
-                <button onclick="playPose('pose_catwalk')" class="pose-btn">Catwalk Pose</button>
-                <button onclick="playPose('casual')" class="pose-btn">Casual Lean</button>
-            </div>
-
-            <h3 class="text-xs font-bold gold-text uppercase mb-8 tracking-widest">Lighting</h3>
-            <div class="grid grid-cols-3 gap-3">
-                <button onclick="setEnvironment('studio_small_08_1k.hdr')" class="thumbnail-button flex items-center justify-center text-[10px] border-white/20">Studio</button>
-                <button onclick="setEnvironment('outdoor_park_1k.hdr')" class="thumbnail-button flex items-center justify-center text-[10px] border-white/20">Daylight</button>
-                <button onclick="setEnvironment('night_city_1k.hdr')" class="thumbnail-button flex items-center justify-center text-[10px] border-white/20">Evening</button>
-            </div>
-        </div>
-
-        <div class="mt-20">
-            <button class="w-full bg-[#BF953F] text-black py-5 rounded-full font-black text-[10px] uppercase shadow-[0_0_30px_rgba(191,149,63,0.3)]">Capture Snapshot</button>
+        <div class="mt-10 pt-6 border-t border-white/5">
+            <p class="text-[8px] opacity-30 leading-relaxed text-center">
+                LEGAL: GIA LUXE Virtual Try-On is an AI aggregator. All digital models are 3D simulations. Final product fit may vary by fabric type.
+            </p>
         </div>
     </div>
 
     <script>
-        // --- GLOBALS ---
+        // --- THREE.JS ENGINE ---
         let scene, camera, renderer, metaHuman, mixer, currentOutfitMesh;
         let animations = {}; 
         let currentSkinColor = '#e3a173';
@@ -152,16 +168,16 @@
             { id: 'jacket_leather', name: 'Classic Leather Jacket', brand: 'Zara', img: 'https://images.unsplash.com/photo-1594932224828-99e02639dd6f?w=200', textureURL: 'https://cdn.pixabay.com/photo/2016/06/17/17/57/leather-1463125_960_720.jpg' },
         ];
 
-        // --- CORE FUNCTIONS ---
         function initStudio() {
             scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(35, (window.innerWidth - 384) / window.innerHeight, 0.1, 1000);
-            camera.position.set(0, 1.4, 3.5);
+            camera = new THREE.PerspectiveCamera(30, (window.innerWidth - 400) / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 1.4, 4.5);
 
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
             renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.setSize(window.innerWidth - 384, window.innerHeight);
+            renderer.setSize(window.innerWidth - 400, window.innerHeight);
             renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.2;
             renderer.outputEncoding = THREE.sRGBEncoding;
             document.getElementById('canvas-container').appendChild(renderer.domElement);
 
@@ -169,6 +185,7 @@
         }
 
         function setEnvironment(envName, isInitial = false) {
+            document.getElementById('load-status').innerText = "Simulating " + envName + "...";
             rgbeLoader.load(environmentMaps[envName], function(texture) {
                 const envMap = new THREE.PMREMGenerator(renderer).fromEquirectangular(texture).texture;
                 scene.environment = envMap;
@@ -178,26 +195,25 @@
         }
 
         function loadMetaHuman() {
+            // HIGH-FIDELITY MODEL (Aap yahan apna 1GB wala GLB replace karein)
             const modelURL = 'https://models.readyplayer.me/64db42b39f375084931a2936.glb'; 
 
             loader.load(modelURL, (gltf) => {
                 metaHuman = gltf.scene;
                 scene.add(metaHuman);
 
-                // Setup Animations
                 mixer = new THREE.AnimationMixer(metaHuman);
                 gltf.animations.forEach(clip => {
                     animations[clip.name.toLowerCase()] = mixer.clipAction(clip);
                 });
 
-                // Check for saved avatar profile
+                // Load Saved Avatar Data
                 const savedData = localStorage.getItem('GIA_User_Avatar');
                 if (savedData) {
                     const profile = JSON.parse(savedData);
                     morphBody('mass', profile.mass);
                     morphBody('height', profile.height);
                     updateSkin(profile.skin);
-                    // Sync sliders
                     document.getElementById('mass-slider').value = profile.mass;
                     document.getElementById('height-slider').value = profile.height;
                 }
@@ -207,6 +223,7 @@
                 metaHuman.traverse(child => {
                     if (child.isMesh) {
                         child.castShadow = true;
+                        child.receiveShadow = true;
                         if (child.name.toLowerCase().includes('shirt') || child.name.toLowerCase().includes('top')) {
                             currentOutfitMesh = child;
                         }
@@ -217,11 +234,12 @@
                 renderOutfitOptions();
                 animate();
             }, (xhr) => {
-                document.getElementById('progress').style.width = (xhr.loaded / xhr.total * 100) + '%';
+                const percent = (xhr.loaded / xhr.total * 100);
+                document.getElementById('progress').style.width = percent + '%';
+                document.getElementById('load-status').innerText = `Syncing Neural Meshes: ${Math.round(percent)}%`;
             });
         }
 
-        // --- NEW: PERSISTENCE & ANIMATION LOGIC ---
         function saveAvatarProfile() {
             const profile = {
                 mass: document.getElementById('mass-slider').value,
@@ -229,28 +247,22 @@
                 skin: currentSkinColor
             };
             localStorage.setItem('GIA_User_Avatar', JSON.stringify(profile));
-            alert("Digital Twin Saved! Your avatar will now load instantly with these settings.");
+            alert("Digital Twin Saved! GIA LUXE will remember your fit.");
         }
 
         function playPose(poseName) {
             if (!mixer) return;
-            // Stop current animations smoothly
             Object.values(animations).forEach(action => action.fadeOut(0.5));
-            
-            // Note: In real GLB, check if animations exist. If not, we simulate a pose.
             if (animations[poseName]) {
                 animations[poseName].reset().fadeIn(0.5).play();
             } else {
-                // If specific walk/catwalk doesn't exist in this base GLB, 
-                // we rotate the model to show its "movement" for demo.
-                console.log("Animation not in GLB, simulating pose...");
+                // If walk doesn't exist in base model, we simulate a slight rotation
+                metaHuman.rotation.y += 0.5;
             }
-            
             document.querySelectorAll('.pose-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
         }
 
-        // --- EXISTING UTILS ---
         function morphBody(type, val) {
             if(!metaHuman) return;
             if(type === 'mass') {
@@ -306,11 +318,16 @@
         function renderOutfitOptions() {
             const container = document.getElementById('outfit-options');
             container.innerHTML = availableOutfits.map(o => `
-                <img src="${o.img}" class="thumbnail-button outfit-btn" onclick="changeOutfit('${o.id}','${o.img}','${o.textureURL}','${o.name}','${o.brand}')">
+                <img src="${o.img}" class="thumbnail-button" onclick="changeOutfit('${o.id}','${o.img}','${o.textureURL}','${o.name}','${o.brand}')">
             `).join('');
         }
 
-        window.onload = initStudio;
+        window.onload = () => { initStudio(); lucide.createIcons(); };
+        window.onresize = () => {
+            camera.aspect = (window.innerWidth - 400) / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth - 400, window.innerHeight);
+        };
     </script>
 </body>
 </html>
