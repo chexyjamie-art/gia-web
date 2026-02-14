@@ -3,190 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | Hyper-Real 3D Studio</title>
+    <title>GIA LUXE | Virtual Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
-        body { background: #000; color: white; font-family: 'Inter', sans-serif; overflow: hidden; margin: 0; }
-        .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .control-panel { background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(20px); border-left: 1px solid rgba(191, 149, 63, 0.2); z-index: 100; }
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,900&family=Inter:wght@300;400;700&display=swap');
         
-        #loader { position: fixed; inset: 0; background: #04241a; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .loading-bar { width: 280px; height: 2px; background: rgba(191, 149, 63, 0.1); margin-top: 25px; }
-        #progress { height: 100%; background: #BF953F; width: 0%; transition: width 0.3s; }
+        body { background: #051612; color: white; font-family: 'Inter', sans-serif; overflow: hidden; margin: 0; }
+        .gold-border { border: 1.5px solid #BF953F; }
+        .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Playfair Display', serif; }
+        .glass-panel { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(15px); border: 1px solid rgba(191, 149, 63, 0.3); border-radius: 24px; }
+        
+        /* Mobile vs Desktop View */
+        .main-container { display: flex; height: 100vh; width: 100vw; }
+        @media (max-width: 768px) {
+            .main-container { flex-direction: column; }
+            .control-panel { width: 100% !important; height: 40% !important; border-left: none !important; border-top: 2px solid #BF953F; position: absolute; bottom: 0; }
+        }
 
-        .tab-button { padding: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; cursor: pointer; color: rgba(255, 255, 255, 0.4); flex: 1; text-align: center; }
-        .tab-button.active { color: #BF953F; border-bottom: 2px solid #BF953F; }
-        .tab-content { display: none; padding-top: 20px; }
-        .tab-content.active { display: block; }
+        /* Gold Slider */
+        input[type="range"] { -webkit-appearance: none; background: rgba(191, 149, 63, 0.2); height: 2px; border-radius: 5px; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: #BF953F; border-radius: 50%; border: 2px solid #FCF6BA; }
 
-        .thumbnail-card { background: #111; border-radius: 15px; padding: 8px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); }
-        input[type="range"] { width: 100%; accent-color: #BF953F; cursor: pointer; }
-        .custom-scroll::-webkit-scrollbar { width: 2px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #BF953F; }
+        #loader { position: fixed; inset: 0; background: #051612; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .loading-progress { width: 200px; height: 2px; background: rgba(191, 149, 63, 0.1); margin-top: 20px; position: relative; }
+        #bar { height: 100%; background: #BF953F; width: 0%; transition: 0.3s; }
     </style>
 </head>
-<body class="flex h-screen">
+<body>
 
     <div id="loader">
-        <h1 class="text-3xl font-black gold-text italic">GIA LUXE</h1>
-        <div class="loading-bar"><div id="progress"></div></div>
-        <p id="load-status" class="text-[9px] uppercase tracking-[3px] mt-4 opacity-50">Connecting to Server...</p>
+        <h1 class="text-4xl gold-text italic">GIA LUXE</h1>
+        <div class="loading-progress"><div id="bar"></div></div>
     </div>
 
-    <div class="flex-grow relative bg-[#050505]">
-        <div id="canvas-container" class="w-full h-full"></div>
-        <div class="absolute top-10 left-10">
-            <h2 class="text-2xl font-black gold-text italic">VIRTUAL STUDIO</h2>
-            <p class="text-[9px] tracking-widest opacity-40 uppercase">Hyper-Real PBR Engine</p>
-        </div>
-    </div>
+    <div class="main-container">
+        <div class="flex-grow relative overflow-hidden">
+            <div id="canvas-container" class="w-full h-full cursor-move"></div>
+            
+            <div class="absolute top-10 left-10 pointer-events-none">
+                <h1 class="text-3xl gold-text italic leading-none">VIRTUAL<br>STUDIO</h1>
+                <p class="text-[9px] tracking-[4px] uppercase text-white/40 mt-2 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span> Hyper-Real PBR Engine
+                </p>
+            </div>
 
-    <div class="w-[400px] h-full control-panel p-8 flex flex-col">
-        <div class="flex justify-between border-b border-white/10 mb-6">
-            <button class="tab-button active" onclick="openTab('anatomy', this)">Anatomy</button>
-            <button class="tab-button" onclick="openTab('clothes', this)">Wardrobe</button>
-            <button class="tab-button" onclick="openTab('studio', this)">Studio</button>
-        </div>
-
-        <div class="flex-grow overflow-y-auto custom-scroll">
-            <div id="anatomy" class="tab-content active">
-                <div class="space-y-8">
-                    <div>
-                        <div class="flex justify-between text-[10px] uppercase font-bold mb-3"><span>Body Mass</span><span id="mass-val">100%</span></div>
-                        <input type="range" min="0.8" max="1.2" step="0.01" value="1" oninput="morph('mass', this.value)">
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-[10px] uppercase font-bold mb-3"><span>Height</span><span id="height-val">175cm</span></div>
-                        <input type="range" min="0.85" max="1.15" step="0.01" value="1" oninput="morph('height', this.value)">
-                    </div>
-                    <div class="grid grid-cols-5 gap-2">
-                        <button onclick="skin('#f5cbad')" class="h-8 rounded" style="background: #f5cbad"></button>
-                        <button onclick="skin('#e3a173')" class="h-8 rounded" style="background: #e3a173"></button>
-                        <button onclick="skin('#a5673f')" class="h-8 rounded" style="background: #a5673f"></button>
-                        <button onclick="skin('#5c3317')" class="h-8 rounded" style="background: #5c3317"></button>
-                        <button onclick="skin('#2a1a12')" class="h-8 rounded" style="background: #2a1a12"></button>
-                    </div>
+            <div class="absolute bottom-10 left-10 glass-panel p-4 flex items-center gap-4 gold-border">
+                <div class="w-16 h-16 bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+                    <img id="p-img" src="https://images.unsplash.com/photo-1579216377317-1065c71d382d?w=200" class="w-full h-full object-cover">
                 </div>
-            </div>
-
-            <div id="clothes" class="tab-content">
-                <div id="outfit-grid" class="grid grid-cols-2 gap-4">
-                    </div>
-            </div>
-
-            <div id="studio" class="tab-content">
-                <div class="grid grid-cols-2 gap-3">
-                    <button onclick="pose('idle')" class="bg-white/5 py-4 text-[10px] font-black rounded-xl border border-white/5">IDLE</button>
-                    <button onclick="pose('walk')" class="bg-white/5 py-4 text-[10px] font-black rounded-xl border border-white/5">WALK</button>
+                <div>
+                    <p class="text-[8px] text-gold font-bold tracking-widest uppercase">GIA LUXE</p>
+                    <h3 id="p-name" class="text-xl italic font-serif text-white">Denim Classic</h3>
                 </div>
             </div>
         </div>
 
-        <div class="mt-8 pt-6 border-t border-white/5 text-center">
-            <p class="text-[8px] opacity-30 uppercase tracking-widest">GIA LUXE | ALTER PROJECT 2026</p>
-            <p class="text-[7px] opacity-20 mt-1">Legal: AI Simulation for styling purposes only.</p>
+        <div class="w-[400px] control-panel glass-panel m-6 p-8 flex flex-col gold-border">
+            <div class="flex justify-between items-center mb-8">
+                <button class="text-[10px] font-bold uppercase tracking-widest opacity-50">← Exit</button>
+                <div class="flex gap-2 bg-black/40 p-1 rounded-full border border-white/10">
+                    <button id="btn-female" onclick="switchGender('female')" class="px-4 py-1 text-[9px] font-bold rounded-full bg-gold text-black transition-all">FEMALE</button>
+                    <button id="btn-male" onclick="switchGender('male')" class="px-4 py-1 text-[9px] font-bold rounded-full opacity-40 transition-all">MALE</button>
+                </div>
+            </div>
+
+            <div class="flex gap-4 border-b border-white/10 mb-8">
+                <button class="pb-3 text-[10px] font-black tracking-widest border-b-2 border-gold text-gold">ANATOMY</button>
+                <button class="pb-3 text-[10px] font-black tracking-widest opacity-30">STUDIO</button>
+            </div>
+
+            <div class="space-y-10">
+                <div>
+                    <div class="flex justify-between text-[10px] font-bold uppercase mb-4 tracking-widest opacity-60"><span>Body Mass</span><span id="mass-label">100%</span></div>
+                    <input type="range" min="0.8" max="1.3" step="0.01" value="1" class="w-full" oninput="updateMorph('mass', this.value)">
+                </div>
+                <div>
+                    <div class="flex justify-between text-[10px] font-bold uppercase mb-4 tracking-widest opacity-60"><span>Height</span><span id="height-label">175cm</span></div>
+                    <input type="range" min="0.85" max="1.15" step="0.01" value="1" class="w-full" oninput="updateMorph('height', this.value)">
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold uppercase mb-4 tracking-widest opacity-60">Skin Tone</p>
+                    <div class="grid grid-cols-5 gap-3">
+                        <div onclick="setSkin('#f5cbad')" class="h-8 rounded-lg border border-white/10" style="background: #f5cbad"></div>
+                        <div onclick="setSkin('#e3a173')" class="h-8 rounded-lg border border-white/10" style="background: #e3a173"></div>
+                        <div onclick="setSkin('#a5673f')" class="h-8 rounded-lg border border-white/10" style="background: #a5673f"></div>
+                        <div onclick="setSkin('#5c3317')" class="h-8 rounded-lg border border-white/10" style="background: #5c3317"></div>
+                        <div onclick="setSkin('#2a1a12')" class="h-8 rounded-lg border border-white/10 gold-border" style="background: #2a1a12"></div>
+                    </div>
+                </div>
+                
+                <div class="pt-4 grid grid-cols-2 gap-3">
+                    <button onclick="playPose('idle')" class="py-4 rounded-2xl bg-white/5 border border-white/10 text-[10px] font-bold tracking-widest hover:border-gold transition-all">IDLE POSE</button>
+                    <button onclick="playPose('walk')" class="py-4 rounded-2xl bg-white/5 border border-white/10 text-[10px] font-bold tracking-widest hover:border-gold transition-all">WALK RUNWAY</button>
+                </div>
+            </div>
+
+            <div class="mt-auto text-center pt-6 opacity-20">
+                <p class="text-[8px] uppercase tracking-[4px]">GIA LUXE | ALTER PROJECT 2026</p>
+            </div>
         </div>
     </div>
 
     <script>
-        const items = [
-            { name: 'Denim Classic', brand: 'GIA LUXE', img: 'https://images.unsplash.com/photo-1579216377317-1065c71d382d?w=200', tex: 'https://cdn.pixabay.com/photo/2017/08/29/01/22/denim-2692237_960_720.jpg' },
-            { name: 'Silk Black', brand: 'ALTER', img: 'https://images.unsplash.com/photo-1521572173163-f27eb660d2b7?w=200', tex: 'https://cdn.pixabay.com/photo/2017/07/04/21/50/t-shirt-2472916_960_720.jpg' }
-        ];
-
-        let sc, cam, rend, model, mix, cloth, anims = {}, clock = new THREE.Clock();
+        let scene, camera, renderer, model, mixer, controls, clock = new THREE.Clock();
+        let currentGender = 'female';
+        const loader = new THREE.GLTFLoader();
 
         function init() {
-            sc = new THREE.Scene();
-            cam = new THREE.PerspectiveCamera(35, (window.innerWidth - 400) / window.innerHeight, 0.1, 1000);
-            cam.position.set(0, 1.4, 4);
+            scene = new THREE.Scene();
+            // Deep Greenish Gradient Background (Like your image)
+            scene.background = new THREE.Color(0x051612);
+            
+            camera = new THREE.PerspectiveCamera(35, (window.innerWidth) / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 1.4, 4.5);
 
-            rend = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            rend.setSize(window.innerWidth - 400, window.innerHeight);
-            rend.setPixelRatio(window.devicePixelRatio);
-            document.getElementById('canvas-container').appendChild(rend.domElement);
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-            sc.add(new THREE.AmbientLight(0xffffff, 0.8));
-            const d = new THREE.DirectionalLight(0xffffff, 0.5);
-            d.position.set(1, 2, 3);
-            sc.add(d);
+            // Orbit Controls (360 Degree rotation)
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.minDistance = 2;
+            controls.maxDistance = 6;
+            controls.enablePan = false;
+            controls.target.set(0, 1, 0);
 
-            load();
+            // Lights
+            const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambient);
+            const spot = new THREE.DirectionalLight(0xffffff, 1);
+            spot.position.set(5, 10, 5);
+            scene.add(spot);
+
+            // Floor Shadow Circle (Like image)
+            const circleGeo = new THREE.CircleGeometry(0.6, 32);
+            const circleMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.4 });
+            const circle = new THREE.Mesh(circleGeo, circleMat);
+            circle.rotation.x = -Math.PI / 2;
+            circle.position.y = 0.01;
+            scene.add(circle);
+
+            loadModel('female');
+            window.addEventListener('resize', onWindowResize);
+            animate();
         }
 
-        function load() {
-            const loader = new THREE.GLTFLoader();
-            // Using a more reliable demo model link
-            const url = 'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/Soldier.glb';
+        function loadModel(gender) {
+            // Placeholder stable models
+            const url = gender === 'female' 
+                ? 'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/Soldier.glb' // Soldier as placeholder
+                : 'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/RobotExpressive/RobotExpressive.glb';
 
-            loader.load(url, (g) => {
-                model = g.scene;
-                sc.add(model);
-                mix = new THREE.AnimationMixer(model);
-                
-                // Map animations
-                g.animations.forEach(a => {
-                    const name = a.name.toLowerCase();
-                    anims[name] = mix.clipAction(a);
-                });
-                
-                if(anims['idle']) anims['idle'].play();
-                else if(g.animations[0]) mix.clipAction(g.animations[0]).play();
-
+            loader.load(url, (gltf) => {
+                if(model) scene.remove(model);
+                model = gltf.scene;
+                scene.add(model);
+                mixer = new THREE.AnimationMixer(model);
+                if(gltf.animations[0]) mixer.clipAction(gltf.animations[0]).play();
                 document.getElementById('loader').style.display = 'none';
-                renderGrid();
-                loop();
             }, (xhr) => {
                 const p = (xhr.loaded / xhr.total * 100);
-                document.getElementById('progress').style.width = p + '%';
-                document.getElementById('load-status').innerText = 'Downloading: ' + Math.round(p) + '%';
-            }, (err) => {
-                document.getElementById('load-status').innerText = 'Error: Model blocked or not found.';
-                console.error(err);
+                document.getElementById('bar').style.width = p + '%';
             });
         }
 
-        function morph(t, v) {
+        function switchGender(g) {
+            currentGender = g;
+            document.getElementById('btn-female').className = g === 'female' ? 'px-4 py-1 text-[9px] font-bold rounded-full bg-gold text-black' : 'px-4 py-1 text-[9px] font-bold rounded-full opacity-40';
+            document.getElementById('btn-male').className = g === 'male' ? 'px-4 py-1 text-[9px] font-bold rounded-full bg-gold text-black' : 'px-4 py-1 text-[9px] font-bold rounded-full opacity-40';
+            document.getElementById('loader').style.display = 'flex';
+            loadModel(g);
+        }
+
+        function updateMorph(type, val) {
             if(!model) return;
-            if(t==='mass') { model.scale.x = model.scale.z = v; document.getElementById('mass-val').innerText = Math.round(v*100)+'%'; }
-            else { model.scale.y = v; document.getElementById('height-val').innerText = Math.round(175*v)+'cm'; }
+            if(type === 'mass') {
+                model.scale.x = model.scale.z = val;
+                document.getElementById('mass-label').innerText = Math.round(val*100) + '%';
+            } else {
+                model.scale.y = val;
+                document.getElementById('height-label').innerText = Math.round(175*val) + 'cm';
+            }
         }
 
-        function skin(c) {
-            model.traverse(m => { if(m.isMesh) m.material.color.set(c); });
+        function setSkin(color) {
+            model.traverse(o => { if(o.isMesh) o.material.color.set(color); });
         }
 
-        function pose(n) {
-            Object.values(anims).forEach(a => a.fadeOut(0.3));
-            if(anims[n]) anims[n].reset().fadeIn(0.3).play();
+        function animate() {
+            requestAnimationFrame(animate);
+            if(mixer) mixer.update(clock.getDelta());
+            controls.update();
+            renderer.render(scene, camera);
         }
 
-        function renderGrid() {
-            document.getElementById('outfit-grid').innerHTML = items.map(i => `
-                <div class="thumbnail-card" onclick='alert("Texture Apply logic ready!")'>
-                    <img src="${i.img}" class="w-full h-32 object-cover rounded-lg mb-2">
-                    <p class="text-[8px] text-gold font-bold uppercase">${i.brand}</p>
-                    <p class="text-[9px] font-bold opacity-60">${i.name}</p>
-                </div>
-            `).join('');
-        }
-
-        function loop() {
-            requestAnimationFrame(loop);
-            if(mix) mix.update(clock.getDelta());
-            rend.render(sc, cam);
-        }
-
-        function openTab(id, b) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-            b.classList.add('active');
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
         window.onload = init;
