@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/RGBELoader.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
@@ -16,21 +15,18 @@
         .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .control-panel { background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(20px); border-left: 1px solid rgba(191, 149, 63, 0.2); z-index: 100; }
         
-        /* Loader Fix */
         #loader { position: fixed; inset: 0; background: #04241a; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .loading-bar { width: 280px; height: 2px; background: rgba(191, 149, 63, 0.1); margin-top: 25px; position: relative; }
+        .loading-bar { width: 280px; height: 2px; background: rgba(191, 149, 63, 0.1); margin-top: 25px; }
         #progress { height: 100%; background: #BF953F; width: 0%; transition: width 0.3s; }
 
-        .tab-button { padding: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; color: rgba(255, 255, 255, 0.4); border-bottom: 2px solid transparent; transition: 0.3s; }
-        .tab-button.active { color: #BF953F; border-bottom-color: #BF953F; }
+        .tab-button { padding: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; cursor: pointer; color: rgba(255, 255, 255, 0.4); flex: 1; text-align: center; }
+        .tab-button.active { color: #BF953F; border-bottom: 2px solid #BF953F; }
         .tab-content { display: none; padding-top: 20px; }
         .tab-content.active { display: block; }
 
-        .thumbnail-card { background: #111; border-radius: 15px; padding: 8px; cursor: pointer; border: 1px solid transparent; transition: 0.3s; }
-        .thumbnail-card:hover { border-color: #BF953F; }
-
-        input[type="range"] { width: 100%; accent-color: #BF953F; }
-        .custom-scroll::-webkit-scrollbar { width: 3px; }
+        .thumbnail-card { background: #111; border-radius: 15px; padding: 8px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); }
+        input[type="range"] { width: 100%; accent-color: #BF953F; cursor: pointer; }
+        .custom-scroll::-webkit-scrollbar { width: 2px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #BF953F; }
     </style>
 </head>
@@ -39,34 +35,25 @@
     <div id="loader">
         <h1 class="text-3xl font-black gold-text italic">GIA LUXE</h1>
         <div class="loading-bar"><div id="progress"></div></div>
-        <p id="load-status" class="text-[9px] uppercase tracking-[3px] mt-4 opacity-50 text-white">Initializing Engine...</p>
+        <p id="load-status" class="text-[9px] uppercase tracking-[3px] mt-4 opacity-50">Connecting to Server...</p>
     </div>
 
     <div class="flex-grow relative bg-[#050505]">
         <div id="canvas-container" class="w-full h-full"></div>
-        
         <div class="absolute top-10 left-10">
-            <h2 class="text-2xl font-black gold-text italic">GIA LUXE STUDIO</h2>
-            <p class="text-[9px] tracking-widest opacity-40 uppercase">Hyper-Real Rendering Active</p>
-        </div>
-
-        <div id="item-info" class="absolute bottom-10 left-10 bg-black/60 backdrop-blur-md p-5 rounded-3xl border border-white/10 flex items-center gap-4 hidden">
-            <img id="p-img" src="" class="w-16 h-16 rounded-xl object-cover">
-            <div>
-                <h4 id="p-name" class="font-bold text-white text-sm"></h4>
-                <p id="p-brand" class="text-[10px] text-gold uppercase font-bold"></p>
-            </div>
+            <h2 class="text-2xl font-black gold-text italic">VIRTUAL STUDIO</h2>
+            <p class="text-[9px] tracking-widest opacity-40 uppercase">Hyper-Real PBR Engine</p>
         </div>
     </div>
 
     <div class="w-[400px] h-full control-panel p-8 flex flex-col">
         <div class="flex justify-between border-b border-white/10 mb-6">
-            <button class="tab-button active flex-1" onclick="openTab('anatomy', this)">Anatomy</button>
-            <button class="tab-button flex-1" onclick="openTab('clothes', this)">Wardrobe</button>
-            <button class="tab-button flex-1" onclick="openTab('studio', this)">Studio</button>
+            <button class="tab-button active" onclick="openTab('anatomy', this)">Anatomy</button>
+            <button class="tab-button" onclick="openTab('clothes', this)">Wardrobe</button>
+            <button class="tab-button" onclick="openTab('studio', this)">Studio</button>
         </div>
 
-        <div class="flex-grow overflow-y-auto custom-scroll pr-2">
+        <div class="flex-grow overflow-y-auto custom-scroll">
             <div id="anatomy" class="tab-content active">
                 <div class="space-y-8">
                     <div>
@@ -84,25 +71,25 @@
                         <button onclick="skin('#5c3317')" class="h-8 rounded" style="background: #5c3317"></button>
                         <button onclick="skin('#2a1a12')" class="h-8 rounded" style="background: #2a1a12"></button>
                     </div>
-                    <button onclick="save()" class="w-full py-4 bg-gold text-black text-[10px] font-black uppercase rounded-xl">Save Digital Twin</button>
                 </div>
             </div>
 
             <div id="clothes" class="tab-content">
-                <div id="outfit-grid" class="grid grid-cols-2 gap-4"></div>
+                <div id="outfit-grid" class="grid grid-cols-2 gap-4">
+                    </div>
             </div>
 
             <div id="studio" class="tab-content">
                 <div class="grid grid-cols-2 gap-3">
-                    <button onclick="pose('idle')" class="bg-white/5 py-4 text-[10px] font-bold rounded-xl border border-white/5">IDLE</button>
-                    <button onclick="pose('walk')" class="bg-white/5 py-4 text-[10px] font-bold rounded-xl border border-white/5">WALK</button>
+                    <button onclick="pose('idle')" class="bg-white/5 py-4 text-[10px] font-black rounded-xl border border-white/5">IDLE</button>
+                    <button onclick="pose('walk')" class="bg-white/5 py-4 text-[10px] font-black rounded-xl border border-white/5">WALK</button>
                 </div>
             </div>
         </div>
 
         <div class="mt-8 pt-6 border-t border-white/5 text-center">
             <p class="text-[8px] opacity-30 uppercase tracking-widest">GIA LUXE | ALTER PROJECT 2026</p>
-            <p class="text-[7px] opacity-20 mt-1 center">Legal: All simulations are AI-generated.</p>
+            <p class="text-[7px] opacity-20 mt-1">Legal: AI Simulation for styling purposes only.</p>
         </div>
     </div>
 
@@ -121,14 +108,12 @@
 
             rend = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             rend.setSize(window.innerWidth - 400, window.innerHeight);
-            rend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            rend.outputEncoding = THREE.sRGBEncoding;
+            rend.setPixelRatio(window.devicePixelRatio);
             document.getElementById('canvas-container').appendChild(rend.domElement);
 
-            const h = new THREE.HemisphereLight(0xffffff, 0x444444, 1.2);
-            sc.add(h);
-            const d = new THREE.DirectionalLight(0xffffff, 0.8);
-            d.position.set(5, 10, 7);
+            sc.add(new THREE.AmbientLight(0xffffff, 0.8));
+            const d = new THREE.DirectionalLight(0xffffff, 0.5);
+            d.position.set(1, 2, 3);
             sc.add(d);
 
             load();
@@ -136,20 +121,22 @@
 
         function load() {
             const loader = new THREE.GLTFLoader();
-            // ReadyPlayerMe sample link for testing (Replace with yours)
-            const url = 'https://models.readyplayer.me/64db42b39f375084931a2936.glb';
+            // Using a more reliable demo model link
+            const url = 'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/models/gltf/Soldier.glb';
 
             loader.load(url, (g) => {
                 model = g.scene;
                 sc.add(model);
                 mix = new THREE.AnimationMixer(model);
-                g.animations.forEach(a => anims[a.name.toLowerCase()] = mix.clipAction(a));
-                if(anims['idle']) anims['idle'].play();
-
-                model.traverse(c => {
-                    if(c.isMesh && (c.name.includes('Shirt') || c.name.includes('Top'))) cloth = c;
-                    if(c.isMesh) { c.castShadow = true; c.receiveShadow = true; }
+                
+                // Map animations
+                g.animations.forEach(a => {
+                    const name = a.name.toLowerCase();
+                    anims[name] = mix.clipAction(a);
                 });
+                
+                if(anims['idle']) anims['idle'].play();
+                else if(g.animations[0]) mix.clipAction(g.animations[0]).play();
 
                 document.getElementById('loader').style.display = 'none';
                 renderGrid();
@@ -157,9 +144,10 @@
             }, (xhr) => {
                 const p = (xhr.loaded / xhr.total * 100);
                 document.getElementById('progress').style.width = p + '%';
-                document.getElementById('load-status').innerText = 'Syncing: ' + Math.round(p) + '%';
+                document.getElementById('load-status').innerText = 'Downloading: ' + Math.round(p) + '%';
             }, (err) => {
-                document.getElementById('load-status').innerText = 'Load Error. Check URL.';
+                document.getElementById('load-status').innerText = 'Error: Model blocked or not found.';
+                console.error(err);
             });
         }
 
@@ -170,9 +158,7 @@
         }
 
         function skin(c) {
-            model.traverse(m => {
-                if(m.isMesh && m.material.name.toLowerCase().includes('skin')) m.material.color.set(c);
-            });
+            model.traverse(m => { if(m.isMesh) m.material.color.set(c); });
         }
 
         function pose(n) {
@@ -180,24 +166,11 @@
             if(anims[n]) anims[n].reset().fadeIn(0.3).play();
         }
 
-        function setOutfit(i) {
-            document.getElementById('item-info').classList.remove('hidden');
-            document.getElementById('p-img').src = i.img;
-            document.getElementById('p-name').innerText = i.name;
-            document.getElementById('p-brand').innerText = i.brand;
-            if(cloth) {
-                new THREE.TextureLoader().load(i.tex, (t) => {
-                    cloth.material.map = t;
-                    cloth.material.needsUpdate = true;
-                });
-            }
-        }
-
         function renderGrid() {
             document.getElementById('outfit-grid').innerHTML = items.map(i => `
-                <div class="thumbnail-card" onclick='setOutfit(${JSON.stringify(i)})'>
+                <div class="thumbnail-card" onclick='alert("Texture Apply logic ready!")'>
                     <img src="${i.img}" class="w-full h-32 object-cover rounded-lg mb-2">
-                    <p class="text-[8px] text-gold font-bold">${i.brand}</p>
+                    <p class="text-[8px] text-gold font-bold uppercase">${i.brand}</p>
                     <p class="text-[9px] font-bold opacity-60">${i.name}</p>
                 </div>
             `).join('');
@@ -216,7 +189,7 @@
             b.classList.add('active');
         }
 
-        window.onload = () => { init(); lucide.createIcons(); };
+        window.onload = init;
     </script>
 </body>
 </html>
