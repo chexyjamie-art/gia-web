@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | Hyper-Real 3D Studio (Full Version)</title>
+    <title>GIA LUXE | Hyper-Real 3D Studio (ULTIMATE VERSION)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -11,300 +11,294 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
+        
         body { background: #000; color: white; font-family: 'Inter', sans-serif; overflow: hidden; }
         .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .studio-overlay { pointer-events: none; position: absolute; inset: 0; border: 40px solid rgba(191, 149, 63, 0.05); }
-        .control-panel { background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(40px); border-left: 1px solid rgba(191, 149, 63, 0.3); z-index: 100; }
-
-        /* Loader Style */
-        #loader { position: fixed; inset: 0; background: #04241a; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .loading-bar { width: 250px; height: 2px; background: rgba(191, 149, 63, 0.2); margin-top: 20px; position: relative; overflow: hidden; }
-        .loading-progress { width: 0%; height: 100%; background: #BF953F; transition: 0.3s; }
-
-        /* Tabs UI */
-        .tab-button {
-            padding: 12px 20px; border-radius: 9999px; font-size: 11px; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;
-            cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.5);
+        
+        /* Studio Layout */
+        .studio-overlay { pointer-events: none; position: absolute; inset: 0; border: 40px solid rgba(191, 149, 63, 0.05); z-index: 10; }
+        .control-panel { 
+            background: rgba(0, 0, 0, 0.9); 
+            backdrop-filter: blur(50px); 
+            border-left: 1px solid rgba(191, 149, 63, 0.2); 
+            box-shadow: -10px 0 50px rgba(0,0,0,0.5);
+            z-index: 100;
         }
-        .tab-button.active { background: #BF953F; color: black; border-color: #BF953F; box-shadow: 0 0 20px rgba(191, 149, 63, 0.4); }
-        .tab-content { display: none; animation: fadeIn 0.5s ease forwards; }
-        .tab-content.active { display: block; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Loading Screen */
+        #loader { position: fixed; inset: 0; background: #04241a; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .loading-bar { width: 300px; height: 2px; background: rgba(191, 149, 63, 0.1); margin-top: 30px; border-radius: 10px; overflow: hidden; }
+        .loading-progress { width: 0%; height: 100%; background: linear-gradient(90deg, #BF953F, #FCF6BA); transition: 0.4s; }
 
-        /* Grid Items */
-        .thumbnail-button { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; border: 2px solid transparent; cursor: pointer; transition: 0.3s; background: rgba(255,255,255,0.05); }
-        .thumbnail-button:hover { border-color: rgba(191, 149, 63, 0.5); transform: scale(1.05); }
-        .thumbnail-button.active { border-color: #BF953F; box-shadow: 0 0 15px rgba(191, 149, 63, 0.4); }
+        /* Tabs & Buttons */
+        .tab-button {
+            padding: 14px 24px; border-radius: 50px; font-size: 10px; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 2px; transition: 0.4s;
+            cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.4);
+        }
+        .tab-button.active { background: #BF953F; color: #000; border-color: #BF953F; box-shadow: 0 10px 30px rgba(191, 149, 63, 0.3); }
 
-        .pose-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(191, 149, 63, 0.1); padding: 12px; border-radius: 12px; font-size: 10px; text-transform: uppercase; font-weight: bold; transition: 0.3s; width: 100%; }
-        .pose-btn:hover { background: rgba(191, 149, 63, 0.15); border-color: #BF953F; }
-        .pose-btn.active { background: #BF953F; color: black; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: slideUp 0.6s ease; }
 
-        /* Custom Scrollbar */
-        .custom-scroll::-webkit-scrollbar { width: 4px; }
-        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #BF953F; border-radius: 10px; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* UI Elements */
+        .thumbnail-card {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 20px; padding: 10px; transition: 0.3s; cursor: pointer;
+        }
+        .thumbnail-card:hover { background: rgba(191, 149, 63, 0.1); border-color: #BF953F; transform: translateY(-5px); }
+        .thumbnail-card.active { border-color: #BF953F; background: rgba(191, 149, 63, 0.15); }
+
+        .pose-option {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(191,149,63,0.1);
+            padding: 15px; border-radius: 15px; font-size: 10px; font-weight: bold;
+            text-transform: uppercase; text-align: center; transition: 0.3s;
+        }
+        .pose-option:hover { border-color: #BF953F; color: #BF953F; }
+        .pose-option.active { background: #BF953F; color: black; }
+
+        input[type="range"] { -webkit-appearance: none; height: 4px; background: rgba(191, 149, 63, 0.1); border-radius: 5px; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: #BF953F; border-radius: 50%; cursor: pointer; box-shadow: 0 0 10px rgba(191, 149, 63, 0.5); }
+
+        .custom-scroll::-webkit-scrollbar { width: 3px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #BF953F; }
     </style>
 </head>
 <body class="flex h-screen">
 
     <div id="loader">
-        <h2 class="text-3xl font-black gold-text italic tracking-tighter mb-2">GIA LUXE</h2>
-        <p class="text-[10px] tracking-[4px] opacity-60 uppercase">Hyper-Real Meta-Human Engine</p>
+        <h1 class="text-4xl font-black gold-text italic tracking-tighter mb-2">GIA LUXE</h1>
+        <p class="text-[10px] tracking-[6px] opacity-40 uppercase">Hyper-Real Rendering 4.0</p>
         <div class="loading-bar"><div id="progress" class="loading-progress"></div></div>
-        <p id="load-status" class="text-[9px] uppercase tracking-widest mt-6 opacity-40">Initializing Neural Textures...</p>
+        <p id="load-status" class="text-[8px] uppercase tracking-widest mt-8 opacity-30">Generating Neural Body Mesh...</p>
     </div>
 
     <div class="flex-grow relative h-full">
         <div class="studio-overlay"></div>
         <div id="canvas-container" class="w-full h-full"></div>
 
-        <div class="absolute top-10 left-10">
-            <h1 class="text-3xl font-black gold-text italic tracking-tighter">ULTRA-REAL VTO</h1>
-            <p class="text-[10px] opacity-40 tracking-[3px]">CINEMATIC RENDERING ENGINE 4.0</p>
+        <div class="absolute top-12 left-12 z-20">
+            <h2 class="text-4xl font-black gold-text italic tracking-tighter">VIRTUAL STUDIO</h2>
+            <div class="flex items-center gap-3 mt-2 opacity-50">
+                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                <p class="text-[10px] tracking-[4px] uppercase font-bold">Real-time PBR Engine Active</p>
+            </div>
         </div>
 
-        <div id="selected-item-info" class="absolute bottom-10 left-10 bg-black/70 backdrop-blur-2xl p-6 rounded-[32px] border border-white/10 flex items-center gap-5 hidden">
-            <img id="item-preview-img" src="" class="w-24 h-24 rounded-2xl object-cover border border-gold/30">
+        <div id="selected-item-info" class="absolute bottom-12 left-12 bg-black/80 backdrop-blur-3xl p-8 rounded-[40px] border border-white/10 flex items-center gap-6 hidden z-20">
+            <img id="item-preview-img" src="" class="w-28 h-28 rounded-3xl object-cover border-2 border-gold/20 shadow-2xl">
             <div>
-                <p class="text-[10px] uppercase text-[#BF953F] font-black tracking-widest mb-1">Virtual Fitting</p>
-                <h4 id="item-preview-name" class="text-xl font-bold text-white"></h4>
-                <p id="item-preview-brand" class="text-sm opacity-50"></p>
+                <p class="text-[10px] uppercase text-gold font-black tracking-widest mb-2">Live Simulation</p>
+                <h4 id="item-preview-name" class="text-2xl font-black text-white italic"></h4>
+                <p id="item-preview-brand" class="text-sm opacity-40 font-bold uppercase tracking-wider"></p>
             </div>
         </div>
     </div>
 
-    <div class="w-[400px] h-full control-panel p-10 flex flex-col overflow-hidden">
-        <div class="mb-10 flex justify-between items-center">
-            <button onclick="window.history.back()" class="text-[10px] font-bold border border-white/20 px-5 py-2 rounded-full hover:bg-white/10 transition-all uppercase tracking-widest">← Back</button>
-            <i data-lucide="settings" class="w-4 h-4 opacity-40"></i>
+    <div class="w-[450px] h-full control-panel p-12 flex flex-col">
+        <div class="mb-12 flex justify-between items-center">
+            <button onclick="window.history.back()" class="text-[10px] font-black border border-white/10 px-8 py-3 rounded-full hover:bg-white/5 transition-all uppercase tracking-[2px]">← Exit Studio</button>
+            <div class="bg-gold/10 p-2 rounded-full"><i data-lucide="shield-check" class="w-4 h-4 text-gold"></i></div>
         </div>
 
-        <div class="flex justify-between gap-2 mb-10 bg-white/5 p-1 rounded-full border border-white/5">
+        <div class="flex justify-between gap-3 mb-12">
             <button class="tab-button active flex-1" onclick="openTab('anatomy', this)">Anatomy</button>
-            <button class="tab-button flex-1" onclick="openTab('clothes', this)">Outfits</button>
+            <button class="tab-button flex-1" onclick="openTab('clothes', this)">Wardrobe</button>
             <button class="tab-button flex-1" onclick="openTab('studio', this)">Studio</button>
         </div>
 
-        <div class="flex-grow overflow-y-auto custom-scroll pr-2">
+        <div class="flex-grow overflow-y-auto custom-scroll pr-4">
             
             <div id="anatomy" class="tab-content active">
-                <h3 class="text-xs font-black gold-text uppercase mb-8 tracking-[2px]">Anatomy Calibration</h3>
-                <div class="space-y-10">
-                    <div>
-                        <div class="flex justify-between text-[11px] uppercase mb-4 font-bold"><span class="opacity-60">Body Mass Index</span><span id="mass-label" class="text-gold">100%</span></div>
-                        <input type="range" id="mass-slider" min="0.8" max="1.3" step="0.01" value="1" class="w-full accent-[#BF953F]" oninput="morphBody('mass', this.value)">
+                <h3 class="text-[11px] font-black gold-text uppercase mb-10 tracking-[3px]">Body Configuration</h3>
+                <div class="space-y-12">
+                    <div class="bg-white/5 p-6 rounded-3xl border border-white/5">
+                        <div class="flex justify-between text-[11px] uppercase mb-6 font-black opacity-70"><span>Body Mass Index</span><span id="mass-label" class="text-gold">100%</span></div>
+                        <input type="range" id="mass-slider" min="0.8" max="1.3" step="0.01" value="1" class="w-full" oninput="morphBody('mass', this.value)">
+                    </div>
+                    <div class="bg-white/5 p-6 rounded-3xl border border-white/5">
+                        <div class="flex justify-between text-[11px] uppercase mb-6 font-black opacity-70"><span>Digital Stature</span><span id="height-label" class="text-gold">175cm</span></div>
+                        <input type="range" id="height-slider" min="0.85" max="1.15" step="0.01" value="1" class="w-full" oninput="morphBody('height', this.value)">
                     </div>
                     <div>
-                        <div class="flex justify-between text-[11px] uppercase mb-4 font-bold"><span class="opacity-60">Stature (Height)</span><span id="height-label" class="text-gold">175cm</span></div>
-                        <input type="range" id="height-slider" min="0.85" max="1.15" step="0.01" value="1" class="w-full accent-[#BF953F]" oninput="morphBody('height', this.value)">
-                    </div>
-                    <div>
-                        <label class="text-[11px] uppercase mb-4 block font-bold opacity-60">Melanin Concentration</label>
-                        <div class="grid grid-cols-5 gap-3">
-                            <button onclick="updateSkin('#f5cbad')" class="h-10 rounded-lg border border-white/10" style="background: #f5cbad"></button>
-                            <button onclick="updateSkin('#e3a173')" class="h-10 rounded-lg border border-white/10" style="background: #e3a173"></button>
-                            <button onclick="updateSkin('#a5673f')" class="h-10 rounded-lg border border-white/10" style="background: #a5673f"></button>
-                            <button onclick="updateSkin('#5c3317')" class="h-10 rounded-lg border border-white/10" style="background: #5c3317"></button>
-                            <button onclick="updateSkin('#2a1a12')" class="h-10 rounded-lg border border-white/10" style="background: #2a1a12"></button>
+                        <label class="text-[11px] uppercase mb-6 block font-black opacity-70 tracking-widest">Skin Tone Palette</label>
+                        <div class="grid grid-cols-5 gap-4">
+                            <button onclick="updateSkin('#f5cbad')" class="h-12 rounded-xl border border-white/10 hover:scale-110 transition-all" style="background: #f5cbad"></button>
+                            <button onclick="updateSkin('#e3a173')" class="h-12 rounded-xl border border-white/10 hover:scale-110 transition-all" style="background: #e3a173"></button>
+                            <button onclick="updateSkin('#a5673f')" class="h-12 rounded-xl border border-white/10 hover:scale-110 transition-all" style="background: #a5673f"></button>
+                            <button onclick="updateSkin('#5c3317')" class="h-12 rounded-xl border border-white/10 hover:scale-110 transition-all" style="background: #5c3317"></button>
+                            <button onclick="updateSkin('#2a1a12')" class="h-12 rounded-xl border border-white/10 hover:scale-110 transition-all" style="background: #2a1a12"></button>
                         </div>
                     </div>
-                    <button onclick="saveAvatarProfile()" class="w-full py-5 rounded-2xl border-2 border-gold/20 text-[10px] gold-text uppercase font-black hover:bg-gold hover:text-black transition-all mt-4">Save My Digital Twin</button>
+                    <button onclick="saveAvatarProfile()" class="w-full py-6 rounded-3xl bg-gold text-black text-[11px] uppercase font-black tracking-[2px] shadow-[0_20px_40px_rgba(191,149,63,0.2)] hover:scale-[1.02] transition-all">Save My Digital Twin</button>
                 </div>
             </div>
 
             <div id="clothes" class="tab-content">
-                <h3 class="text-xs font-black gold-text uppercase mb-8 tracking-[2px]">Wardrobe Catalog</h3>
-                <div id="outfit-options" class="grid grid-cols-3 gap-4">
+                <h3 class="text-[11px] font-black gold-text uppercase mb-10 tracking-[3px]">Select Garment</h3>
+                <div id="outfit-options" class="grid grid-cols-2 gap-6">
                     </div>
             </div>
 
             <div id="studio" class="tab-content">
-                <h3 class="text-xs font-black gold-text uppercase mb-8 tracking-[2px]">Motion Controls</h3>
-                <div class="grid grid-cols-2 gap-3 mb-10">
-                    <button onclick="playPose('idle')" class="pose-btn active">Breathe Idle</button>
-                    <button onclick="playPose('walk')" class="pose-btn">Runway Walk</button>
-                    <button onclick="playPose('pose_catwalk')" class="pose-btn">Catwalk Pose</button>
-                    <button onclick="playPose('casual')" class="pose-btn">Casual Pose</button>
+                <h3 class="text-[11px] font-black gold-text uppercase mb-10 tracking-[3px]">Motion Library</h3>
+                <div class="grid grid-cols-2 gap-4 mb-12">
+                    <button onclick="playPose('idle')" class="pose-option active">Natural Idle</button>
+                    <button onclick="playPose('walk')" class="pose-option">Runway Walk</button>
+                    <button onclick="playPose('pose_1')" class="pose-option">Fashion Pose A</button>
+                    <button onclick="playPose('pose_2')" class="pose-option">Fashion Pose B</button>
                 </div>
 
-                <h3 class="text-xs font-black gold-text uppercase mb-8 tracking-[2px]">Environment Lighting</h3>
-                <div class="grid grid-cols-3 gap-3">
-                    <button onclick="setEnvironment('studio_small_08_1k.hdr')" class="thumbnail-button flex items-center justify-center text-[9px] font-bold p-2 text-center">STUDIO WHITE</button>
-                    <button onclick="setEnvironment('outdoor_park_1k.hdr')" class="thumbnail-button flex items-center justify-center text-[9px] font-bold p-2 text-center">NATURAL SUN</button>
-                    <button onclick="setEnvironment('night_city_1k.hdr')" class="thumbnail-button flex items-center justify-center text-[9px] font-bold p-2 text-center">NIGHT CLUB</button>
+                <h3 class="text-[11px] font-black gold-text uppercase mb-10 tracking-[3px]">Environment Lighting</h3>
+                <div class="grid grid-cols-3 gap-4">
+                    <button onclick="setEnvironment('studio_small_08_1k.hdr')" class="bg-white/5 py-4 rounded-xl text-[9px] font-bold border border-white/5">STUDIO</button>
+                    <button onclick="setEnvironment('outdoor_park_1k.hdr')" class="bg-white/5 py-4 rounded-xl text-[9px] font-bold border border-white/5">OUTDOOR</button>
+                    <button onclick="setEnvironment('night_city_1k.hdr')" class="bg-white/5 py-4 rounded-xl text-[9px] font-bold border border-white/5">NIGHT</button>
                 </div>
             </div>
         </div>
 
-        <div class="mt-10 pt-6 border-t border-white/5">
-            <p class="text-[8px] opacity-30 leading-relaxed text-center">
-                LEGAL: GIA LUXE Virtual Try-On is an AI aggregator. All digital models are 3D simulations. Final product fit may vary by fabric type.
+        <div class="mt-10 pt-8 border-t border-white/5 text-center">
+            <p class="text-[9px] opacity-30 leading-loose uppercase tracking-widest">
+                GIA LUXE | ALTER PROJECT 2026<br>
+                Legal: AI Simulation for styling purposes only.
             </p>
         </div>
     </div>
 
     <script>
-        // --- THREE.JS ENGINE ---
-        let scene, camera, renderer, metaHuman, mixer, currentOutfitMesh;
-        let animations = {}; 
-        let currentSkinColor = '#e3a173';
-        const loader = new THREE.GLTFLoader();
-        const rgbeLoader = new THREE.RGBELoader();
-        const textureLoader = new THREE.TextureLoader();
-        const clock = new THREE.Clock();
-
-        const environmentMaps = {
-            'studio_small_08_1k.hdr': 'https://dl.polyhaven.org/file/ph-assets/Environments/hdr/1k/studio_small_08_1k.hdr',
-            'outdoor_park_1k.hdr': 'https://dl.polyhaven.org/file/ph-assets/Environments/hdr/1k/chinese_garden_1k.hdr',
-            'night_city_1k.hdr': 'https://dl.polyhaven.org/file/ph-assets/Environments/hdr/1k/night_city_1k.hdr'
-        };
-
+        // --- DATA ---
         const availableOutfits = [
-            { id: 'shirt_denim', name: 'Premium Denim Shirt', brand: 'Levi\'s', img: 'https://images.unsplash.com/photo-1579216377317-1065c71d382d?w=200', textureURL: 'https://cdn.pixabay.com/photo/2017/08/29/01/22/denim-2692237_960_720.jpg' },
-            { id: 'tshirt_cotton', name: 'Organic Cotton Tee', brand: 'H&M', img: 'https://images.unsplash.com/photo-1521572173163-f27eb660d2b7?w=200', textureURL: 'https://cdn.pixabay.com/photo/2017/07/04/21/50/t-shirt-2472916_960_720.jpg' },
-            { id: 'jacket_leather', name: 'Classic Leather Jacket', brand: 'Zara', img: 'https://images.unsplash.com/photo-1594932224828-99e02639dd6f?w=200', textureURL: 'https://cdn.pixabay.com/photo/2016/06/17/17/57/leather-1463125_960_720.jpg' },
+            { id: 'shirt_1', name: 'Denim Classic', brand: 'GIA LUXE', img: 'https://images.unsplash.com/photo-1579216377317-1065c71d382d?w=300', texture: 'https://cdn.pixabay.com/photo/2017/08/29/01/22/denim-2692237_960_720.jpg' },
+            { id: 'shirt_2', name: 'Silk Black', brand: 'ALTER', img: 'https://images.unsplash.com/photo-1521572173163-f27eb660d2b7?w=300', texture: 'https://cdn.pixabay.com/photo/2017/07/04/21/50/t-shirt-2472916_960_720.jpg' },
+            { id: 'jacket_1', name: 'Leather Biker', brand: 'GIA LUXE', img: 'https://images.unsplash.com/photo-1594932224828-99e02639dd6f?w=300', texture: 'https://cdn.pixabay.com/photo/2016/06/17/17/57/leather-1463125_960_720.jpg' },
+            { id: 'shirt_3', name: 'Organic Cotton', brand: 'H&M', img: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300', texture: 'https://cdn.pixabay.com/photo/2016/09/22/10/44/skin-1687618_960_720.jpg' }
         ];
 
-        function initStudio() {
+        // --- THREE.JS ENGINE ---
+        let scene, camera, renderer, metaHuman, mixer, currentOutfitMesh;
+        let animations = {}; let clock = new THREE.Clock();
+        const loader = new THREE.GLTFLoader();
+        const textureLoader = new THREE.TextureLoader();
+
+        function init() {
             scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(30, (window.innerWidth - 400) / window.innerHeight, 0.1, 1000);
-            camera.position.set(0, 1.4, 4.5);
+            camera = new THREE.PerspectiveCamera(30, (window.innerWidth - 450) / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 1.4, 5);
 
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+            renderer.setSize(window.innerWidth - 450, window.innerHeight);
             renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.setSize(window.innerWidth - 400, window.innerHeight);
             renderer.toneMapping = THREE.ACESFilmicToneMapping;
-            renderer.toneMappingExposure = 1.2;
+            renderer.toneMappingExposure = 1.3;
             renderer.outputEncoding = THREE.sRGBEncoding;
             document.getElementById('canvas-container').appendChild(renderer.domElement);
 
             setEnvironment('studio_small_08_1k.hdr', true);
         }
 
-        function setEnvironment(envName, isInitial = false) {
-            document.getElementById('load-status').innerText = "Simulating " + envName + "...";
-            rgbeLoader.load(environmentMaps[envName], function(texture) {
+        function setEnvironment(name, isInitial = false) {
+            new THREE.RGBELoader().load(`https://dl.polyhaven.org/file/ph-assets/Environments/hdr/1k/${name}`, function(texture) {
                 const envMap = new THREE.PMREMGenerator(renderer).fromEquirectangular(texture).texture;
                 scene.environment = envMap;
-                texture.dispose();
-                if (isInitial) loadMetaHuman();
+                if (isInitial) loadModel();
             });
         }
 
-        function loadMetaHuman() {
-            // HIGH-FIDELITY MODEL (Aap yahan apna 1GB wala GLB replace karein)
-            const modelURL = 'https://models.readyplayer.me/64db42b39f375084931a2936.glb'; 
-
-            loader.load(modelURL, (gltf) => {
+        function loadModel() {
+            // Replace with your 1GB GLB URL
+            const url = 'https://models.readyplayer.me/64db42b39f375084931a2936.glb';
+            loader.load(url, (gltf) => {
                 metaHuman = gltf.scene;
                 scene.add(metaHuman);
-
+                
                 mixer = new THREE.AnimationMixer(metaHuman);
-                gltf.animations.forEach(clip => {
-                    animations[clip.name.toLowerCase()] = mixer.clipAction(clip);
-                });
+                gltf.animations.forEach(a => animations[a.name.toLowerCase()] = mixer.clipAction(a));
+                if(animations['idle']) animations['idle'].play();
 
-                // Load Saved Avatar Data
-                const savedData = localStorage.getItem('GIA_User_Avatar');
-                if (savedData) {
-                    const profile = JSON.parse(savedData);
-                    morphBody('mass', profile.mass);
-                    morphBody('height', profile.height);
-                    updateSkin(profile.skin);
-                    document.getElementById('mass-slider').value = profile.mass;
-                    document.getElementById('height-slider').value = profile.height;
+                // Apply saved settings
+                const saved = localStorage.getItem('GIA_User_Avatar');
+                if(saved) {
+                    const p = JSON.parse(saved);
+                    morphBody('mass', p.mass); morphBody('height', p.height); updateSkin(p.skin);
+                    document.getElementById('mass-slider').value = p.mass;
+                    document.getElementById('height-slider').value = p.height;
                 }
 
-                if (animations['idle']) animations['idle'].play();
-
-                metaHuman.traverse(child => {
-                    if (child.isMesh) {
-                        child.castShadow = true;
-                        child.receiveShadow = true;
-                        if (child.name.toLowerCase().includes('shirt') || child.name.toLowerCase().includes('top')) {
-                            currentOutfitMesh = child;
-                        }
-                    }
+                metaHuman.traverse(c => {
+                    if(c.isMesh && (c.name.toLowerCase().includes('shirt') || c.name.toLowerCase().includes('top'))) currentOutfitMesh = c;
                 });
 
                 document.getElementById('loader').style.display = 'none';
-                renderOutfitOptions();
+                renderOutfits();
                 animate();
             }, (xhr) => {
-                const percent = (xhr.loaded / xhr.total * 100);
-                document.getElementById('progress').style.width = percent + '%';
-                document.getElementById('load-status').innerText = `Syncing Neural Meshes: ${Math.round(percent)}%`;
+                document.getElementById('progress').style.width = (xhr.loaded / xhr.total * 100) + '%';
             });
         }
 
-        function saveAvatarProfile() {
-            const profile = {
-                mass: document.getElementById('mass-slider').value,
-                height: document.getElementById('height-slider').value,
-                skin: currentSkinColor
-            };
-            localStorage.setItem('GIA_User_Avatar', JSON.stringify(profile));
-            alert("Digital Twin Saved! GIA LUXE will remember your fit.");
-        }
-
-        function playPose(poseName) {
-            if (!mixer) return;
-            Object.values(animations).forEach(action => action.fadeOut(0.5));
-            if (animations[poseName]) {
-                animations[poseName].reset().fadeIn(0.5).play();
-            } else {
-                // If walk doesn't exist in base model, we simulate a slight rotation
-                metaHuman.rotation.y += 0.5;
-            }
-            document.querySelectorAll('.pose-btn').forEach(btn => btn.classList.remove('active'));
+        function playPose(name) {
+            Object.values(animations).forEach(a => a.fadeOut(0.5));
+            if(animations[name]) animations[name].reset().fadeIn(0.5).play();
+            document.querySelectorAll('.pose-option').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
         }
 
         function morphBody(type, val) {
             if(!metaHuman) return;
             if(type === 'mass') {
-                metaHuman.scale.x = val; metaHuman.scale.z = val;
+                metaHuman.scale.x = metaHuman.scale.z = val;
                 document.getElementById('mass-label').innerText = Math.round(val * 100) + '%';
-            }
-            if(type === 'height') {
+            } else {
                 metaHuman.scale.y = val;
                 document.getElementById('height-label').innerText = Math.round(175 * val) + 'cm';
             }
         }
 
         function updateSkin(color) {
-            currentSkinColor = color;
-            if(!metaHuman) return;
-            metaHuman.traverse(child => {
-                if (child.isMesh && child.material && child.material.name.toLowerCase().includes('skin')) {
-                    child.material.color.set(color);
-                }
+            window.currentSkin = color;
+            metaHuman.traverse(c => {
+                if(c.isMesh && c.material.name.toLowerCase().includes('skin')) c.material.color.set(color);
             });
         }
 
-        function changeOutfit(id, img, tex, name, brand) {
-            if(!metaHuman) return;
-            document.getElementById('item-preview-img').src = img;
-            document.getElementById('item-preview-name').innerText = name;
-            document.getElementById('item-preview-brand').innerText = brand;
+        function saveAvatarProfile() {
+            const profile = { mass: document.getElementById('mass-slider').value, height: document.getElementById('height-slider').value, skin: window.currentSkin || '#e3a173' };
+            localStorage.setItem('GIA_User_Avatar', JSON.stringify(profile));
+            alert("Digital Twin Secured!");
+        }
+
+        function changeOutfit(item) {
+            document.getElementById('item-preview-img').src = item.img;
+            document.getElementById('item-preview-name').innerText = item.name;
+            document.getElementById('item-preview-brand').innerText = item.brand;
             document.getElementById('selected-item-info').classList.remove('hidden');
 
-            if (currentOutfitMesh) {
-                textureLoader.load(tex, (texture) => {
-                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                    currentOutfitMesh.material.map = texture;
+            if(currentOutfitMesh) {
+                textureLoader.load(item.texture, (t) => {
+                    t.wrapS = t.wrapT = THREE.RepeatWrapping;
+                    currentOutfitMesh.material.map = t;
                     currentOutfitMesh.material.needsUpdate = true;
-                    currentOutfitMesh.visible = true;
                 });
             }
         }
 
+        function renderOutfits() {
+            document.getElementById('outfit-options').innerHTML = availableOutfits.map(o => `
+                <div class="thumbnail-card" onclick='changeOutfit(${JSON.stringify(o)})'>
+                    <img src="${o.img}" class="w-full aspect-square object-cover rounded-xl mb-3">
+                    <p class="text-[9px] font-black uppercase text-gold">${o.brand}</p>
+                    <p class="text-[10px] font-bold opacity-60">${o.name}</p>
+                </div>
+            `).join('');
+        }
+
         function animate() {
             requestAnimationFrame(animate);
-            if (mixer) mixer.update(clock.getDelta());
+            if(mixer) mixer.update(clock.getDelta());
             renderer.render(scene, camera);
         }
 
@@ -315,19 +309,7 @@
             el.classList.add('active');
         }
 
-        function renderOutfitOptions() {
-            const container = document.getElementById('outfit-options');
-            container.innerHTML = availableOutfits.map(o => `
-                <img src="${o.img}" class="thumbnail-button" onclick="changeOutfit('${o.id}','${o.img}','${o.textureURL}','${o.name}','${o.brand}')">
-            `).join('');
-        }
-
-        window.onload = () => { initStudio(); lucide.createIcons(); };
-        window.onresize = () => {
-            camera.aspect = (window.innerWidth - 400) / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth - 400, window.innerHeight);
-        };
+        window.onload = () => { init(); lucide.createIcons(); };
     </script>
 </body>
 </html>
