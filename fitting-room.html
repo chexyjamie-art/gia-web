@@ -9,61 +9,43 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/RGBELoader.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+
     <style>
         body { background: #000; color: white; font-family: 'Inter', sans-serif; overflow: hidden; }
         .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .studio-overlay { pointer-events: none; position: absolute; inset: 0; border: 40px solid rgba(191, 149, 63, 0.05); }
         .control-panel { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(30px); border-left: 1px solid rgba(191, 149, 63, 0.3); }
-        
-        /* Loading Animation */
+
         #loader { position: fixed; inset: 0; background: #04241a; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .loading-bar { width: 200px; height: 2px; background: rgba(191, 149, 63, 0.2); margin-top: 20px; position: relative; overflow: hidden; }
         .loading-progress { width: 0%; height: 100%; background: #BF953F; transition: 0.3s; }
 
         .tab-button {
-            padding: 0.75rem 1.25rem;
-            border-radius: 9999px; /* Full rounded */
-            font-size: 0.75rem; /* text-xs */
-            font-weight: 600; /* semibold */
-            text-transform: uppercase;
-            letter-spacing: 0.05em; /* tracking-wider */
-            transition: all 0.2s ease-in-out;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.1); /* border-white/10 */
-            color: rgba(255, 255, 255, 0.6); /* text-white/60 */
-            background: transparent;
+            padding: 0.75rem 1.25rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s ease-in-out;
+            cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6); background: transparent;
         }
 
-        .tab-button.active {
-            background: #BF953F;
-            color: black;
-            border-color: #BF953F;
-            box-shadow: 0 0 20px rgba(191, 149, 63, 0.3);
-        }
-
+        .tab-button.active { background: #BF953F; color: black; border-color: #BF953F; box-shadow: 0 0 20px rgba(191, 149, 63, 0.3); }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        .thumbnail-button {
-            width: 80px; height: 80px;
-            object-fit: cover;
-            border-radius: 0.5rem;
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-        }
+        .thumbnail-button { width: 80px; height: 80px; object-fit: cover; border-radius: 0.5rem; border: 2px solid transparent; cursor: pointer; transition: all 0.2s ease-in-out; }
         .thumbnail-button:hover { border-color: rgba(255, 255, 255, 0.4); }
         .thumbnail-button.active { border-color: #BF953F; box-shadow: 0 0 15px rgba(191, 149, 63, 0.4); }
-
+        
+        /* New Styles for Walk/Pose Buttons */
+        .pose-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(191, 149, 63, 0.2); padding: 10px; border-radius: 12px; font-size: 10px; text-transform: uppercase; transition: 0.3s; }
+        .pose-btn:hover { background: rgba(191, 149, 63, 0.2); }
+        .pose-btn.active { background: #BF953F; color: black; }
     </style>
 </head>
 <body class="flex h-screen">
 
     <div id="loader">
-        <h2 class="text-2xl royal-logo gold-text animate-pulse">Initializing GIA Meta-Human</h2>
+        <h2 class="text-2xl royal-logo gold-text animate-pulse">GIA META-HUMAN STUDIO</h2>
         <div class="loading-bar"><div id="progress" class="loading-progress"></div></div>
-        <p id="load-status" class="text-[8px] uppercase tracking-widest mt-4 opacity-50">Syncing Neural Meshes...</p>
+        <p id="load-status" class="text-[8px] uppercase tracking-widest mt-4 opacity-50">Syncing Avatar Data...</p>
     </div>
 
     <div class="flex-grow relative h-full">
@@ -78,7 +60,7 @@
         <div id="selected-item-info" class="absolute bottom-10 left-10 bg-black/60 backdrop-blur-lg p-5 rounded-3xl border border-gold/20 flex items-center gap-4 hidden">
             <img id="item-preview-img" src="" class="w-20 h-20 rounded-xl object-cover border-2 border-gold/40">
             <div>
-                <p class="text-[9px] uppercase text-gold font-bold">Virtual Fitting</p>
+                <p class="text-[9px] uppercase text-gold font-bold">Currently Fitting</p>
                 <h4 id="item-preview-name" class="text-lg font-bold"></h4>
                 <p id="item-preview-brand" class="text-xs opacity-60"></p>
             </div>
@@ -101,11 +83,11 @@
             <div class="space-y-8">
                 <div>
                     <label class="flex justify-between text-[10px] uppercase mb-3"><span>Body Mass (Fat/Muscle)</span><span id="mass-label">100%</span></label>
-                    <input type="range" min="0.7" max="1.4" step="0.01" value="1" class="w-full accent-[#BF953F]" oninput="morphBody('mass', this.value)">
+                    <input type="range" id="mass-slider" min="0.7" max="1.4" step="0.01" value="1" class="w-full accent-[#BF953F]" oninput="morphBody('mass', this.value)">
                 </div>
                 <div>
                     <label class="flex justify-between text-[10px] uppercase mb-3"><span>Stature (Height)</span><span id="height-label">175cm</span></label>
-                    <input type="range" min="0.85" max="1.15" step="0.01" value="1" class="w-full accent-[#BF953F]" oninput="morphBody('height', this.value)">
+                    <input type="range" id="height-slider" min="0.85" max="1.15" step="0.01" value="1" class="w-full accent-[#BF953F]" oninput="morphBody('height', this.value)">
                 </div>
                 <div>
                     <label class="text-[10px] uppercase mb-3 block">Melanin (Skin Tone)</label>
@@ -117,187 +99,162 @@
                         <button onclick="updateSkin('#2a1a12')" class="h-8 rounded-sm" style="background: #2a1a12"></button>
                     </div>
                 </div>
+                <button onclick="saveAvatarProfile()" class="w-full py-3 rounded-xl border border-gold/40 text-[9px] gold-text uppercase font-bold hover:bg-gold hover:text-black transition-all">Save My 3D Avatar</button>
             </div>
         </div>
 
         <div id="clothes" class="tab-content">
             <h3 class="text-xs font-bold gold-text uppercase mb-8 tracking-widest">Outfit Selection</h3>
-            <p class="text-[10px] opacity-60 mb-6">Select the perfect garment from your curated collection to instantly try it on.</p>
-            <div id="outfit-options" class="grid grid-cols-3 gap-4">
-                </div>
+            <div id="outfit-options" class="grid grid-cols-3 gap-4"></div>
         </div>
 
         <div id="studio" class="tab-content">
-            <h3 class="text-xs font-bold gold-text uppercase mb-8 tracking-widest">Studio Environment</h3>
-            <div class="space-y-8">
-                <div>
-                    <label class="text-[10px] uppercase mb-3 block">Poses</label>
-                    <div class="grid grid-cols-3 gap-3">
-                        <button onclick="setPose('idle')" class="thumbnail-button text-white/60 border-white/20 text-xs flex items-center justify-center">Idle</button>
-                        <button onclick="setPose('runway')" class="thumbnail-button text-white/60 border-white/20 text-xs flex items-center justify-center">Runway</button>
-                        <button onclick="setPose('casual')" class="thumbnail-button text-white/60 border-white/20 text-xs flex items-center justify-center">Casual</button>
-                    </div>
-                </div>
-                <div>
-                    <label class="text-[10px] uppercase mb-3 block">Lighting Scenarios</label>
-                    <div class="grid grid-cols-3 gap-3">
-                        <button onclick="setEnvironment('studio_small_08_1k.hdr')" class="thumbnail-button text-white/60 border-white/20 text-xs flex items-center justify-center">Studio</button>
-                        <button onclick="setEnvironment('outdoor_park_1k.hdr')" class="thumbnail-button text-white/60 border-white/20 text-xs flex items-center justify-center">Outdoor</button>
-                        <button onclick="setEnvironment('night_city_1k.hdr')" class="thumbnail-button text-white/60 border-white/20 text-xs flex items-center justify-center">Night</button>
-                    </div>
-                </div>
+            <h3 class="text-xs font-bold gold-text uppercase mb-8 tracking-widest">Animation & Poses</h3>
+            <div class="grid grid-cols-2 gap-3 mb-10">
+                <button onclick="playPose('idle')" class="pose-btn active">Relaxed Idle</button>
+                <button onclick="playPose('walk')" class="pose-btn">Runway Walk</button>
+                <button onclick="playPose('pose_catwalk')" class="pose-btn">Catwalk Pose</button>
+                <button onclick="playPose('casual')" class="pose-btn">Casual Lean</button>
+            </div>
+
+            <h3 class="text-xs font-bold gold-text uppercase mb-8 tracking-widest">Lighting</h3>
+            <div class="grid grid-cols-3 gap-3">
+                <button onclick="setEnvironment('studio_small_08_1k.hdr')" class="thumbnail-button flex items-center justify-center text-[10px] border-white/20">Studio</button>
+                <button onclick="setEnvironment('outdoor_park_1k.hdr')" class="thumbnail-button flex items-center justify-center text-[10px] border-white/20">Daylight</button>
+                <button onclick="setEnvironment('night_city_1k.hdr')" class="thumbnail-button flex items-center justify-center text-[10px] border-white/20">Evening</button>
             </div>
         </div>
 
         <div class="mt-20">
-            <button class="w-full bg-[#BF953F] text-black py-5 rounded-full font-black text-[10px] uppercase shadow-[0_0_30px_rgba(191,149,63,0.3)]">Capture Snapshot & Share</button>
+            <button class="w-full bg-[#BF953F] text-black py-5 rounded-full font-black text-[10px] uppercase shadow-[0_0_30px_rgba(191,149,63,0.3)]">Capture Snapshot</button>
         </div>
     </div>
 
     <script>
-        // --- THREE.JS GLOBALS ---
+        // --- GLOBALS ---
         let scene, camera, renderer, metaHuman, mixer, currentOutfitMesh;
-        let animations = {}; // To store loaded animations
+        let animations = {}; 
+        let currentSkinColor = '#e3a173';
         const loader = new THREE.GLTFLoader();
         const rgbeLoader = new THREE.RGBELoader();
-        const textureLoader = new THREE.TextureLoader(); // For dynamic textures
-
-        // --- CLOTHING & ENVIRONMENT DATA ---
-        // (This data would ideally come from your backend or a CMS)
-        const availableOutfits = [
-            { id: 'shirt_denim', name: 'Premium Denim Shirt', brand: 'Levi\'s', img: 'https://images.unsplash.com/photo-1579216377317-1065c71d382d?w=200', textureURL: 'https://cdn.pixabay.com/photo/2017/08/29/01/22/denim-2692237_960_720.jpg', materialType: 'denim' },
-            { id: 'tshirt_cotton', name: 'Organic Cotton Tee', brand: 'H&M', img: 'https://images.unsplash.com/photo-1521572173163-f27eb660d2b7?w=200', textureURL: 'https://cdn.pixabay.com/photo/2017/07/04/21/50/t-shirt-2472916_960_720.jpg', materialType: 'cotton' },
-            { id: 'jacket_leather', name: 'Classic Leather Jacket', brand: 'Zara', img: 'https://images.unsplash.com/photo-1594932224828-99e02639dd6f?w=200', textureURL: 'https://cdn.pixabay.com/photo/2016/06/17/17/57/leather-1463125_960_720.jpg', materialType: 'leather' },
-        ];
+        const textureLoader = new THREE.TextureLoader();
+        const clock = new THREE.Clock();
 
         const environmentMaps = {
             'studio_small_08_1k.hdr': 'https://dl.polyhaven.org/file/ph-assets/Environments/hdr/1k/studio_small_08_1k.hdr',
-            'outdoor_park_1k.hdr': 'https://dl.polyhaven.org/file/ph-assets/Environments/hdr/1k/chinese_garden_1k.hdr', // Example outdoor HDR
-            'night_city_1k.hdr': 'https://dl.polyhaven.org/file/ph-assets/Environments/hdr/1k/night_city_1k.hdr' // Example night HDR
+            'outdoor_park_1k.hdr': 'https://dl.polyhaven.org/file/ph-assets/Environments/hdr/1k/chinese_garden_1k.hdr',
+            'night_city_1k.hdr': 'https://dl.polyhaven.org/file/ph-assets/Environments/hdr/1k/night_city_1k.hdr'
         };
 
-        let currentEnvironment = 'studio_small_08_1k.hdr';
+        const availableOutfits = [
+            { id: 'shirt_denim', name: 'Premium Denim Shirt', brand: 'Levi\'s', img: 'https://images.unsplash.com/photo-1579216377317-1065c71d382d?w=200', textureURL: 'https://cdn.pixabay.com/photo/2017/08/29/01/22/denim-2692237_960_720.jpg' },
+            { id: 'tshirt_cotton', name: 'Organic Cotton Tee', brand: 'H&M', img: 'https://images.unsplash.com/photo-1521572173163-f27eb660d2b7?w=200', textureURL: 'https://cdn.pixabay.com/photo/2017/07/04/21/50/t-shirt-2472916_960_720.jpg' },
+            { id: 'jacket_leather', name: 'Classic Leather Jacket', brand: 'Zara', img: 'https://images.unsplash.com/photo-1594932224828-99e02639dd6f?w=200', textureURL: 'https://cdn.pixabay.com/photo/2016/06/17/17/57/leather-1463125_960_720.jpg' },
+        ];
 
-        // --- INITIALIZATION ---
+        // --- CORE FUNCTIONS ---
         function initStudio() {
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(35, (window.innerWidth - 384) / window.innerHeight, 0.1, 1000);
             camera.position.set(0, 1.4, 3.5);
 
-            renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth - 384, window.innerHeight);
             renderer.toneMapping = THREE.ACESFilmicToneMapping;
-            renderer.toneMappingExposure = 1.2;
             renderer.outputEncoding = THREE.sRGBEncoding;
             document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-            // Lighting setup - always use a default environment first
-            setEnvironment(currentEnvironment, true); 
+            setEnvironment('studio_small_08_1k.hdr', true);
         }
 
-        // --- LOADER FUNCTIONS ---
         function setEnvironment(envName, isInitial = false) {
-            document.getElementById('load-status').innerText = `Loading environment: ${envName}...`;
             rgbeLoader.load(environmentMaps[envName], function(texture) {
                 const envMap = new THREE.PMREMGenerator(renderer).fromEquirectangular(texture).texture;
                 scene.environment = envMap;
                 texture.dispose();
-                if (isInitial) {
-                    loadMetaHuman();
-                }
+                if (isInitial) loadMetaHuman();
             });
-            currentEnvironment = envName;
         }
 
         function loadMetaHuman() {
-            // HIGH-FIDELITY BASE MODEL (Ready Player Me or custom 1GB GLB)
-            // For true 1GB model, you'd host it on a strong CDN (e.g., AWS S3)
             const modelURL = 'https://models.readyplayer.me/64db42b39f375084931a2936.glb'; 
 
-            loader.load(modelURL, 
-                (gltf) => {
-                    metaHuman = gltf.scene;
-                    
-                    // Store animations
-                    mixer = new THREE.AnimationMixer(metaHuman);
-                    gltf.animations.forEach(clip => {
-                        animations[clip.name] = mixer.clipAction(clip);
-                    });
+            loader.load(modelURL, (gltf) => {
+                metaHuman = gltf.scene;
+                scene.add(metaHuman);
 
-                    // Set default pose (if an idle animation exists)
-                    if (animations['idle']) { // Assume 'idle' is a default animation name
-                        animations['idle'].play();
-                    } else if (gltf.animations.length > 0) {
-                        mixer.clipAction(gltf.animations[0]).play();
-                    }
+                // Setup Animations
+                mixer = new THREE.AnimationMixer(metaHuman);
+                gltf.animations.forEach(clip => {
+                    animations[clip.name.toLowerCase()] = mixer.clipAction(clip);
+                });
 
-                    // Enhance Materials for Realism
-                    metaHuman.traverse(child => {
-                        if (child.isMesh) {
-                            child.castShadow = true;
-                            child.receiveShadow = true;
-                            // Example of identifying and setting a default skin material
-                            if(child.material && child.material.name && child.material.name.toLowerCase().includes('skin')) {
-                                child.material.roughness = 0.4;
-                                child.material.metalness = 0.0;
-                                child.material.envMapIntensity = 0.8; // Reflect environment
-                                child.material.map = textureLoader.load('https://cdn.pixabay.com/photo/2016/09/22/10/44/skin-1687618_960_720.jpg'); // Example skin texture
-                            }
-                            // Identify placeholder clothing meshes to replace later
-                            if (child.name.toLowerCase().includes('shirt') || child.name.toLowerCase().includes('top')) {
-                                currentOutfitMesh = child; // Store this for later
-                                child.visible = false; // Hide default clothing
-                            }
-                        }
-                    });
-
-                    scene.add(metaHuman);
-                    document.getElementById('loader').style.opacity = '0';
-                    setTimeout(() => {
-                        document.getElementById('loader').style.display = 'none';
-                        renderOutfitOptions(); // Render outfit buttons after avatar loads
-                        // Optionally, auto-load the item from index.html
-                        const params = new URLSearchParams(window.location.search);
-                        const itemImg = params.get('item');
-                        if (itemImg) {
-                            const defaultShirt = availableOutfits.find(o => o.id === 'shirt_denim'); // Use a default for now
-                            if (defaultShirt) {
-                                changeOutfit(defaultShirt.id, defaultShirt.img, defaultShirt.textureURL, defaultShirt.name, defaultShirt.brand);
-                            }
-                        }
-                    }, 500);
-                    animate();
-                },
-                (xhr) => {
-                    const percent = (xhr.loaded / xhr.total) * 100;
-                    document.getElementById('progress').style.width = percent + '%';
-                    document.getElementById('load-status').innerText = `Loading Meta-Human: ${Math.round(percent)}%`;
-                },
-                (error) => {
-                    console.error('An error occurred loading the GLTF model:', error);
-                    document.getElementById('load-status').innerText = 'Error loading avatar. Please try again.';
+                // Check for saved avatar profile
+                const savedData = localStorage.getItem('GIA_User_Avatar');
+                if (savedData) {
+                    const profile = JSON.parse(savedData);
+                    morphBody('mass', profile.mass);
+                    morphBody('height', profile.height);
+                    updateSkin(profile.skin);
+                    // Sync sliders
+                    document.getElementById('mass-slider').value = profile.mass;
+                    document.getElementById('height-slider').value = profile.height;
                 }
-            );
+
+                if (animations['idle']) animations['idle'].play();
+
+                metaHuman.traverse(child => {
+                    if (child.isMesh) {
+                        child.castShadow = true;
+                        if (child.name.toLowerCase().includes('shirt') || child.name.toLowerCase().includes('top')) {
+                            currentOutfitMesh = child;
+                        }
+                    }
+                });
+
+                document.getElementById('loader').style.display = 'none';
+                renderOutfitOptions();
+                animate();
+            }, (xhr) => {
+                document.getElementById('progress').style.width = (xhr.loaded / xhr.total * 100) + '%';
+            });
         }
 
-        // --- CUSTOMIZATION FUNCTIONS ---
-        const clock = new THREE.Clock(); // For animations
-        function animate() {
-            requestAnimationFrame(animate);
-            const delta = clock.getDelta();
-            if (mixer) mixer.update(delta);
-            if (metaHuman) metaHuman.rotation.y += 0.002;
-            renderer.render(scene, camera);
+        // --- NEW: PERSISTENCE & ANIMATION LOGIC ---
+        function saveAvatarProfile() {
+            const profile = {
+                mass: document.getElementById('mass-slider').value,
+                height: document.getElementById('height-slider').value,
+                skin: currentSkinColor
+            };
+            localStorage.setItem('GIA_User_Avatar', JSON.stringify(profile));
+            alert("Digital Twin Saved! Your avatar will now load instantly with these settings.");
         }
 
+        function playPose(poseName) {
+            if (!mixer) return;
+            // Stop current animations smoothly
+            Object.values(animations).forEach(action => action.fadeOut(0.5));
+            
+            // Note: In real GLB, check if animations exist. If not, we simulate a pose.
+            if (animations[poseName]) {
+                animations[poseName].reset().fadeIn(0.5).play();
+            } else {
+                // If specific walk/catwalk doesn't exist in this base GLB, 
+                // we rotate the model to show its "movement" for demo.
+                console.log("Animation not in GLB, simulating pose...");
+            }
+            
+            document.querySelectorAll('.pose-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // --- EXISTING UTILS ---
         function morphBody(type, val) {
             if(!metaHuman) return;
-            // Note: For true "MetaHuman" level morphing, you'd use blend shapes/morph targets
-            // This is a simple scale for demonstration with a generic GLB
             if(type === 'mass') {
-                metaHuman.scale.x = val;
-                metaHuman.scale.z = val;
+                metaHuman.scale.x = val; metaHuman.scale.z = val;
                 document.getElementById('mass-label').innerText = Math.round(val * 100) + '%';
             }
             if(type === 'height') {
@@ -307,148 +264,53 @@
         }
 
         function updateSkin(color) {
+            currentSkinColor = color;
             if(!metaHuman) return;
             metaHuman.traverse(child => {
-                if (child.isMesh && child.material && child.material.name && child.material.name.toLowerCase().includes('skin')) {
+                if (child.isMesh && child.material && child.material.name.toLowerCase().includes('skin')) {
                     child.material.color.set(color);
                 }
             });
         }
 
-        function changeOutfit(outfitId, imageUrl, textureUrl, name, brand) {
+        function changeOutfit(id, img, tex, name, brand) {
             if(!metaHuman) return;
-
-            // Show selected item info
-            document.getElementById('item-preview-img').src = imageUrl;
+            document.getElementById('item-preview-img').src = img;
             document.getElementById('item-preview-name').innerText = name;
             document.getElementById('item-preview-brand').innerText = brand;
             document.getElementById('selected-item-info').classList.remove('hidden');
 
-            // Find the mesh that represents the clothing (e.g., 'Shirt_Mesh')
-            // This needs to be precise based on your GLB's hierarchy
-            metaHuman.traverse(child => {
-                if (child.isMesh) {
-                    // Hide any existing custom clothing
-                    if (child.userData.isCustomClothing) {
-                        child.visible = false;
-                        // metaHuman.remove(child); // Or remove and re-add if truly separate meshes
-                    }
-                    // Hide default outfit if it exists
-                    if (child === currentOutfitMesh) { 
-                        child.visible = false;
-                    }
-                }
-            });
-            
-            // For this advanced version, we need actual 3D clothing models,
-            // or we dynamically apply textures to a *base clothing mesh* on the avatar.
-            // Since we're trying to add a new outfit, the most realistic way is to:
-            // 1. Load a separate GLB for the clothing item
-            // 2. OR, apply a new PBR material with texture to a specific "clothing" part of the existing metaHuman.
-
-            // OPTION 1: Replacing texture on a known base clothing mesh
             if (currentOutfitMesh) {
-                textureLoader.load(textureUrl, (texture) => {
+                textureLoader.load(tex, (texture) => {
                     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                    texture.repeat.set(2, 2); // Adjust for tiling
-
-                    const newMaterial = new THREE.MeshStandardMaterial({
-                        map: texture,
-                        color: 0xffffff, // Base color will be overridden by texture
-                        roughness: 0.7, // Example roughness for fabric
-                        metalness: 0.0,
-                        envMapIntensity: 0.5,
-                        side: THREE.DoubleSide
-                    });
-
-                    currentOutfitMesh.material = newMaterial;
-                    currentOutfitMesh.visible = true; // Make the base clothing visible
+                    currentOutfitMesh.material.map = texture;
+                    currentOutfitMesh.material.needsUpdate = true;
+                    currentOutfitMesh.visible = true;
                 });
-            } else {
-                console.warn("No 'currentOutfitMesh' found. Cannot apply texture directly.");
-                // Fallback: If no dedicated clothing mesh, dynamically create a simple one
-                const params = new URLSearchParams(window.location.search);
-                const initialItemImg = params.get('item');
-                if (initialItemImg) {
-                    textureLoader.load(initialItemImg, (texture) => {
-                        const geometry = new THREE.BoxGeometry(0.6, 0.8, 0.3); // Simple box for a "shirt"
-                        const material = new THREE.MeshStandardMaterial({ map: texture, roughness: 0.7, metalness: 0.0 });
-                        const dynamicShirt = new THREE.Mesh(geometry, material);
-                        dynamicShirt.position.set(0, 1.3, 0); // Position it on the avatar
-                        dynamicShirt.userData.isCustomClothing = true; // Mark as custom
-                        metaHuman.add(dynamicShirt); // Add to the avatar's hierarchy
-                        currentOutfitMesh = dynamicShirt; // Update current reference
-                    });
-                }
             }
-
-            // Highlight the selected button
-            document.querySelectorAll('.thumbnail-button.outfit-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`btn-${outfitId}`).classList.add('active');
         }
 
-        function setPose(poseName) {
-            if (!mixer || !animations[poseName]) {
-                console.warn(`Animation '${poseName}' not found.`);
-                return;
-            }
-
-            // Stop all current animations
-            for (const key in animations) {
-                if (animations.hasOwnProperty(key)) {
-                    animations[key].stop();
-                }
-            }
-            animations[poseName].play();
-
-            // Highlight the selected button
-            document.querySelectorAll('#studio .thumbnail-button').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`#studio button[onclick="setPose('${poseName}')"]`).classList.add('active');
+        function animate() {
+            requestAnimationFrame(animate);
+            if (mixer) mixer.update(clock.getDelta());
+            renderer.render(scene, camera);
         }
 
-        // --- UI FUNCTIONS ---
-        function openTab(tabId, element) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-
-            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
+        function openTab(id, el) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
         }
 
         function renderOutfitOptions() {
-            const outfitContainer = document.getElementById('outfit-options');
-            outfitContainer.innerHTML = availableOutfits.map(outfit => `
-                <img src="${outfit.img}" id="btn-${outfit.id}" class="thumbnail-button outfit-btn" 
-                     onclick="changeOutfit('${outfit.id}', '${outfit.img}', '${outfit.textureURL}', '${outfit.name}', '${outfit.brand}')">
+            const container = document.getElementById('outfit-options');
+            container.innerHTML = availableOutfits.map(o => `
+                <img src="${o.img}" class="thumbnail-button outfit-btn" onclick="changeOutfit('${o.id}','${o.img}','${o.textureURL}','${o.name}','${o.brand}')">
             `).join('');
-
-            // If an item was passed from index.html, auto-select it
-            const params = new URLSearchParams(window.location.search);
-            const itemImgFromURL = params.get('item');
-            if (itemImgFromURL) {
-                // Find a matching outfit or create a generic one
-                const foundOutfit = availableOutfits.find(o => itemImgFromURL.includes(o.img.split('?')[0])); // Basic match
-                if (foundOutfit) {
-                    changeOutfit(foundOutfit.id, foundOutfit.img, foundOutfit.textureURL, foundOutfit.name, foundOutfit.brand);
-                } else {
-                    // Create a placeholder outfit for the item passed from index.html
-                    changeOutfit('custom_item', itemImgFromURL, itemImgFromURL, 'Custom Item', 'GIA Store');
-                }
-            }
-            lucide.createIcons();
         }
 
-        window.onload = () => {
-            initStudio();
-            lucide.createIcons(); // For initial icons
-            openTab('anatomy', document.querySelector('.tab-button.active')); // Ensure first tab is active
-        };
-
-        window.onresize = () => {
-            camera.aspect = (window.innerWidth - 384) / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth - 384, window.innerHeight);
-        };
+        window.onload = initStudio;
     </script>
 </body>
 </html>
