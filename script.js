@@ -204,3 +204,25 @@ window.onload = () => {
     lucide.createIcons();
     renderProducts(allDatabase);
 };
+
+// Ye logic hum details modal mein add karenge
+function open3DTryOn(productImg, type) {
+    const modal = document.getElementById('details-modal');
+    document.getElementById('modal-content').innerHTML = `
+        <div class="bg-[#04241a] p-8 rounded-[3rem] border border-[#BF953F]/30 text-center">
+            <h2 class="gold-text royal-logo text-2xl mb-6">GIA 3D Virtual Fitting Room</h2>
+            <div id="avatar-container" class="viewer-360 mb-6 bg-gradient-to-b from-black to-[#063b2c]">
+                <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=BaseAvatar" id="base-avatar" class="w-full h-full opacity-50">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <p class="text-[10px] font-bold uppercase tracking-[3px] animate-pulse">Loading 3D ${type} Model...</p>
+                </div>
+            </div>
+            <div class="flex gap-4">
+                <button onclick="changeAvatar('male')" class="flex-grow py-3 border border-white/20 rounded-xl text-[10px] uppercase font-bold">Male Avatar</button>
+                <button onclick="changeAvatar('female')" class="flex-grow py-3 border border-white/20 rounded-xl text-[10px] uppercase font-bold">Female Avatar</button>
+            </div>
+            <button class="w-full bg-[#BF953F] text-black py-5 mt-6 rounded-2xl font-black uppercase text-xs">Confirm Fitting</button>
+        </div>
+    `;
+    modal.style.display = 'flex';
+}
