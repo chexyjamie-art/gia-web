@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIA LUXE | 3D Fitting Room</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        body { 
+            background: #04241a; color: white; font-family: 'Inter', sans-serif; overflow: hidden;
+        }
+        .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .royal-logo { font-family: 'Playfair Display', serif; letter-spacing: 0.2em; }
+        
+        .control-panel {
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(191, 149, 63, 0.2); height: 100vh;
+        }
+        
+        #canvas-container { width: 100%; height: 100vh; cursor: grab; }
+        #canvas-container:active { cursor: grabbing; }
+
+        .slider-custom {
+            -webkit-appearance: none; width: 100%; height: 4px; background: rgba(191, 149, 63, 0.2);
+            border-radius: 5px; outline: none;
+        }
+        .slider-custom::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 18px; height: 18px; background: #BF953F;
+            border-radius: 50%; cursor: pointer; border: 2px solid #fff;
+        }
+
+        .gender-btn.active { background: #BF953F; color: black; border-color: #BF953F; }
+    </style>
+</head>
+<body>
+
+    <div class="flex flex-col md:flex-row">
+        <div class="w-full md:w-80 control-panel p-8 z-10 order-2 md:order-1 overflow-y-auto">
+            <h1 class="royal-logo gold-text text-xl mb-2">GIA LUXE</h1>
+            <p class="text-[10px] uppercase tracking-widest opacity-50 mb-8">3D Avatar Customizer</p>
+
+            <div class="mb-8">
+                <label class="text-[10px] font-bold uppercase tracking-widest mb-4 block opacity-70">Select Gender</label>
+                <div class="flex gap-2">
+                    <button id="btn-male" onclick="setGender('male')" class="gender-btn active flex-grow py-3 border border-white/10 rounded-xl text-[10px] font-bold uppercase transition-all">Male</button>
+                    <button id="btn-female" onclick="setGender('female')" class="gender-btn flex-grow py-3 border border-white/10 rounded-xl text-[10px] font-bold uppercase transition-all">Female</button>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <label class="text-[10px] font-bold uppercase tracking-widest mb-4 block opacity-70">Skin Tone</label>
+                <div class="flex justify-between gap-2">
+                    <button onclick="setSkin('#FFDBAC')" class="w-8 h-8 rounded-full border-2 border-white/20" style="background: #FFDBAC;"></button>
+                    <button onclick="setSkin('#F1C27D')" class="w-8 h-8 rounded-full border-2 border-white/20" style="background: #F1C27D;"></button>
+                    <button onclick="setSkin('#8D5524')" class="w-8 h-8 rounded-full border-2 border-white/20" style="background: #8D5524;"></button>
+                    <button onclick="setSkin('#5C3836')" class="w-8 h-8 rounded-full border-2 border-white/20" style="background: #5C3836;"></button>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <div class="flex justify-between mb-4">
+                    <label class="text-[10px] font-bold uppercase tracking-widest opacity-70">Body Mass</label>
+                    <span id="mass-val" class="text-[10px] font-bold gold-text">Medium</span>
+                </div>
+                <input type="range" min="1" max="3" step="0.1" value="2" class="slider-custom" id="mass-slider">
+            </div>
+
+            <div class="mb-8">
+                <label class="text-[10px] font-bold uppercase tracking-widest mb-4 block opacity-70">Hair Style Color</label>
+                <input type="color" id="hair-color" value="#222222" class="w-full h-10 bg-transparent border-none cursor-pointer">
+            </div>
+
+            <button onclick="window.location.href='index.html'" class="w-full border border-[#BF953F] text-[#BF953F] py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-[#BF953F] hover:text-black transition-all">
+                Exit Fitting Room
+            </button>
+        </div>
+
+        <div class="flex-grow relative order-1 md:order-2 bg-[#000]">
+            <div id="canvas-container"></div>
+            
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-center pointer-events-none">
+                <p class="text-[9px] uppercase tracking-[0.4em] opacity-40">Drag to Rotate • Scroll to Zoom</p>
+                <div class="mt-2 w-10 h-[1px] bg-[#BF953F] mx-auto opacity-30"></div>
+            </div>
+
+            <div class="absolute top-10 right-10 flex flex-col gap-4">
+                <button class="w-12 h-12 bg-white/5 border border-white/10 rounded-full flex items-center justify-center hover:border-[#BF953F] transition-all">
+                    <i data-lucide="shirt" class="w-5 h-5 text-white/50"></i>
+                </button>
+                <button class="w-12 h-12 bg-white/5 border border-white/10 rounded-full flex items-center justify-center hover:border-[#BF953F] transition-all">
+                    <i data-lucide="layers" class="w-5 h-5 text-white/50"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 3D ENGINE LOGIC ---
+        let scene, camera, renderer, avatar;
+
+        function init3D() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+            // Lighting
+            const light = new THREE.DirectionalLight(0xffffff, 1);
+            light.position.set(0, 10, 10);
+            scene.add(light);
+            scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+
+            // Temporary Placeholder Avatar (Since we need .glb files for real models)
+            const geometry = new THREE.CapsuleGeometry(1, 2, 4, 8);
+            const material = new THREE.MeshStandardMaterial({ color: 0xF1C27D });
+            avatar = new THREE.Mesh(geometry, material);
+            scene.add(avatar);
+
+            camera.position.z = 8;
+            camera.position.y = 1;
+            
+            animate();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            if(avatar) avatar.rotation.y += 0.005; // Slow rotation
+            renderer.render(scene, camera);
+        }
+
+        // --- CUSTOMIZATION LOGIC ---
+        function setGender(gender) {
+            document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
+            if(gender === 'male') {
+                document.getElementById('btn-male').classList.add('active');
+                // Yahan Male .glb model load karne ka logic aayega
+            } else {
+                document.getElementById('btn-female').classList.add('active');
+                // Yahan Female .glb model load karne ka logic aayega
+            }
+        }
+
+        function setSkin(color) {
+            if(avatar) avatar.material.color.set(color);
+        }
+
+        document.getElementById('mass-slider').oninput = function() {
+            const val = this.value;
+            avatar.scale.set(val * 0.5, 1, val * 0.5);
+            const label = val < 1.5 ? "Slim" : val > 2.5 ? "Heavy" : "Medium";
+            document.getElementById('mass-val').innerText = label;
+        };
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        window.onload = () => {
+            init3D();
+            lucide.createIcons();
+        };
+    </script>
+</body>
+</html>
