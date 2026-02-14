@@ -3,34 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | Hyper-Real 3D Studio (ULTIMATE VERSION)</title>
+    <title>GIA LUXE | Hyper-Real 3D Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/RGBELoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
-        body { background: #000; color: white; font-family: 'Inter', sans-serif; overflow: hidden; }
+        body { background: #000; color: white; font-family: 'Inter', sans-serif; overflow: hidden; margin: 0; }
         .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .studio-overlay { pointer-events: none; position: absolute; inset: 0; border: 40px solid rgba(191, 149, 63, 0.05); z-index: 10; }
-        .control-panel { background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(50px); border-left: 1px solid rgba(191, 149, 63, 0.2); z-index: 100; }
-        #loader { position: fixed; inset: 0; background: #04241a; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease; }
-        .loading-bar { width: 300px; height: 2px; background: rgba(191, 149, 63, 0.1); margin-top: 30px; border-radius: 10px; overflow: hidden; }
-        .loading-progress { width: 0%; height: 100%; background: linear-gradient(90deg, #BF953F, #FCF6BA); }
-        .tab-button { padding: 14px 24px; border-radius: 50px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; transition: 0.4s; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.4); }
-        .tab-button.active { background: #BF953F; color: #000; border-color: #BF953F; box-shadow: 0 10px 30px rgba(191, 149, 63, 0.3); }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: slideUp 0.6s ease; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .thumbnail-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 10px; transition: 0.3s; cursor: pointer; }
-        .thumbnail-card:hover { background: rgba(191, 149, 63, 0.1); border-color: #BF953F; transform: translateY(-5px); }
-        .pose-option { background: rgba(255,255,255,0.05); border: 1px solid rgba(191,149,63,0.1); padding: 15px; border-radius: 15px; font-size: 10px; font-weight: bold; text-transform: uppercase; text-align: center; transition: 0.3s; width: 100%; }
-        .pose-option.active { background: #BF953F; color: black; }
-        input[type="range"] { -webkit-appearance: none; height: 4px; background: rgba(191, 149, 63, 0.1); border-radius: 5px; width: 100%; }
-        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: #BF953F; border-radius: 50%; cursor: pointer; }
+        .control-panel { background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(20px); border-left: 1px solid rgba(191, 149, 63, 0.2); z-index: 100; }
+        
+        /* Loader Fix */
+        #loader { position: fixed; inset: 0; background: #04241a; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .loading-bar { width: 280px; height: 2px; background: rgba(191, 149, 63, 0.1); margin-top: 25px; position: relative; }
+        #progress { height: 100%; background: #BF953F; width: 0%; transition: width 0.3s; }
+
+        .tab-button { padding: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; color: rgba(255, 255, 255, 0.4); border-bottom: 2px solid transparent; transition: 0.3s; }
+        .tab-button.active { color: #BF953F; border-bottom-color: #BF953F; }
+        .tab-content { display: none; padding-top: 20px; }
+        .tab-content.active { display: block; }
+
+        .thumbnail-card { background: #111; border-radius: 15px; padding: 8px; cursor: pointer; border: 1px solid transparent; transition: 0.3s; }
+        .thumbnail-card:hover { border-color: #BF953F; }
+
+        input[type="range"] { width: 100%; accent-color: #BF953F; }
         .custom-scroll::-webkit-scrollbar { width: 3px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #BF953F; }
     </style>
@@ -38,198 +37,185 @@
 <body class="flex h-screen">
 
     <div id="loader">
-        <h1 class="text-4xl font-black gold-text italic tracking-tighter mb-2">GIA LUXE</h1>
-        <div class="loading-bar"><div id="progress" class="loading-progress"></div></div>
-        <p id="load-status" class="text-[8px] uppercase tracking-widest mt-8 opacity-30">Instantiating Digital Twin...</p>
+        <h1 class="text-3xl font-black gold-text italic">GIA LUXE</h1>
+        <div class="loading-bar"><div id="progress"></div></div>
+        <p id="load-status" class="text-[9px] uppercase tracking-[3px] mt-4 opacity-50 text-white">Initializing Engine...</p>
     </div>
 
-    <div class="flex-grow relative h-full">
-        <div class="studio-overlay"></div>
+    <div class="flex-grow relative bg-[#050505]">
         <div id="canvas-container" class="w-full h-full"></div>
-
-        <div class="absolute top-12 left-12 z-20">
-            <h2 class="text-4xl font-black gold-text italic tracking-tighter">VIRTUAL STUDIO</h2>
-            <div class="flex items-center gap-3 mt-2 opacity-50">
-                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                <p class="text-[10px] tracking-[4px] uppercase font-bold">Turbo-Load Active</p>
-            </div>
+        
+        <div class="absolute top-10 left-10">
+            <h2 class="text-2xl font-black gold-text italic">GIA LUXE STUDIO</h2>
+            <p class="text-[9px] tracking-widest opacity-40 uppercase">Hyper-Real Rendering Active</p>
         </div>
 
-        <div id="selected-item-info" class="absolute bottom-12 left-12 bg-black/80 backdrop-blur-3xl p-8 rounded-[40px] border border-white/10 flex items-center gap-6 hidden z-20">
-            <img id="item-preview-img" src="" class="w-28 h-28 rounded-3xl object-cover border-2 border-gold/20 shadow-2xl">
+        <div id="item-info" class="absolute bottom-10 left-10 bg-black/60 backdrop-blur-md p-5 rounded-3xl border border-white/10 flex items-center gap-4 hidden">
+            <img id="p-img" src="" class="w-16 h-16 rounded-xl object-cover">
             <div>
-                <p class="text-[10px] uppercase text-gold font-black tracking-widest mb-2">Live Simulation</p>
-                <h4 id="item-preview-name" class="text-2xl font-black text-white italic"></h4>
-                <p id="item-preview-brand" class="text-sm opacity-40 font-bold uppercase tracking-wider"></p>
+                <h4 id="p-name" class="font-bold text-white text-sm"></h4>
+                <p id="p-brand" class="text-[10px] text-gold uppercase font-bold"></p>
             </div>
         </div>
     </div>
 
-    <div class="w-[450px] h-full control-panel p-12 flex flex-col">
-        <div class="mb-12 flex justify-between items-center">
-            <button onclick="window.history.back()" class="text-[10px] font-black border border-white/10 px-8 py-3 rounded-full hover:bg-white/5 transition-all uppercase tracking-[2px]">← Exit</button>
-            <div class="bg-gold/10 p-2 rounded-full"><i data-lucide="shield-check" class="w-4 h-4 text-gold"></i></div>
-        </div>
-
-        <div class="flex justify-between gap-3 mb-12">
+    <div class="w-[400px] h-full control-panel p-8 flex flex-col">
+        <div class="flex justify-between border-b border-white/10 mb-6">
             <button class="tab-button active flex-1" onclick="openTab('anatomy', this)">Anatomy</button>
             <button class="tab-button flex-1" onclick="openTab('clothes', this)">Wardrobe</button>
             <button class="tab-button flex-1" onclick="openTab('studio', this)">Studio</button>
         </div>
 
-        <div class="flex-grow overflow-y-auto custom-scroll pr-4">
+        <div class="flex-grow overflow-y-auto custom-scroll pr-2">
             <div id="anatomy" class="tab-content active">
-                <h3 class="text-[11px] font-black gold-text uppercase mb-10 tracking-[3px]">Body Configuration</h3>
                 <div class="space-y-8">
-                    <div class="bg-white/5 p-6 rounded-3xl border border-white/5">
-                        <div class="flex justify-between text-[11px] uppercase mb-6 font-black opacity-70"><span>Mass</span><span id="mass-label" class="text-gold">100%</span></div>
-                        <input type="range" id="mass-slider" min="0.8" max="1.3" step="0.01" value="1" oninput="morphBody('mass', this.value)">
+                    <div>
+                        <div class="flex justify-between text-[10px] uppercase font-bold mb-3"><span>Body Mass</span><span id="mass-val">100%</span></div>
+                        <input type="range" min="0.8" max="1.2" step="0.01" value="1" oninput="morph('mass', this.value)">
                     </div>
-                    <div class="bg-white/5 p-6 rounded-3xl border border-white/5">
-                        <div class="flex justify-between text-[11px] uppercase mb-6 font-black opacity-70"><span>Stature</span><span id="height-label" class="text-gold">175cm</span></div>
-                        <input type="range" id="height-slider" min="0.85" max="1.15" step="0.01" value="1" oninput="morphBody('height', this.value)">
+                    <div>
+                        <div class="flex justify-between text-[10px] uppercase font-bold mb-3"><span>Height</span><span id="height-val">175cm</span></div>
+                        <input type="range" min="0.85" max="1.15" step="0.01" value="1" oninput="morph('height', this.value)">
                     </div>
-                    <div class="grid grid-cols-5 gap-3">
-                        <button onclick="updateSkin('#f5cbad')" class="h-10 rounded-lg" style="background: #f5cbad"></button>
-                        <button onclick="updateSkin('#e3a173')" class="h-10 rounded-lg" style="background: #e3a173"></button>
-                        <button onclick="updateSkin('#a5673f')" class="h-10 rounded-lg" style="background: #a5673f"></button>
-                        <button onclick="updateSkin('#5c3317')" class="h-10 rounded-lg" style="background: #5c3317"></button>
-                        <button onclick="updateSkin('#2a1a12')" class="h-10 rounded-lg" style="background: #2a1a12"></button>
+                    <div class="grid grid-cols-5 gap-2">
+                        <button onclick="skin('#f5cbad')" class="h-8 rounded" style="background: #f5cbad"></button>
+                        <button onclick="skin('#e3a173')" class="h-8 rounded" style="background: #e3a173"></button>
+                        <button onclick="skin('#a5673f')" class="h-8 rounded" style="background: #a5673f"></button>
+                        <button onclick="skin('#5c3317')" class="h-8 rounded" style="background: #5c3317"></button>
+                        <button onclick="skin('#2a1a12')" class="h-8 rounded" style="background: #2a1a12"></button>
                     </div>
-                    <button onclick="saveAvatarProfile()" class="w-full py-6 rounded-3xl bg-gold text-black text-[11px] uppercase font-black">Save Digital Twin</button>
+                    <button onclick="save()" class="w-full py-4 bg-gold text-black text-[10px] font-black uppercase rounded-xl">Save Digital Twin</button>
                 </div>
             </div>
 
             <div id="clothes" class="tab-content">
-                <h3 class="text-[11px] font-black gold-text uppercase mb-10 tracking-[3px]">Select Garment</h3>
-                <div id="outfit-options" class="grid grid-cols-2 gap-6"></div>
+                <div id="outfit-grid" class="grid grid-cols-2 gap-4"></div>
             </div>
 
             <div id="studio" class="tab-content">
-                <h3 class="text-[11px] font-black gold-text uppercase mb-10 tracking-[3px]">Motion Library</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <button onclick="playPose('idle')" class="pose-option active">Idle</button>
-                    <button onclick="playPose('walk')" class="pose-option">Walk</button>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="pose('idle')" class="bg-white/5 py-4 text-[10px] font-bold rounded-xl border border-white/5">IDLE</button>
+                    <button onclick="pose('walk')" class="bg-white/5 py-4 text-[10px] font-bold rounded-xl border border-white/5">WALK</button>
                 </div>
             </div>
         </div>
 
-        <div class="mt-10 pt-8 border-t border-white/5 text-center">
-            <p class="text-[9px] opacity-30 leading-loose uppercase tracking-widest">
-                GIA LUXE | ALTER PROJECT 2026<br>
-                Legal: AI Simulation for styling purposes only.
-            </p>
+        <div class="mt-8 pt-6 border-t border-white/5 text-center">
+            <p class="text-[8px] opacity-30 uppercase tracking-widest">GIA LUXE | ALTER PROJECT 2026</p>
+            <p class="text-[7px] opacity-20 mt-1 center">Legal: All simulations are AI-generated.</p>
         </div>
     </div>
 
     <script>
-        const availableOutfits = [
-            { id: 'shirt_1', name: 'Denim Classic', brand: 'GIA LUXE', img: 'https://images.unsplash.com/photo-1579216377317-1065c71d382d?w=300', texture: 'https://cdn.pixabay.com/photo/2017/08/29/01/22/denim-2692237_960_720.jpg' },
-            { id: 'shirt_2', name: 'Silk Black', brand: 'ALTER', img: 'https://images.unsplash.com/photo-1521572173163-f27eb660d2b7?w=300', texture: 'https://cdn.pixabay.com/photo/2017/07/04/21/50/t-shirt-2472916_960_720.jpg' }
+        const items = [
+            { name: 'Denim Classic', brand: 'GIA LUXE', img: 'https://images.unsplash.com/photo-1579216377317-1065c71d382d?w=200', tex: 'https://cdn.pixabay.com/photo/2017/08/29/01/22/denim-2692237_960_720.jpg' },
+            { name: 'Silk Black', brand: 'ALTER', img: 'https://images.unsplash.com/photo-1521572173163-f27eb660d2b7?w=200', tex: 'https://cdn.pixabay.com/photo/2017/07/04/21/50/t-shirt-2472916_960_720.jpg' }
         ];
 
-        let scene, camera, renderer, metaHuman, mixer, currentOutfitMesh, animations = {}, clock = new THREE.Clock();
-        const loader = new THREE.GLTFLoader();
-        
-        // --- TURBO LOADING ENGINE ---
-        const dracoLoader = new THREE.DRACOLoader();
-        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.4.1/');
-        loader.setDRACOLoader(dracoLoader);
+        let sc, cam, rend, model, mix, cloth, anims = {}, clock = new THREE.Clock();
 
         function init() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(30, (window.innerWidth - 450) / window.innerHeight, 0.1, 1000);
-            camera.position.set(0, 1.4, 5);
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
-            renderer.setSize(window.innerWidth - 450, window.innerHeight);
-            renderer.toneMapping = THREE.ACESFilmicToneMapping;
-            renderer.outputEncoding = THREE.sRGBEncoding;
-            document.getElementById('canvas-container').appendChild(renderer.domElement);
-            
-            // Background environment load (non-blocking)
-            new THREE.RGBELoader().load('https://dl.polyhaven.org/file/ph-assets/Environments/hdr/1k/studio_small_08_1k.hdr', function(texture) {
-                scene.environment = new THREE.PMREMGenerator(renderer).fromEquirectangular(texture).texture;
-            });
-            
-            loadModel();
+            sc = new THREE.Scene();
+            cam = new THREE.PerspectiveCamera(35, (window.innerWidth - 400) / window.innerHeight, 0.1, 1000);
+            cam.position.set(0, 1.4, 4);
+
+            rend = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            rend.setSize(window.innerWidth - 400, window.innerHeight);
+            rend.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            rend.outputEncoding = THREE.sRGBEncoding;
+            document.getElementById('canvas-container').appendChild(rend.domElement);
+
+            const h = new THREE.HemisphereLight(0xffffff, 0x444444, 1.2);
+            sc.add(h);
+            const d = new THREE.DirectionalLight(0xffffff, 0.8);
+            d.position.set(5, 10, 7);
+            sc.add(d);
+
+            load();
         }
 
-        function loadModel() {
+        function load() {
+            const loader = new THREE.GLTFLoader();
+            // ReadyPlayerMe sample link for testing (Replace with yours)
             const url = 'https://models.readyplayer.me/64db42b39f375084931a2936.glb';
-            loader.load(url, (gltf) => {
-                metaHuman = gltf.scene;
-                scene.add(metaHuman);
-                mixer = new THREE.AnimationMixer(metaHuman);
-                gltf.animations.forEach(a => animations[a.name.toLowerCase()] = mixer.clipAction(a));
-                if(animations['idle']) animations['idle'].play();
 
-                metaHuman.traverse(c => {
-                    if(c.isMesh && (c.name.toLowerCase().includes('shirt') || c.name.toLowerCase().includes('top'))) currentOutfitMesh = c;
+            loader.load(url, (g) => {
+                model = g.scene;
+                sc.add(model);
+                mix = new THREE.AnimationMixer(model);
+                g.animations.forEach(a => anims[a.name.toLowerCase()] = mix.clipAction(a));
+                if(anims['idle']) anims['idle'].play();
+
+                model.traverse(c => {
+                    if(c.isMesh && (c.name.includes('Shirt') || c.name.includes('Top'))) cloth = c;
+                    if(c.isMesh) { c.castShadow = true; c.receiveShadow = true; }
                 });
 
-                // Instant UI Unlock
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
-                renderOutfits();
-                animate();
+                document.getElementById('loader').style.display = 'none';
+                renderGrid();
+                loop();
             }, (xhr) => {
                 const p = (xhr.loaded / xhr.total * 100);
                 document.getElementById('progress').style.width = p + '%';
+                document.getElementById('load-status').innerText = 'Syncing: ' + Math.round(p) + '%';
+            }, (err) => {
+                document.getElementById('load-status').innerText = 'Load Error. Check URL.';
             });
         }
 
-        function morphBody(type, val) {
-            if(!metaHuman) return;
-            if(type === 'mass') {
-                metaHuman.scale.x = metaHuman.scale.z = val;
-                document.getElementById('mass-label').innerText = Math.round(val * 100) + '%';
-            } else {
-                metaHuman.scale.y = val;
-                document.getElementById('height-label').innerText = Math.round(175 * val) + 'cm';
-            }
+        function morph(t, v) {
+            if(!model) return;
+            if(t==='mass') { model.scale.x = model.scale.z = v; document.getElementById('mass-val').innerText = Math.round(v*100)+'%'; }
+            else { model.scale.y = v; document.getElementById('height-val').innerText = Math.round(175*v)+'cm'; }
         }
 
-        function updateSkin(color) {
-            metaHuman.traverse(c => {
-                if(c.isMesh && c.material.name.toLowerCase().includes('skin')) c.material.color.set(color);
+        function skin(c) {
+            model.traverse(m => {
+                if(m.isMesh && m.material.name.toLowerCase().includes('skin')) m.material.color.set(c);
             });
         }
 
-        function playPose(name) {
-            Object.values(animations).forEach(a => a.fadeOut(0.3));
-            if(animations[name]) animations[name].reset().fadeIn(0.3).play();
+        function pose(n) {
+            Object.values(anims).forEach(a => a.fadeOut(0.3));
+            if(anims[n]) anims[n].reset().fadeIn(0.3).play();
         }
 
-        function changeOutfit(item) {
-            document.getElementById('selected-item-info').classList.remove('hidden');
-            document.getElementById('item-preview-img').src = item.img;
-            document.getElementById('item-preview-name').innerText = item.name;
-            document.getElementById('item-preview-brand').innerText = item.brand;
-            if(currentOutfitMesh) {
-                new THREE.TextureLoader().load(item.texture, (t) => {
-                    currentOutfitMesh.material.map = t;
-                    currentOutfitMesh.material.needsUpdate = true;
+        function setOutfit(i) {
+            document.getElementById('item-info').classList.remove('hidden');
+            document.getElementById('p-img').src = i.img;
+            document.getElementById('p-name').innerText = i.name;
+            document.getElementById('p-brand').innerText = i.brand;
+            if(cloth) {
+                new THREE.TextureLoader().load(i.tex, (t) => {
+                    cloth.material.map = t;
+                    cloth.material.needsUpdate = true;
                 });
             }
         }
 
-        function renderOutfits() {
-            document.getElementById('outfit-options').innerHTML = availableOutfits.map(o => `
-                <div class="thumbnail-card" onclick='changeOutfit(${JSON.stringify(o)})'>
-                    <img src="${o.img}" class="w-full aspect-square object-cover rounded-xl mb-3">
-                    <p class="text-[9px] font-black uppercase text-gold">${o.brand}</p>
-                    <p class="text-[10px] font-bold opacity-60">${o.name}</p>
+        function renderGrid() {
+            document.getElementById('outfit-grid').innerHTML = items.map(i => `
+                <div class="thumbnail-card" onclick='setOutfit(${JSON.stringify(i)})'>
+                    <img src="${i.img}" class="w-full h-32 object-cover rounded-lg mb-2">
+                    <p class="text-[8px] text-gold font-bold">${i.brand}</p>
+                    <p class="text-[9px] font-bold opacity-60">${i.name}</p>
                 </div>
             `).join('');
         }
 
-        function animate() { requestAnimationFrame(animate); if(mixer) mixer.update(clock.getDelta()); renderer.render(scene, camera); }
-        function openTab(id, el) { 
+        function loop() {
+            requestAnimationFrame(loop);
+            if(mix) mix.update(clock.getDelta());
+            rend.render(sc, cam);
+        }
+
+        function openTab(id, b) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-            el.classList.add('active');
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            b.classList.add('active');
         }
+
         window.onload = () => { init(); lucide.createIcons(); };
     </script>
 </body>
