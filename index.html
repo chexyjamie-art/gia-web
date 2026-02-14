@@ -154,6 +154,7 @@
             lucide.createIcons();
         };
 
+        // FULL SEARCH + GENERATION LOGIC
         async function runUnifiedSearch(query) {
             const searchContainer = document.getElementById('search-container');
             const giaBox = document.getElementById('gia-ai-box');
@@ -173,8 +174,8 @@
                         contents: [{ 
                             parts: [{ 
                                 text: isGenRequest ? 
-                                `User wants to visualize a custom outfit: "${query}". Describe a stunning, high-fashion 3D render of this outfit in detail. Return ONLY a JSON: {"name": "GIA Custom Design", "desc": "detailed description", "img": "https://source.unsplash.com/featured/?fashion,luxury,${query.replace(/ /g, ',')}"}.` :
-                                `URGENT: Do a broad web search for real products: ${query}. Return ONLY a JSON array: [{"name": "product name", "price": "1999", "img": "direct link", "brand": "store name"}].` 
+                                `User wants to visualize a custom outfit: "${query}". Describe a stunning 3D render. Return ONLY a JSON: {"name": "GIA Custom Design", "desc": "detailed description", "img": "https://source.unsplash.com/featured/?fashion,luxury,${query.replace(/ /g, ',')}"}. Add a witty Hinglish compliment.` :
+                                `URGENT: Do a broad web search for real products: ${query}. Use Google Search. Explore Myntra, Ajio, Amazon India. Return ONLY a JSON array: [{"name": "product name", "price": "1999", "img": "direct link", "brand": "store name"}]. After the JSON, add a witty one-line Hinglish comment.` 
                             }] 
                         }],
                         tools: [{ google_search: {} }]
@@ -191,7 +192,7 @@
                         const genProduct = { id: Date.now(), type: 'regular', name: genData.name, price: "AI Generated", match: "10/10", img: genData.img, brand: "GIA AI Studio", tag: "Custom" };
                         activeProducts = [genProduct, ...staticProducts];
                         renderProducts(activeProducts);
-                        giaText.innerText = "Bhai, ye raha tera exclusive design!";
+                        giaText.innerText = "Bhai, ye raha tera exclusive design! Bilkul unique.";
                     }
                 } else {
                     const jsonMatch = rawResponse.match(/\[[\s\S]*\]/);
@@ -208,14 +209,31 @@
                         }));
                         activeProducts = liveData;
                         renderProducts(liveData);
-                        giaText.innerText = "Bhai, ye rahe tere liye sabse gazab picks!";
+                        if(liveData.length >= 2) createLiveCombo(liveData[0], liveData[1]);
+                        giaText.innerText = rawResponse.replace(jsonMatch[0], '').replace(/```json|```/g, '').trim() || "Bhai, ye rahe tere liye gazab picks!";
                     }
                 }
             } catch (e) {
-                giaText.innerText = "Connection thoda slow hai, par GIA haar nahi maanegi. Ek baar fir try kar!";
+                giaText.innerText = "Connection thoda slow hai, par GIA try kar rahi hai!";
             } finally {
                 searchContainer.classList.remove('searching-glow');
             }
+        }
+
+        // FULL COMBO CALCULATION LOGIC
+        function createLiveCombo(p1, p2) {
+            const box = document.getElementById('combo-box');
+            const items = document.getElementById('combo-items');
+            box.style.display = 'block';
+            items.innerHTML = `
+                <img src="${p1.img}" class="w-16 h-16 object-cover rounded-xl border border-[#BF953F]">
+                <i data-lucide="plus" class="w-4 h-4 text-[#BF953F]"></i>
+                <img src="${p2.img}" class="w-16 h-16 object-cover rounded-xl border border-white/20">
+            `;
+            const v1 = parseInt(p1.price.replace(/,/g,'')) || 0;
+            const v2 = parseInt(p2.price.replace(/,/g,'')) || 0;
+            document.getElementById('combo-price').innerText = "₹" + (v1 + v2 - 500).toLocaleString();
+            lucide.createIcons();
         }
 
         function renderProducts(data) {
@@ -232,7 +250,7 @@
             lucide.createIcons();
         }
 
-        // UPDATED: Added 3D TRY-ON Button
+        // FULL DETAILS MODAL + 3D TRY ON BUTTON
         function openDetailsDirectly(img, name, price, brand) {
             const modal = document.getElementById('details-modal');
             document.getElementById('modal-content').innerHTML = `
@@ -246,7 +264,7 @@
                             <h2 class="text-4xl royal-logo gold-text leading-tight">${name}</h2>
                             <button onclick="closeDetails()" class="text-white/40 hover:text-white transition-all"><i data-lucide="x"></i></button>
                         </div>
-                        <p class="text-3xl font-black mb-10 italic">₹${price}</p>
+                        <p class="text-3xl font-black mb-8 italic">₹${price}</p>
                         
                         <div class="flex flex-col gap-4">
                             <button onclick="window.location.href='fitting-room.html?item=${encodeURIComponent(img)}'" 
@@ -254,7 +272,6 @@
                                 <i data-lucide="user-round-search" class="w-5 h-5"></i>
                                 3D Virtual Try-On (PUBG Style)
                             </button>
-
                             <button class="w-full bg-[#BF953F] text-black py-5 rounded-[2rem] font-black uppercase text-xs hover:bg-[#FCF6BA] transition-all">
                                 Buy Now on ${brand}
                             </button>
@@ -266,15 +283,21 @@
             lucide.createIcons();
         }
 
+        // FULL SCORE MODAL LOGIC
         function openScoreDirectly(name, match) {
             const modal = document.getElementById('score-modal');
             document.getElementById('score-modal-content').innerHTML = `
                 <div class="score-card-white shadow-2xl">
                     <button onclick="closeScore()" class="absolute top-8 right-8 text-black/20"><i data-lucide="x"></i></button>
                     <h2 class="text-4xl royal-logo italic text-black my-8">${name}</h2>
+                    <div class="flex items-end gap-3 h-20 mb-6 px-4">
+                        <div class="flex-grow bg-blue-100 rounded-xl" style="height: 60%"></div>
+                        <div class="flex-grow bg-[#BF953F] rounded-xl h-full"></div>
+                        <div class="flex-grow bg-blue-100 rounded-xl" style="height: 40%"></div>
+                    </div>
                     <div class="flex justify-between items-center bg-gray-50 p-6 rounded-3xl">
                         <div class="text-5xl font-black text-green-700">${match}</div>
-                        <div class="text-[10px] font-bold opacity-60 uppercase">Price Analysis Verified</div>
+                        <div class="text-[10px] font-bold opacity-60 uppercase text-right">GIA AI<br>Style Accuracy</div>
                     </div>
                 </div>`;
             modal.style.display = 'flex';
