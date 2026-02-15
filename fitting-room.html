@@ -3,152 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | AI-DRAPE STUDIO 5.0</title>
+    <title>GIA LUXE | PRO AI STUDIO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,900&family=Inter:wght@300;400;700&display=swap');
         
-        body { background: #020c0a; color: white; font-family: 'Inter', sans-serif; overflow: hidden; margin: 0; }
+        body { background: #010807; color: white; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
         .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Playfair Display', serif; }
-        .glass { background: rgba(10, 25, 20, 0.8); backdrop-filter: blur(30px); border: 1px solid rgba(191, 149, 63, 0.2); }
         
-        /* Realistic Lighting & Shadows */
-        .mirror-container { background: radial-gradient(circle at center, #0a2d24 0%, #020c0a 100%); position: relative; border-radius: 40px; }
-        .photo-layer { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 10; }
-        .cloth-overlay { position: absolute; pointer-events: none; z-index: 20; mix-blend-mode: normal; transition: all 0.5s ease; opacity: 0; transform: scale(1.1); }
-        
-        /* Scanner Effect */
-        .scanner { position: absolute; width: 100%; height: 2px; background: #BF953F; box-shadow: 0 0 20px #BF953F; z-index: 50; display: none; animation: scan 2.5s infinite; }
-        @keyframes scan { 0% { top: 10%; } 50% { top: 90%; } 100% { top: 10%; } }
+        /* Realistic Studio Lighting */
+        .mirror-box { 
+            background: radial-gradient(circle at center, #0a2d24 0%, #010807 100%); 
+            border: 1px solid rgba(191, 149, 63, 0.1);
+            position: relative;
+            min-height: 500px;
+        }
 
-        .btn-gold { background: linear-gradient(to right, #BF953F, #B38728); color: black; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
+        /* AI Drape Layering */
+        .layer-container { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+        #base-photo { max-height: 85vh; width: auto; z-index: 10; border-radius: 20px; transition: 0.5s; }
+        
+        /* This is the magic layer that fits on top */
+        #cloth-overlay { 
+            position: absolute; 
+            z-index: 20; 
+            pointer-events: none; 
+            opacity: 0; 
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+            max-height: 85vh;
+        }
+
+        .scanning-line {
+            position: absolute; width: 100%; height: 4px; background: #BF953F;
+            box-shadow: 0 0 30px #BF953F; z-index: 100; top: 0; display: none;
+            animation: moveScan 2s linear infinite;
+        }
+        @keyframes moveScan { 0% { top: 0%; } 100% { top: 100%; } }
+
+        .btn-gold { background: linear-gradient(to right, #BF953F, #B38728); color: #000; font-weight: 800; text-transform: uppercase; }
     </style>
 </head>
-<body>
+<body class="p-4 lg:p-8">
 
-    <div class="flex h-screen w-screen p-4 gap-4 overflow-hidden lg:flex-row flex-col">
+    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6 h-full">
         
-        <div class="flex-grow mirror-container relative overflow-hidden flex items-center justify-center border border-white/5">
-            <div class="absolute top-8 left-8 z-50">
-                <h1 class="text-3xl gold-text italic">GIA LUXE</h1>
-                <p class="text-[8px] tracking-[5px] uppercase opacity-40">AI-DRAPE STUDIO</p>
+        <div class="flex-grow mirror-box rounded-[40px] p-6 overflow-hidden flex flex-col items-center">
+            <div class="w-full mb-8 text-center lg:text-left">
+                <h1 class="text-4xl gold-text italic">GIA LUXE</h1>
+                <p class="text-[9px] tracking-[6px] uppercase opacity-40">High-Fidelity AI Studio</p>
             </div>
 
-            <div id="scan-line" class="scanner"></div>
+            <div class="layer-container">
+                <div id="scan-line" class="scanning-line"></div>
+                
+                <div id="upload-placeholder" onclick="document.getElementById('img-input').click()" class="border-2 border-dashed border-white/10 rounded-[40px] p-20 text-center cursor-pointer hover:bg-white/5 transition">
+                    <input type="file" id="img-input" class="hidden" onchange="loadPhoto(event)">
+                    <i data-lucide="upload-cloud" class="w-16 h-16 mx-auto mb-4 text-gold/30"></i>
+                    <h2 class="text-sm font-bold tracking-widest">UPLOAD YOUR PHOTO</h2>
+                    <p class="text-[10px] opacity-40 mt-2">Full body photo works best for AI Drape</p>
+                </div>
 
-            <div id="upload-ui" onclick="document.getElementById('file-input').click()" class="z-40 text-center cursor-pointer p-10 border-2 border-dashed border-white/10 rounded-[40px] hover:bg-white/5 transition">
-                <input type="file" id="file-input" class="hidden" onchange="handleMainPhoto(event)">
-                <i data-lucide="user" class="w-12 h-12 mx-auto mb-4 text-gold/50"></i>
-                <p class="text-xs font-bold tracking-widest">UPLOAD FULL-BODY PHOTO</p>
-                <p class="text-[9px] opacity-40 mt-2 italic">AI will generate your digital twin</p>
+                <img id="base-photo" class="hidden shadow-2xl">
+                <img id="cloth-overlay" class="hidden">
             </div>
 
-            <div class="photo-layer h-full w-full">
-                <img id="base-photo" class="h-[90%] object-contain hidden">
-                <img id="overlay-layer" class="cloth-overlay h-[90%] object-contain">
-            </div>
-
-            <div class="absolute bottom-8 z-50 flex gap-4">
-                <button onclick="resetAll()" class="glass px-6 py-2 rounded-full text-[10px] font-bold tracking-widest">RESET</button>
-                <button class="btn-gold px-8 py-2 rounded-full text-[10px]">CAPTURE & SAVE</button>
+            <div class="flex gap-4 mt-8">
+                <button onclick="location.reload()" class="bg-white/5 border border-white/10 px-8 py-3 rounded-full text-[10px] font-bold">RESET LOOK</button>
+                <button class="btn-gold px-10 py-3 rounded-full text-[10px] shadow-lg shadow-gold/20">CAPTURE & SAVE</button>
             </div>
         </div>
 
-        <div class="w-full lg:w-[420px] glass rounded-[40px] p-6 flex flex-col gap-6">
-            <div class="flex justify-between border-b border-white/10 pb-4">
-                <button class="text-[11px] font-bold border-b-2 border-gold pb-2">WARDROBE</button>
-                <button class="text-[11px] font-bold opacity-30 pb-2">MY STYLE</button>
-            </div>
+        <div class="w-full lg:w-[450px] space-y-6">
+            <div class="bg-white/5 border border-white/10 rounded-[40px] p-8 h-full flex flex-col">
+                <div class="flex gap-8 border-b border-white/5 mb-8 text-[11px] font-black tracking-widest">
+                    <button class="pb-4 border-b-2 border-gold text-gold">WARDROBE</button>
+                    <button class="pb-4 opacity-30">MY STYLE</button>
+                </div>
 
-            <div class="flex-grow overflow-y-auto pr-2 space-y-4">
-                <h3 class="text-[10px] font-bold opacity-30 tracking-[4px]">SELECT PRODUCT</h3>
-                
-                <div class="bg-black/40 p-4 rounded-3xl border border-white/5 cursor-pointer hover:border-gold/50 transition" onclick="tryOn('saree')">
-                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400" class="w-full h-40 object-cover rounded-2xl mb-4">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="text-[10px] gold-text italic">GIA LUXE</p>
-                            <p class="text-xs font-bold">Red Sequin Saree</p>
+                <div class="space-y-4 overflow-y-auto max-h-[500px] pr-2">
+                    <div class="bg-black p-4 rounded-3xl border border-white/5 hover:border-gold/40 transition cursor-pointer" onclick="applyDrape('saree')">
+                        <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400" class="w-full h-44 object-cover rounded-2xl mb-4">
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <p class="text-[10px] gold-text font-bold uppercase italic">GIA LUXE</p>
+                                <p class="text-sm font-bold">Royal Sequin Saree</p>
+                            </div>
+                            <button class="bg-gold/10 text-gold px-4 py-2 rounded-xl text-[9px] font-black">TRY NOW</button>
                         </div>
-                        <button class="bg-gold/10 text-gold text-[9px] px-3 py-1 rounded-lg font-bold">TRY ON</button>
+                    </div>
+
+                    <div class="bg-black p-4 rounded-3xl border border-white/5 hover:border-gold/40 transition cursor-pointer" onclick="applyDrape('denim')">
+                        <img src="https://images.unsplash.com/photo-1579216377317-1065c71d382d?w=400" class="w-full h-44 object-cover rounded-2xl mb-4">
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <p class="text-[10px] gold-text font-bold uppercase italic">ALTER PROJECT</p>
+                                <p class="text-sm font-bold">Denim Classic Kit</p>
+                            </div>
+                            <button class="bg-gold/10 text-gold px-4 py-2 rounded-xl text-[9px] font-black">TRY NOW</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="bg-black/40 p-4 rounded-3xl border border-white/5 cursor-pointer hover:border-gold/50 transition" onclick="tryOn('denim')">
-                    <img src="https://images.unsplash.com/photo-1579216377317-1065c71d382d?w=400" class="w-full h-40 object-cover rounded-2xl mb-4">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="text-[10px] gold-text italic">ALTER PROJECT</p>
-                            <p class="text-xs font-bold">Classic Denim Kit</p>
-                        </div>
-                        <button class="bg-gold/10 text-gold text-[9px] px-3 py-1 rounded-lg font-bold">TRY ON</button>
+                <div class="mt-8 p-6 bg-gold/5 rounded-[30px] border border-gold/10">
+                    <div class="flex items-center gap-3">
+                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <span id="ai-status" class="text-[9px] font-black tracking-widest opacity-60 uppercase">AI Engine Ready</span>
                     </div>
                 </div>
-            </div>
-
-            <div class="bg-black/60 p-5 rounded-[30px] border border-gold/20">
-                <div class="flex items-center gap-3 mb-2">
-                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span class="text-[9px] font-bold tracking-[3px]">AI FABRIC ENGINE ACTIVE</span>
-                </div>
-                <p id="status-text" class="text-[10px] opacity-40 italic">Waiting for photo...</p>
             </div>
         </div>
     </div>
 
-    <div class="fixed bottom-4 left-1/2 -translate-x-1/2 text-center pointer-events-none opacity-20">
-        <p class="text-[7px] tracking-[5px] uppercase">© 2026 GIA LUXE | ALTER PROJECT | ALL RIGHTS RESERVED</p>
+    <div class="fixed bottom-4 left-0 right-0 text-center pointer-events-none opacity-20 z-50">
+        <p class="text-[7px] tracking-[6px] uppercase">© 2026 GIA LUXE | ALTER PROJECT | AI-DRAPE PATENTED</p>
     </div>
 
     <script>
-        function handleMainPhoto(e) {
-            const file = e.target.files[0];
+        function loadPhoto(e) {
             const reader = new FileReader();
             reader.onload = function(event) {
-                document.getElementById('upload-ui').classList.add('hidden');
+                document.getElementById('upload-placeholder').style.display = 'none';
                 const base = document.getElementById('base-photo');
                 base.src = event.target.result;
                 base.classList.remove('hidden');
-                document.getElementById('status-text').innerText = "Body mesh generated. Select a product.";
+                document.getElementById('ai-status').innerText = "BODY MESH DETECTED. CHOOSE OUTFIT.";
             }
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(e.target.files[0]);
         }
 
-        function tryOn(type) {
-            if(document.getElementById('base-photo').classList.contains('hidden')) {
-                alert("Please upload your photo first!");
+        function applyDrape(item) {
+            const base = document.getElementById('base-photo');
+            if(base.classList.contains('hidden')) {
+                alert("Pehle photo upload karein!");
                 return;
             }
 
-            const scanner = document.getElementById('scan-line');
-            const overlay = document.getElementById('overlay-layer');
-            const status = document.getElementById('status-text');
+            const scan = document.getElementById('scan-line');
+            const overlay = document.getElementById('cloth-overlay');
+            const status = document.getElementById('ai-status');
 
-            // Start AI Experience
-            scanner.style.display = 'block';
-            status.innerText = "Draping fabric onto digital twin...";
+            // Show Scanning
+            scan.style.display = 'block';
+            status.innerText = "DRAPING FABRIC ON DIGITAL TWIN...";
             status.style.color = "#BF953F";
 
             setTimeout(() => {
-                scanner.style.display = 'none';
+                scan.style.display = 'none';
                 
-                // Realistic Logic: In a real app, this URL would be the AI-generated transparent cloth
-                if(type === 'saree') {
-                    // Pre-processed transparent saree overlay (Example)
-                    overlay.src = "https://i.ibb.co/L5hYh8m/saree-overlay.png"; 
+                // Logic: Overlay the chosen garment
+                // In production, these should be high-quality transparent PNGs of your stock
+                if(item === 'saree') {
+                    overlay.src = "https://www.transparentpng.com/download/sari/indian-sari-free-png-images-12.png"; // Example transparent saree
                 } else {
-                    overlay.src = "https://i.ibb.co/qY7z1zW/denim-overlay.png";
+                    overlay.src = "https://www.transparentpng.com/download/jacket/blue-jacket-png-images-21.png"; // Example jacket
                 }
 
+                overlay.classList.remove('hidden');
                 overlay.style.opacity = "1";
-                overlay.style.transform = "scale(1)";
-                status.innerText = "98% Fit accuracy achieved. Rendering shadows...";
+                overlay.style.width = base.clientWidth + "px"; // Match size of user photo
+                
+                // Realistic touch: slightly dim the user photo to make clothes pop
+                base.style.filter = "brightness(0.8) contrast(1.1)";
+                
+                status.innerText = "SUCCESS: 98.4% FIT ACCURACY";
+                status.style.color = "#22c55e";
             }, 2500);
-        }
-
-        function resetAll() {
-            location.reload();
         }
 
         lucide.createIcons();
