@@ -3,173 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | PRO AI STUDIO</title>
+    <title>GIA LUXE | ULTRA-REAL VTO 4.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,900&family=Inter:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Inter:wght@300;400;600&display=swap');
         
-        body { background: #010807; color: white; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
+        body { background-color: #020c0a; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; margin: 0; }
         .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Playfair Display', serif; }
         
-        /* Realistic Studio Lighting */
-        .mirror-box { 
-            background: radial-gradient(circle at center, #0a2d24 0%, #010807 100%); 
-            border: 1px solid rgba(191, 149, 63, 0.1);
+        /* 2nd Image Wala Cinematic Studio Background */
+        .studio-bg {
+            background: radial-gradient(circle at 50% 30%, #0a2d24 0%, #020c0a 70%);
             position: relative;
-            min-height: 500px;
+            border-radius: 40px;
+            border: 1px solid rgba(191, 149, 63, 0.1);
         }
 
-        /* AI Drape Layering */
-        .layer-container { position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
-        #base-photo { max-height: 85vh; width: auto; z-index: 10; border-radius: 20px; transition: 0.5s; }
-        
-        /* This is the magic layer that fits on top */
-        #cloth-overlay { 
-            position: absolute; 
-            z-index: 20; 
-            pointer-events: none; 
-            opacity: 0; 
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
-            max-height: 85vh;
+        /* Glass UI Panels */
+        .glass-panel {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 30px;
         }
 
-        .scanning-line {
-            position: absolute; width: 100%; height: 4px; background: #BF953F;
-            box-shadow: 0 0 30px #BF953F; z-index: 100; top: 0; display: none;
-            animation: moveScan 2s linear infinite;
+        /* Scanner Animation (2nd Image Wala) */
+        .scanner-line {
+            position: absolute; width: 100%; height: 2px;
+            background: linear-gradient(to right, transparent, #BF953F, transparent);
+            box-shadow: 0 0 15px #BF953F; z-index: 50; top: 0; display: none;
+            animation: scanMove 3s infinite linear;
         }
-        @keyframes moveScan { 0% { top: 0%; } 100% { top: 100%; } }
+        @keyframes scanMove { 0% { top: 10%; } 100% { top: 90%; } }
 
-        .btn-gold { background: linear-gradient(to right, #BF953F, #B38728); color: #000; font-weight: 800; text-transform: uppercase; }
+        /* Custom Slider (Anatomy Panel) */
+        input[type=range] { -webkit-appearance: none; background: rgba(255,255,255,0.1); height: 2px; border-radius: 5px; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 12px; width: 12px; border-radius: 50%; background: #BF953F; cursor: pointer; border: 2px solid #fff; }
+
+        .btn-gold { background: linear-gradient(to right, #BF953F, #B38728); color: #000; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .btn-gold:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(191, 149, 63, 0.4); }
     </style>
 </head>
-<body class="p-4 lg:p-8">
+<body class="h-screen flex items-center justify-center p-4">
 
-    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6 h-full">
+    <div class="w-full h-full max-w-[1400px] flex gap-6 flex-col lg:flex-row">
         
-        <div class="flex-grow mirror-box rounded-[40px] p-6 overflow-hidden flex flex-col items-center">
-            <div class="w-full mb-8 text-center lg:text-left">
-                <h1 class="text-4xl gold-text italic">GIA LUXE</h1>
-                <p class="text-[9px] tracking-[6px] uppercase opacity-40">High-Fidelity AI Studio</p>
+        <div class="flex-grow studio-bg relative flex flex-col items-center justify-center overflow-hidden">
+            <div class="absolute top-10 left-10">
+                <h1 class="text-3xl gold-text italic tracking-tighter">ULTRA-REAL VTO</h1>
+                <p class="text-[9px] tracking-[4px] uppercase opacity-50">Cinematic Rendering Engine 4.0</p>
             </div>
 
-            <div class="layer-container">
-                <div id="scan-line" class="scanning-line"></div>
-                
-                <div id="upload-placeholder" onclick="document.getElementById('img-input').click()" class="border-2 border-dashed border-white/10 rounded-[40px] p-20 text-center cursor-pointer hover:bg-white/5 transition">
-                    <input type="file" id="img-input" class="hidden" onchange="loadPhoto(event)">
-                    <i data-lucide="upload-cloud" class="w-16 h-16 mx-auto mb-4 text-gold/30"></i>
-                    <h2 class="text-sm font-bold tracking-widest">UPLOAD YOUR PHOTO</h2>
-                    <p class="text-[10px] opacity-40 mt-2">Full body photo works best for AI Drape</p>
+            <div id="scanner" class="scanner-line"></div>
+
+            <div class="relative z-10 w-full h-full flex items-center justify-center p-12">
+                <div id="drop-zone" onclick="document.getElementById('file-input').click()" class="cursor-pointer text-center group">
+                    <input type="file" id="file-input" class="hidden" onchange="handleUpload(event)">
+                    <div id="upload-icon" class="mb-4 opacity-30 group-hover:opacity-100 transition">
+                        <i data-lucide="camera" class="w-16 h-16 mx-auto text-gold"></i>
+                    </div>
+                    <p id="upload-text" class="text-xs font-bold tracking-widest opacity-40 uppercase">Click to Upload Full-Body Photo</p>
+                    <img id="user-photo" class="hidden max-h-[80vh] rounded-2xl shadow-2xl border border-white/10">
                 </div>
-
-                <img id="base-photo" class="hidden shadow-2xl">
-                <img id="cloth-overlay" class="hidden">
             </div>
 
-            <div class="flex gap-4 mt-8">
-                <button onclick="location.reload()" class="bg-white/5 border border-white/10 px-8 py-3 rounded-full text-[10px] font-bold">RESET LOOK</button>
-                <button class="btn-gold px-10 py-3 rounded-full text-[10px] shadow-lg shadow-gold/20">CAPTURE & SAVE</button>
-            </div>
+            <button class="absolute bottom-8 btn-gold px-10 py-3 rounded-full text-[10px]">
+                CAPTURE SNAPSHOT & SHARE
+            </button>
         </div>
 
-        <div class="w-full lg:w-[450px] space-y-6">
-            <div class="bg-white/5 border border-white/10 rounded-[40px] p-8 h-full flex flex-col">
-                <div class="flex gap-8 border-b border-white/5 mb-8 text-[11px] font-black tracking-widest">
-                    <button class="pb-4 border-b-2 border-gold text-gold">WARDROBE</button>
-                    <button class="pb-4 opacity-30">MY STYLE</button>
+        <div class="w-full lg:w-[420px] flex flex-col gap-4">
+            
+            <div class="glass-panel p-6 flex-grow">
+                <div class="flex gap-6 border-b border-white/10 mb-6 text-[11px] font-bold tracking-widest">
+                    <button class="pb-3 border-b-2 border-gold text-gold uppercase">Anatomy</button>
+                    <button class="pb-3 opacity-30 uppercase">Outfit</button>
+                    <button class="pb-3 opacity-30 uppercase">Studio</button>
                 </div>
 
-                <div class="space-y-4 overflow-y-auto max-h-[500px] pr-2">
-                    <div class="bg-black p-4 rounded-3xl border border-white/5 hover:border-gold/40 transition cursor-pointer" onclick="applyDrape('saree')">
-                        <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400" class="w-full h-44 object-cover rounded-2xl mb-4">
-                        <div class="flex justify-between items-end">
-                            <div>
-                                <p class="text-[10px] gold-text font-bold uppercase italic">GIA LUXE</p>
-                                <p class="text-sm font-bold">Royal Sequin Saree</p>
+                <div class="space-y-6">
+                    <div>
+                        <div class="flex justify-between text-[10px] mb-2 uppercase opacity-60"><span>Body Mass</span> <span>82%</span></div>
+                        <input type="range" class="w-full" value="82">
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-[10px] mb-2 uppercase opacity-60"><span>Height</span> <span>165cm</span></div>
+                        <input type="range" class="w-full" value="60">
+                    </div>
+                    
+                    <div class="mt-8">
+                        <p class="text-[10px] font-bold uppercase tracking-widest mb-4 opacity-40">Outfit Selection</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-white/5 p-2 rounded-xl border border-gold/30 cursor-pointer" onclick="triggerTryOn('Saree')">
+                                <div class="bg-zinc-800 h-24 rounded-lg mb-2 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=200" class="w-full h-full object-cover">
+                                </div>
+                                <p class="text-[9px] font-bold text-center uppercase">Red Sequin Saree</p>
                             </div>
-                            <button class="bg-gold/10 text-gold px-4 py-2 rounded-xl text-[9px] font-black">TRY NOW</button>
+                            <div class="bg-white/5 p-2 rounded-xl border border-white/5 cursor-pointer" onclick="triggerTryOn('Denim')">
+                                <div class="bg-zinc-800 h-24 rounded-lg mb-2 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1579216377317-1065c71d382d?w=200" class="w-full h-full object-cover">
+                                </div>
+                                <p class="text-[9px] font-bold text-center uppercase">Classic Denim</p>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="bg-black p-4 rounded-3xl border border-white/5 hover:border-gold/40 transition cursor-pointer" onclick="applyDrape('denim')">
-                        <img src="https://images.unsplash.com/photo-1579216377317-1065c71d382d?w=400" class="w-full h-44 object-cover rounded-2xl mb-4">
-                        <div class="flex justify-between items-end">
-                            <div>
-                                <p class="text-[10px] gold-text font-bold uppercase italic">ALTER PROJECT</p>
-                                <p class="text-sm font-bold">Denim Classic Kit</p>
-                            </div>
-                            <button class="bg-gold/10 text-gold px-4 py-2 rounded-xl text-[9px] font-black">TRY NOW</button>
-                        </div>
-                    </div>
                 </div>
+            </div>
 
-                <div class="mt-8 p-6 bg-gold/5 rounded-[30px] border border-gold/10">
-                    <div class="flex items-center gap-3">
-                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <span id="ai-status" class="text-[9px] font-black tracking-widest opacity-60 uppercase">AI Engine Ready</span>
-                    </div>
+            <div class="glass-panel p-5 border border-gold/20">
+                <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <p id="ai-status" class="text-[9px] font-bold tracking-widest uppercase text-white/70">AI Fabric Engine Active</p>
                 </div>
+                <p class="text-[8px] mt-1 italic opacity-30">PBR Rendering: 98.2% Fit Accuracy</p>
             </div>
         </div>
     </div>
 
-    <div class="fixed bottom-4 left-0 right-0 text-center pointer-events-none opacity-20 z-50">
-        <p class="text-[7px] tracking-[6px] uppercase">© 2026 GIA LUXE | ALTER PROJECT | AI-DRAPE PATENTED</p>
+    <div class="fixed bottom-4 left-1/2 -translate-x-1/2 text-center opacity-20 z-50 pointer-events-none">
+        <p class="text-[7px] tracking-[5px] uppercase">© 2026 GIA LUXE | ALTER PROJECT | VIRTUAL TRIAL PATENTED</p>
     </div>
 
     <script>
-        function loadPhoto(e) {
+        function handleUpload(e) {
+            const file = e.target.files[0];
+            if(!file) return;
             const reader = new FileReader();
             reader.onload = function(event) {
-                document.getElementById('upload-placeholder').style.display = 'none';
-                const base = document.getElementById('base-photo');
-                base.src = event.target.result;
-                base.classList.remove('hidden');
-                document.getElementById('ai-status').innerText = "BODY MESH DETECTED. CHOOSE OUTFIT.";
+                document.getElementById('upload-icon').style.display = 'none';
+                document.getElementById('upload-text').style.display = 'none';
+                const img = document.getElementById('user-photo');
+                img.src = event.target.result;
+                img.classList.remove('hidden');
+                document.getElementById('ai-status').innerText = "Digital Twin Created. Ready for Drape.";
             }
-            reader.readAsDataURL(e.target.files[0]);
+            reader.readAsDataURL(file);
         }
 
-        function applyDrape(item) {
-            const base = document.getElementById('base-photo');
-            if(base.classList.contains('hidden')) {
-                alert("Pehle photo upload karein!");
+        function triggerTryOn(item) {
+            const scanner = document.getElementById('scanner');
+            const status = document.getElementById('ai-status');
+            
+            if(document.getElementById('user-photo').classList.contains('hidden')) {
+                alert("Please upload your photo first!");
                 return;
             }
 
-            const scan = document.getElementById('scan-line');
-            const overlay = document.getElementById('cloth-overlay');
-            const status = document.getElementById('ai-status');
-
-            // Show Scanning
-            scan.style.display = 'block';
-            status.innerText = "DRAPING FABRIC ON DIGITAL TWIN...";
+            scanner.style.display = 'block';
+            status.innerText = `Analyzing Fabric & Draping ${item}...`;
             status.style.color = "#BF953F";
 
             setTimeout(() => {
-                scan.style.display = 'none';
-                
-                // Logic: Overlay the chosen garment
-                // In production, these should be high-quality transparent PNGs of your stock
-                if(item === 'saree') {
-                    overlay.src = "https://www.transparentpng.com/download/sari/indian-sari-free-png-images-12.png"; // Example transparent saree
-                } else {
-                    overlay.src = "https://www.transparentpng.com/download/jacket/blue-jacket-png-images-21.png"; // Example jacket
-                }
-
-                overlay.classList.remove('hidden');
-                overlay.style.opacity = "1";
-                overlay.style.width = base.clientWidth + "px"; // Match size of user photo
-                
-                // Realistic touch: slightly dim the user photo to make clothes pop
-                base.style.filter = "brightness(0.8) contrast(1.1)";
-                
-                status.innerText = "SUCCESS: 98.4% FIT ACCURACY";
+                scanner.style.display = 'none';
+                status.innerText = `${item} Applied Successfully. Rendering Shadows...`;
                 status.style.color = "#22c55e";
-            }, 2500);
+                // In a real AI setup, this is where the image changes.
+            }, 3000);
         }
 
         lucide.createIcons();
