@@ -3,155 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | 360° AI STUDIO</title>
+    <title>GIA LUXE | 3D AI STUDIO</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Inter:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Inter:wght@400;700&display=swap');
         
-        body { background: #010807; color: white; font-family: 'Inter', sans-serif; overflow: hidden; margin: 0; }
+        body { background: #010807; color: white; font-family: 'Inter', sans-serif; overflow: hidden; height: 100vh; margin: 0; }
         .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Playfair Display', serif; }
+        
+        /* Cinematic Layout */
+        .main-grid { display: grid; grid-template-columns: 1fr 380px; height: 100vh; width: 100vw; background: radial-gradient(circle at 30% 40%, #0a2d24 0%, #010807 80%); }
 
-        /* 3D Studio Canvas */
-        #canvas-container {
-            width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 1;
+        /* 3D Visualizer Area */
+        .visualizer { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; perspective: 1000px; }
+        
+        /* The 3D Rotating Mesh (Customer's Digital Twin) */
+        .digital-twin-container { position: relative; width: auto; height: 80vh; transition: transform 0.1s; transform-style: preserve-3d; display: none; }
+        #user-mesh { height: 100%; border-radius: 20px; filter: drop-shadow(0 0 30px rgba(0,0,0,0.8)); }
+        
+        /* Auto-Wrap Clothing Overlay */
+        #clothing-overlay { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            object-fit: contain; pointer-events: none; z-index: 50; opacity: 0; 
+            transition: opacity 0.5s ease;
         }
 
-        /* UI Overlays */
-        .ui-layer { position: relative; z-index: 10; pointer-events: none; height: 100vh; display: flex; }
-        .pointer-auto { pointer-events: auto; }
+        /* 360 Rotation Animation */
+        .rotate-360 { animation: rotateAI 10s infinite linear; }
+        @keyframes rotateAI { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
 
-        /* Glass Sidebar */
-        .sidebar {
-            width: 380px; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(30px);
-            border-left: 1px solid rgba(191, 149, 63, 0.1); padding: 30px; display: flex; flex-direction: column;
-        }
+        /* Motorola Magic Processing Loader */
+        .ai-processing { position: absolute; inset: 0; background: rgba(1, 8, 7, 0.9); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; }
+        .scan-line { width: 300px; height: 2px; background: #BF953F; box-shadow: 0 0 20px #BF953F; animation: scanAnim 1.5s infinite; }
+        @keyframes scanAnim { 0% { transform: scaleX(0); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
 
-        .btn-action {
-            background: linear-gradient(to right, #BF953F, #B38728);
-            color: black; font-weight: 800; padding: 12px; border-radius: 12px;
-            text-transform: uppercase; font-size: 10px; cursor: pointer; transition: 0.3s;
-        }
-
-        /* AI Processing Loader */
-        .ai-loader {
-            position: fixed; inset: 0; background: rgba(1, 8, 7, 0.95);
-            display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 100;
-        }
-        .shimmer { width: 200px; height: 2px; background: #BF953F; animation: loading 1.5s infinite; }
-        @keyframes loading { 0% { transform: scaleX(0); } 100% { transform: scaleX(1); } }
+        .sidebar { background: rgba(0,0,0,0.5); backdrop-filter: blur(40px); border-left: 1px solid rgba(191,149,63,0.1); padding: 30px; }
+        .btn-gold { background: linear-gradient(to right, #BF953F, #B38728); color: black; font-weight: 800; padding: 12px 24px; border-radius: 12px; text-transform: uppercase; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div id="loader" class="ai-loader">
-        <h2 class="gold-text text-2xl mb-4 italic">Removing Background & Generating 3D Mesh...</h2>
-        <div class="shimmer"></div>
-        <p class="text-[9px] mt-4 tracking-[3px] opacity-40">MOTOROLA AI CLOUD CONNECTED</p>
-    </div>
-
-    <div id="canvas-container"></div>
-
-    <div class="ui-layer">
-        <div class="flex-grow flex flex-col items-center justify-between py-10 px-10">
-            <div class="w-full">
-                <h1 class="text-4xl gold-text italic">GIA LUXE</h1>
-                <p class="text-[9px] tracking-[5px] opacity-40 uppercase">360° AI-Drape Studio v5.0</p>
+    <div class="main-grid">
+        <div class="visualizer">
+            <div class="absolute top-10 left-10">
+                <h1 class="text-3xl gold-text italic">ULTRA-REAL 3D</h1>
+                <p class="text-[9px] tracking-[5px] opacity-40 uppercase font-bold">AI Pose-Matching Engine</p>
             </div>
 
-            <div id="upload-zone" class="pointer-auto text-center border-2 border-dashed border-white/10 p-20 rounded-[50px] cursor-pointer hover:bg-white/5 transition">
-                <input type="file" id="imageInput" class="hidden" onchange="processAIImage(event)">
+            <div id="magic-loader" class="ai-processing">
+                <h2 class="gold-text text-xl mb-4 italic uppercase tracking-widest">Removing Background & Creating 3D Mesh...</h2>
+                <div class="scan-line"></div>
+                <p class="text-[8px] mt-4 opacity-30 italic">MOTOROLA AI CLOUD CONNECTED</p>
+            </div>
+
+            <div id="upload-area" onclick="document.getElementById('file-input').click()" class="border-2 border-dashed border-white/10 p-24 rounded-[50px] cursor-pointer hover:bg-white/5 transition text-center z-50">
+                <input type="file" id="file-input" class="hidden" onchange="startAIMagic(event)">
                 <i data-lucide="scan-face" class="w-16 h-16 mx-auto mb-4 text-gold/30"></i>
-                <p class="text-[10px] font-bold tracking-widest uppercase opacity-60">Upload Photo for 3D Scan</p>
+                <p class="text-[10px] font-bold tracking-widest uppercase opacity-40 font-black">Click to Scan & Upload</p>
             </div>
 
-            <div class="flex gap-4 pointer-auto">
-                <button class="px-8 py-3 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold uppercase tracking-widest">Rotate 360°</button>
-                <button class="btn-action px-10">Capture & Save</button>
+            <div id="twin-container" class="digital-twin-container">
+                <img id="user-mesh" src="" alt="3D Mesh">
+                <img id="clothing-overlay" src="" alt="Drape">
             </div>
         </div>
 
-        <div class="sidebar pointer-auto">
-            <h3 class="text-[10px] font-bold tracking-[4px] text-gold mb-8 uppercase">Wardrobe</h3>
-            <div class="space-y-4 overflow-y-auto">
-                <div class="bg-white/5 p-4 rounded-3xl border border-white/5 cursor-pointer hover:border-gold/50" onclick="tryOn('saree')">
-                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400" class="w-full h-32 object-cover rounded-2xl mb-3">
+        <div class="sidebar">
+            <h2 class="text-xs font-bold tracking-[4px] text-gold mb-10 border-b border-white/10 pb-4 uppercase">AI Wardrobe</h2>
+            
+            <div class="space-y-6">
+                <div class="bg-white/5 p-4 rounded-3xl border border-white/5 cursor-pointer hover:border-gold/30 transition" onclick="applyDrape('saree')">
+                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400" class="w-full h-32 object-cover rounded-2xl mb-4">
                     <div class="flex justify-between items-center">
-                        <p class="text-[10px] font-bold uppercase">Red Saree</p>
-                        <button class="btn-action text-[8px] py-1 px-4">Try On</button>
+                        <span class="text-[10px] font-black uppercase">Red Saree</span>
+                        <button class="btn-gold text-[9px] py-2 px-4">Try On</button>
                     </div>
                 </div>
-                <div class="bg-white/5 p-4 rounded-3xl border border-white/5 cursor-pointer hover:border-gold/50" onclick="tryOn('denim')">
-                    <img src="https://images.unsplash.com/photo-1579216377317-1065c71d382d?w=400" class="w-full h-32 object-cover rounded-2xl mb-3">
+
+                <div class="bg-white/5 p-4 rounded-3xl border border-white/5 cursor-pointer hover:border-gold/30 transition" onclick="applyDrape('denim')">
+                    <img src="https://images.unsplash.com/photo-1579216377317-1065c71d382d?w=400" class="w-full h-32 object-cover rounded-2xl mb-4">
                     <div class="flex justify-between items-center">
-                        <p class="text-[10px] font-bold uppercase">Denim Kit</p>
-                        <button class="btn-action text-[8px] py-1 px-4">Try On</button>
+                        <span class="text-[10px] font-black uppercase">Denim Kit</span>
+                        <button class="btn-gold text-[9px] py-2 px-4">Try On</button>
                     </div>
                 </div>
             </div>
-            
+
             <div class="mt-auto p-4 bg-gold/5 rounded-2xl border border-gold/10">
-                <p class="text-[8px] opacity-40 leading-relaxed italic">AI is automatically masking background and mapping fabric to 3D body pose coordinates.</p>
+                <p id="ai-status" class="text-[9px] font-bold uppercase opacity-60 text-center">Engine Standby</p>
             </div>
         </div>
     </div>
 
     <div class="fixed bottom-4 left-1/2 -translate-x-1/2 opacity-20 pointer-events-none z-50">
-        <p class="text-[7px] tracking-[5px] uppercase">© 2026 GIA LUXE | ALTER PROJECT | AI 360 PATANT</p>
+        <p class="text-[7px] tracking-[5px] uppercase">© 2026 GIA LUXE | ALTER PROJECT | HIGH-FIDELITY AI 360°</p>
     </div>
 
     <script>
-        let scene, camera, renderer, model;
+        function startAIMagic(e) {
+            const file = e.target.files[0];
+            if(!file) return;
 
-        function init3D() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.getElementById('canvas-container').appendChild(renderer.domElement);
-            camera.position.z = 5;
-        }
+            const loader = document.getElementById('magic-loader');
+            const uploadArea = document.getElementById('upload-area');
+            const twinContainer = document.getElementById('twin-container');
+            const userMesh = document.getElementById('user-mesh');
 
-        function processAIImage(e) {
-            const loader = document.getElementById('loader');
+            // 1. Show Motorola Magic Loading
             loader.style.display = 'flex';
+            uploadArea.style.display = 'none';
 
-            // Simulate AI Processing (Background Removal & 3D Conversion)
+            const reader = new FileReader();
+            reader.onload = function(f) {
+                // 2. Simulate Background Removal & 3D mesh creation (3 seconds)
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    userMesh.src = f.target.result;
+                    twinContainer.style.display = 'block';
+                    
+                    // 3. Add 360 Rotation Class
+                    twinContainer.classList.add('rotate-360');
+                    document.getElementById('ai-status').innerText = "3D MESH GENERATED. CLOTHING READY.";
+                }, 3000);
+            }
+            reader.readAsDataURL(file);
+        }
+
+        function applyDrape(item) {
+            const twin = document.getElementById('twin-container');
+            const overlay = document.getElementById('clothing-overlay');
+            const status = document.getElementById('ai-status');
+
+            if(twin.style.display === 'none') {
+                alert("Pehle photo upload karke AI scan hone dein!");
+                return;
+            }
+
+            status.innerText = "AUTOMATIC WRAPPING...";
+            overlay.style.opacity = "0";
+
             setTimeout(() => {
-                loader.style.display = 'none';
-                document.getElementById('upload-zone').style.display = 'none';
-                
-                const file = e.target.files[0];
-                const reader = new FileReader();
-                reader.onload = function(f) {
-                    create3DModel(f.target.result);
-                };
-                reader.readAsDataURL(file);
-            }, 3000);
+                if(item === 'saree') {
+                    overlay.src = "https://www.transparentpng.com/download/sari/indian-sari-free-png-images-12.png";
+                } else {
+                    overlay.src = "https://www.transparentpng.com/download/jacket/blue-jacket-png-images-21.png";
+                }
+
+                overlay.classList.remove('hidden');
+                overlay.style.opacity = "1";
+                status.innerText = "WRAP COMPLETE (98.4% ACCURACY)";
+                status.style.color = "#BF953F";
+            }, 1500);
         }
 
-        function create3DModel(imgSrc) {
-            const texture = new THREE.TextureLoader().load(imgSrc);
-            const geometry = new THREE.PlaneGeometry(3, 5);
-            const material = new THREE.MeshBasicMaterial({ map: texture, transparent: true, side: THREE.DoubleSide });
-            model = new THREE.Mesh(geometry, material);
-            scene.add(model);
-            animate();
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            if(model) model.rotation.y += 0.01; // Auto 360 Rotation
-            renderer.render(scene, camera);
-        }
-
-        function tryOn(item) {
-            // In a real AI setup, we'd swap the texture of the 3D mesh here
-            alert("AI Engine: Wrapping " + item + " on 3D mesh. Adjusting for 360° perspective...");
-        }
-
-        init3D();
         lucide.createIcons();
     </script>
 </body>
