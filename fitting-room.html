@@ -1,339 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>GIA Luxe AI Fitting Room</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIA LUXE | ADVANCED AI STUDIO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { background: #010807; color: white; font-family: 'Inter', sans-serif; overflow: hidden; }
+        .gold-gradient { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Studio Stage - 3D Perspective */
+        .studio-stage {
+            perspective: 1200px;
+            display: flex; align-items: center; justify-content: center;
+            height: 70vh; position: relative;
+        }
 
-<style>
+        /* 3D Model Rotation Logic (Kolors + CLO3D Style) */
+        #digital-twin {
+            height: 100%; position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+            filter: drop-shadow(0 0 50px rgba(0,0,0,0.8));
+        }
 
-/* ---------- GLOBAL ---------- */
+        .clothing-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; mix-blend-mode: multiply; opacity: 0.9;
+        }
 
-body{
-margin:0;
-font-family:Segoe UI, sans-serif;
-background: radial-gradient(circle at top,#0f2027,#081014,#000);
-color:white;
-overflow:hidden;
-}
+        /* Scan Line Animation like Motorola/Kolors */
+        .scan-effect {
+            position: absolute; width: 100%; height: 4px;
+            background: rgba(191, 149, 63, 0.8); box-shadow: 0 0 20px #BF953F;
+            z-index: 100; top: 0; display: none;
+            animation: scanning 2s linear infinite;
+        }
+        @keyframes scanning { 0% { top: 0%; } 100% { top: 100%; } }
 
-button{
-cursor:pointer;
-border:none;
-}
-
-/* ---------- HEADER ---------- */
-
-header{
-height:70px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:24px;
-letter-spacing:2px;
-background:rgba(0,0,0,.4);
-backdrop-filter:blur(6px);
-border-bottom:1px solid rgba(255,255,255,.1);
-}
-
-/* ---------- MAIN LAYOUT ---------- */
-
-.main{
-display:flex;
-height:calc(100vh - 70px);
-}
-
-/* ---------- LEFT STUDIO ---------- */
-
-.stage{
-flex:1;
-display:flex;
-align-items:center;
-justify-content:center;
-position:relative;
-perspective:1400px;
-}
-
-/* glass platform */
-
-.platform{
-position:absolute;
-bottom:40px;
-width:260px;
-height:40px;
-background:linear-gradient(to right,#0ff,#fff,#0ff);
-opacity:.15;
-filter:blur(6px);
-border-radius:10px;
-}
-
-/* avatar container */
-
-.avatar-box{
-position:relative;
-transform-style:preserve-3d;
-transition:1s;
-}
-
-/* base image */
-
-#basePhoto{
-max-height:70vh;
-border-radius:12px;
-display:none;
-}
-
-/* overlay cloth */
-
-#clothLayer{
-position:absolute;
-top:0;
-left:0;
-pointer-events:none;
-display:none;
-}
-
-/* ---------- RIGHT CONTROL PANEL ---------- */
-
-.panel{
-width:320px;
-background:rgba(255,255,255,.05);
-backdrop-filter:blur(12px);
-border-left:1px solid rgba(255,255,255,.1);
-padding:20px;
-overflow-y:auto;
-}
-
-.panel h3{
-margin:15px 0 10px;
-font-weight:500;
-letter-spacing:1px;
-}
-
-/* upload */
-
-.upload{
-border:2px dashed rgba(255,255,255,.2);
-padding:20px;
-text-align:center;
-border-radius:12px;
-margin-bottom:15px;
-}
-
-.upload input{
-margin-top:10px;
-}
-
-/* buttons */
-
-.btn{
-width:100%;
-padding:14px;
-margin-top:10px;
-border-radius:10px;
-font-weight:600;
-letter-spacing:1px;
-background:linear-gradient(45deg,#d4af37,#f6e27a);
-color:black;
-}
-
-/* product grid */
-
-.products{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:8px;
-margin-top:10px;
-}
-
-.products img{
-width:100%;
-border-radius:8px;
-cursor:pointer;
-transition:.3s;
-}
-
-.products img:hover{
-transform:scale(1.07);
-}
-
-/* sliders */
-
-.slider{
-width:100%;
-}
-
-/* rotate buttons */
-
-.rotateBox{
-display:flex;
-gap:10px;
-margin-top:10px;
-}
-
-.rotateBox button{
-flex:1;
-padding:12px;
-border-radius:10px;
-background:#111;
-color:#fff;
-}
-
-/* snapshot */
-
-.capture{
-margin-top:20px;
-padding:16px;
-width:100%;
-font-size:16px;
-border-radius:14px;
-background:linear-gradient(45deg,#d4af37,#f8e9a1);
-color:black;
-}
-
-</style>
+        .sidebar { background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border-left: 1px solid rgba(191,149,63,0.1); }
+    </style>
 </head>
 <body>
 
-<header>GIA LUXE — AI DRAPE STUDIO</header>
+    <div class="flex h-screen w-screen">
+        <div class="flex-1 relative overflow-hidden flex flex-col items-center justify-center">
+            <div class="absolute top-10 text-center">
+                <h1 class="text-4xl font-bold gold-gradient italic">GIA LUXE</h1>
+                <p class="text-[8px] tracking-[5px] uppercase opacity-50">AI-Diffusion & 3D Mesh Engine v6.0</p>
+            </div>
 
-<div class="main">
+            <div class="studio-stage w-full">
+                <div id="scan-line" class="scan-effect"></div>
+                
+                <div id="upload-prompt" onclick="document.getElementById('input-file').click()" class="cursor-pointer border-2 border-dashed border-white/10 p-20 rounded-[40px] text-center hover:bg-white/5 transition">
+                    <input type="file" id="input-file" class="hidden" onchange="runAILogic(event)">
+                    <p class="text-xs font-bold tracking-widest uppercase text-gold">Upload Full Image</p>
+                    <p class="text-[9px] opacity-40 mt-2">AI will remove background & create 3D twin</p>
+                </div>
 
-<!-- LEFT STAGE -->
+                <div id="digital-twin" class="hidden">
+                    <img id="user-body" class="h-full object-contain">
+                    <img id="garment-overlay" class="clothing-layer hidden">
+                </div>
+            </div>
 
-<div class="stage">
+            <div class="absolute bottom-10 flex gap-4">
+                <button onclick="rotateModel(-20)" class="bg-white/5 p-4 rounded-full border border-white/10 hover:border-gold">↺</button>
+                <button onclick="resetModel()" class="bg-gold/10 px-8 py-3 rounded-full border border-gold/30 text-[10px] font-bold uppercase tracking-widest text-gold">Reset Perspective</button>
+                <button onclick="rotateModel(20)" class="bg-white/5 p-4 rounded-full border border-white/10 hover:border-gold">↻</button>
+            </div>
+        </div>
 
-<div class="platform"></div>
+        <div class="sidebar w-[400px] p-8 overflow-y-auto">
+            <h2 class="text-xs font-bold tracking-[4px] text-gold mb-10 uppercase">AI Wardrobe</h2>
+            
+            <div class="grid grid-cols-1 gap-6">
+                <div class="group cursor-pointer" onclick="wrapGarment('saree')">
+                    <div class="relative rounded-2xl overflow-hidden border border-white/5 group-hover:border-gold/50 transition">
+                        <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400" class="w-full h-48 object-cover">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                            <span class="text-[10px] font-bold tracking-widest bg-gold text-black px-4 py-2 rounded-full">TRY ON</span>
+                        </div>
+                    </div>
+                    <p class="text-[11px] font-bold mt-3 uppercase tracking-widest">Banarasi Silk Saree</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="avatar-box" id="avatarBox">
+    <div class="fixed bottom-2 left-1/2 -translate-x-1/2 opacity-20 pointer-events-none text-[8px] tracking-[4px]">
+        © 2026 GIA LUXE | ALTER PROJECT | PATENTED VIRTUAL TRY-ON
+    </div>
 
-<img id="basePhoto">
-<img id="clothLayer">
+    <script>
+        let currentRotation = 0;
 
-</div>
+        function runAILogic(e) {
+            const file = e.target.files[0];
+            const scanLine = document.getElementById('scan-line');
+            const uploadPrompt = document.getElementById('upload-prompt');
+            const digitalTwin = document.getElementById('digital-twin');
+            const userBody = document.getElementById('user-body');
 
-</div>
+            uploadPrompt.style.display = 'none';
+            scanLine.style.display = 'block';
 
+            const reader = new FileReader();
+            reader.onload = function(f) {
+                userBody.src = f.target.result;
+                
+                // Simulation of Kolors AI Background Removal
+                setTimeout(() => {
+                    scanLine.style.display = 'none';
+                    digitalTwin.style.display = 'block';
+                    // Apply transparent-look filter to simulate BG removal
+                    userBody.style.filter = "drop-shadow(0 0 50px black)";
+                }, 2000);
+            }
+            reader.readAsDataURL(file);
+        }
 
-<!-- RIGHT PANEL -->
+        function rotateModel(deg) {
+            currentRotation += deg;
+            document.getElementById('digital-twin').style.transform = `rotateY(${currentRotation}deg)`;
+        }
 
-<div class="panel">
+        function resetModel() {
+            currentRotation = 0;
+            document.getElementById('digital-twin').style.transform = `rotateY(0deg)`;
+        }
 
-<div class="upload">
-Upload Your Photo
-<br>
-<input type="file" id="uploadInput">
-</div>
-
-
-<h3>Select Outfit</h3>
-
-<div class="products">
-
-<img src="https://i.imgur.com/3fJ1P48.png" onclick="applyCloth(this.src)">
-<img src="https://i.imgur.com/u0n4H7N.png" onclick="applyCloth(this.src)">
-<img src="https://i.imgur.com/pJ7QZ9K.png" onclick="applyCloth(this.src)">
-<img src="https://i.imgur.com/c8KQZ7P.png" onclick="applyCloth(this.src)">
-<img src="https://i.imgur.com/Uy7Z4GJ.png" onclick="applyCloth(this.src)">
-<img src="https://i.imgur.com/L9sY2dP.png" onclick="applyCloth(this.src)">
-
-</div>
-
-
-<h3>Body Fit Adjust</h3>
-<input type="range" class="slider" min="80" max="120" value="100" id="sizeSlider">
-
-
-<h3>Rotate View</h3>
-<div class="rotateBox">
-<button onclick="rotate(-30)">Left</button>
-<button onclick="rotate(30)">Right</button>
-</div>
-
-
-<button class="capture" onclick="capture()">Capture Snapshot</button>
-
-</div>
-</div>
-
-
-<script>
-
-/* ---------- UPLOAD PHOTO ---------- */
-
-uploadInput.onchange = e=>{
-let file = e.target.files[0];
-let reader = new FileReader();
-
-reader.onload = function(){
-processImage(reader.result);
-}
-
-reader.readAsDataURL(file);
-}
-
-/* ---------- AI BACKGROUND REMOVE (SIMULATION) ---------- */
-
-function processImage(src){
-
-// FUTURE:
-// replace with real API call
-// remove.bg / clipdrop / replicate
-
-basePhoto.src = src;
-basePhoto.style.display="block";
-
-}
-
-/* ---------- APPLY CLOTH ---------- */
-
-function applyCloth(src){
-
-clothLayer.src = src;
-clothLayer.style.display="block";
-
-setTimeout(()=>{
-clothLayer.style.width = basePhoto.clientWidth+"px";
-clothLayer.style.height = basePhoto.clientHeight+"px";
-},100);
-
-}
-
-/* ---------- SIZE CONTROL ---------- */
-
-sizeSlider.oninput = ()=>{
-clothLayer.style.transform = "scale("+sizeSlider.value/100+")";
-}
-
-/* ---------- ROTATION ---------- */
-
-let angle=0;
-
-function rotate(val){
-angle+=val;
-avatarBox.style.transform = "rotateY("+angle+"deg)";
-}
-
-/* ---------- SNAPSHOT ---------- */
-
-function capture(){
-
-html2canvas(document.querySelector(".stage")).then(canvas=>{
-let a=document.createElement("a");
-a.href=canvas.toDataURL();
-a.download="GIA-look.png";
-a.click();
-});
-
-}
-
-/* ---------- LOAD HTML2CANVAS ---------- */
-
-let script=document.createElement("script");
-script.src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
-document.body.appendChild(script);
-
-</script>
-
+        function wrapGarment(item) {
+            const overlay = document.getElementById('garment-overlay');
+            overlay.src = "https://www.transparentpng.com/download/sari/indian-sari-free-png-images-12.png";
+            overlay.classList.remove('hidden');
+            setTimeout(() => { overlay.style.opacity = "1"; }, 100);
+        }
+    </script>
 </body>
 </html>
