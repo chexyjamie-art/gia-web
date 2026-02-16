@@ -3,158 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | 3D AI STUDIO</title>
+    <title>GIA LUXE | MAGIC ERASER VTO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Inter:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Inter:wght@400;900&display=swap');
         
-        body { background: #010807; color: white; font-family: 'Inter', sans-serif; overflow: hidden; height: 100vh; margin: 0; }
+        body { background: #010807; color: white; font-family: 'Inter', sans-serif; overflow: hidden; height: 100vh; }
         .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Playfair Display', serif; }
-        
-        /* Cinematic Layout */
-        .main-grid { display: grid; grid-template-columns: 1fr 380px; height: 100vh; width: 100vw; background: radial-gradient(circle at 30% 40%, #0a2d24 0%, #010807 80%); }
 
-        /* 3D Visualizer Area */
-        .visualizer { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; perspective: 1000px; }
-        
-        /* The 3D Rotating Mesh (Customer's Digital Twin) */
-        .digital-twin-container { position: relative; width: auto; height: 80vh; transition: transform 0.1s; transform-style: preserve-3d; display: none; }
-        #user-mesh { height: 100%; border-radius: 20px; filter: drop-shadow(0 0 30px rgba(0,0,0,0.8)); }
-        
-        /* Auto-Wrap Clothing Overlay */
-        #clothing-overlay { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            object-fit: contain; pointer-events: none; z-index: 50; opacity: 0; 
-            transition: opacity 0.5s ease;
+        /* The Studio Layout */
+        .app-wrapper { display: grid; grid-template-columns: 1fr 400px; height: 100vh; }
+
+        /* Magic Visualizer Area */
+        .mirror-container { 
+            position: relative; 
+            background: radial-gradient(circle at center, #0a2d24 0%, #010807 100%);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
         }
 
-        /* 360 Rotation Animation */
-        .rotate-360 { animation: rotateAI 10s infinite linear; }
-        @keyframes rotateAI { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+        /* Magic Eraser Simulation: Transparent background effect */
+        .magic-frame {
+            position: relative;
+            z-index: 10;
+            transition: all 1s ease-in-out;
+        }
 
-        /* Motorola Magic Processing Loader */
-        .ai-processing { position: absolute; inset: 0; background: rgba(1, 8, 7, 0.9); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; }
-        .scan-line { width: 300px; height: 2px; background: #BF953F; box-shadow: 0 0 20px #BF953F; animation: scanAnim 1.5s infinite; }
-        @keyframes scanAnim { 0% { transform: scaleX(0); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+        /* Is image par background removal effect lagega */
+        #user-photo {
+            max-height: 80vh;
+            border-radius: 20px;
+            /* Yahi wo magic filter hai jo background ko transparent feel dega */
+            filter: drop-shadow(0 0 30px rgba(191,149,63,0.3));
+        }
 
-        .sidebar { background: rgba(0,0,0,0.5); backdrop-filter: blur(40px); border-left: 1px solid rgba(191,149,63,0.1); padding: 30px; }
-        .btn-gold { background: linear-gradient(to right, #BF953F, #B38728); color: black; font-weight: 800; padding: 12px 24px; border-radius: 12px; text-transform: uppercase; cursor: pointer; }
+        #cloth-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: contain; z-index: 20; opacity: 0;
+            transition: 0.5s ease-in-out;
+        }
+
+        /* 360 Rotation Toggle */
+        .active-360 { animation: spin 12s infinite linear; }
+        @keyframes spin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+
+        /* Motorola Magic Eraser Animation */
+        .eraser-line {
+            position: absolute; width: 5px; height: 100%; background: #BF953F;
+            box-shadow: 0 0 50px #BF953F; z-index: 100; left: 0; display: none;
+        }
+
+        .sidebar { background: rgba(0,0,0,0.6); backdrop-filter: blur(50px); border-left: 1px solid rgba(191,149,63,0.1); padding: 40px; }
+        .btn-gold { background: linear-gradient(to right, #BF953F, #B38728); color: black; font-weight: 900; padding: 14px; border-radius: 15px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
     </style>
 </head>
 <body>
 
-    <div class="main-grid">
-        <div class="visualizer">
+    <div class="app-wrapper">
+        <div class="mirror-container">
             <div class="absolute top-10 left-10">
-                <h1 class="text-3xl gold-text italic">ULTRA-REAL 3D</h1>
-                <p class="text-[9px] tracking-[5px] opacity-40 uppercase font-bold">AI Pose-Matching Engine</p>
+                <h1 class="text-4xl gold-text italic">ULTRA-REAL AI</h1>
+                <p class="text-[9px] tracking-[6px] opacity-40 font-black uppercase">Magic Eraser Active</p>
             </div>
 
-            <div id="magic-loader" class="ai-processing">
-                <h2 class="gold-text text-xl mb-4 italic uppercase tracking-widest">Removing Background & Creating 3D Mesh...</h2>
-                <div class="scan-line"></div>
-                <p class="text-[8px] mt-4 opacity-30 italic">MOTOROLA AI CLOUD CONNECTED</p>
-            </div>
+            <div class="magic-frame" id="stage">
+                <div id="eraser" class="eraser-line"></div>
+                
+                <div id="upload-box" onclick="document.getElementById('img-in').click()" class="border-2 border-dashed border-white/10 p-24 rounded-[60px] cursor-pointer text-center hover:bg-white/5">
+                    <input type="file" id="img-in" class="hidden" onchange="runMagicEraser(event)">
+                    <i data-lucide="sparkles" class="w-16 h-16 mx-auto mb-4 text-gold/40"></i>
+                    <p class="text-[10px] font-black tracking-widest uppercase opacity-40">Drop Photo for Background Removal</p>
+                </div>
 
-            <div id="upload-area" onclick="document.getElementById('file-input').click()" class="border-2 border-dashed border-white/10 p-24 rounded-[50px] cursor-pointer hover:bg-white/5 transition text-center z-50">
-                <input type="file" id="file-input" class="hidden" onchange="startAIMagic(event)">
-                <i data-lucide="scan-face" class="w-16 h-16 mx-auto mb-4 text-gold/30"></i>
-                <p class="text-[10px] font-bold tracking-widest uppercase opacity-40 font-black">Click to Scan & Upload</p>
+                <img id="user-photo" class="hidden">
+                <img id="cloth-layer" class="hidden">
             </div>
-
-            <div id="twin-container" class="digital-twin-container">
-                <img id="user-mesh" src="" alt="3D Mesh">
-                <img id="clothing-overlay" src="" alt="Drape">
+            
+            <div id="controls" class="absolute bottom-10 hidden flex gap-4">
+                <button onclick="toggle360()" class="px-8 py-3 rounded-full bg-white/5 border border-gold/20 text-[10px] font-black uppercase tracking-widest">360° Rotation</button>
             </div>
         </div>
 
         <div class="sidebar">
-            <h2 class="text-xs font-bold tracking-[4px] text-gold mb-10 border-b border-white/10 pb-4 uppercase">AI Wardrobe</h2>
+            <h2 class="text-xs font-black tracking-[5px] text-gold mb-10 border-b border-white/5 pb-6 uppercase italic">AI Wardrobe</h2>
             
             <div class="space-y-6">
-                <div class="bg-white/5 p-4 rounded-3xl border border-white/5 cursor-pointer hover:border-gold/30 transition" onclick="applyDrape('saree')">
-                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400" class="w-full h-32 object-cover rounded-2xl mb-4">
-                    <div class="flex justify-between items-center">
-                        <span class="text-[10px] font-black uppercase">Red Saree</span>
-                        <button class="btn-gold text-[9px] py-2 px-4">Try On</button>
+                <div class="bg-white/5 p-4 rounded-[30px] border border-white/5 cursor-pointer hover:border-gold/30 transition" onclick="applyDrape('saree')">
+                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400" class="w-full h-40 object-cover rounded-[20px] mb-4">
+                    <div class="flex justify-between items-center px-2">
+                        <span class="text-[11px] font-black">RED SAREE</span>
+                        <button class="btn-gold text-[9px] py-2 px-6">Try On</button>
                     </div>
                 </div>
 
-                <div class="bg-white/5 p-4 rounded-3xl border border-white/5 cursor-pointer hover:border-gold/30 transition" onclick="applyDrape('denim')">
-                    <img src="https://images.unsplash.com/photo-1579216377317-1065c71d382d?w=400" class="w-full h-32 object-cover rounded-2xl mb-4">
-                    <div class="flex justify-between items-center">
-                        <span class="text-[10px] font-black uppercase">Denim Kit</span>
-                        <button class="btn-gold text-[9px] py-2 px-4">Try On</button>
+                <div class="bg-white/5 p-4 rounded-[30px] border border-white/5 cursor-pointer hover:border-gold/30 transition" onclick="applyDrape('denim')">
+                    <img src="https://images.unsplash.com/photo-1579216377317-1065c71d382d?w=400" class="w-full h-40 object-cover rounded-[20px] mb-4">
+                    <div class="flex justify-between items-center px-2">
+                        <span class="text-[11px] font-black">DENIM KIT</span>
+                        <button class="btn-gold text-[9px] py-2 px-6">Try On</button>
                     </div>
                 </div>
             </div>
 
-            <div class="mt-auto p-4 bg-gold/5 rounded-2xl border border-gold/10">
-                <p id="ai-status" class="text-[9px] font-bold uppercase opacity-60 text-center">Engine Standby</p>
+            <div class="mt-auto p-6 bg-gold/5 rounded-[30px] border border-gold/10">
+                <p id="ai-status" class="text-[9px] font-black uppercase text-gold/70 text-center tracking-widest">AI Engine Standby</p>
             </div>
         </div>
     </div>
 
-    <div class="fixed bottom-4 left-1/2 -translate-x-1/2 opacity-20 pointer-events-none z-50">
-        <p class="text-[7px] tracking-[5px] uppercase">© 2026 GIA LUXE | ALTER PROJECT | HIGH-FIDELITY AI 360°</p>
-    </div>
-
     <script>
-        function startAIMagic(e) {
+        function runMagicEraser(e) {
             const file = e.target.files[0];
-            if(!file) return;
-
-            const loader = document.getElementById('magic-loader');
-            const uploadArea = document.getElementById('upload-area');
-            const twinContainer = document.getElementById('twin-container');
-            const userMesh = document.getElementById('user-mesh');
-
-            // 1. Show Motorola Magic Loading
-            loader.style.display = 'flex';
-            uploadArea.style.display = 'none';
-
             const reader = new FileReader();
+            const eraser = document.getElementById('eraser');
+            const status = document.getElementById('ai-status');
+
             reader.onload = function(f) {
-                // 2. Simulate Background Removal & 3D mesh creation (3 seconds)
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                    userMesh.src = f.target.result;
-                    twinContainer.style.display = 'block';
-                    
-                    // 3. Add 360 Rotation Class
-                    twinContainer.classList.add('rotate-360');
-                    document.getElementById('ai-status').innerText = "3D MESH GENERATED. CLOTHING READY.";
-                }, 3000);
+                document.getElementById('upload-box').style.display = 'none';
+                const img = document.getElementById('user-photo');
+                img.src = f.target.result;
+                img.classList.remove('hidden');
+                
+                // Motorola Eraser Animation Start
+                eraser.style.display = 'block';
+                status.innerText = "MAGIC ERASER: REMOVING BACKGROUND...";
+                
+                let pos = 0;
+                const interval = setInterval(() => {
+                    pos += 5;
+                    eraser.style.left = pos + "%";
+                    if(pos >= 100) {
+                        clearInterval(interval);
+                        eraser.style.display = 'none';
+                        // Final background cut effect (simulated with shadow/brightness)
+                        img.style.filter = "brightness(1.1) contrast(1.1) drop-shadow(0 0 50px rgba(0,0,0,1))";
+                        document.getElementById('controls').classList.remove('hidden');
+                        status.innerText = "BACKGROUND REMOVED. 3D MESH READY.";
+                    }
+                }, 50);
             }
             reader.readAsDataURL(file);
         }
 
         function applyDrape(item) {
-            const twin = document.getElementById('twin-container');
-            const overlay = document.getElementById('clothing-overlay');
+            const layer = document.getElementById('cloth-layer');
             const status = document.getElementById('ai-status');
 
-            if(twin.style.display === 'none') {
-                alert("Pehle photo upload karke AI scan hone dein!");
+            if(document.getElementById('user-photo').classList.contains('hidden')) {
+                alert("Pehle photo upload karke background remove hone dein!");
                 return;
             }
 
             status.innerText = "AUTOMATIC WRAPPING...";
-            overlay.style.opacity = "0";
+            layer.style.opacity = "0";
 
             setTimeout(() => {
                 if(item === 'saree') {
-                    overlay.src = "https://www.transparentpng.com/download/sari/indian-sari-free-png-images-12.png";
+                    layer.src = "https://www.transparentpng.com/download/sari/indian-sari-free-png-images-12.png";
                 } else {
-                    overlay.src = "https://www.transparentpng.com/download/jacket/blue-jacket-png-images-21.png";
+                    layer.src = "https://www.transparentpng.com/download/jacket/blue-jacket-png-images-21.png";
                 }
+                layer.classList.remove('hidden');
+                layer.style.opacity = "1";
+                status.innerText = "3D WRAP COMPLETE (98.4%)";
+            }, 1000);
+        }
 
-                overlay.classList.remove('hidden');
-                overlay.style.opacity = "1";
-                status.innerText = "WRAP COMPLETE (98.4% ACCURACY)";
-                status.style.color = "#BF953F";
-            }, 1500);
+        function toggle360() {
+            document.getElementById('stage').classList.toggle('active-360');
         }
 
         lucide.createIcons();
