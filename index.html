@@ -134,6 +134,8 @@
     </div>
 
     <script>
+        // ASLI AI CONNECTION
+        const FAL_KEY = "6a7642f2-849a-4c91-9556-32d5964861c8"; 
         const GEMINI_API_KEY = "AIzaSyAL9f1bOKI-ELUayNG9PzCHok3wZmkk_Bc"; 
         let activeProducts = [];
 
@@ -154,7 +156,7 @@
             lucide.createIcons();
         };
 
-        // NEW: UNIFIED SEARCH + GENERATION LOGIC
+        // INTEGRATED SEARCH + AI LOGIC
         async function runUnifiedSearch(query) {
             const searchContainer = document.getElementById('search-container');
             const giaBox = document.getElementById('gia-ai-box');
@@ -174,87 +176,41 @@
                         contents: [{ 
                             parts: [{ 
                                 text: isGenRequest ? 
-                                `User wants to visualize a custom outfit: "${query}". Describe a stunning, high-fashion 3D render of this outfit in detail. 
-                                Return ONLY a JSON: {"name": "GIA Custom Design", "desc": "detailed description", "img": "https://source.unsplash.com/featured/?fashion,luxury,${query.replace(/ /g, ',')}"}. 
-                                Add a witty Hinglish compliment for the creator.` :
-                                `URGENT: Do a broad web search for real products: ${query}. 
-                                DO NOT limit search to just one site. Explore Myntra, Ajio, Amazon, and other luxury Indian stores.
-                                Return ONLY a JSON array: [{"name": "product name", "price": "1999", "img": "direct link", "brand": "store name"}]. 
-                                After the JSON, add a witty one-line Hinglish comment about the items.` 
+                                `Generate high-fashion JSON for: ${query}` :
+                                `Find Indian fashion products for: ${query}. Return JSON array only.` 
                             }] 
                         }],
-                        tools: [{ google_search: {} }],
-                        safetySettings: [
-                            { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-                            { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" }
-                        ]
+                        tools: [{ google_search: {} }]
                     })
                 });
 
                 const data = await response.json();
-                if (data.error) throw new Error(data.error.message);
-
                 const rawResponse = data.candidates[0].content.parts[0].text;
-
-                if (isGenRequest) {
-                    const jsonMatch = rawResponse.match(/\{[\s\S]*\}/);
-                    if (jsonMatch) {
-                        const genData = JSON.parse(jsonMatch[0]);
-                        const genProduct = {
-                            id: Date.now(),
-                            type: 'regular',
-                            name: genData.name,
-                            price: "AI Generated",
-                            match: "10/10",
-                            img: genData.img,
-                            brand: "GIA AI Studio",
-                            tag: "Custom"
-                        };
-                        activeProducts = [genProduct, ...staticProducts];
-                        renderProducts(activeProducts);
-                        giaText.innerText = "Bhai, ye raha tera exclusive design! Bilkul unique, sirf tere liye.";
-                    }
-                } else {
-                    const jsonMatch = rawResponse.match(/\[[\s\S]*\]/);
-                    if (jsonMatch) {
-                        const liveData = JSON.parse(jsonMatch[0]).map((p, idx) => ({
-                            id: Date.now() + idx,
-                            type: 'regular',
-                            name: p.name.length > 35 ? p.name.substring(0, 35) + '...' : p.name,
-                            price: p.price.toString().replace(/[^\d]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-                            match: (Math.random() * 1.5 + 8.4).toFixed(1),
-                            img: p.img || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
-                            brand: p.brand || "Verified Store",
-                            tag: "Global Search"
-                        }));
-                        activeProducts = liveData;
-                        renderProducts(liveData);
-                        if(liveData.length >= 2) createLiveCombo(liveData[0], liveData[1]);
-                        giaText.innerText = rawResponse.replace(jsonMatch[0], '').replace(/```json|```/g, '').trim() || "Bhai, ye rahe tere liye sabse gazab picks!";
-                    }
+                
+                // Purely Logic Based Rendering
+                const jsonMatch = rawResponse.match(/\[.*\]/s) || rawResponse.match(/\{.*\}/s);
+                if(jsonMatch) {
+                    const parsed = JSON.parse(jsonMatch[0]);
+                    const items = Array.isArray(parsed) ? parsed : [parsed];
+                    const liveData = items.map((p, idx) => ({
+                        id: Date.now() + idx,
+                        type: 'regular',
+                        name: p.name || "GIA Selection",
+                        price: (p.price || "1999").toString(),
+                        match: (Math.random() * 1.5 + 8.4).toFixed(1),
+                        img: p.img || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
+                        brand: p.brand || "GIA Studio",
+                        tag: "AI Curated"
+                    }));
+                    activeProducts = liveData;
+                    renderProducts(liveData);
+                    giaText.innerText = "Bhai, tere liye best options load kar diye hain!";
                 }
             } catch (e) {
-                console.error("Search Error:", e);
-                giaText.innerText = "Connection thoda slow hai, par GIA haar nahi maanegi. Ek baar fir try kar!";
+                giaText.innerText = "Connection slow hai, par GIA try kar rahi hai!";
             } finally {
                 searchContainer.classList.remove('searching-glow');
             }
-        }
-
-        function createLiveCombo(p1, p2) {
-            const box = document.getElementById('combo-box');
-            const items = document.getElementById('combo-items');
-            box.style.display = 'block';
-            items.innerHTML = `
-                <img src="${p1.img}" class="w-16 h-16 object-cover rounded-xl border border-[#BF953F]">
-                <i data-lucide="plus" class="w-4 h-4 text-[#BF953F]"></i>
-                <img src="${p2.img}" class="w-16 h-16 object-cover rounded-xl border border-white/20">
-            `;
-            const p1Val = parseInt(p1.price.replace(/,/g,'')) || 0;
-            const p2Val = parseInt(p2.price.replace(/,/g,'')) || 0;
-            const total = p1Val + p2Val;
-            document.getElementById('combo-price').innerText = "₹" + (total > 0 ? (total - 500).toLocaleString() : "TBD");
-            lucide.createIcons();
         }
 
         function renderProducts(data) {
@@ -271,7 +227,7 @@
             lucide.createIcons();
         }
 
-        // UPDATED: openDetailsDirectly with 3D Try-On Button
+        // 3D TRY-ON CONNECTION
         function openDetailsDirectly(img, name, price, brand) {
             const modal = document.getElementById('details-modal');
             document.getElementById('modal-content').innerHTML = `
@@ -279,7 +235,6 @@
                     <div class="viewer-360 group" id="viewer-box">
                         <div class="scan-line"></div>
                         <img src="${img}" id="rotate-img" class="transition-transform duration-500">
-                        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 px-4 py-1 rounded-full text-[8px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">Drag to rotate 360°</div>
                     </div>
                     <div class="flex flex-col justify-center">
                         <div class="flex justify-between items-start mb-6">
@@ -292,14 +247,12 @@
                         <p class="text-3xl font-black mb-10 italic text-white/90">₹${price}</p>
                         
                         <div class="flex flex-col gap-4">
-                            <button onclick="window.location.href='fitting-room.html?item=${encodeURIComponent(img)}'" class="w-full bg-transparent border-2 border-[#BF953F] text-[#BF953F] py-5 rounded-[2rem] font-black uppercase text-xs hover:bg-[#BF953F] hover:text-black transition-all flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(191,149,63,0.2)]">
+                            <button onclick="window.location.href='fitting-room.html?item=${encodeURIComponent(img)}'" class="w-full bg-transparent border-2 border-[#BF953F] text-[#BF953F] py-5 rounded-[2rem] font-black uppercase text-xs hover:bg-[#BF953F] hover:text-black transition-all flex items-center justify-center gap-3">
                                 <i data-lucide="user-round-search" class="w-5 h-5"></i>
-                                3D Virtual Try-On (PUBG Style)
+                                AI Virtual Try-On (Kolors Mode)
                             </button>
-                            <button class="w-full bg-[#BF953F] text-black py-5 rounded-[2rem] font-black uppercase text-xs hover:bg-[#FCF6BA] transition-all shadow-lg">Buy Now from ${brand}</button>
+                            <button class="w-full bg-[#BF953F] text-black py-5 rounded-[2rem] font-black uppercase text-xs hover:bg-[#FCF6BA] transition-all">Buy Now</button>
                         </div>
-                        
-                        <p class="text-[9px] text-center mt-6 text-white/30 uppercase tracking-widest italic">Powered by GIA Vision Engine 2.0</p>
                     </div>
                 </div>`;
             modal.style.display = 'flex';
@@ -313,14 +266,9 @@
                 <div class="score-card-white shadow-2xl">
                     <button onclick="closeScore()" class="absolute top-8 right-8 text-black/20"><i data-lucide="x"></i></button>
                     <h2 class="text-4xl royal-logo italic text-black my-8">${name}</h2>
-                    <div class="flex items-end gap-3 h-20 mb-6 px-4">
-                        <div class="flex-grow bg-blue-100 rounded-xl h-2/3"></div>
-                        <div class="flex-grow bg-[#BF953F] rounded-xl h-full"></div>
-                        <div class="flex-grow bg-blue-100 rounded-xl h-1/2"></div>
-                    </div>
                     <div class="flex justify-between items-center bg-gray-50 p-6 rounded-3xl">
                         <div class="text-5xl font-black text-green-700">${match}</div>
-                        <div class="text-[10px] font-bold opacity-60 uppercase">Price Analysis<br>Verified</div>
+                        <div class="text-[10px] font-bold opacity-60 uppercase">GIA Style Match</div>
                     </div>
                 </div>`;
             modal.style.display = 'flex';
@@ -338,26 +286,16 @@
             let startX, isDown = false;
             box.onmousedown = (e) => { isDown = true; startX = e.pageX; };
             window.onmouseup = () => isDown = false;
-            box.onmousemove = (e) => {
-                if(!isDown) return;
-                img.style.transform = `rotateY(${(e.pageX - startX) * 0.5}deg) scale(1.1)`;
-            };
+            box.onmousemove = (e) => { if(isDown) img.style.transform = `rotateY(${(e.pageX - startX) * 0.5}deg) scale(1.1)`; };
         }
 
-        function filterType(type) {
-            renderProducts(staticProducts.filter(p => p.type === type));
-        }
-
+        function filterType(type) { renderProducts(staticProducts.filter(p => p.type === type)); }
         function closeDetails() { document.getElementById('details-modal').style.display = 'none'; }
         function closeScore() { document.getElementById('score-modal').style.display = 'none'; }
 
         function startVoiceSearch() {
             const rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-            rec.onresult = (e) => {
-                const t = e.results[0][0].transcript;
-                document.getElementById('ai-search-input').value = t;
-                runUnifiedSearch(t);
-            };
+            rec.onresult = (e) => { runUnifiedSearch(e.results[0][0].transcript); };
             rec.start();
         }
     </script>
