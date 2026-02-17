@@ -18,182 +18,238 @@
         .royal-logo { font-family: 'Playfair Display', serif; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; }
         .gold-text { background: linear-gradient(to right, var(--gia-sky), var(--gia-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* --- WELCOME VAULT OVERLAY (WHITE THEME) --- */
+        /* --- THE VAULT WELCOME (Geometry Pattern Restored) --- */
         #welcome-vault {
             position: fixed; inset: 0; z-index: 5000; background: white;
             display: flex; align-items: center; justify-content: center;
-            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
-            background-size: 30px 30px; transition: opacity 0.8s ease;
+            background-image: linear-gradient(30deg, #f8fafc 12%, transparent 12.5%, transparent 87%, #f8fafc 87.5%, #f8fafc),
+                              linear-gradient(150deg, #f8fafc 12%, transparent 12.5%, transparent 87%, #f8fafc 87.5%, #f8fafc),
+                              linear-gradient(60deg, #f1f5f9 25%, transparent 25.5%, transparent 75%, #f1f5f9 75%, #f1f5f9);
+            background-size: 80px 140px;
         }
         .vault-card {
-            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);
-            border: 1px solid #f1f5f9; padding: 3rem; border-radius: 3rem;
-            text-align: center; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
-            max-width: 450px; width: 90%;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px);
+            border: 1px solid #f1f5f9; padding: 4rem 3rem; border-radius: 3rem;
+            text-align: center; box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.05);
+            max-width: 450px; width: 92%;
         }
 
-        /* --- WEB VIEW LAYOUT (DESKTOP) --- */
-        @media (min-width: 1024px) {
-            #mobile-header { display: none !important; }
-            #desktop-header { display: flex !important; }
-            .web-search-section { display: flex !important; flex-direction: column; align-items: center; padding: 6rem 0 2rem; }
-            #product-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 40px !important; }
-            .mobile-nav { display: none !important; }
+        /* --- SEARCH & WAVES LAYOUT --- */
+        .search-area-web {
+            display: flex; flex-direction: column; align-items: center; padding: 6rem 1rem 2rem;
+            background: radial-gradient(circle at 50% 30%, rgba(14, 165, 233, 0.05) 0%, transparent 60%);
         }
-
-        /* --- MOBILE VIEW LAYOUT --- */
-        @media (max-width: 1023px) {
-            #desktop-header { display: none !important; }
-            .web-search-section { display: block; padding-top: 2rem; }
-            .curated-text-web { text-align: left !important; font-size: 1.5rem !important; }
-        }
-
-        /* UI Elements */
-        .product-card { 
-            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(15px); border-radius: 2rem; 
-            transition: 0.4s; border: 1px solid rgba(14, 165, 233, 0.1); overflow: hidden;
-        }
-        .product-card:hover { transform: translateY(-10px); border-color: var(--gia-pink); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
-        
         .search-bar-wrap {
-            max-width: 700px; width: 100%; position: relative;
-            background: white; border-radius: 100px; padding: 6px;
-            box-shadow: 0 15px 35px rgba(14, 165, 233, 0.1); border: 1px solid #f0f9ff;
+            max-width: 750px; width: 100%; background: white; border-radius: 100px; padding: 8px;
+            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.08); border: 1px solid #f0f9ff;
+            display: flex; items-center;
         }
 
-        #details-modal, #score-modal { position: fixed; inset: 0; z-index: 3000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(25px); background: rgba(255,255,255,0.8); }
-        .mobile-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.9); backdrop-filter: blur(20px); border-top: 1px solid #f1f5f9; padding: 1rem; display: flex; justify-content: space-around; z-index: 1000; }
+        /* --- GRID & CARD (3 Cols for Web) --- */
+        @media (min-width: 1024px) {
+            #product-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 40px !important; }
+            #desktop-header { display: flex !important; }
+            #mobile-header, .mobile-nav { display: none !important; }
+        }
+
+        .product-card { 
+            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 2rem; 
+            transition: 0.4s; border: 1px solid rgba(14, 165, 233, 0.05); overflow: hidden;
+        }
+        .product-card:hover { transform: translateY(-12px); border-color: var(--gia-pink); }
+
+        /* --- 360° VIEWER LOGIC --- */
+        .viewer-360 { position: relative; overflow: hidden; cursor: grab; background: #f8fafc; border-radius: 2.5rem; aspect-ratio: 1/1; }
+        .viewer-360 img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.1s; }
+        
+        #details-modal { position: fixed; inset: 0; z-index: 4000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(30px); background: rgba(255,255,255,0.85); }
+        .searching-glow { animation: pulse-sky 2s infinite; }
+        @keyframes pulse-sky { 0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(14, 165, 233, 0); } 100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); } }
     </style>
 </head>
-<body>
+<body class="pb-20">
 
     <div id="welcome-vault">
-        <div class="vault-card animate-in fade-in zoom-in duration-700">
-            <div class="w-20 h-20 bg-gradient-to-tr from-sky-400 to-pink-400 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <i data-lucide="crown" class="text-white w-10 h-10"></i>
+        <div class="vault-card animate-in fade-in zoom-in duration-1000">
+            <div class="w-24 h-24 bg-gradient-to-tr from-sky-400 to-pink-400 rounded-full flex items-center justify-center mx-auto mb-8 shadow-xl">
+                <i data-lucide="crown" class="text-white w-12 h-12"></i>
             </div>
-            <h2 class="text-xs tracking-[0.4em] uppercase font-bold text-sky-400 mb-2">Access Granted</h2>
-            <h1 class="text-4xl royal-logo italic mb-6">Welcome</h1>
-            <p class="text-slate-400 text-sm mb-8 leading-relaxed">Your details have been secured in our legacy archives. Your style journey begins now.</p>
-            <button onclick="closeVault()" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold uppercase text-[10px] tracking-widest hover:bg-sky-500 transition-all">Enter The Vault</button>
+            <h1 class="text-5xl royal-logo italic mb-2">Welcome</h1>
+            <p class="text-[9px] tracking-[0.5em] text-slate-400 uppercase mb-10">Accessing The Legacy Vault</p>
+            <button onclick="closeVault()" class="w-full py-5 bg-slate-900 text-white rounded-2xl font-bold uppercase text-[10px] tracking-[0.3em] hover:bg-sky-500 transition-all shadow-2xl">Enter Now</button>
         </div>
     </div>
 
-    <header id="desktop-header" class="hidden fixed top-0 w-full z-[100] px-10 py-6 items-center justify-between bg-white/50 backdrop-blur-md">
+    <header id="desktop-header" class="hidden fixed top-0 w-full z-[100] px-12 py-6 items-center justify-between bg-white/60 backdrop-blur-md border-b border-slate-50">
         <div class="flex gap-8 text-[10px] font-bold uppercase tracking-widest text-slate-400">
             <button class="hover:text-sky-500">Menu</button>
-            <button class="hover:text-sky-500">Shop</button>
+            <button class="hover:text-sky-500">Collection</button>
         </div>
-        <h1 class="text-3xl royal-logo gold-text cursor-pointer" onclick="location.reload()">GIA LUXE</h1>
+        <div class="text-center">
+            <h1 class="text-4xl royal-logo gold-text cursor-pointer" onclick="location.reload()">GIA</h1>
+            <p class="text-[7px] tracking-[0.4em] text-slate-300 uppercase">Legacy AI</p>
+        </div>
         <div class="flex items-center gap-6">
             <i data-lucide="bell" class="w-5 h-5 text-slate-300"></i>
-            <div class="w-10 h-10 rounded-full border-2 border-pink-100 overflow-hidden">
-                <img id="user-avatar-web" src="" class="w-full h-full object-cover">
-            </div>
+            <div class="w-10 h-10 rounded-full border-2 border-pink-100 overflow-hidden"><img id="avatar-web" src="" class="w-full h-full object-cover"></div>
         </div>
     </header>
 
     <header id="mobile-header" class="lg:hidden p-6 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-[100]">
-        <button class="p-2 bg-sky-50 rounded-full"><i data-lucide="percent" class="w-5 h-5 text-sky-500"></i></button>
+        <i data-lucide="menu" class="w-6 h-6 text-slate-400"></i>
         <h1 class="text-2xl royal-logo gold-text">GIA LUXE</h1>
-        <img id="user-avatar-mob" src="" class="w-10 h-10 rounded-full border border-pink-200">
+        <img id="avatar-mob" src="" class="w-9 h-9 rounded-full border border-pink-100">
     </header>
 
     <main class="max-w-7xl mx-auto px-6">
-        <section class="web-search-section">
-            <div class="search-bar-wrap mb-10 mx-auto">
-                <div class="flex items-center px-4">
-                    <i data-lucide="sparkles" class="text-sky-400 w-5 h-5 animate-pulse"></i>
-                    <input type="text" id="ai-search-input" placeholder="Search or ask GIA to 'Generate'..." class="flex-grow p-4 bg-transparent outline-none text-slate-600 text-sm">
-                    <button onclick="startVoiceSearch()" class="p-2 text-pink-400"><i data-lucide="mic" class="w-5 h-5"></i></button>
-                    <button onclick="document.getElementById('image-upload').click()" class="ml-2 bg-gradient-to-r from-sky-400 to-pink-400 text-white px-6 py-3 rounded-full text-[10px] font-bold uppercase shadow-md">Search</button>
-                    <input type="file" id="image-upload" class="hidden">
+        <section class="search-area-web">
+            <div id="search-container" class="search-bar-wrap mb-12">
+                <i data-lucide="sparkles" class="ml-5 text-sky-400 w-5 h-5 animate-pulse"></i>
+                <input type="text" id="ai-search-input" placeholder="What are you looking for?" class="flex-grow p-4 bg-transparent outline-none text-slate-600 text-sm">
+                <div class="flex items-center gap-3 pr-2">
+                    <button onclick="startVoiceSearch()" class="text-pink-400 p-2"><i data-lucide="mic" class="w-5 h-5"></i></button>
+                    <button onclick="document.getElementById('img-up').click()" class="text-sky-400 p-2"><i data-lucide="camera" class="w-5 h-5"></i></button>
+                    <input type="file" id="img-up" class="hidden">
+                    <button onclick="runGiaSearch()" class="bg-sky-400 text-white px-10 py-3.5 rounded-full text-xs font-bold shadow-lg shadow-sky-100">Search</button>
                 </div>
             </div>
 
-            <div class="curated-text-web text-center mb-12">
-                <h2 class="text-4xl md:text-5xl royal-logo text-slate-800 mb-2">Curated luxury for you, <span id="hero-name" class="gold-text italic">Stylist</span></h2>
-                <p class="text-slate-400 text-sm font-medium tracking-wide">Smart choices Recommended by AI</p>
+            <div class="text-center mb-16">
+                <h2 class="text-5xl royal-logo text-slate-800 mb-2">Curated luxury for you, <span id="user-name-display" class="italic gold-text">Stylist</span></h2>
+                <p class="text-slate-400 text-sm font-medium">Smart choices Recommended by AI</p>
+            </div>
+
+            <div id="gia-ai-box" class="max-w-2xl w-full p-6 bg-white border border-dashed border-sky-200 rounded-3xl mb-10 hidden shadow-sm">
+                <p id="gia-ai-text" class="text-sm italic text-slate-500"></p>
             </div>
         </section>
 
-        <div id="product-grid" class="grid grid-cols-2 gap-4 pb-20"></div>
+        <div id="product-grid" class="grid grid-cols-2 gap-4 pb-32"></div>
     </main>
 
-    <nav class="mobile-nav">
-        <button onclick="location.reload()" class="flex flex-col items-center text-sky-500"><i data-lucide="home" class="w-5 h-5"></i><span class="text-[8px] font-bold mt-1">HOME</span></button>
-        <button class="flex flex-col items-center text-slate-400"><i data-lucide="package" class="w-5 h-5"></i><span class="text-[8px] font-bold mt-1">COMBOS</span></button>
-        <button class="flex flex-col items-center text-slate-400"><i data-lucide="user" class="w-5 h-5"></i><span class="text-[8px] font-bold mt-1">PROFILE</span></button>
+    <nav class="mobile-nav lg:hidden fixed bottom-0 w-full bg-white/90 backdrop-blur-md border-t p-4 flex justify-around z-[100]">
+        <button onclick="location.reload()" class="text-sky-500 flex flex-col items-center"><i data-lucide="home" class="w-5 h-5"></i><span class="text-[8px] font-bold mt-1">HOME</span></button>
+        <button class="text-slate-400 flex flex-col items-center"><i data-lucide="sparkles" class="w-5 h-5"></i><span class="text-[8px] font-bold mt-1">AI SYNC</span></button>
+        <button class="text-slate-400 flex flex-col items-center"><i data-lucide="user" class="w-5 h-5"></i><span class="text-[8px] font-bold mt-1">PROFILE</span></button>
     </nav>
 
-    <footer class="py-20 border-t border-slate-100 bg-white/50 text-center px-6">
-        <div class="max-w-3xl mx-auto">
-            <p class="text-slate-400 text-[10px] leading-relaxed tracking-widest mb-6">
-                <b>LEGAL DISCLAIMER:</b> GIA LUXE is an AI aggregator under the ALTER Project. This platform utilizes Gemini 1.5 Flash with Google Search grounding. AI styling scores and 360° renders are simulations for guidance only. Final pricing governed by merchant site.
+    <div id="details-modal" onclick="if(event.target==this) closeDetails()">
+        <div class="w-full max-w-6xl p-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white p-10 rounded-[3.5rem] shadow-2xl border border-slate-50">
+                <div class="viewer-360 group" id="viewer-box">
+                    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/5 pointer-events-none"></div>
+                    <img id="rotate-img" src="" class="transition-transform duration-500">
+                    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-[8px] font-bold text-slate-300 uppercase tracking-widest">Hold & Drag to Rotate 360°</div>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <p id="modal-brand" class="text-[10px] gold-text font-black uppercase mb-2 tracking-[0.3em]"></p>
+                    <h2 id="modal-name" class="text-4xl royal-logo text-slate-800 mb-6 leading-tight"></h2>
+                    <p id="modal-price" class="text-4xl font-black mb-10 italic text-slate-700"></p>
+                    <div class="flex flex-col gap-4">
+                        <button class="w-full bg-slate-900 text-white py-5 rounded-[2rem] font-black uppercase text-xs shadow-xl hover:scale-[1.02] transition-all">Buy Now</button>
+                        <button class="w-full border-2 border-sky-100 text-sky-500 py-5 rounded-[2rem] font-black uppercase text-xs hover:bg-sky-50 transition-all">AI Virtual Try-On</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="py-24 border-t border-slate-100 bg-white/50 text-center px-8">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="royal-logo gold-text text-xl mb-6">GIA LUXE</h2>
+            <p class="text-slate-400 text-[10px] leading-relaxed tracking-[0.15em] mb-10 max-w-2xl mx-auto">
+                <b>LEGAL DISCLAIMER:</b> GIA LUXE is an AI aggregator under the ALTER Project. This platform utilizes Gemini 1.5 Flash with Google Search grounding to retrieve real-time shopping data. All brand logos are trademarks of their respective owners. 360° renders are AI-simulations. Final pricing governed by merchant site.
             </p>
-            <div class="h-px w-10 bg-sky-200 mx-auto mb-6"></div>
-            <p class="text-pink-400 text-[9px] font-black tracking-[0.4em] uppercase">© 2026 ALTER PROJECT | BHAWANIPATNA, ODISHA</p>
+            <div class="h-px w-12 bg-sky-200 mx-auto mb-8"></div>
+            <p class="text-pink-400 text-[9px] font-black tracking-[0.5em] uppercase">© 2026 ALTER PROJECT | BHAWANIPATNA, ODISHA</p>
         </div>
     </footer>
 
-    <div id="details-modal" onclick="if(event.target==this) closeDetails()"><div id="modal-content" class="w-full max-w-6xl p-6"></div></div>
-    <div id="score-modal" onclick="if(event.target==this) closeScore()"><div id="score-modal-content"></div></div>
-
     <script>
-        const GEMINI_API_KEY = "AIzaSyAL9f1bOKI-ELUayNG9PzCHok3wZmkk_Bc"; 
-        const staticProducts = [
-            { name: "Emerald Linen Shirt", price: "2,499", match: "9.1", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600", brand: "Amazon" },
-            { name: "Titan Edge Ultra Thin", price: "15,999", match: "9.8", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600", brand: "Tata CLiQ" },
-            { name: "AirPods Max Silver", price: "44,900", match: "8.5", img: "https://images.unsplash.com/photo-1613040809024-b4ef7ba99bc3?w=600", brand: "Amazon" },
-            { name: "Velvet Dinner Jacket", price: "8,500", match: "9.4", img: "https://images.unsplash.com/photo-1594932224828-99e02639dd6f?w=600", brand: "Ajio" }
+        const GEMINI_KEY = "AIzaSyAL9f1bOKI-ELUayNG9PzCHok3wZmkk_Bc"; 
+        lucide.createIcons();
+
+        const defaultData = [
+            { name: "Emerald Linen Slim Fit", price: "2,499", brand: "Amazon", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=700" },
+            { name: "Titan Edge Ultra Thin", price: "15,998", brand: "Tata CLiQ", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=700" },
+            { name: "AirPods Max (Space Gray)", price: "44,900", brand: "Amazon", img: "https://images.unsplash.com/photo-1613040809024-b4ef7ba99bc3?w=700" },
+            { name: "Velvet Evening Jacket", price: "9,200", brand: "Ajio", img: "https://images.unsplash.com/photo-1594932224828-99e02639dd6f?w=700" }
         ];
 
         window.onload = () => {
             const name = localStorage.getItem('giaUserName') || 'Rahul';
-            document.querySelectorAll('#hero-name').forEach(el => el.innerText = name);
-            const pfp = localStorage.getItem('giaUserDP') || `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`;
-            document.getElementById('user-avatar-web').src = pfp;
-            document.getElementById('user-avatar-mob').src = pfp;
-            renderProducts(staticProducts);
-            lucide.createIcons();
+            document.getElementById('user-name-display').innerText = name;
+            const pfp = `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`;
+            document.getElementById('avatar-web').src = pfp;
+            document.getElementById('avatar-mob').src = pfp;
+            renderProducts(defaultData);
         };
 
-        function closeVault() { document.getElementById('welcome-vault').style.opacity = '0'; setTimeout(() => { document.getElementById('welcome-vault').style.display = 'none'; }, 800); }
+        function closeVault() { document.getElementById('welcome-vault').style.opacity = '0'; setTimeout(() => document.getElementById('welcome-vault').style.display='none', 800); }
 
         function renderProducts(data) {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = data.map(p => `
-                <div class="product-card p-4 cursor-pointer" onclick="openDetailsDirectly('${p.img}', '${p.name}', '${p.price}', '${p.brand}')">
-                    <img src="${p.img}" class="w-full h-48 lg:h-72 object-cover rounded-2xl mb-4">
-                    <p class="text-[8px] text-slate-400 uppercase font-bold tracking-widest mb-1">${p.brand}</p>
-                    <h4 class="text-[11px] font-bold text-slate-800 uppercase tracking-tight truncate">${p.name}</h4>
-                    <p class="text-xs font-black gold-text mt-2">₹${p.price}</p>
+                <div class="product-card p-5 cursor-pointer" onclick="openDetails('${p.img}', '${p.name.replace(/'/g,"")}', '${p.price}', '${p.brand}')">
+                    <img src="${p.img}" class="w-full h-56 lg:h-80 object-cover rounded-2xl mb-5">
+                    <p class="text-[8px] text-slate-400 uppercase font-black tracking-widest mb-1">${p.brand}</p>
+                    <h4 class="text-[11px] font-bold text-slate-700 truncate uppercase">${p.name}</h4>
+                    <p class="text-sm font-black gold-text mt-2">₹${p.price}</p>
                 </div>
             `).join('');
-        }
-
-        function openDetailsDirectly(img, name, price, brand) {
-            const modal = document.getElementById('details-modal');
-            document.getElementById('modal-content').innerHTML = `
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white p-10 rounded-[3rem] shadow-2xl border">
-                    <div class="bg-slate-50 rounded-3xl p-4 flex items-center justify-center"><img src="${img}" class="max-h-[500px] rounded-2xl"></div>
-                    <div class="flex flex-col justify-center text-left">
-                        <p class="text-[10px] gold-text font-black uppercase mb-2">${brand} Official</p>
-                        <h2 class="text-4xl royal-logo text-slate-800 mb-6">${name}</h2>
-                        <p class="text-3xl font-black mb-10">₹${price}</p>
-                        <button class="w-full bg-slate-900 text-white py-5 rounded-full font-bold uppercase text-xs mb-4 shadow-xl">Buy Now</button>
-                        <button onclick="closeDetails()" class="w-full border py-5 rounded-full font-bold uppercase text-xs">Close</button>
-                    </div>
-                </div>`;
-            modal.style.display = 'flex';
             lucide.createIcons();
         }
 
+        async function runGiaSearch() {
+            const query = document.getElementById('ai-search-input').value;
+            const container = document.getElementById('search-container');
+            const box = document.getElementById('gia-ai-box');
+            const txt = document.getElementById('gia-ai-text');
+            if(!query) return;
+
+            container.classList.add('searching-glow');
+            box.classList.remove('hidden');
+            txt.innerText = `GIA is analyzing "${query}" across luxury platforms...`;
+
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`, {
+                    method: "POST", headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({ contents: [{ parts: [{ text: `Search luxury products for: ${query}. Return ONLY JSON array: [{"name": "product name", "price": "1999", "img": "link", "brand": "Amazon"}].` }] }], tools: [{google_search: {}}] })
+                });
+                const data = await res.json();
+                const jsonMatch = data.candidates[0].content.parts[0].text.match(/\[[\s\S]*\]/);
+                if(jsonMatch) {
+                    renderProducts(JSON.parse(jsonMatch[0]));
+                    txt.innerText = "Here is what GIA found for your refined taste.";
+                }
+            } catch(e) { txt.innerText = "Connection slow, showing premium vault items."; }
+            container.classList.remove('searching-glow');
+        }
+
+        function openDetails(img, name, price, brand) {
+            document.getElementById('modal-img').src = img;
+            document.getElementById('modal-name').innerText = name;
+            document.getElementById('modal-price').innerText = "₹" + price;
+            document.getElementById('modal-brand').innerText = brand;
+            document.getElementById('rotate-img').src = img;
+            document.getElementById('details-modal').style.display = 'flex';
+            init360();
+        }
+
         function closeDetails() { document.getElementById('details-modal').style.display = 'none'; }
-        
-        function startVoiceSearch() { 
+
+        function init360() {
+            const box = document.getElementById('viewer-box');
+            const img = document.getElementById('rotate-img');
+            let isDown = false, startX;
+            box.onmousedown = (e) => { isDown = true; startX = e.pageX; };
+            window.onmouseup = () => isDown = false;
+            box.onmousemove = (e) => { if(isDown) img.style.transform = `rotateY(${(e.pageX - startX)*0.6}deg) scale(1.1)`; };
+        }
+
+        function startVoiceSearch() {
             const rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-            rec.onresult = (e) => { document.getElementById('ai-search-input').value = e.results[0][0].transcript; };
+            rec.onresult = (e) => { document.getElementById('ai-search-input').value = e.results[0][0].transcript; runGiaSearch(); };
             rec.start();
         }
     </script>
