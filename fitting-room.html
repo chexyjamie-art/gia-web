@@ -53,12 +53,12 @@
 
         <div class="mt-10 text-center">
             <button id="generate-btn" onclick="startTryOn()" class="btn-gold px-12 py-4 rounded-full text-xs tracking-[3px] uppercase">
-                Analyse & Synthesize
+                Analyse & Synthesize (FREE MODE)
             </button>
-            
+
             <div id="loader" class="hidden mt-8 max-w-sm mx-auto">
                 <div class="loading-bar mb-3"></div>
-                <p class="text-[10px] text-[#BF953F] animate-pulse italic uppercase tracking-widest">GIA is stitching fabric via AI...</p>
+                <p class="text-[10px] text-[#BF953F] animate-pulse italic uppercase tracking-widest">GIA is processing on Free Server... (Wait ~45s)</p>
             </div>
         </div>
 
@@ -76,16 +76,14 @@
 
     <footer class="mt-20 py-10 border-t border-white/5 text-center">
         <p class="text-[8px] tracking-[4px] text-white/20 uppercase leading-relaxed">
-            © 2026 GIA LUXE | ALTER PROJECT | POWERED BY LICENSED KOLORS AI DIFFUSION<br>
+            © 2026 GIA LUXE | ALTER PROJECT | POWERED BY OPEN-SOURCE KOLORS AI<br>
             STRICTLY FOR VISUAL SIMULATION. ALL RIGHTS RESERVED.
         </p>
     </footer>
 
     <script>
-        // ASLI API CONFIG
-        const FAL_KEY = "6a7642f2-7283-41e3-a79d-6ac5491404e5:f78dec019dac83305d9cfca97fb021b6"; 
-
-        // Auto-load garment from URL if coming from index.html
+        // No FAL_KEY needed for Free Mode Testing
+        
         window.onload = () => {
             lucide.createIcons();
             const urlParams = new URLSearchParams(window.location.search);
@@ -128,32 +126,39 @@
             resultArea.classList.add('hidden');
 
             try {
-                // INTEGRATING THE KOLORS API LOGIC
-                const response = await fetch("https://fal.run/fal-ai/kolors-virtual-try-on", {
+                // FREE HUGGING FACE API CALL
+                // We use the 'Kwai-Kolors' Space via their Gradio API endpoint
+                const response = await fetch("https://kwai-kolors-kolors-virtual-try-on.hf.space/api/predict", {
                     method: "POST",
-                    headers: {
-                        "Authorization": `Key ${FAL_KEY}`,
-                        "Content-Type": "application/json"
-                    },
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        "human_image_url": humanImg,
-                        "garment_image_url": garmentImg
+                        data: [
+                            {"path": humanImg}, 
+                            {"path": garmentImg}, 
+                            "Short Sleeve", 
+                            true, 
+                            30, 
+                            5
+                        ]
                     })
                 });
 
                 const data = await response.json();
 
-                if(data.image && data.image.url) {
+                // Hugging Face returns an array of result files
+                if(data.data && data.data[0]) {
                     const finalImg = document.getElementById('final-image');
-                    finalImg.src = data.image.url;
+                    // Converting internal HF path to public URL
+                    const resultUrl = data.data[0].url || `https://kwai-kolors-kolors-virtual-try-on.hf.space/file=${data.data[0].name}`;
+                    finalImg.src = resultUrl;
                     resultArea.classList.remove('hidden');
                     finalImg.scrollIntoView({ behavior: 'smooth' });
                 } else {
-                    throw new Error("Invalid response from AI");
+                    throw new Error("Server is too busy. Try again in a minute.");
                 }
             } catch (err) {
                 console.error(err);
-                alert("AI Engine is busy. Please check your API credits at fal.ai!");
+                alert("Hugging Face server par bheed zyada hai (Queue Full). Bhai thodi der baad ya refresh karke try karo.");
             } finally {
                 btn.classList.remove('opacity-50', 'pointer-events-none');
                 loader.classList.add('hidden');
