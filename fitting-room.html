@@ -3,125 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | AI BRIDGE STUDIO</title>
+    <title>GIA LUXE | AI Fitting Room</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Inter:wght@400;900&display=swap');
-        body { background: #010807; color: white; font-family: 'Inter', sans-serif; overflow: hidden; height: 100vh; }
-        .gold-text { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Playfair Display', serif; }
-        
-        /* Layout Split */
-        .studio-grid { display: grid; grid-template-columns: 300px 1fr 350px; height: 100vh; }
-
-        /* Left: Anatomy Sidebar (CLO 3D Logic) */
-        .anatomy-panel { background: rgba(0,0,0,0.5); border-right: 1px solid rgba(191,149,63,0.1); padding: 25px; }
-        
-        /* Center: AI Canvas */
-        .canvas-area { position: relative; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, #0a2d24 0%, #010807 100%); perspective: 1000px; }
-        
-        /* Right: Wardrobe (Kolors Style) */
-        .wardrobe-panel { background: rgba(0,0,0,0.5); border-left: 1px solid rgba(191,149,63,0.1); padding: 25px; }
-
-        .slider-custom { accent-color: #BF953F; width: 100%; height: 4px; }
-        
-        /* Scan Effect */
-        #ai-scanner { position: absolute; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; }
-        .line { width: 300px; height: 2px; background: #BF953F; box-shadow: 0 0 20px #BF953F; animation: scanMove 2s infinite ease-in-out; }
-        @keyframes scanMove { 0%, 100% { transform: translateY(-100px); } 50% { transform: translateY(100px); } }
+        body { background: #04241a; color: white; font-family: 'Inter', sans-serif; min-height: 100vh; }
+        .royal-logo { font-family: 'Playfair Display', serif; letter-spacing: 0.3em; }
+        .gold-border { border: 1px solid rgba(191, 149, 63, 0.3); }
+        .btn-gold { background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728); color: black; font-weight: 800; transition: 0.3s; }
+        .btn-gold:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(191, 149, 63, 0.4); }
+        .loading-bar { height: 3px; background: #BF953F; box-shadow: 0 0 15px #BF953F; animation: loading 2s infinite; }
+        @keyframes loading { 0% { width: 0%; } 100% { width: 100%; } }
     </style>
 </head>
-<body>
+<body class="p-4 md:p-10">
 
-    <div id="ai-scanner">
-        <div class="line mb-6"></div>
-        <h2 class="gold-text text-xl italic tracking-widest uppercase">Kolors AI: Synthesizing Fabric...</h2>
+    <div class="max-w-6xl mx-auto">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl royal-logo font-black italic text-[#BF953F]" onclick="window.location.href='index.html'" style="cursor:pointer">GIA LUXE</h1>
+            <p class="text-[10px] tracking-[4px] uppercase opacity-40 mt-2">Professional Virtual Try-On Engine</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white/5 p-6 rounded-[30px] gold-border">
+                <h3 class="text-[10px] font-bold mb-4 uppercase tracking-widest text-[#BF953F] text-center">Step 1: Your Photo</h3>
+                <div onclick="document.getElementById('human-input').click()" class="border-2 border-dashed border-white/10 rounded-2xl h-[350px] flex items-center justify-center cursor-pointer hover:bg-white/10 transition overflow-hidden">
+                    <input type="file" id="human-input" class="hidden" onchange="preview(this, 'human-preview')">
+                    <img id="human-preview" class="hidden h-full w-full object-cover">
+                    <div id="human-placeholder" class="text-center">
+                        <i data-lucide="user" class="w-10 h-10 mx-auto opacity-20 mb-2"></i>
+                        <p class="text-[10px] opacity-40 uppercase">Upload Human Model</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white/5 p-6 rounded-[30px] gold-border">
+                <h3 class="text-[10px] font-bold mb-4 uppercase tracking-widest text-[#BF953F] text-center">Step 2: Garment Photo</h3>
+                <div onclick="document.getElementById('garment-input').click()" class="border-2 border-dashed border-white/10 rounded-2xl h-[350px] flex items-center justify-center cursor-pointer hover:bg-white/10 transition overflow-hidden">
+                    <input type="file" id="garment-input" class="hidden" onchange="preview(this, 'garment-preview')">
+                    <img id="garment-preview" class="hidden h-full w-full object-contain">
+                    <div id="garment-placeholder" class="text-center">
+                        <i data-lucide="shirt" class="w-10 h-10 mx-auto opacity-20 mb-2"></i>
+                        <p class="text-[10px] opacity-40 uppercase">Upload Clothing Item</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-10 text-center">
+            <button id="generate-btn" onclick="startTryOn()" class="btn-gold px-12 py-4 rounded-full text-xs tracking-[3px] uppercase">
+                Analyse & Synthesize
+            </button>
+            
+            <div id="loader" class="hidden mt-8 max-w-sm mx-auto">
+                <div class="loading-bar mb-3"></div>
+                <p class="text-[10px] text-[#BF953F] animate-pulse italic uppercase tracking-widest">GIA is stitching fabric via AI...</p>
+            </div>
+        </div>
+
+        <div id="result-area" class="mt-16 hidden flex flex-col items-center animate-in fade-in slide-in-from-bottom-10 duration-1000">
+            <div class="w-1 h-20 bg-gradient-to-b from-transparent to-[#BF953F] mb-6 opacity-30"></div>
+            <h3 class="text-[10px] font-bold mb-8 uppercase tracking-[0.5em] text-[#BF953F]">The GIA Masterpiece</h3>
+            <div class="relative group">
+                <img id="final-image" class="max-h-[700px] rounded-[40px] shadow-[0_0_60px_rgba(0,0,0,0.8)] border border-[#BF953F]/40">
+                <button onclick="downloadResult()" class="absolute bottom-6 right-6 p-4 bg-black/60 backdrop-blur-md rounded-full border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <i data-lucide="download" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
-    <div class="studio-grid">
-        <aside class="anatomy-panel">
-            <h3 class="text-[10px] font-black tracking-[4px] text-gold mb-10 uppercase">Anatomy Sliders</h3>
-            <div class="space-y-8">
-                <div>
-                    <label class="text-[9px] opacity-40 uppercase block mb-2">Body Height</label>
-                    <input type="range" class="slider-custom">
-                </div>
-                <div>
-                    <label class="text-[9px] opacity-40 uppercase block mb-2">Waist Width</label>
-                    <input type="range" class="slider-custom">
-                </div>
-                <div>
-                    <label class="text-[9px] opacity-40 uppercase block mb-2">Fabric Tension</label>
-                    <select class="w-full bg-white/5 border border-white/10 p-2 text-[10px] rounded text-gold">
-                        <option>Soft Silk</option>
-                        <option>Heavy Denim</option>
-                    </select>
-                </div>
-            </div>
-        </aside>
-
-        <main class="canvas-area">
-            <div class="absolute top-10 text-center">
-                <h1 class="text-4xl gold-text italic">GIA LUXE</h1>
-                <p class="text-[8px] tracking-[6px] opacity-30 uppercase">Professional AI Bridge</p>
-            </div>
-
-            <div id="upload-zone" onclick="document.getElementById('file-in').click()" class="border-2 border-dashed border-white/10 p-20 rounded-[50px] cursor-pointer hover:bg-white/5 transition text-center">
-                <input type="file" id="file-in" class="hidden" onchange="loadUserPhoto(event)">
-                <i data-lucide="user-plus" class="w-12 h-12 mx-auto mb-4 text-gold/30"></i>
-                <p class="text-[10px] font-black tracking-widest uppercase opacity-40">Upload Human Image</p>
-            </div>
-
-            <div id="output-frame" class="hidden relative group h-[80vh] transition-transform duration-500" style="transform-style: preserve-3d;">
-                <img id="ai-result" class="h-full rounded-3xl shadow-2xl">
-            </div>
-        </main>
-
-        <aside class="wardrobe-panel">
-            <h3 class="text-[10px] font-black tracking-[4px] text-gold mb-10 uppercase">Kolors Wardrobe</h3>
-            <div class="space-y-4 overflow-y-auto h-[75vh] pr-2">
-                <div class="bg-white/5 p-3 rounded-2xl border border-white/5 cursor-pointer hover:border-gold/50" onclick="startAITryOn('saree_url')">
-                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400" class="w-full h-32 object-cover rounded-xl mb-3">
-                    <p class="text-[9px] font-bold uppercase text-center">Red Silk Saree</p>
-                </div>
-                </div>
-        </aside>
-    </div>
-
-    <footer class="fixed bottom-4 left-1/2 -translate-x-1/2 text-[7px] tracking-[6px] opacity-20 uppercase pointer-events-none">
-        © 2026 GIA LUXE | ALTER PROJECT | ALL AI MODELS ARE LICENSED & COMPLIANT
+    <footer class="mt-20 py-10 border-t border-white/5 text-center">
+        <p class="text-[8px] tracking-[4px] text-white/20 uppercase leading-relaxed">
+            © 2026 GIA LUXE | ALTER PROJECT | POWERED BY LICENSED KOLORS AI DIFFUSION<br>
+            STRICTLY FOR VISUAL SIMULATION. ALL RIGHTS RESERVED.
+        </p>
     </footer>
 
     <script>
-        let userImageBase64 = "";
+        // ASLI API CONFIG
+        const FAL_KEY = "6a7642f2-849a-4c91-9556-32d5964861c8"; 
 
-        function loadUserPhoto(e) {
-            const file = e.target.files[0];
+        // Auto-load garment from URL if coming from index.html
+        window.onload = () => {
+            lucide.createIcons();
+            const urlParams = new URLSearchParams(window.location.search);
+            const garmentUrl = urlParams.get('item');
+            if (garmentUrl) {
+                const img = document.getElementById('garment-preview');
+                img.src = decodeURIComponent(garmentUrl);
+                img.classList.remove('hidden');
+                document.getElementById('garment-placeholder').classList.add('hidden');
+            }
+        };
+
+        function preview(input, id) {
+            const file = input.files[0];
             const reader = new FileReader();
-            reader.onload = (f) => {
-                userImageBase64 = f.target.result;
-                document.getElementById('upload-zone').style.display = 'none';
-                document.getElementById('output-frame').classList.remove('hidden');
-                document.getElementById('ai-result').src = userImageBase64;
+            reader.onload = (e) => {
+                const img = document.getElementById(id);
+                img.src = e.target.result;
+                img.classList.remove('hidden');
+                document.getElementById(id.replace('preview', 'placeholder')).classList.add('hidden');
             };
             reader.readAsDataURL(file);
         }
 
-        async function startAITryOn(garmentUrl) {
-            if(!userImageBase64) return alert("Pehle apni photo upload karein!");
-            
-            document.getElementById('ai-scanner').style.display = 'flex';
-            
-            // Yahan hum fal.ai API ko call karenge
-            // Abhi ke liye hum 3 second ka delay simulate kar rahe hain
-            setTimeout(() => {
-                document.getElementById('ai-scanner').style.display = 'none';
-                // Result aane par photo update hogi
-                alert("Logic: AI is generating the result using Kolors Diffusion...");
-            }, 3000);
+        async function startTryOn() {
+            const humanImg = document.getElementById('human-preview').src;
+            const garmentImg = document.getElementById('garment-preview').src;
+
+            if(!humanImg || humanImg.includes('hidden') || !garmentImg) {
+                alert("Bhai, pehle apni aur kapde ki photo upload karein!");
+                return;
+            }
+
+            const btn = document.getElementById('generate-btn');
+            const loader = document.getElementById('loader');
+            const resultArea = document.getElementById('result-area');
+
+            btn.classList.add('opacity-50', 'pointer-events-none');
+            loader.classList.remove('hidden');
+            resultArea.classList.add('hidden');
+
+            try {
+                // INTEGRATING THE KOLORS API LOGIC
+                const response = await fetch("https://fal.run/fal-ai/kolors-virtual-try-on", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Key ${FAL_KEY}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "human_image_url": humanImg,
+                        "garment_image_url": garmentImg
+                    })
+                });
+
+                const data = await response.json();
+
+                if(data.image && data.image.url) {
+                    const finalImg = document.getElementById('final-image');
+                    finalImg.src = data.image.url;
+                    resultArea.classList.remove('hidden');
+                    finalImg.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    throw new Error("Invalid response from AI");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("AI Engine is busy. Please check your API credits at fal.ai!");
+            } finally {
+                btn.classList.remove('opacity-50', 'pointer-events-none');
+                loader.classList.add('hidden');
+            }
         }
 
-        lucide.createIcons();
+        function downloadResult() {
+            const link = document.createElement('a');
+            link.href = document.getElementById('final-image').src;
+            link.download = 'GIA-Luxe-TryOn.png';
+            link.click();
+        }
     </script>
 </body>
 </html>
