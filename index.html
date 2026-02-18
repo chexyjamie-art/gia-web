@@ -17,18 +17,65 @@
 
     <style>
         body { 
-            /* Light Aesthetic Background */
             background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #fff1f2 100%);
             background-size: cover; background-attachment: fixed; 
             font-family: 'Inter', sans-serif; 
-            color: #1e293b; /* Dark Slate for better readability on light bg */
+            color: #1e293b; 
             min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
         }
         .royal-logo { font-family: 'Playfair Display', serif; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; }
-
-        /* Updated Gradient: Sky Blue to Pink */
         .gold-text { background: linear-gradient(to right, #0ea5e9, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
+        /* --- WELCOME VAULT SCREEN STYLES --- */
+        #vault-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 5000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #fff1f2 100%);
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        .vault-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 3rem 2rem;
+            border-radius: 3rem;
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .crown-icon {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, #0ea5e9, #f472b6);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 2rem;
+            color: white;
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.3);
+        }
+
+        .access-granted-pill {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            color: #16a34a;
+            padding: 8px 16px;
+            border-radius: 1rem;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+
+        /* --- MAIN STORE STYLES --- */
         .product-card { 
             background: rgba(255, 255, 255, 0.7); 
             backdrop-filter: blur(15px); 
@@ -65,7 +112,6 @@
         .scan-line { position: absolute; width: 100%; height: 2px; background: #0ea5e9; top: 0; animation: scan 2s linear infinite; z-index: 10; opacity: 0.5; }
         @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
 
-        /* Modal Background adjusted for light theme */
         #details-modal, #score-modal { position: fixed; inset: 0; z-index: 3000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(25px); overflow-y: auto; background: rgba(255,255,255,0.8); }
         .score-card-white { background: white; border-radius: 2.5rem; color: #1e293b; padding: 2rem; max-width: 420px; width: 95%; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
 
@@ -79,94 +125,118 @@
 
         .searching-glow { animation: pulse-sky 2s infinite; }
         @keyframes pulse-sky { 0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(14, 165, 233, 0); } 100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); } }
-
-        /* Custom Input Placeholder color */
+        
         #ai-search-input::placeholder { color: #94a3b8; }
         #ai-search-input { color: #1e293b; }
     </style>
 </head>
 <body class="pb-24"> 
 
-    <header class="py-6 px-4 md:px-8 border-b border-sky-100 sticky top-0 z-[100] bg-white/80 backdrop-blur-md">
-        <nav class="max-w-7xl mx-auto flex justify-between items-center">
-            <button onclick="filterType('offer')" class="p-2.5 bg-sky-50 rounded-full border border-sky-100"><i data-lucide="percent" class="w-5 h-5 text-[#0ea5e9]"></i></button>
-            <h1 class="text-2xl md:text-3xl royal-logo gold-text cursor-pointer" onclick="location.reload()">GIA LUXE</h1>
-            <div class="flex items-center gap-3">
-                <span id="nav-user-name" class="text-[10px] font-bold uppercase tracking-widest text-sky-600"></span>
-                <div id="status-dot" class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]"></div>
-                <a href="profile.html" class="w-10 h-10 border border-pink-200 rounded-full p-0.5 overflow-hidden transition-transform hover:scale-110">
-                    <img id="user-avatar" src="" class="w-full h-full rounded-full object-cover">
-                </a>
+    <div id="vault-screen">
+        <div class="access-granted-pill">
+            <i data-lucide="check-circle-2" class="inline w-3 h-3 mr-1"></i> Access Granted
+            <p class="text-[10px] font-normal opacity-70">You have successfully entered the Vault.</p>
+        </div>
+        
+        <div class="vault-card">
+            <div class="crown-icon">
+                <i data-lucide="crown" class="w-10 h-10"></i>
             </div>
+            <h1 class="text-5xl royal-logo gold-text mb-2 italic">Welcome</h1>
+            <p class="text-[10px] tracking-[0.5em] font-bold text-slate-400 uppercase mb-8">To The Vault</p>
+            
+            <div class="w-12 h-[1px] bg-sky-200 mx-auto mb-8"></div>
+
+            <p class="text-sm text-slate-500 leading-relaxed mb-10 px-4">
+                Your details have been secured in our legacy archives. We will be in touch shortly.
+            </p>
+
+            <button onclick="enterStore()" class="w-full bg-gradient-to-r from-sky-400 to-pink-400 text-white py-5 rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg hover:scale-105 transition-transform">
+                Enter The Vault
+            </button>
+        </div>
+        <p class="mt-12 text-[8px] tracking-[0.4em] text-slate-300 font-bold uppercase">EST. 2026 • EXCLUSIVE MEMBERSHIP</p>
+    </div>
+
+    <div id="main-content" style="opacity: 0; display: none;">
+        <header class="py-6 px-4 md:px-8 border-b border-sky-100 sticky top-0 z-[100] bg-white/80 backdrop-blur-md">
+            <nav class="max-w-7xl mx-auto flex justify-between items-center">
+                <button onclick="filterType('offer')" class="p-2.5 bg-sky-50 rounded-full border border-sky-100"><i data-lucide="percent" class="w-5 h-5 text-[#0ea5e9]"></i></button>
+                <h1 class="text-2xl md:text-3xl royal-logo gold-text cursor-pointer" onclick="location.reload()">GIA LUXE</h1>
+                <div class="flex items-center gap-3">
+                    <span id="nav-user-name" class="text-[10px] font-bold uppercase tracking-widest text-sky-600"></span>
+                    <div id="status-dot" class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]"></div>
+                    <a href="profile.html" class="w-10 h-10 border border-pink-200 rounded-full p-0.5 overflow-hidden transition-transform hover:scale-110">
+                        <img id="user-avatar" src="" class="w-full h-full rounded-full object-cover">
+                    </a>
+                </div>
+            </nav>
+        </header>
+
+        <main class="max-w-7xl mx-auto px-6 py-12">
+            <section class="text-center mb-10">
+                <h2 class="text-4xl md:text-5xl royal-logo gold-text mb-8 italic">Welcome, <span id="hero-name">Stylist</span></h2>
+
+                <div id="search-container" class="relative max-w-2xl mx-auto flex items-center border border-sky-100 rounded-full p-1.5 bg-white shadow-lg mb-6">
+                    <i data-lucide="sparkles" class="ml-4 text-[#0ea5e9] w-5 h-5 animate-pulse"></i>
+                    <input type="text" id="ai-search-input" placeholder="Search or ask GIA to 'Generate' outfits..." class="flex-grow bg-transparent text-sm py-3 px-4 outline-none">
+                    <button onclick="startVoiceSearch()" class="p-2.5 hover:scale-110 transition-transform"><i data-lucide="mic" class="text-pink-400 w-5 h-5"></i></button>
+                    <button onclick="document.getElementById('image-upload').click()" class="btn-style py-2.5 px-6 rounded-full text-xs font-bold bg-gradient-to-r from-sky-400 to-pink-400 text-white flex items-center gap-2 mr-1 hover:opacity-90 transition-all shadow-md"><i data-lucide="camera" class="w-4 h-4"></i></button>
+                    <input type="file" id="image-upload" class="hidden">
+                </div>
+
+                <div id="gia-ai-box" class="max-w-2xl mx-auto p-6 bg-white/80 border border-dashed border-sky-200 rounded-3xl text-left hidden shadow-inner">
+                    <p id="gia-ai-text" class="text-sm italic text-slate-600 leading-relaxed"></p>
+                </div>
+            </section>
+
+            <div id="combo-box" class="p-8 animate-in fade-in zoom-in duration-700 bg-white/50 border-sky-100">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div>
+                        <span class="bg-gradient-to-r from-sky-400 to-pink-400 text-white text-[9px] px-3 py-1 rounded-full font-black">GIA EXCLUSIVE COMBO</span>
+                        <h3 class="text-2xl royal-logo mt-2 italic text-slate-800">The Perfect Pair</h3>
+                    </div>
+                    <div id="combo-items" class="flex items-center gap-4"></div>
+                    <div class="bg-white p-4 rounded-3xl text-center shadow-sm">
+                        <p class="text-[10px] uppercase font-bold text-slate-400">Bundle Price</p>
+                        <p class="text-xl font-black gold-text" id="combo-price">₹0</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 id="section-title" class="text-[10px] font-bold tracking-[0.4em] uppercase text-sky-500 mb-10">AI Curated Picks</h3>
+            <div id="product-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
+        </main>
+
+        <nav class="mobile-nav">
+            <button onclick="location.reload()" class="flex flex-col items-center gap-1 text-sky-500"><i data-lucide="home" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Home</span></button>
+            <button onclick="filterType('combo')" class="flex flex-col items-center gap-1 text-slate-400"><i data-lucide="package" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Combos</span></button>
+            <button onclick="filterType('offer')" class="flex flex-col items-center gap-1 text-slate-400"><i data-lucide="percent" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Offers</span></button>
+            <button onclick="window.location.href='profile.html'" class="flex flex-col items-center gap-1 text-slate-400"><i data-lucide="user" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Profile</span></button>
         </nav>
-    </header>
 
-    <main class="max-w-7xl mx-auto px-6 py-12">
-        <section class="text-center mb-10">
-            <h2 class="text-4xl md:text-5xl royal-logo gold-text mb-8 italic">Welcome, <span id="hero-name">Stylist</span></h2>
-
-            <div id="search-container" class="relative max-w-2xl mx-auto flex items-center border border-sky-100 rounded-full p-1.5 bg-white shadow-lg mb-6">
-                <i data-lucide="sparkles" class="ml-4 text-[#0ea5e9] w-5 h-5 animate-pulse"></i>
-                <input type="text" id="ai-search-input" placeholder="Search or ask GIA to 'Generate' outfits..." class="flex-grow bg-transparent text-sm py-3 px-4 outline-none">
-                <button onclick="startVoiceSearch()" class="p-2.5 hover:scale-110 transition-transform"><i data-lucide="mic" class="text-pink-400 w-5 h-5"></i></button>
-                <button onclick="document.getElementById('image-upload').click()" class="btn-style py-2.5 px-6 rounded-full text-xs font-bold bg-gradient-to-r from-sky-400 to-pink-400 text-white flex items-center gap-2 mr-1 hover:opacity-90 transition-all shadow-md"><i data-lucide="camera" class="w-4 h-4"></i></button>
-                <input type="file" id="image-upload" class="hidden">
+        <footer style="margin-top: 100px; padding: 60px 20px; border-top: 1px solid rgba(14, 165, 233, 0.1); text-align: center;">
+            <div style="max-width: 800px; margin: 0 auto;">
+                <h3 class="gold-text royal-logo text-lg mb-4">GIA LUXE</h3>
+                <p style="color: #94a3b8; font-size: 10px; line-height: 2; letter-spacing: 1px; margin-bottom: 20px;">
+                    <b>LEGAL DISCLAIMER:</b> GIA LUXE is an AI aggregator under the ALTER Project. This platform utilizes Gemini 1.5 Flash with Google Search grounding to retrieve real-time shopping data. All brand names, logos, and images (Amazon, Myntra, Ajio, etc.) are trademarks of their respective owners. AI styling scores and 360° renders are simulations for guidance only. Final pricing and shipping are governed by the merchant site.
+                </p>
+                <div style="height: 1px; width: 40px; background: #0ea5e9; margin: 20px auto; opacity: 0.3;"></div>
+                <p style="color: #f472b6; font-size: 9px; font-weight: bold; letter-spacing: 3px; text-transform: uppercase;">
+                    © 2026 ALTER PROJECT | BHAWANIPATNA, ODISHA
+                </p>
             </div>
-
-            <div id="gia-ai-box" class="max-w-2xl mx-auto p-6 bg-white/80 border border-dashed border-sky-200 rounded-3xl text-left hidden shadow-inner">
-                <p id="gia-ai-text" class="text-sm italic text-slate-600 leading-relaxed"></p>
-            </div>
-        </section>
-
-        <div id="combo-box" class="p-8 animate-in fade-in zoom-in duration-700 bg-white/50 border-sky-100">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-8">
-                <div>
-                    <span class="bg-gradient-to-r from-sky-400 to-pink-400 text-white text-[9px] px-3 py-1 rounded-full font-black">GIA EXCLUSIVE COMBO</span>
-                    <h3 class="text-2xl royal-logo mt-2 italic text-slate-800">The Perfect Pair</h3>
-                </div>
-                <div id="combo-items" class="flex items-center gap-4"></div>
-                <div class="bg-white p-4 rounded-3xl text-center shadow-sm">
-                    <p class="text-[10px] uppercase font-bold text-slate-400">Bundle Price</p>
-                    <p class="text-xl font-black gold-text" id="combo-price">₹0</p>
-                </div>
-            </div>
-        </div>
-
-        <h3 id="section-title" class="text-[10px] font-bold tracking-[0.4em] uppercase text-sky-500 mb-10">AI Curated Picks</h3>
-        <div id="product-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
-    </main>
-
-    <nav class="mobile-nav">
-        <button onclick="location.reload()" class="flex flex-col items-center gap-1 text-sky-500"><i data-lucide="home" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Home</span></button>
-        <button onclick="filterType('combo')" class="flex flex-col items-center gap-1 text-slate-400"><i data-lucide="package" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Combos</span></button>
-        <button onclick="filterType('offer')" class="flex flex-col items-center gap-1 text-slate-400"><i data-lucide="percent" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Offers</span></button>
-        <button onclick="window.location.href='profile.html'" class="flex flex-col items-center gap-1 text-slate-400"><i data-lucide="user" class="w-5 h-5"></i><span class="text-[8px] font-bold uppercase">Profile</span></button>
-    </nav>
-
-    <footer style="margin-top: 100px; padding: 60px 20px; border-top: 1px solid rgba(14, 165, 233, 0.1); text-align: center;">
-        <div style="max-width: 800px; margin: 0 auto;">
-            <h3 class="gold-text royal-logo text-lg mb-4">GIA LUXE</h3>
-            <p style="color: #94a3b8; font-size: 10px; line-height: 2; letter-spacing: 1px; margin-bottom: 20px;">
-                <b>LEGAL DISCLAIMER:</b> GIA LUXE is an AI aggregator under the ALTER Project. This platform utilizes Gemini 1.5 Flash with Google Search grounding to retrieve real-time shopping data. All brand names, logos, and images (Amazon, Myntra, Ajio, etc.) are trademarks of their respective owners. AI styling scores and 360° renders are simulations for guidance only. Final pricing and shipping are governed by the merchant site.
-            </p>
-            <div style="height: 1px; width: 40px; background: #0ea5e9; margin: 20px auto; opacity: 0.3;"></div>
-            <p style="color: #f472b6; font-size: 9px; font-weight: bold; letter-spacing: 3px; text-transform: uppercase;">
-                © 2026 ALTER PROJECT | BHAWANIPATNA, ODISHA
-            </p>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
     <div id="score-modal" onclick="if(event.target==this) closeScore()">
         <div id="score-modal-content"></div>
     </div>
-
     <div id="details-modal" onclick="if(event.target==this) closeDetails()">
         <div id="modal-content" class="w-full max-w-6xl p-6"></div>
     </div>
 
     <script>
-        // --- KEYS & CONFIG ---
-        const FAL_KEY = "6a7642f2-849a-4c91-9556-32d5964861c8"; 
         const GEMINI_API_KEY = "AIzaSyAL9f1bOKI-ELUayNG9PzCHok3wZmkk_Bc"; 
         let activeProducts = [];
 
@@ -178,89 +248,58 @@
         ];
 
         window.onload = () => {
+            lucide.createIcons();
             const name = localStorage.getItem('giaUserName') || 'Stylist';
             document.getElementById('hero-name').innerText = name;
             document.getElementById('nav-user-name').innerText = name;
             document.getElementById('user-avatar').src = localStorage.getItem('giaUserDP') || `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`;
             activeProducts = [...staticProducts];
             renderProducts(activeProducts);
-            lucide.createIcons();
         };
 
-        // --- CORE AI SEARCH & GENERATION (NO DATA REMOVED) ---
+        function enterStore() {
+            const vault = document.getElementById('vault-screen');
+            const main = document.getElementById('main-content');
+            vault.style.opacity = '0';
+            setTimeout(() => {
+                vault.style.display = 'none';
+                main.style.display = 'block';
+                setTimeout(() => { main.style.opacity = '1'; }, 50);
+            }, 800);
+        }
+
         async function runUnifiedSearch(query) {
             const searchContainer = document.getElementById('search-container');
             const giaBox = document.getElementById('gia-ai-box');
             const giaText = document.getElementById('gia-ai-text');
-
             searchContainer.classList.add('searching-glow');
             giaBox.classList.remove('hidden');
             giaText.innerHTML = `<span class="gold-text animate-pulse italic">GIA is analyzing "${query}"...</span>`;
-
             const isGenRequest = query.toLowerCase().includes('generate') || query.toLowerCase().includes('create') || query.toLowerCase().includes('banao');
-
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        contents: [{ 
-                            parts: [{ 
-                                text: isGenRequest ? 
-                                `User wants to visualize a custom outfit: "${query}". Describe a stunning, high-fashion 3D render of this outfit in detail. Return ONLY a JSON: {"name": "GIA Custom Design", "desc": "detailed description", "img": "https://source.unsplash.com/featured/?fashion,luxury,${query.replace(/ /g, ',')}"}. Add a witty Hinglish compliment.` :
-                                `Broad web search for real products: ${query}. Explore Myntra, Ajio, Amazon. Return ONLY a JSON array: [{"name": "product name", "price": "1999", "img": "direct link", "brand": "store name"}]. Add a witty Hinglish one-liner after.` 
-                            }] 
-                        }],
+                        contents: [{ parts: [{ text: isGenRequest ? `Describe custom outfit "${query}" JSON: {"name": "GIA Design", "desc": "...", "img": "..."}` : `Web search products "${query}" JSON array: [{"name": "...", "price": "...", "img": "...", "brand": "..."}]` }] }],
                         tools: [{ google_search: {} }]
                     })
                 });
-
                 const data = await response.json();
                 const rawResponse = data.candidates[0].content.parts[0].text;
-
-                if (isGenRequest) {
-                    const jsonMatch = rawResponse.match(/\{[\s\S]*\}/);
-                    if (jsonMatch) {
-                        const genData = JSON.parse(jsonMatch[0]);
-                        const genProduct = { id: Date.now(), type: 'regular', name: genData.name, price: "AI Generated", match: "10/10", img: genData.img, brand: "GIA AI Studio", tag: "Custom" };
-                        activeProducts = [genProduct, ...staticProducts];
-                        renderProducts(activeProducts);
-                        giaText.innerText = "Bhai, ye raha tera exclusive design! Bilkul unique, sirf tere liye.";
+                const jsonMatch = rawResponse.match(/\[.*\]|\{.*\}/s);
+                if (jsonMatch) {
+                    const parsed = JSON.parse(jsonMatch[0]);
+                    if (isGenRequest) {
+                        activeProducts = [{ id: Date.now(), type: 'regular', name: parsed.name, price: "AI Generated", match: "10/10", img: parsed.img, brand: "GIA AI Studio", tag: "Custom" }, ...staticProducts];
+                    } else {
+                        activeProducts = parsed.map((p, i) => ({ id: Date.now()+i, type:'regular', name:p.name, price:p.price, match:"9.5", img:p.img, brand:p.brand, tag:"Search" }));
                     }
-                } else {
-                    const jsonMatch = rawResponse.match(/\[[\s\S]*\]/);
-                    if (jsonMatch) {
-                        const liveData = JSON.parse(jsonMatch[0]).map((p, idx) => ({
-                            id: Date.now() + idx, type: 'regular', name: p.name.substring(0, 35), price: p.price.toString(),
-                            match: (Math.random() * 1.5 + 8.4).toFixed(1), img: p.img || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
-                            brand: p.brand || "Verified Store", tag: "Global Search"
-                        }));
-                        activeProducts = liveData;
-                        renderProducts(liveData);
-                        if(liveData.length >= 2) createLiveCombo(liveData[0], liveData[1]);
-                        giaText.innerText = rawResponse.replace(jsonMatch[0], '').replace(/```json|```/g, '').trim() || "Bhai, ye rahe tere liye sabse gazab picks!";
-                    }
+                    renderProducts(activeProducts);
+                    giaText.innerText = "Results updated for you!";
                 }
-            } catch (e) {
-                console.error(e);
-                giaText.innerText = "Connection slow hai, par GIA haar nahi maanegi.";
-            } finally {
-                searchContainer.classList.remove('searching-glow');
-            }
-        }
-
-        function createLiveCombo(p1, p2) {
-            const box = document.getElementById('combo-box');
-            const items = document.getElementById('combo-items');
-            box.style.display = 'block';
-            items.innerHTML = `
-                <img src="${p1.img}" class="w-16 h-16 object-cover rounded-xl border border-sky-300">
-                <i data-lucide="plus" class="w-4 h-4 text-pink-400"></i>
-                <img src="${p2.img}" class="w-16 h-16 object-cover rounded-xl border border-pink-200">
-            `;
-            const total = (parseInt(p1.price) || 0) + (parseInt(p2.price) || 0);
-            document.getElementById('combo-price').innerText = "₹" + (total > 0 ? (total - 500).toLocaleString() : "TBD");
-            lucide.createIcons();
+            } catch (e) { giaText.innerText = "Connection issue."; }
+            finally { searchContainer.classList.remove('searching-glow'); }
         }
 
         function renderProducts(data) {
@@ -272,75 +311,38 @@
                     <p class="text-[7px] text-slate-400 uppercase font-black mb-1 tracking-widest">${p.brand} • ${p.tag}</p>
                     <h4 class="text-[10px] font-bold text-slate-700 uppercase tracking-widest truncate">${p.name}</h4>
                     <p class="text-xs font-black gold-text mt-2">₹${p.price}</p>
-                </div>
-            `).join('');
+                </div>`).join('');
             lucide.createIcons();
         }
 
-        // --- UI ACTIONS & MODALS ---
         function openDetailsDirectly(img, name, price, brand) {
             const modal = document.getElementById('details-modal');
             document.getElementById('modal-content').innerHTML = `
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white p-10 rounded-[3rem] border border-sky-100 shadow-2xl">
-                    <div class="viewer-360 group" id="viewer-box">
-                        <div class="scan-line"></div>
-                        <img src="${img}" id="rotate-img" class="transition-transform duration-500">
-                    </div>
-                    <div class="flex flex-col justify-center">
-                        <div class="flex justify-between items-start mb-6">
-                            <div>
-                                <p class="text-[10px] gold-text font-black uppercase tracking-[0.3em] mb-2">${brand} Official</p>
-                                <h2 class="text-4xl royal-logo text-slate-800 leading-tight">${name}</h2>
-                            </div>
-                            <button onclick="closeDetails()" class="text-slate-300 hover:text-pink-400 transition-all"><i data-lucide="x"></i></button>
-                        </div>
-                        <p class="text-3xl font-black mb-10 italic text-slate-700">₹${price}</p>
-                        <div class="flex flex-col gap-4">
-                            <button onclick="window.location.href='fitting-room.html?item=${encodeURIComponent(img)}'" class="w-full bg-white border-2 border-sky-400 text-sky-500 py-5 rounded-[2rem] font-black uppercase text-xs hover:bg-sky-50 transition-all flex items-center justify-center gap-3">
-                                <i data-lucide="user-round-search" class="w-5 h-5"></i>
-                                AI Virtual Try-On
-                            </button>
-                            <button class="w-full bg-gradient-to-r from-sky-400 to-pink-400 text-white py-5 rounded-[2rem] font-black uppercase text-xs hover:opacity-90 transition-all shadow-lg">Buy Now</button>
-                        </div>
+                    <div class="viewer-360 group" id="viewer-box"><div class="scan-line"></div><img src="${img}" id="rotate-img"></div>
+                    <div>
+                        <div class="flex justify-between mb-6"><div><p class="text-[10px] gold-text font-black uppercase mb-2">${brand}</p><h2 class="text-4xl royal-logo">${name}</h2></div>
+                        <button onclick="closeDetails()"><i data-lucide="x"></i></button></div>
+                        <p class="text-3xl font-black mb-10 italic">₹${price}</p>
+                        <button class="w-full bg-gradient-to-r from-sky-400 to-pink-400 text-white py-5 rounded-[2rem] font-black uppercase text-xs mb-4">Buy Now</button>
                     </div>
                 </div>`;
             modal.style.display = 'flex';
-            init360();
             lucide.createIcons();
         }
 
         function openScoreDirectly(name, match) {
             const modal = document.getElementById('score-modal');
-            document.getElementById('score-modal-content').innerHTML = `
-                <div class="score-card-white shadow-2xl">
-                    <button onclick="closeScore()" class="absolute top-8 right-8 text-slate-300"><i data-lucide="x"></i></button>
-                    <h2 class="text-4xl royal-logo italic text-slate-800 my-8">${name}</h2>
-                    <div class="flex justify-between items-center bg-sky-50 p-6 rounded-3xl">
-                        <div class="text-5xl font-black text-sky-600">${match}</div>
-                        <div class="text-[10px] font-bold opacity-60 uppercase text-slate-500">GIA Style Match</div>
-                    </div>
-                </div>`;
+            document.getElementById('score-modal-content').innerHTML = `<div class="score-card-white"><h2 class="text-4xl royal-logo italic mb-8">${name}</h2><div class="bg-sky-50 p-6 rounded-3xl text-5xl font-black text-sky-600">${match}</div></div>`;
             modal.style.display = 'flex';
             lucide.createIcons();
         }
 
         document.getElementById('ai-search-input').onkeydown = (e) => { if(e.key === 'Enter') runUnifiedSearch(e.target.value); };
-
-        function init360() {
-            const box = document.getElementById('viewer-box');
-            const img = document.getElementById('rotate-img');
-            if(!box || !img) return;
-            let startX, isDown = false;
-            box.onmousedown = (e) => { isDown = true; startX = e.pageX; };
-            window.onmouseup = () => isDown = false;
-            box.onmousemove = (e) => { if(isDown) img.style.transform = `rotateY(${(e.pageX - startX) * 0.5}deg) scale(1.1)`; };
-        }
-
         function filterType(type) { renderProducts(staticProducts.filter(p => p.type === type)); }
         function closeDetails() { document.getElementById('details-modal').style.display = 'none'; }
         function closeScore() { document.getElementById('score-modal').style.display = 'none'; }
-
-        function startVoiceSearch() {
+        function startVoiceSearch() { 
             const rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
             rec.onresult = (e) => { runUnifiedSearch(e.results[0][0].transcript); };
             rec.start();
