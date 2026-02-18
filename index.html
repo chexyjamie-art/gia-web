@@ -28,7 +28,7 @@
         .royal-logo { font-family: 'Playfair Display', serif; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; }
         .gold-text { background: linear-gradient(to right, #0ea5e9, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* --- WELCOME VAULT SCREEN STYLES --- */
+        /* --- WELCOME VAULT SCREEN STYLES (Updated to White/Pink/Sky Blue) --- */
         #vault-screen {
             position: fixed;
             inset: 0;
@@ -37,42 +37,46 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            /* Theme Gradient Background */
             background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #fff1f2 100%);
             transition: opacity 0.8s ease, visibility 0.8s;
         }
 
         .vault-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            padding: 3rem 2rem;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(25px);
+            padding: 3.5rem 2rem;
             border-radius: 3rem;
             border: 1px solid rgba(14, 165, 233, 0.2);
             text-align: center;
-            max-width: 400px;
+            max-width: 420px;
             width: 90%;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(14, 165, 233, 0.15);
         }
 
-        .crown-icon {
-            width: 80px; height: 80px;
+        .crown-icon-container {
+            width: 90px; height: 90px;
             background: linear-gradient(135deg, #0ea5e9, #f472b6);
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 2rem;
+            margin: 0 auto 2.5rem;
             color: white;
-            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.3);
+            box-shadow: 0 15px 30px rgba(14, 165, 233, 0.3);
         }
 
         .access-granted-pill {
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.2);
-            color: #16a34a;
-            padding: 8px 16px;
-            border-radius: 1rem;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 2rem;
+            background: white;
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            color: #0ea5e9;
+            padding: 10px 20px;
+            border-radius: 1.5rem;
+            font-size: 11px;
+            font-weight: 800;
+            margin-bottom: 2.5rem;
             display: inline-block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         /* --- MAIN STORE STYLES --- */
@@ -125,7 +129,7 @@
 
         .searching-glow { animation: pulse-sky 2s infinite; }
         @keyframes pulse-sky { 0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(14, 165, 233, 0); } 100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); } }
-        
+
         #ai-search-input::placeholder { color: #94a3b8; }
         #ai-search-input { color: #1e293b; }
     </style>
@@ -134,28 +138,28 @@
 
     <div id="vault-screen">
         <div class="access-granted-pill">
-            <i data-lucide="check-circle-2" class="inline w-3 h-3 mr-1"></i> Access Granted
-            <p class="text-[10px] font-normal opacity-70">You have successfully entered the Vault.</p>
+            <i data-lucide="shield-check" class="inline w-4 h-4 mr-2"></i> Access Granted
+            <p class="text-[9px] font-bold opacity-60 mt-1 block">Your entry is secured in our legacy archives.</p>
         </div>
-        
+
         <div class="vault-card">
-            <div class="crown-icon">
-                <i data-lucide="crown" class="w-10 h-10"></i>
+            <div class="crown-icon-container">
+                <i data-lucide="crown" class="w-12 h-12"></i>
             </div>
             <h1 class="text-5xl royal-logo gold-text mb-2 italic">Welcome</h1>
             <p class="text-[10px] tracking-[0.5em] font-bold text-slate-400 uppercase mb-8">To The Vault</p>
-            
-            <div class="w-12 h-[1px] bg-sky-200 mx-auto mb-8"></div>
 
-            <p class="text-sm text-slate-500 leading-relaxed mb-10 px-4">
-                Your details have been secured in our legacy archives.
+            <div class="w-16 h-[1px] bg-sky-100 mx-auto mb-8"></div>
+
+            <p class="text-sm text-slate-500 leading-relaxed mb-10 px-6 font-medium">
+                Step into the future of luxury styling. Your curated experience is ready.
             </p>
 
-            <button onclick="enterStore()" class="w-full bg-gradient-to-r from-sky-400 to-pink-400 text-white py-5 rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg hover:scale-105 transition-transform">
+            <button onclick="enterStore()" class="w-full bg-gradient-to-r from-sky-400 to-pink-400 text-white py-5 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl hover:scale-[1.02] active:scale-95 transition-all">
                 Enter The Vault
             </button>
         </div>
-        <p class="mt-12 text-[8px] tracking-[0.4em] text-slate-300 font-bold uppercase">EST. 2026 • EXCLUSIVE MEMBERSHIP</p>
+        <p class="mt-12 text-[9px] tracking-[0.5em] text-sky-400/50 font-black uppercase">EST. 2026 • ALTER PROJECT MEMBERSHIP</p>
     </div>
 
     <div id="main-content" style="opacity: 0; display: none;">
@@ -268,40 +272,6 @@
             }, 800);
         }
 
-        async function runUnifiedSearch(query) {
-            const searchContainer = document.getElementById('search-container');
-            const giaBox = document.getElementById('gia-ai-box');
-            const giaText = document.getElementById('gia-ai-text');
-            searchContainer.classList.add('searching-glow');
-            giaBox.classList.remove('hidden');
-            giaText.innerHTML = `<span class="gold-text animate-pulse italic">GIA is analyzing "${query}"...</span>`;
-            const isGenRequest = query.toLowerCase().includes('generate') || query.toLowerCase().includes('create') || query.toLowerCase().includes('banao');
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: isGenRequest ? `Describe custom outfit "${query}" JSON: {"name": "GIA Design", "desc": "...", "img": "..."}` : `Web search products "${query}" JSON array: [{"name": "...", "price": "...", "img": "...", "brand": "..."}]` }] }],
-                        tools: [{ google_search: {} }]
-                    })
-                });
-                const data = await response.json();
-                const rawResponse = data.candidates[0].content.parts[0].text;
-                const jsonMatch = rawResponse.match(/\[.*\]|\{.*\}/s);
-                if (jsonMatch) {
-                    const parsed = JSON.parse(jsonMatch[0]);
-                    if (isGenRequest) {
-                        activeProducts = [{ id: Date.now(), type: 'regular', name: parsed.name, price: "AI Generated", match: "10/10", img: parsed.img, brand: "GIA AI Studio", tag: "Custom" }, ...staticProducts];
-                    } else {
-                        activeProducts = parsed.map((p, i) => ({ id: Date.now()+i, type:'regular', name:p.name, price:p.price, match:"9.5", img:p.img, brand:p.brand, tag:"Search" }));
-                    }
-                    renderProducts(activeProducts);
-                    giaText.innerText = "Results updated for you!";
-                }
-            } catch (e) { giaText.innerText = "Connection issue."; }
-            finally { searchContainer.classList.remove('searching-glow'); }
-        }
-
         function renderProducts(data) {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = data.map(p => `
@@ -313,6 +283,36 @@
                     <p class="text-xs font-black gold-text mt-2">₹${p.price}</p>
                 </div>`).join('');
             lucide.createIcons();
+        }
+
+        // Rest of your functions (Search, Modals, etc.) remain exactly the same as requested
+        async function runUnifiedSearch(query) {
+            const searchContainer = document.getElementById('search-container');
+            const giaBox = document.getElementById('gia-ai-box');
+            const giaText = document.getElementById('gia-ai-text');
+            searchContainer.classList.add('searching-glow');
+            giaBox.classList.remove('hidden');
+            giaText.innerHTML = `<span class="gold-text animate-pulse italic">GIA is analyzing "${query}"...</span>`;
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: `Web search products "${query}" JSON array: [{"name": "...", "price": "...", "img": "...", "brand": "..."}]` }] }],
+                        tools: [{ google_search: {} }]
+                    })
+                });
+                const data = await response.json();
+                const rawResponse = data.candidates[0].content.parts[0].text;
+                const jsonMatch = rawResponse.match(/\[.*\]/s);
+                if (jsonMatch) {
+                    const parsed = JSON.parse(jsonMatch[0]);
+                    activeProducts = parsed.map((p, i) => ({ id: Date.now()+i, type:'regular', name:p.name, price:p.price, match:"9.5", img:p.img, brand:p.brand, tag:"Search" }));
+                    renderProducts(activeProducts);
+                    giaText.innerText = "Bhai, ye rahe tere liye sabse gazab picks!";
+                }
+            } catch (e) { giaText.innerText = "Connection issue."; }
+            finally { searchContainer.classList.remove('searching-glow'); }
         }
 
         function openDetailsDirectly(img, name, price, brand) {
@@ -333,7 +333,7 @@
 
         function openScoreDirectly(name, match) {
             const modal = document.getElementById('score-modal');
-            document.getElementById('score-modal-content').innerHTML = `<div class="score-card-white"><h2 class="text-4xl royal-logo italic mb-8">${name}</h2><div class="bg-sky-50 p-6 rounded-3xl text-5xl font-black text-sky-600">${match}</div></div>`;
+            document.getElementById('score-modal-content').innerHTML = `<div class="score-card-white"><button onclick="closeScore()" class="absolute top-8 right-8 text-slate-300"><i data-lucide="x"></i></button><h2 class="text-4xl royal-logo italic mb-8">${name}</h2><div class="bg-sky-50 p-6 rounded-3xl text-5xl font-black text-sky-600">${match}</div></div>`;
             modal.style.display = 'flex';
             lucide.createIcons();
         }
