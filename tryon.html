@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIA LUXE | 3D AI Virtual Stylist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        :root { --sky: #0ea5e9; --pink: #f472b6; --slate: #1e293b; }
+        body { background: #ffffff; font-family: 'Inter', sans-serif; color: var(--slate); margin: 0; overflow-x: hidden; }
+        .royal-logo { font-family: 'Playfair Display', serif; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; }
+        .gold-text { background: linear-gradient(to right, var(--sky), var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* --- 3D VIEWPORT --- */
+        #tryon-portal { display: none; position: fixed; inset: 0; z-index: 9999; background: #fff; flex-direction: column; }
+        #canvas-container { 
+            flex-grow: 1; position: relative; background: radial-gradient(circle, #ffffff 0%, #f1f5f9 100%);
+            cursor: grab; display: flex; align-items: center; justify-content: center;
+        }
+        #canvas-container:active { cursor: grabbing; }
+
+        /* --- SCANNING EFFECT --- */
+        .scan-layer {
+            position: absolute; inset: 0; pointer-events: none; z-index: 100;
+            background: linear-gradient(rgba(14,165,233,0.1) 50%, rgba(14,165,233,0.2) 50%);
+            background-size: 100% 4px; display: none;
+        }
+        .scan-bar {
+            position: absolute; left: 0; right: 0; height: 2px; background: var(--sky);
+            box-shadow: 0 0 20px var(--sky); z-index: 101; animation: scanAnim 2s infinite linear; display: none;
+        }
+        @keyframes scanAnim { 0% { top: 0%; } 100% { top: 100%; } }
+
+        /* --- PRODUCT GRID --- */
+        .main-grid { display: grid; gap: 1.5rem; padding: 2rem; grid-template-columns: repeat(2, 1fr); }
+        @media (min-width: 1024px) { .main-grid { grid-template-columns: repeat(3, 1fr); } }
+
+        .item-card {
+            background: #fff; border-radius: 2.5rem; border: 1px solid #f1f5f9;
+            padding: 1.2rem; transition: 0.4s; position: relative; cursor: pointer;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+        }
+        .item-card:hover { transform: translateY(-8px); border-color: var(--pink); box-shadow: 0 25px 50px -12px rgba(244,114,182,0.2); }
+
+        /* --- UI ELEMENTS --- */
+        .badge-3d { position: absolute; top: 20px; right: 20px; background: #000; color: #fff; padding: 4px 12px; border-radius: 99px; font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; }
+        .control-panel { background: white; border-top: 1px solid #f1f5f9; padding: 2rem; }
+    </style>
+</head>
+<body>
+
+    <header class="sticky top-0 bg-white/80 backdrop-blur-xl z-[500] border-b border-slate-100 px-8 py-5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="royal-logo text-2xl gold-text">GIA LUXE</h1>
+            <div class="flex items-center gap-6">
+                <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">3D Stylist Mode</span>
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-sky-100 to-pink-100 p-0.5">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Stylist" class="rounded-full bg-white">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        <div class="text-center mb-16">
+            <h2 class="text-5xl md:text-7xl royal-logo italic mb-6">Welcome, <span class="gold-text" id="user-name">Stylist</span></h2>
+            <div class="max-w-2xl mx-auto bg-slate-50 rounded-full p-2 flex border border-slate-100 shadow-inner">
+                <input type="text" placeholder="Search clothes, glasses, bags..." class="bg-transparent flex-grow px-6 outline-none text-sm font-medium">
+                <button class="bg-slate-900 text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest">Ask GIA</button>
+            </div>
+        </div>
+
+        <div id="product-list" class="main-grid"></div>
+    </main>
+
+    <div id="tryon-portal">
+        <div class="p-6 flex justify-between items-center border-b">
+            <div>
+                <h3 class="royal-logo text-xl italic" id="active-title">3D Fitting Room</h3>
+                <p class="text-[9px] font-black text-sky-500 uppercase tracking-widest">Move your mouse/finger to rotate 360°</p>
+            </div>
+            <button onclick="closeTryOn()" class="w-12 h-12 flex items-center justify-center bg-slate-50 rounded-full"><i data-lucide="x"></i></button>
+        </div>
+
+        <div id="canvas-container">
+            <div class="scan-layer" id="scan-layer"></div>
+            <div class="scan-bar" id="scan-bar"></div>
+            
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 bg-black/50 text-white px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest backdrop-blur-md pointer-events-none">
+                ↔ Drag to Rotate 360°
+            </div>
+
+            <div class="absolute top-10 right-10 w-48 bg-white/90 backdrop-blur-xl p-5 rounded-[2rem] border border-sky-100 shadow-2xl">
+                <p class="text-[8px] font-black text-pink-500 uppercase mb-2">AI Fit Report</p>
+                <div class="text-3xl font-black italic mb-1">9.8<span class="text-xs">/10</span></div>
+                <p class="text-[10px] text-slate-500 leading-tight">Perfect match for your shoulder-width and posture.</p>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <div class="max-w-4xl mx-auto flex flex-col md:flex-row gap-8 items-center">
+                <div class="flex gap-4">
+                    <button onclick="simulateUpload()" class="flex flex-col items-center gap-2 p-5 border-2 border-dashed border-sky-200 rounded-[2rem] w-32 hover:bg-sky-50 transition-all">
+                        <i data-lucide="upload-cloud" class="text-sky-500"></i>
+                        <span class="text-[8px] font-black uppercase">Your Photo</span>
+                    </button>
+                </div>
+                <div class="flex-grow text-center md:text-left">
+                    <h4 class="text-2xl royal-logo italic" id="display-name">Product Name</h4>
+                    <p class="text-xs text-slate-400">Our AI has generated a 3D mannequin based on your photo.</p>
+                </div>
+                <button class="w-full md:w-auto bg-gradient-to-r from-sky-400 to-pink-400 text-white px-12 py-5 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl">Buy Now</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-20 bg-slate-50 border-t border-slate-100 mt-20">
+        <div class="max-w-4xl mx-auto px-6">
+            <h3 class="royal-logo text-lg gold-text mb-6">GIA LUXE</h3>
+            <p class="text-[10px] text-slate-400 leading-relaxed tracking-widest uppercase font-bold">
+                LEGAL DISCLAIMER: GIA LUXE uses 3D generative AI for virtual fittings. The 360° simulations are for guidance only. All brands (Amazon, Myntra, etc.) are trademarks of their respective owners. Powered by ALTER Project.
+            </p>
+            <div class="w-12 h-px bg-sky-200 mx-auto my-8"></div>
+            <p class="text-[9px] text-slate-300 font-bold tracking-[0.5em]">© 2026 BHAWANIPATNA, ODISHA</p>
+        </div>
+    </footer>
+
+    <script>
+        const products = [
+            { id: 1, name: "Premium Silk Shirt", cat: "Topwear", price: "3,499", brand: "Zara", img: "https://images.unsplash.com/photo-1598033129183-c4f50c7176c8?w=500" },
+            { id: 2, name: "Aviator Classic", cat: "Glasses", price: "9,999", brand: "RayBan", img: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500" },
+            { id: 3, name: "Tapered Denim", cat: "Bottomwear", price: "4,200", brand: "Levi's", img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500" },
+            { id: 4, name: "Urban Sneakers", cat: "Footwear", price: "7,500", brand: "Nike", img: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500" },
+            { id: 5, name: "Leather Handbag", cat: "Bags", price: "12,999", brand: "Gucci", img: "https://images.unsplash.com/photo-1584917033904-47e08ec0b1c0?w=500" }
+        ];
+
+        window.onload = () => {
+            renderProducts(products);
+            lucide.createIcons();
+            init3D();
+        };
+
+        function renderProducts(data) {
+            const grid = document.getElementById('product-list');
+            grid.innerHTML = data.map(p => `
+                <div class="item-card" onclick="open3DTryOn('${p.name}', '${p.img}')">
+                    <div class="badge-3d">3D Try-On</div>
+                    <img src="${p.img}" class="w-full h-80 object-cover rounded-[2rem] mb-6">
+                    <div class="px-2 flex justify-between items-end">
+                        <div>
+                            <p class="text-[8px] font-black text-sky-400 uppercase tracking-widest mb-1">${p.brand} • ${p.cat}</p>
+                            <h4 class="text-sm font-bold uppercase tracking-tighter">${p.name}</h4>
+                        </div>
+                        <p class="text-lg font-black gold-text italic">₹${p.price}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- THREE.JS 3D ENGINE ---
+        let scene, camera, renderer, mannequin;
+
+        function init3D() {
+            const container = document.getElementById('canvas-container');
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            // Lighting
+            const light = new THREE.DirectionalLight(0xffffff, 1);
+            light.position.set(5, 5, 5).underline = true;
+            scene.add(light);
+            scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+
+            // Mannequin (Simplified as a 3D Cylinder for Demo)
+            const geometry = new THREE.CylinderGeometry(1, 1, 4, 32);
+            const material = new THREE.MeshPhongMaterial({ color: 0xffffff });
+            mannequin = new THREE.Mesh(geometry, material);
+            scene.add(mannequin);
+
+            camera.position.z = 10;
+
+            // Rotation Logic
+            let isDragging = false;
+            let previousMouseX = 0;
+
+            container.onmousedown = (e) => { isDragging = true; };
+            window.onmouseup = () => { isDragging = false; };
+            window.onmousemove = (e) => {
+                if (isDragging) {
+                    const deltaX = e.clientX - previousMouseX;
+                    mannequin.rotation.y += deltaX * 0.01;
+                }
+                previousMouseX = e.clientX;
+            };
+
+            function animate() {
+                requestAnimationFrame(animate);
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        function open3DTryOn(name, img) {
+            document.getElementById('tryon-portal').style.display = 'flex';
+            document.getElementById('display-name').innerText = name;
+            
+            const scanLayer = document.getElementById('scan-layer');
+            const scanBar = document.getElementById('scan-bar');
+            
+            // Start AI Scan
+            scanLayer.style.display = 'block';
+            scanBar.style.display = 'block';
+
+            setTimeout(() => {
+                scanLayer.style.display = 'none';
+                scanBar.style.display = 'none';
+                // Change Mannequin color to simulate product "wearing"
+                mannequin.material.color.setHex(Math.random() * 0xffffff);
+            }, 2500);
+        }
+
+        function closeTryOn() {
+            document.getElementById('tryon-portal').style.display = 'none';
+        }
+
+        function simulateUpload() {
+            alert("GIA AI: Photo detected. Analyzing body proportions to generate your 3D avatar...");
+            open3DTryOn("Your Custom Fit", "");
+        }
+    </script>
+</body>
+</html>
