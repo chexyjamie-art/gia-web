@@ -3,337 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA LUXE | Visual AI Stylist</title>
+    <title>GIA LUXE | Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-    <script>
-        (function() {
-            const userName = localStorage.getItem('giaUserName');
-            if (!userName) { window.location.href = 'login.html'; }
-        })();
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
+        /* NEW LIGHT CUBE PATTERN BACKGROUND */
         body { 
-            background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #fff1f2 100%);
-            background-size: cover; background-attachment: fixed; 
-            font-family: 'Inter', sans-serif; 
-            color: #1e293b; 
+            background-color: #ffffff;
+            /* Cube pattern remains, but in light sky blue tint */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cpath d='M30 0l30 17.32v34.64L30 69.28 0 51.96V17.32L30 0z' fill='none' stroke='%23e0f2fe' stroke-width='1'/%3E%3Cpath d='M30 103.92L0 86.6V51.96l30 17.32 30-17.32v34.64l-30 17.32z' fill='none' stroke='%23e0f2fe' stroke-width='1'/%3E%3Cpath d='M30 69.28V34.64L0 17.32M30 34.64l30-17.32M30 69.28l30 17.32M30 69.28L0 86.6' fill='none' stroke='%23e0f2fe' stroke-width='1'/%3E%3C/svg%3E");
+            font-family: 'Inter', sans-serif;
+            color: #1e293b;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin: 0;
-            overflow-x: hidden;
-        }
-        .royal-logo { font-family: 'Playfair Display', serif; font-weight: 900; letter-spacing: 0.3em; text-transform: uppercase; }
-        .gold-text { background: linear-gradient(to right, #0ea5e9, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        /* --- VAULT SCREEN --- */
-        #vault-screen {
-            position: fixed; inset: 0; z-index: 5000; display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #fff1f2 100%);
-            transition: opacity 0.8s ease, visibility 0.8s;
-        }
-        .vault-card {
-            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(25px);
-            padding: 3.5rem 2rem; border-radius: 3rem; border: 1px solid rgba(14, 165, 233, 0.2);
-            text-align: center; max-width: 420px; width: 90%;
-            box-shadow: 0 25px 50px -12px rgba(14, 165, 233, 0.15);
-        }
-        .crown-icon-container {
-            width: 90px; height: 90px; background: linear-gradient(135deg, #0ea5e9, #f472b6);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 2.5rem; color: white; box-shadow: 0 15px 30px rgba(14, 165, 233, 0.3);
-        }
-        .access-granted-pill {
-            background: white; border: 1px solid rgba(14, 165, 233, 0.3);
-            color: #0ea5e9; padding: 10px 20px; border-radius: 1.5rem;
-            font-size: 11px; font-weight: 800; margin-bottom: 2.5rem;
-            display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            letter-spacing: 1px; text-transform: uppercase;
+            overflow: hidden;
         }
 
-        /* --- PRODUCT CARDS --- */
-        .product-card { 
-            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(15px); 
-            border-radius: 2rem; transition: 0.4s; border: 1px solid rgba(14, 165, 233, 0.1); 
-            position: relative; overflow: hidden; height: auto; display: flex; flex-direction: column; cursor: pointer;
+        /* SUMMONING ANIMATIONS (Kept as requested) */
+        @keyframes giaSummon {
+            0% { opacity: 0; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1); }
         }
-        .product-card:hover { transform: translateY(-10px); border: 1px solid #f472b6; }
-        
-        .tryon-trigger-btn {
-            margin-top: 10px; background: #1e293b; color: white;
-            padding: 8px; border-radius: 12px; font-size: 9px; font-weight: 900;
-            text-transform: uppercase; letter-spacing: 1px;
-            display: flex; align-items: center; justify-content: center; gap: 5px;
-            transition: 0.3s;
-        }
-        .tryon-trigger-btn:hover { background: #0ea5e9; }
-
-        /* --- 3D TRY-ON PORTAL --- */
-        #tryon-portal {
-            display: none; position: fixed; inset: 0; z-index: 6000;
-            background: #ffffff; flex-direction: column;
-        }
-        #canvas-container {
-            flex-grow: 1; position: relative;
-            background: #111827; /* Dark background for 3D visibility */
-            cursor: grab; display: flex; align-items: center; justify-content: center;
-        }
-        .scan-bar-3d {
-            position: absolute; left: 0; right: 0; height: 2px;
-            background: #0ea5e9; box-shadow: 0 0 15px #0ea5e9;
-            z-index: 100; animation: scanMove 2s infinite linear; display: none;
-        }
-        @keyframes scanMove { 0% { top: 0%; } 100% { top: 100%; } }
-
-        .score-badge {
-            position: absolute; top: 15px; left: 15px;
-            background: linear-gradient(45deg, #0ea5e9, #f472b6);
-            color: white; font-weight: 900; padding: 4px 10px;
-            border-radius: 10px; font-size: 10px; z-index: 20;
+        @keyframes formSummon {
+            0% { opacity: 0; transform: translateY(15px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- MODALS & NAV --- */
-        #details-modal, #score-modal { position: fixed; inset: 0; z-index: 3000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(25px); background: rgba(255,255,255,0.8); }
-        .mobile-nav { 
-            display: flex; position: fixed; bottom: 0; left: 0; right: 0; 
-            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); 
-            border-top: 1px solid rgba(14, 165, 233, 0.1); z-index: 1000; padding: 1rem; justify-content: space-around; 
+        .gia-header { animation: giaSummon 2s ease-out forwards; }
+        .form-section { opacity: 0; animation: formSummon 1.2s ease-out 1s forwards; }
+
+        /* Updated Gradient: Sky Blue to Pink */
+        .gold-text {
+            background: linear-gradient(to right, #0ea5e9, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
         }
+
+        /* Glass card updated for light theme */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 2rem;
+            border: 1px solid rgba(14, 165, 233, 0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+        }
+
+        .input-line {
+            background: transparent;
+            border-bottom: 1px solid #0ea5e9;
+            color: #1e293b;
+            outline: none;
+            width: 100%;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 1rem;
+            transition: border-bottom 0.3s ease;
+        }
+
+        .input-line:focus { border-bottom: 1px solid #f472b6; }
+
+        /* Button updated to Blue-Pink Gradient */
+        .gold-button {
+            background: linear-gradient(to right, #0ea5e9, #f472b6);
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+        }
+        .gold-button:hover { transform: scale(1.01); box-shadow: 0 5px 15px rgba(14,165,233,0.2); opacity: 0.9; }
     </style>
 </head>
-<body class="pb-24"> 
+<body>
 
-    <div id="vault-screen">
-        <div class="access-granted-pill"><i data-lucide="shield-check" class="inline w-4 h-4 mr-2"></i> Access Granted</div>
-        <div class="vault-card">
-            <div class="crown-icon-container"><i data-lucide="crown" class="w-12 h-12"></i></div>
-            <h1 class="text-5xl royal-logo gold-text mb-2 italic">Welcome</h1>
-            <p class="text-[10px] tracking-[0.5em] font-bold text-slate-400 uppercase mb-8">To The Vault</p>
-            <button onclick="enterStore()" class="w-full bg-gradient-to-r from-sky-400 to-pink-400 text-white py-5 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl">Enter The Vault</button>
-        </div>
-    </div>
-
-    <div id="main-content" style="opacity: 0; display: none;">
-        <header class="py-6 px-4 md:px-8 border-b border-sky-100 sticky top-0 z-[100] bg-white/80 backdrop-blur-md">
-            <nav class="max-w-7xl mx-auto flex justify-between items-center">
-                <button onclick="filterType('offer')" class="p-2.5 bg-sky-50 rounded-full border border-sky-100"><i data-lucide="percent" class="w-5 h-5 text-[#0ea5e9]"></i></button>
-                <h1 class="text-2xl md:text-3xl royal-logo gold-text cursor-pointer" onclick="location.reload()">GIA LUXE</h1>
-                <div class="flex items-center gap-3">
-                    <span id="nav-user-name" class="text-[10px] font-bold uppercase tracking-widest text-sky-600"></span>
-                    <a href="profile.html" class="w-10 h-10 border border-pink-200 rounded-full p-0.5 overflow-hidden">
-                        <img id="user-avatar" src="" class="w-full h-full rounded-full object-cover">
-                    </a>
-                </div>
-            </nav>
-        </header>
-
-        <main class="max-w-7xl mx-auto px-6 py-12">
-            <section class="text-center mb-10">
-                <h2 class="text-4xl md:text-5xl royal-logo gold-text mb-8 italic">Welcome, <span id="hero-name">Stylist</span></h2>
-                <div id="search-container" class="relative max-w-2xl mx-auto flex items-center border border-sky-100 rounded-full p-1.5 bg-white shadow-lg mb-6">
-                    <i data-lucide="sparkles" class="ml-4 text-[#0ea5e9] w-5 h-5 animate-pulse"></i>
-                    <input type="text" id="ai-search-input" placeholder="Search or ask GIA..." class="flex-grow bg-transparent text-sm py-3 px-4 outline-none">
-                    <button onclick="startVoiceSearch()" class="p-2.5"><i data-lucide="mic" class="text-pink-400 w-5 h-5"></i></button>
-                    <button onclick="document.getElementById('image-upload').click()" class="py-2.5 px-6 rounded-full text-xs font-bold bg-gradient-to-r from-sky-400 to-pink-400 text-white flex items-center gap-2 mr-1"><i data-lucide="camera" class="w-4 h-4"></i></button>
-                    <input type="file" id="image-upload" class="hidden">
-                </div>
-                <div id="gia-ai-box" class="max-w-2xl mx-auto p-6 bg-white/80 border border-dashed border-sky-200 rounded-3xl text-left hidden shadow-inner">
-                    <p id="gia-ai-text" class="text-sm italic text-slate-600 leading-relaxed"></p>
-                </div>
-            </section>
-
-            <h3 id="section-title" class="text-[10px] font-bold tracking-[0.4em] uppercase text-sky-500 mb-10">AI Curated Picks</h3>
-            <div id="product-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"></div>
-        </main>
-
-        <footer style="margin-top: 100px; padding: 60px 20px; border-top: 1px solid rgba(14, 165, 233, 0.1); text-align: center;">
-            <div style="max-width: 800px; margin: 0 auto;">
-                <h3 class="gold-text royal-logo text-lg mb-4">GIA LUXE</h3>
-                <p style="color: #94a3b8; font-size: 10px; line-height: 2; letter-spacing: 1px; margin-bottom: 20px;">
-                    <b>LEGAL DISCLAIMER:</b> GIA LUXE is an AI aggregator under the ALTER Project. This platform utilizes Gemini 1.5 Flash with Google Search grounding to retrieve real-time shopping data. All brand names, logos, and images (Amazon, Myntra, Ajio, etc.) are trademarks of their respective owners. AI styling scores and 360° renders are simulations for guidance only. Final pricing and shipping are governed by the merchant site.
-                </p>
-                <div style="height: 1px; width: 40px; background: #0ea5e9; margin: 20px auto; opacity: 0.3;"></div>
-                <p style="color: #f472b6; font-size: 9px; font-weight: bold; letter-spacing: 3px; text-transform: uppercase;">
-                    © 2026 ALTER PROJECT | BHAWANIPATNA, ODISHA
-                </p>
+    <div class="w-full max-w-md px-8">
+        <div class="text-center mb-10 gia-header">
+            <div class="flex justify-center mb-2">
+                <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7Z"></path></svg>
             </div>
-        </footer>
-
-        <nav class="mobile-nav">
-            <button onclick="filterType('regular')" class="flex flex-col items-center gap-1 text-sky-500"><i data-lucide="home"></i><span class="text-[8px] font-bold uppercase">Home</span></button>
-            <button onclick="filterType('combo')" class="flex flex-col items-center gap-1 text-slate-400"><i data-lucide="package"></i><span class="text-[8px] font-bold uppercase">Combos</span></button>
-            <button onclick="filterType('offer')" class="flex flex-col items-center gap-1 text-slate-400"><i data-lucide="percent"></i><span class="text-[8px] font-bold uppercase">Offers</span></button>
-        </nav>
-    </div>
-
-    <div id="tryon-portal">
-        <div class="p-6 flex justify-between items-center border-b">
-            <div>
-                <h3 class="royal-logo text-xl italic" id="tryon-prod-name">3D Studio</h3>
-                <p class="text-[8px] font-bold text-sky-500 uppercase tracking-widest">GIA AI 360° Fitting Room</p>
-            </div>
-            <button onclick="closeTryOn()" class="bg-slate-100 p-3 rounded-full"><i data-lucide="x"></i></button>
+            <h1 class="text-7xl gold-text tracking-[0.1em]">GIA</h1>
+            <p class="text-sky-400 text-[9px] tracking-[0.5em] mt-3 uppercase font-semibold">Enter The Legacy</p>
         </div>
-        <div id="canvas-container">
-            <div class="scan-bar-3d" id="scan-bar-3d"></div>
-            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
-                <p class="text-[9px] text-white font-bold uppercase tracking-widest">↔ Drag to Rotate</p>
+
+        <div class="glass-card p-10 form-section">
+            <div id="step-1">
+                <div class="mb-10 text-center">
+                    <label class="block text-[10px] uppercase tracking-[0.3em] text-slate-400 mb-4">Full Name</label>
+                    <input type="text" id="user-name" placeholder="John Doe" class="input-line placeholder:opacity-20">
+                </div>
+                <div class="mb-12 text-center">
+                    <label class="block text-[10px] uppercase tracking-[0.3em] text-slate-400 mb-4">Mobile Number</label>
+                    <input type="tel" id="user-phone" placeholder="+91 00000 00000" class="input-line placeholder:opacity-20">
+                </div>
+                <button onclick="sendOTP()" class="w-full gold-button py-4 rounded-full text-[10px]">
+                    Join The Vault
+                </button>
+            </div>
+
+            <div id="step-2" class="hidden text-center">
+                <p class="text-[10px] text-sky-500 mb-8 uppercase tracking-widest">Verification</p>
+                <div class="flex justify-center gap-3 mb-10">
+                    <input type="text" maxlength="1" id="otp1" onkeyup="next(this,'otp2')" class="w-10 h-12 bg-slate-50 border border-slate-200 rounded-lg text-center outline-none focus:border-pink-400">
+                    <input type="text" maxlength="1" id="otp2" onkeyup="next(this,'otp3')" class="w-10 h-12 bg-slate-50 border border-slate-200 rounded-lg text-center outline-none focus:border-pink-400">
+                    <input type="text" maxlength="1" id="otp3" onkeyup="next(this,'otp4')" class="w-10 h-12 bg-slate-50 border border-slate-200 rounded-lg text-center outline-none focus:border-pink-400">
+                    <input type="text" maxlength="1" id="otp4" class="w-10 h-12 bg-slate-50 border border-slate-200 rounded-lg text-center outline-none focus:border-pink-400">
+                </div>
+                <button onclick="showTerms()" class="w-full gold-button py-4 rounded-full text-[10px]">Verify Access</button>
             </div>
         </div>
-        <div class="p-8 bg-white border-t text-center">
-            <button class="w-full max-w-xs bg-slate-900 text-white py-4 rounded-2xl font-black uppercase text-xs tracking-widest">Add to Wardrobe</button>
-        </div>
+
+        <p class="text-center mt-12 text-[8px] tracking-[0.4em] text-slate-300 uppercase form-section">Est. 2026 • Exclusive Membership</p>
     </div>
 
-    <div id="score-modal" onclick="if(event.target==this) closeScore()"><div id="score-modal-content"></div></div>
-    <div id="details-modal" onclick="if(event.target==this) closeDetails()"><div id="modal-content" class="w-full max-w-6xl p-6"></div></div>
+    <div id="terms-modal" class="fixed inset-0 bg-white/90 z-[999] hidden items-center justify-center p-8 backdrop-blur-md">
+        <div class="glass-card p-10 max-w-sm border-sky-100 text-center">
+            <h3 class="gold-text text-2xl mb-6 italic">Protocols</h3>
+            <p class="text-[10px] text-slate-400 mb-8 italic">GIA is an AI partner. Product fulfillment is handled by third-party retailers.</p>
+            <div class="flex items-center justify-center gap-3 mb-8">
+                <input type="checkbox" id="agree" class="accent-sky-500">
+                <label for="agree" class="text-[9px] uppercase tracking-widest text-sky-600">Agree</label>
+            </div>
+            <button onclick="finishLogin()" class="w-full bg-slate-900 text-white font-bold py-4 rounded-full text-[10px]">Enter</button>
+        </div>
+    </div>
 
     <script>
-        const GEMINI_API_KEY = "AIzaSyAL9f1bOKI-ELUayNG9PzCHok3wZmkk_Bc"; 
-        
-        // Generating 60 Products (20 Regular, 20 Combo, 20 Offers)
-        const allProducts = [];
-        const categories = ['regular', 'combo', 'offer'];
-        const brands = ['Amazon', 'Myntra', 'Ajio', 'Zudio', 'Zara'];
-        
-        for(let i=1; i<=60; i++) {
-            const type = categories[Math.floor((i-1)/20)];
-            allProducts.push({
-                id: i,
-                type: type,
-                name: `${type === 'combo' ? 'Bundle' : 'Premium'} Item ${i}`,
-                price: (Math.floor(Math.random() * 5000) + 999).toLocaleString(),
-                match: (8.5 + Math.random() * 1.4).toFixed(1),
-                img: `https://images.unsplash.com/photo-${1500000000000 + (i*1000)}?w=600`,
-                brand: brands[i % 5],
-                tag: type.toUpperCase(),
-                wearable: i % 2 === 0 // Making alternate items wearable for demo
-            });
+        lucide.createIcons();
+
+        window.onload = function() {
+            if(localStorage.getItem('giaUserName') && localStorage.getItem('giaUserPhone')) {
+                window.location.href = 'index.html'; 
+            }
         }
 
-        window.onload = () => {
-            lucide.createIcons();
-            const name = localStorage.getItem('giaUserName') || 'Stylist';
-            document.getElementById('hero-name').innerText = name;
-            document.getElementById('nav-user-name').innerText = name;
-            document.getElementById('user-avatar').src = localStorage.getItem('giaUserDP') || `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`;
-            renderProducts(allProducts.filter(p => p.type === 'regular'));
-            init3D();
-        };
+        function next(c, n) { if(c.value.length==1) document.getElementById(n).focus(); }
 
-        function renderProducts(data) {
-            const grid = document.getElementById('product-grid');
-            grid.innerHTML = data.map(p => `
-                <div class="product-card p-4" onclick="openDetailsDirectly('${p.img}', '${p.name}', '${p.price}', '${p.brand}')">
-                    <div class="score-badge" onclick="event.stopPropagation(); openScoreDirectly('${p.name}', '${p.match}')">${p.match} GIA</div>
-                    <img src="${p.img}" class="w-full h-44 object-cover rounded-2xl mb-4">
-                    <p class="text-[7px] text-slate-400 uppercase font-black mb-1 tracking-widest">${p.brand} • ${p.tag}</p>
-                    <h4 class="text-[10px] font-bold text-slate-700 uppercase truncate">${p.name}</h4>
-                    <p class="text-xs font-black gold-text mt-2">₹${p.price}</p>
-                    ${p.wearable ? `<button onclick="event.stopPropagation(); open3DTryOn('${p.name}')" class="tryon-trigger-btn"><i data-lucide="box" class="w-3 h-3"></i> 3D Try-On</button>` : ''}
-                </div>`).join('');
-            lucide.createIcons();
+        function sendOTP() {
+            const n = document.getElementById('user-name').value;
+            const p = document.getElementById('user-phone').value;
+            if(!n || !p) return alert("Please fill name and mobile");
+
+            localStorage.setItem('giaUserName', n);
+            localStorage.setItem('giaUserPhone', p);
+
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.remove('hidden');
         }
 
-        function filterType(type) {
-            document.getElementById('section-title').innerText = `${type.toUpperCase()} Picks`;
-            renderProducts(allProducts.filter(p => p.type === type));
+        function showTerms() {
+            document.getElementById('terms-modal').classList.remove('hidden');
+            document.getElementById('terms-modal').classList.add('flex');
         }
 
-        function enterStore() {
-            document.getElementById('vault-screen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('vault-screen').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                setTimeout(() => { document.getElementById('main-content').style.opacity = '1'; }, 50);
-            }, 800);
+        function finishLogin() {
+            if(!document.getElementById('agree').checked) return alert("Accept terms");
+            localStorage.setItem('giaSession', 'active'); 
+            window.location.href = 'index.html';
         }
-
-        // --- 3D ENGINE (Three.js) ---
-        let scene, camera, renderer, mannequin;
-
-        function init3D() {
-            const container = document.getElementById('canvas-container');
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            container.appendChild(renderer.domElement);
-
-            const light = new THREE.AmbientLight(0xffffff, 1); scene.add(light);
-            const pointLight = new THREE.PointLight(0xffffff, 0.5); pointLight.position.set(5, 5, 5); scene.add(pointLight);
-
-            // Create Humanoid Shape
-            const group = new THREE.Group();
-            const bodyGeo = new THREE.CylinderGeometry(0.8, 0.5, 3, 32);
-            const bodyMat = new THREE.MeshPhongMaterial({ color: 0xffffff });
-            const body = new THREE.Mesh(bodyGeo, bodyMat);
-            const headGeo = new THREE.SphereGeometry(0.5, 32, 32);
-            const head = new THREE.Mesh(headGeo, bodyMat);
-            head.position.y = 2.2;
-            group.add(body, head);
-            mannequin = group;
-            scene.add(mannequin);
-            camera.position.z = 10;
-
-            let isDragging = false;
-            container.onmousedown = () => isDragging = true;
-            window.onmouseup = () => isDragging = false;
-            window.onmousemove = (e) => { if(isDragging) mannequin.rotation.y += e.movementX * 0.01; };
-            function animate() { requestAnimationFrame(animate); renderer.render(scene, camera); }
-            animate();
-        }
-
-        function open3DTryOn(name) {
-            document.getElementById('tryon-portal').style.display = 'flex';
-            document.getElementById('tryon-prod-name').innerText = name;
-            document.getElementById('scan-bar-3d').style.display = 'block';
-            setTimeout(() => { document.getElementById('scan-bar-3d').style.display = 'none'; }, 2000);
-            // Resize renderer to fit new modal size
-            const container = document.getElementById('canvas-container');
-            renderer.setSize(container.clientWidth, container.clientHeight);
-        }
-
-        function closeTryOn() { document.getElementById('tryon-portal').style.display = 'none'; }
-        function closeDetails() { document.getElementById('details-modal').style.display = 'none'; }
-        function closeScore() { document.getElementById('score-modal').style.display = 'none'; }
-
-        function openDetailsDirectly(img, name, price, brand) {
-            document.getElementById('modal-content').innerHTML = `
-                <div class="bg-white p-10 rounded-[3rem] text-center shadow-2xl">
-                    <img src="${img}" class="w-full max-w-sm mx-auto rounded-3xl mb-6">
-                    <h2 class="text-3xl royal-logo">${name}</h2>
-                    <p class="text-xl font-black gold-text my-4">₹${price}</p>
-                    <button onclick="closeDetails()" class="bg-slate-900 text-white px-10 py-3 rounded-full uppercase text-xs font-bold">Close</button>
-                </div>`;
-            document.getElementById('details-modal').style.display = 'flex';
-        }
-
-        function openScoreDirectly(name, match) {
-            document.getElementById('score-modal-content').innerHTML = `
-                <div class="score-card-white text-center">
-                    <h2 class="text-3xl royal-logo italic mb-6">${name}</h2>
-                    <div class="text-6xl font-black text-sky-600">${match}</div>
-                    <p class="text-[10px] mt-4 uppercase font-bold text-slate-400">GIA Styling Accuracy</p>
-                </div>`;
-            document.getElementById('score-modal').style.display = 'flex';
-            lucide.createIcons();
-        }
-
-        async function runUnifiedSearch(query) {
-            const giaBox = document.getElementById('gia-ai-box');
-            const giaText = document.getElementById('gia-ai-text');
-            giaBox.classList.remove('hidden');
-            giaText.innerText = `Searching for ${query}...`;
-            // Simplified search mock for demo
-            setTimeout(() => { giaText.innerText = "Bhai, check these curated items!"; }, 1500);
-        }
-
-        document.getElementById('ai-search-input').onkeydown = (e) => { if(e.key === 'Enter') runUnifiedSearch(e.target.value); };
     </script>
 </body>
 </html>
