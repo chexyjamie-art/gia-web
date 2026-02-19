@@ -3,308 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GIA LUXE | Secure Vault Access</title>
-    
+    <title>GIA | Enter The Vault</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
     <style>
         :root {
-            --sky-glow: #0ea5e9;
-            --pink-glow: #f472b6;
-            --glass: rgba(255, 255, 255, 0.82);
-            --border: rgba(14, 165, 233, 0.15);
+            --vault-green: #062c26;
+            --vault-gold: #c5a35d;
+            --vault-light-green: #0a4d43;
         }
 
-        * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            outline: none; -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background: #ffffff;
+            background-color: var(--vault-green);
+            /* Background Pattern Jaisa Screenshot mein hai */
+            background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-            position: relative;
+            color: white;
+            padding: 20px;
         }
 
-        /* --- ADVANCED BACKGROUND ELEMENTS --- */
-        .blob {
-            position: absolute;
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, transparent 70%);
-            border-radius: 50%; z-index: -1; filter: blur(80px);
-            animation: move 20s infinite alternate;
-        }
-
-        @keyframes move {
-            from { transform: translate(-10%, -10%); }
-            to { transform: translate(10%, 10%); }
-        }
-
-        /* --- TEXT STYLES --- */
-        .royal-logo { 
-            font-family: 'Playfair Display', serif; 
-            font-weight: 900; 
-            letter-spacing: 0.4em; 
-            text-transform: uppercase; 
-        }
-
-        .gold-text { 
-            background: linear-gradient(to right, var(--sky-glow), var(--pink-glow)); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-        }
-
-        /* --- AUTH CARD --- */
-        .vault-card {
-            background: var(--glass);
-            backdrop-filter: blur(50px);
-            -webkit-backdrop-filter: blur(50px);
-            padding: 5rem 3rem;
-            border-radius: 4rem;
-            border: 1px solid var(--border);
-            width: 92%;
-            max-width: 460px;
-            box-shadow: 0 60px 100px -30px rgba(14, 165, 233, 0.12);
-            text-align: center;
-            position: relative;
-            z-index: 20;
-        }
-
-        /* --- PROFILE AVATAR LOGIC --- */
-        .avatar-master {
-            position: relative;
-            width: 140px;
-            height: 140px;
-            margin: 0 auto 3.5rem;
-        }
-
-        .ring-animate {
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            padding: 5px;
-            background: linear-gradient(45deg, var(--sky-glow), var(--pink-glow));
-            animation: rotate-gradient 4s linear infinite;
-        }
-
-        @keyframes rotate-gradient {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .avatar-inner-box {
-            width: 100%; height: 100%;
-            background: white;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid white;
-            display: flex; align-items: center; justify-content: center;
-        }
-
-        #user-photo { width: 100%; height: 100%; object-fit: cover; }
-
-        .cam-overlay {
-            position: absolute; bottom: 5px; right: 5px;
-            background: white; color: var(--sky-glow);
-            width: 40px; height: 40px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            cursor: pointer; border: 1px solid rgba(0,0,0,0.05);
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .cam-overlay:hover { transform: scale(1.15); background: var(--sky-glow); color: white; }
-
-        /* --- INPUT DESIGN --- */
-        .input-wrap { margin-bottom: 2rem; position: relative; }
-        
-        .input-label {
-            display: block; text-align: left; margin-left: 1.8rem;
-            font-size: 10px; font-weight: 900; color: #64748b;
-            text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 0.8rem;
-        }
-
-        .gia-input {
-            width: 100%; padding: 1.4rem 2.2rem;
-            border-radius: 2.5rem; border: 1px solid #f1f5f9;
-            background: #ffffff; font-size: 14px; font-weight: 700;
-            color: #0f172a; transition: 0.5s;
-        }
-
-        .gia-input:focus {
-            border-color: var(--sky-glow);
-            box-shadow: 0 20px 40px -15px rgba(14, 165, 233, 0.15);
-            transform: translateY(-3px);
-        }
-
-        /* --- ACTION BUTTON --- */
-        .btn-access {
+        .main-container {
             width: 100%;
-            background: linear-gradient(135deg, var(--sky-glow), var(--pink-glow));
-            color: white; padding: 1.6rem; border-radius: 2.5rem;
-            font-weight: 900; text-transform: uppercase; letter-spacing: 5px;
-            font-size: 12px; margin-top: 1.5rem; border: none;
-            cursor: pointer; transition: 0.5s;
-            box-shadow: 0 25px 50px -10px rgba(14, 165, 233, 0.35);
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        .btn-access:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 35px 70px -15px rgba(244, 114, 182, 0.45);
+        /* Top Alert Box */
+        .access-granted {
+            background: rgba(10, 77, 67, 0.4);
+            border: 1px solid var(--vault-gold);
+            padding: 15px 20px;
+            border-radius: 12px;
+            display: none; /* Initially Hidden */
+            animation: fadeIn 0.5s ease-in;
         }
 
-        /* --- LOADING LAYER --- */
-        #gate-loader {
-            position: fixed; inset: 0; background: #ffffff; z-index: 9999;
-            display: none; align-items: center; justify-content: center; flex-direction: column;
+        .access-granted h2 { color: var(--vault-gold); font-size: 14px; font-weight: 700; margin-bottom: 5px; }
+        .access-granted p { color: #ffffffcc; font-size: 12px; }
+
+        /* Welcome Card */
+        .vault-card {
+            background: rgba(10, 77, 67, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 1px solid rgba(197, 163, 93, 0.1);
         }
 
-        /* --- FOOTER (The 2026 Legal Block) --- */
-        .legal-footer {
-            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-            width: 85%; max-width: 800px; text-align: center;
+        .crown-circle {
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle, #fdf4d5 0%, #c5a35d 100%);
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(197, 163, 93, 0.4);
         }
 
-        .legal-content {
-            color: #94a3b8; font-size: 9px; line-height: 2;
-            letter-spacing: 0.8px; margin-bottom: 12px; font-weight: 500;
+        .crown-icon { color: #062c26; width: 40px; height: 40px; }
+
+        .welcome-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: var(--vault-gold);
+            margin-bottom: 5px;
         }
 
-        .copyright {
-            color: var(--pink-glow); font-size: 10px; font-weight: 900;
-            letter-spacing: 4px; text-transform: uppercase;
+        .sub-text {
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: #ffffff99;
+            text-transform: uppercase;
+            margin-bottom: 40px;
         }
+
+        /* Input Styling from Screenshot */
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .input-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ffffff66;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .vault-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #ffffff33;
+            padding: 10px 0;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .vault-input:focus {
+            border-bottom-color: var(--vault-gold);
+            outline: none;
+        }
+
+        .vault-input::placeholder { color: #ffffff22; }
+
+        /* Join Button Gradient */
+        .btn-join {
+            width: 100%;
+            background: linear-gradient(90deg, #0ea5e9 0%, #f472b6 100%);
+            color: white;
+            padding: 14px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-join:hover { opacity: 0.9; transform: scale(1.02); }
+
+        .archive-msg {
+            margin-top: 30px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #ffffffaa;
+            padding: 0 10px;
+        }
+
+        /* Bottom Center Disclaimer */
+        .footer-legal {
+            position: fixed;
+            bottom: 20px;
+            left: 0; right: 0;
+            text-align: center;
+            font-size: 8px;
+            letter-spacing: 2px;
+            color: #ffffff33;
+            text-transform: uppercase;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div class="blob" style="top: -200px; left: -200px;"></div>
-    <div class="blob" style="bottom: -200px; right: -200px; background: radial-gradient(circle, rgba(244, 114, 182, 0.06) 0%, transparent 70%);"></div>
-
-    <div id="gate-loader">
-        <div class="relative">
-            <div class="w-20 h-20 border-4 border-sky-100 border-t-sky-500 rounded-full animate-spin"></div>
-            <div class="absolute inset-0 flex items-center justify-center">
-                <i data-lucide="shield-check" class="text-sky-500 w-6 h-6"></i>
-            </div>
+    <div class="main-container">
+        <div id="alertBox" class="access-granted">
+            <h2>Access Granted</h2>
+            <p>You have successfully entered the Vault.</p>
         </div>
-        <p class="mt-8 text-[11px] font-black gold-text tracking-[0.8em] uppercase animate-pulse">Initializing GIA AI...</p>
-    </div>
 
-    <div class="vault-card" id="main-card">
-        <header>
-            <h1 class="royal-logo gold-text text-4xl mb-3 italic">GIA LUXE</h1>
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.6em] mb-12">Legacy Access Vault</p>
-        </header>
+        <div class="vault-card">
+            <div class="crown-circle">
+                <i data-lucide="crown" class="crown-icon"></i>
+            </div>
 
-        <div class="avatar-master">
-            <div class="ring-animate">
-                <div class="avatar-inner-box">
-                    <img id="user-photo" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Gia" alt="Stylist">
+            <h1 class="welcome-text">Welcome</h1>
+            <p class="sub-text">To The Vault</p>
+
+            <form id="vaultForm" onsubmit="handleVaultEntry(event)">
+                <div class="input-group">
+                    <span class="input-label">Full Name</span>
+                    <input type="text" id="userName" class="vault-input" placeholder="John Doe" required>
                 </div>
-            </div>
-            <label for="dp-input" class="cam-overlay">
-                <i data-lucide="camera" class="w-5 h-5"></i>
-            </label>
-            <input type="file" id="dp-input" class="hidden" accept="image/*">
-        </div>
 
-        <form id="access-form" onsubmit="grantAccess(event)">
-            <div class="input-wrap">
-                <label class="input-label">Username / Identity</label>
-                <input type="text" id="gia-user" class="gia-input" placeholder="Type your name..." required autocomplete="off">
-            </div>
+                <div class="input-group">
+                    <span class="input-label">Mobile Number</span>
+                    <input type="tel" id="userPhone" class="vault-input" placeholder="+91 00000 00000">
+                </div>
 
-            <div class="input-wrap">
-                <label class="input-label">Vault Access Key</label>
-                <input type="password" id="gia-key" class="gia-input" placeholder="••••••••" autocomplete="new-password">
-            </div>
+                <button type="submit" class="btn-join">Join The Vault</button>
+            </form>
 
-            <button type="submit" class="btn-access">
-                <span>Authorize Access</span>
-            </button>
-        </form>
-
-        <div class="mt-12 flex justify-center gap-5 opacity-40">
-            <i data-lucide="fingerprint" class="w-5 h-5 text-sky-500"></i>
-            <i data-lucide="cpu" class="w-5 h-5 text-pink-500"></i>
-            <i data-lucide="lock" class="w-5 h-5 text-sky-500"></i>
+            <p class="archive-msg">
+                Your details have been secured in our legacy archives. We will be in touch shortly.
+            </p>
         </div>
     </div>
 
-    <footer class="legal-footer">
-        <p class="legal-content">
-            <b>LEGAL NOTICE:</b> GIA LUXE is a specialized AI aggregation engine developed for the <b>ALTER Project</b>. All system operations are powered by Gemini 1.5 Flash with search-grounding technology for real-time fashion data. Brand trademarks including Amazon, Myntra, Ajio, and Zara are the property of their respective owners. AI-generated styling scores and 360° simulations are for conceptual visualization only.
-        </p>
-        <div style="height: 1px; width: 40px; background: #0ea5e9; margin: 15px auto; opacity: 0.2;"></div>
-        <p class="copyright">
-            © 2026 ALTER PROJECT | BHAWANIPATNA, ODISHA
-        </p>
-    </footer>
+    <div class="footer-legal">
+        EST. 2026 • EXCLUSIVE MEMBERSHIP • ALTER PROJECT
+    </div>
 
     <script>
-        // Initialize Lucide
         lucide.createIcons();
 
-        // GSAP Initialization
-        gsap.from("#main-card", { opacity: 0, scale: 0.9, duration: 1.5, ease: "expo.out" });
-        gsap.from(".input-wrap", { opacity: 0, y: 20, stagger: 0.2, delay: 0.6, ease: "power3.out" });
-
-        // Avatar Logic
-        const dpIn = document.getElementById('dp-input');
-        const preview = document.getElementById('user-photo');
-
-        dpIn.onchange = (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (ev) => {
-                    preview.src = ev.target.result;
-                    localStorage.setItem('giaUserDP', ev.target.result);
-                    // Add a tiny 'pop' animation on upload
-                    gsap.fromTo("#user-photo", {scale: 0.8}, {scale: 1, duration: 0.5, ease: "back.out(2)"});
-                };
-                reader.readAsDataURL(file);
-            }
-        };
-
-        // Name-based Auto Avatar Generator
-        document.getElementById('gia-user').oninput = (e) => {
-            if (!localStorage.getItem('giaUserDP')) {
-                const name = e.target.value;
-                if(name.length > 1) {
-                    preview.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`;
-                }
-            }
-        };
-
-        // Access Logic
-        function grantAccess(e) {
-            e.preventDefault();
-            const name = document.getElementById('gia-user').value;
-            const loader = document.getElementById('gate-loader');
-
-            // Save to Storage
+        function handleVaultEntry(event) {
+            event.preventDefault();
+            const name = document.getElementById('userName').value;
+            const alertBox = document.getElementById('alertBox');
+            
+            // LocalStorage for Index.html compatibility
             localStorage.setItem('giaUserName', name);
-            if (!localStorage.getItem('giaUserDP')) {
-                localStorage.setItem('giaUserDP', preview.src);
-            }
+            localStorage.setItem('giaUserDP', `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`);
 
-            // Execute Entrance Sequence
-            loader.style.display = 'flex';
-            gsap.from(loader, { opacity: 0, duration: 0.5 });
-
+            // Show Success UI
+            alertBox.style.display = 'block';
+            
             setTimeout(() => {
                 window.location.href = 'index.html';
-            }, 2600);
+            }, 2000);
         }
     </script>
 </body>
