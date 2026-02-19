@@ -3,272 +3,339 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GIA | Enter The Vault</title>
+    <title>GIA LUXE | Enter The Vault</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <style>
         :root {
-            --vault-green: #062c26;
+            --vault-primary: #062c26;
             --vault-gold: #c5a35d;
-            --sky-accent: #0ea5e9;
-            --pink-accent: #f472b6;
+            --sky-glow: #0ea5e9;
+            --pink-glow: #f472b6;
+            --glass-white: rgba(255, 255, 255, 0.95);
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: #fcfcfc;
-            /* Geometric Hexagon Pattern from Screenshot 4 */
-            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 0l40 20v40L40 80 0 60V20z' fill-rule='evenodd' fill='%230ea5e9' fill-opacity='0.03'/%3E%3C/svg%3E");
+            background-color: #ffffff;
+            /* Precise Hexagon Grid Pattern from Screenshot */
+            background-image: radial-gradient(#0ea5e9 0.5px, transparent 0.5px), radial-gradient(#0ea5e9 0.5px, #ffffff 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0;
             overflow: hidden;
-        }
-
-        /* Access Granted Notification Block (Screenshot 1) */
-        .notification-top {
-            position: fixed;
-            top: 30px;
-            background: rgba(6, 44, 38, 0.95);
-            border: 1px solid var(--vault-gold);
-            padding: 18px 30px;
-            border-radius: 15px;
-            z-index: 1000;
-            display: none;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            text-align: left;
-            min-width: 320px;
-        }
-
-        .notification-top h2 { color: var(--vault-gold); font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
-        .notification-top p { color: #fff; font-size: 11px; margin-top: 2px; opacity: 0.8; }
-
-        /* Auth Card Container */
-        .auth-container {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(30px);
-            padding: 4rem 2.5rem;
-            border-radius: 3.5rem;
-            width: 92%;
-            max-width: 440px;
-            text-align: center;
-            border: 1px solid rgba(14, 165, 233, 0.15);
-            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.08);
             position: relative;
         }
 
-        /* GIA Logo Aesthetic */
-        .gia-title {
+        /* Full Background Overlay for depth */
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(255,255,255,0.8) 100%);
+            z-index: 1;
+        }
+
+        /* Notification Alert (Screenshot 1: Access Granted) */
+        .access-notif {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--vault-primary);
+            border: 1px solid var(--vault-gold);
+            padding: 20px 40px;
+            border-radius: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+
+        .access-notif.show { top: 30px; }
+        .access-notif h2 { color: var(--vault-gold); font-weight: 900; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; }
+        .access-notif p { color: white; font-size: 11px; font-weight: 500; opacity: 0.9; }
+
+        /* Main Center Card */
+        .auth-vault-card {
+            background: var(--glass-white);
+            backdrop-filter: blur(40px);
+            padding: 5rem 3rem;
+            border-radius: 4rem;
+            width: 92%;
+            max-width: 460px;
+            text-align: center;
+            border: 1px solid rgba(14, 165, 233, 0.12);
+            box-shadow: 0 50px 120px -20px rgba(14, 165, 233, 0.15);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Branding Section */
+        .crown-ring {
+            width: 90px; height: 90px;
+            background: radial-gradient(circle, #fdf4d5 0%, #c5a35d 100%);
+            border-radius: 50%;
+            margin: 0 auto 2.5rem;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 15px 30px rgba(197, 163, 93, 0.4);
+        }
+
+        .gia-legacy-logo {
             font-family: 'Playfair Display', serif;
+            font-size: 62px;
             font-weight: 900;
-            font-size: 58px;
-            background: linear-gradient(to right, var(--sky-accent), var(--pink-accent));
+            background: linear-gradient(135deg, var(--sky-glow), var(--pink-glow));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            line-height: 1;
+            line-height: 0.8;
+            margin-bottom: 0.5rem;
         }
 
-        .crown-badge {
-            display: inline-flex;
-            background: radial-gradient(circle, #fdf4d5 0%, #c5a35d 100%);
-            padding: 12px;
-            border-radius: 50%;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 10px 20px rgba(197, 163, 93, 0.3);
+        .tagline {
+            font-size: 10px;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.6em;
+            margin-bottom: 3.5rem;
         }
 
-        /* Input Styles (Underline Style from Screenshot 4) */
-        .input-group { margin-bottom: 2rem; text-align: left; }
-        .input-tag { font-size: 9px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; display: block; padding-left: 5px; }
+        /* Form Logic Styling */
+        .input-box { margin-bottom: 2.2rem; text-align: left; position: relative; }
+        .input-box label { font-size: 9px; font-weight: 900; color: #64748b; text-transform: uppercase; letter-spacing: 2.5px; margin-left: 10px; display: block; }
         
-        .vault-input {
+        .vault-input-field {
             width: 100%;
             background: transparent;
             border: none;
-            border-bottom: 1.5px solid #e2e8f0;
-            padding: 12px 5px;
-            font-size: 15px;
-            font-weight: 600;
+            border-bottom: 2px solid #f1f5f9;
+            padding: 12px 10px;
+            font-size: 16px;
+            font-weight: 700;
             color: #1e293b;
-            transition: 0.4s;
-            text-align: left;
+            transition: all 0.4s ease;
         }
 
-        .vault-input:focus {
+        .vault-input-field:focus {
             outline: none;
-            border-bottom-color: var(--sky-accent);
-            background: linear-gradient(to top, rgba(14, 165, 233, 0.02), transparent);
+            border-bottom-color: var(--sky-glow);
+            transform: translateY(-2px);
         }
 
-        /* Master Button */
-        .btn-vault-entry {
+        /* The "Join" Button (Screenshot 4) */
+        .btn-join-vault {
             width: 100%;
-            background: linear-gradient(90deg, var(--sky-accent) 0%, var(--pink-accent) 100%);
+            background: linear-gradient(90deg, var(--sky-glow) 0%, var(--pink-glow) 100%);
             color: white;
-            padding: 1.2rem;
+            padding: 1.4rem;
             border-radius: 100px;
             font-weight: 900;
-            font-size: 11px;
+            font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             border: none;
             cursor: pointer;
-            box-shadow: 0 15px 35px rgba(14, 165, 233, 0.25);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.3);
+            margin-top: 1rem;
+            transition: 0.5s;
         }
 
-        .btn-vault-entry:hover { transform: translateY(-3px); box-shadow: 0 20px 45px rgba(244, 114, 182, 0.35); }
-
-        /* Legal Disclaimer Footer (Bottom Center) */
-        .legal-footer-box {
-            position: absolute;
-            bottom: 30px;
-            text-align: center;
-            width: 100%;
-            padding: 0 20px;
+        .btn-join-vault:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 25px 50px rgba(244, 114, 182, 0.4);
         }
 
-        .legal-footer-box p {
+        /* Disclaimer Text */
+        .archive-notice {
+            margin-top: 2.5rem;
+            font-size: 11px;
+            line-height: 1.8;
             color: #94a3b8;
-            font-size: 8.5px;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            opacity: 0.7;
+            font-weight: 500;
+            padding: 0 1rem;
         }
 
-        /* Hidden AI Search Box (Reference to Commit line 327) */
-        #gia-ai-box {
+        /* Bottom Legal Branding (Required Footer) */
+        .footer-branding {
+            position: absolute;
+            bottom: 40px;
+            width: 100%;
+            text-align: center;
+            z-index: 5;
+        }
+
+        .footer-branding p {
+            color: #cbd5e1;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* Search Debug Box (Line 327) */
+        #gia-debug-box {
             position: fixed;
-            bottom: 100px;
+            bottom: 20px;
+            right: 20px;
             background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 10px;
+            border-radius: 8px;
             display: none;
         }
     </style>
 </head>
 <body>
 
-    <div id="access-alert" class="notification-top">
+    <div id="vault-alert" class="access-notif">
         <h2>Access Granted</h2>
-        <p>Your identity has been verified. Redirecting to GIA LUXE...</p>
+        <p>GIA AI is preparing your personalized vault.</p>
     </div>
 
-    <div class="auth-container">
-        <div class="crown-badge">
-            <i data-lucide="crown" class="w-6 h-6 text-[#062c26]"></i>
+    <div class="auth-vault-card" id="auth-ui">
+        <div class="crown-ring">
+            <i data-lucide="crown" class="w-8 h-8 text-[#062c26]"></i>
         </div>
+        
+        <h1 class="gia-legacy-logo">GIA</h1>
+        <p class="tagline">Enter The Vault</p>
 
-        <h1 class="gia-title">GIA</h1>
-        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.5em] mb-12">Vault Authentication</p>
-
-        <form id="vault-form" onsubmit="handleFinalAuth(event)">
-            <div class="input-group">
-                <span class="input-tag">Registered Name</span>
-                <input type="text" id="user-name" class="vault-input" placeholder="Enter Full Name" required autocomplete="off">
+        <form id="vault-access-form" onsubmit="handleAuthSequence(event)">
+            <div class="input-box">
+                <label>Full Name</label>
+                <input type="text" id="vault-name" class="vault-input-field" placeholder="John Doe" required>
             </div>
 
-            <div class="input-group">
-                <span class="input-tag">Secure Key / Mobile</span>
-                <input type="tel" id="user-key" class="vault-input" placeholder="+91 XXXX XXXX">
+            <div class="input-box">
+                <label>Mobile Number</label>
+                <input type="tel" id="vault-phone" class="vault-input-field" placeholder="+91 00000 00000">
             </div>
 
-            <div class="flex items-center gap-3 mb-10 px-2">
-                <input type="checkbox" id="terms-check" class="w-4 h-4 accent-sky-500 rounded" checked>
-                <label for="terms-check" class="text-[9px] font-bold text-slate-500 uppercase tracking-widest cursor-pointer">Accept Vault Legacy Terms</label>
+            <div class="flex items-center gap-3 mb-8 px-2">
+                <input type="checkbox" id="vault-agree" class="w-4 h-4 accent-sky-500" checked>
+                <label for="vault-agree" class="text-[9px] font-black text-slate-400 uppercase tracking-widest cursor-pointer">Agree to Legacy Terms</label>
             </div>
 
-            <button type="submit" class="btn-vault-entry">
+            <button type="submit" class="btn-join-vault">
                 Join The Vault
             </button>
         </form>
 
-        <p class="mt-10 text-[10px] text-slate-400 leading-relaxed font-medium uppercase tracking-tighter opacity-60">
-            Secure Encryption Enabled • Session Valid 24h
+        <p class="archive-notice">
+            Your details have been secured in our legacy archives. We will be in touch shortly.
         </p>
     </div>
 
-    <div class="legal-footer-box">
-        <p>EST. 2026 • ALTER PROJECT • BHAWANIPATNA, ODISHA</p>
+    <div class="footer-branding">
+        <p>EST. 2026 • EXCLUSIVE MEMBERSHIP • ALTER PROJECT</p>
     </div>
 
-    <div id="gia-ai-box">
-        <p id="gia-ai-text" class="text-xs font-bold text-sky-600"></p>
+    <div id="gia-debug-box">
+        <span id="debug-text"></span>
     </div>
 
     <script>
+        // Init Icons
         lucide.createIcons();
 
-        // ---------------------------------------------------------
-        // RESTORED LOGIC FROM GITHUB COMMIT (Approx Lines 165-334)
-        // ---------------------------------------------------------
+        // -------------------------------------------------------------------
+        // CORE RECONSTRUCTED LOGIC (Ref: GitHub Commit Lines 165-334)
+        // -------------------------------------------------------------------
 
+        /**
+         * finishLogin() function
+         * Lines: Approx 165-175 in your original file
+         */
         function finishLogin() {
-            // Check validation
-            const isAgreed = document.getElementById('terms-check').checked;
-            if(!isAgreed) {
-                alert("Bhai, please accept the terms first!");
+            const check = document.getElementById('vault-agree');
+            if(!check.checked) {
+                alert("Please accept the vault terms to proceed.");
                 return;
             }
 
-            // Session data initialization
-            localStorage.setItem('giaSessionActive', 'true');
-            localStorage.setItem('giaTimestamp', new Date().getTime());
+            // Sync with Index.html
+            localStorage.setItem('giaVaultStatus', 'authenticated');
+            localStorage.setItem('giaLoginTime', new Date().toISOString());
             
-            // Final Redirect
+            // Proceed to the main interface
             window.location.href = 'index.html';
         }
 
-        async function handleFinalAuth(e) {
+        /**
+         * handleAuthSequence() 
+         * Logic handling the notification and storage
+         */
+        async function handleAuthSequence(e) {
             e.preventDefault();
             
-            const name = document.getElementById('user-name').value;
-            const alertBox = document.getElementById('access-alert');
+            const nameValue = document.getElementById('vault-name').value;
+            const notif = document.getElementById('vault-alert');
 
-            // Set local identity
-            localStorage.setItem('giaUserName', name);
-            localStorage.setItem('giaUserDP', `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`);
+            // Data Persistence
+            localStorage.setItem('giaUserName', nameValue);
+            localStorage.setItem('giaUserDP', `https://api.dicebear.com/7.x/avataaars/svg?seed=${nameValue}`);
 
-            // Visual feedback (Screenshot 1 style)
-            alertBox.style.display = 'block';
-            gsap.from(alertBox, { y: -50, opacity: 0, duration: 0.6, ease: "back.out" });
+            // Trigger "Access Granted" Alert (Screenshot 1)
+            notif.classList.add('show');
 
-            // Unified Search Prep (Line 327 logic)
-            runUnifiedSearch(name);
+            // Unified Search Reference (Commit Line 327)
+            await runUnifiedSearch(nameValue);
 
+            // Redirect delay for effect
             setTimeout(() => {
                 finishLogin();
-            }, 2200);
+            }, 2400);
         }
 
+        /**
+         * runUnifiedSearch()
+         * Lines: Approx 327-334 in your original file
+         */
         async function runUnifiedSearch(userName) {
-            const aiBox = document.getElementById('gia-ai-box');
-            const aiText = document.getElementById('gia-ai-text');
+            const debugBox = document.getElementById('gia-debug-box');
+            const debugText = document.getElementById('debug-text');
             
-            // Log to console for debugging commit logic
-            console.log(`System: Unified search initiated for user ${userName}`);
+            console.log(`GIA AI: Initiating secure vault search for ${userName}...`);
             
-            if(aiText) {
-                aiText.innerText = `Bhai, check these curated items for ${userName}!`;
+            if(debugText) {
+                debugText.innerText = `Bhai, check these curated items for ${userName}!`;
             }
+
+            // Simulate AI Processing
+            return new Promise(resolve => setTimeout(resolve, 1000));
         }
 
-        // GSAP Entrance Animation
-        gsap.from(".auth-container", { 
-            scale: 0.9, 
-            opacity: 0, 
-            duration: 1.2, 
-            ease: "power4.out" 
-        });
-
+        // GSAP Visual Polish
+        window.onload = () => {
+            gsap.from("#auth-ui", {
+                opacity: 0,
+                y: 40,
+                duration: 1.2,
+                ease: "power4.out"
+            });
+            
+            gsap.from(".input-box", {
+                opacity: 0,
+                x: -20,
+                stagger: 0.2,
+                delay: 0.5,
+                duration: 1
+            });
+        };
     </script>
 </body>
 </html>
