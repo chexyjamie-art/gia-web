@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIA AI | 3D Human Mapping</title>
+    <title>GIA AI | 3D Photo Upload Fix</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
@@ -11,162 +11,155 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        body { background: #f0f4f8; font-family: 'Inter', sans-serif; overflow: hidden; }
-        #canvas-container { width: 100vw; height: 100vh; cursor: grab; background: radial-gradient(circle, #ffffff, #e2e8f0); }
-        .ui-panel { position: absolute; z-index: 100; pointer-events: none; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding: 2rem; }
+        body { background: #0a0a0a; color: white; font-family: 'Inter', sans-serif; overflow: hidden; }
+        #canvas-container { position: fixed; inset: 0; z-index: 1; }
+        .ui-layer { position: relative; z-index: 10; pointer-events: none; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
         .interactive { pointer-events: auto; }
-        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.4); border-radius: 2rem; }
-        .scan-line { position: absolute; width: 100%; height: 5px; background: #0ea5e9; box-shadow: 0 0 25px #0ea5e9; z-index: 200; display: none; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 2.5rem; }
+        .upload-box { border: 2px dashed rgba(14, 165, 233, 0.4); transition: 0.3s; }
+        .upload-box:hover { border-color: #0ea5e9; background: rgba(14, 165, 233, 0.05); }
     </style>
 </head>
 <body>
 
-    <div id="canvas-container">
-        <div id="scanner" class="scan-line"></div>
+    <div id="canvas-container"></div>
+
+    <div class="ui-layer">
         
-        <div class="ui-panel">
-            <div class="flex justify-between items-start interactive">
-                <div class="glass p-6 shadow-xl">
-                    <h1 class="text-3xl font-black italic gold-text tracking-tighter">GIA <span class="text-sky-500">3D-MAP</span></h1>
-                    <p class="text-[9px] font-bold uppercase tracking-[0.4em] text-slate-400">Generative AI Fitting Room</p>
+        <div id="setup-card" class="glass p-8 w-full max-w-lg shadow-2xl interactive">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-black italic gold-text">GIA <span class="text-sky-500">3D ENGINE</span></h1>
+                <p class="text-[10px] uppercase tracking-widest text-slate-400 mt-2 font-bold">Please provide your photos & metrics</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6 mb-8">
+                <div>
+                    <label class="text-[9px] font-black uppercase text-sky-400">Height (cm)</label>
+                    <input type="number" id="height-input" value="175" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 outline-none focus:border-sky-500">
                 </div>
-                <div id="report" class="glass p-4 shadow-2xl hidden">
-                    <p class="text-[8px] font-black text-pink-500 uppercase">3D Mapping Score</p>
-                    <div class="text-2xl font-black italic">9.9/10</div>
+                <div>
+                    <label class="text-[9px] font-black uppercase text-sky-400">Weight (kg)</label>
+                    <input type="number" id="weight-input" value="70" class="w-full bg-white/5 border border-white/10 rounded-xl p-3 outline-none focus:border-sky-500">
                 </div>
             </div>
 
-            <div id="upload-step" class="flex flex-col items-center gap-4 interactive">
-                <div class="glass p-8 shadow-2xl text-center max-w-sm">
-                    <h2 class="text-xl font-bold mb-4 italic">Create Your 3D Avatar</h2>
-                    <p class="text-[10px] text-slate-500 mb-6 uppercase tracking-widest leading-relaxed">Please upload your Front & Back photos for a full 360° Try-On.</p>
-                    
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <label class="flex flex-col items-center gap-2 p-4 border-2 border-dashed border-sky-200 rounded-2xl cursor-pointer hover:bg-sky-50 transition-all">
-                            <i data-lucide="image" class="text-sky-400 w-5 h-5"></i>
-                            <span class="text-[8px] font-black uppercase">Front View</span>
-                            <input type="file" id="front-img" class="hidden" accept="image/*">
-                        </label>
-                        <label class="flex flex-col items-center gap-2 p-4 border-2 border-dashed border-pink-200 rounded-2xl cursor-pointer hover:bg-pink-50 transition-all">
-                            <i data-lucide="image" class="text-pink-400 w-5 h-5"></i>
-                            <span class="text-[8px] font-black uppercase">Back View</span>
-                            <input type="file" id="back-img" class="hidden" accept="image/*">
-                        </label>
-                    </div>
-                    
-                    <button onclick="generate3D()" class="w-full bg-slate-900 text-white py-4 rounded-xl text-xs font-black uppercase tracking-widest shadow-xl hover:bg-black transition-all">Generate 3D Fit</button>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <label class="upload-box p-6 rounded-3xl flex flex-col items-center gap-3 cursor-pointer">
+                    <i data-lucide="camera" class="text-sky-400"></i>
+                    <span class="text-[10px] font-bold uppercase" id="front-status">Upload Front</span>
+                    <input type="file" id="front-file" class="hidden" accept="image/*" onchange="updateLabel('front')">
+                </label>
+
+                <label class="upload-box p-6 rounded-3xl flex flex-col items-center gap-3 cursor-pointer">
+                    <i data-lucide="camera" class="text-pink-400"></i>
+                    <span class="text-[10px] font-bold uppercase" id="back-status">Upload Back</span>
+                    <input type="file" id="back-file" class="hidden" accept="image/*" onchange="updateLabel('back')">
+                </label>
             </div>
 
-            <div id="controls-step" class="hidden flex justify-center gap-4 interactive mb-4">
-                <div class="glass p-4 flex gap-4 shadow-2xl">
-                    <button onclick="location.reload()" class="p-3 bg-slate-100 rounded-xl hover:bg-pink-100"><i data-lucide="refresh-cw" class="w-5 h-5"></i></button>
-                    <button class="bg-sky-500 text-white px-10 py-3 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-sky-200">Confirm Order</button>
-                </div>
-            </div>
+            <button onclick="processTryOn()" class="w-full bg-sky-500 py-5 rounded-2xl font-black uppercase text-xs tracking-[0.2em] shadow-xl shadow-sky-500/20 hover:scale-[1.02] active:scale-95 transition-all">
+                Generate My 3D Avatar
+            </button>
         </div>
+
+        <div id="success-hud" class="hidden glass p-6 flex flex-col items-center gap-4 interactive animate-bounce">
+            <p class="text-[10px] font-black uppercase tracking-widest">3D Fit Successful!</p>
+            <button onclick="location.reload()" class="bg-white text-black px-8 py-3 rounded-full text-[10px] font-black uppercase">Try Another</button>
+        </div>
+
     </div>
 
     <script>
         lucide.createIcons();
+        let scene, camera, renderer, controls, avatar;
 
-        let scene, camera, renderer, controls, userModel, clothMesh;
+        function updateLabel(side) {
+            const input = document.getElementById(side + '-file');
+            const label = document.getElementById(side + '-status');
+            if(input.files.length > 0) {
+                label.innerText = "Photo Ready ✅";
+                label.classList.add('text-green-400');
+            }
+        }
 
-        function init() {
-            const container = document.getElementById('canvas-container');
+        function init3D() {
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.set(0, 1, 10);
+            camera.position.set(0, 0, 10);
 
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            container.appendChild(renderer.domElement);
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
 
             controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
-            controls.enablePan = false;
-            controls.autoRotate = false;
-
-            scene.add(new THREE.AmbientLight(0xffffff, 1));
-            const light = new THREE.PointLight(0xffffff, 0.5);
-            light.position.set(5, 5, 5);
-            scene.add(light);
-
+            
+            scene.add(new THREE.AmbientLight(0xffffff, 1.5));
             animate();
         }
 
-        async function generate3D() {
-            const frontFile = document.getElementById('front-img').files[0];
-            const backFile = document.getElementById('back-img').files[0];
+        async function processTryOn() {
+            const fFile = document.getElementById('front-file').files[0];
+            const bFile = document.getElementById('back-file').files[0];
 
-            if (!frontFile || !backFile) return alert("Bhai, Front aur Back dono photos upload karo!");
+            if(!fFile || !bFile) {
+                alert("Bhai, pehle Front aur Back dono photos toh upload karo!");
+                return;
+            }
 
-            document.getElementById('upload-step').classList.add('hidden');
-            const scanner = document.getElementById('scanner');
-            scanner.style.display = 'block';
-            gsap.fromTo(scanner, { top: '0%' }, { top: '100%', duration: 2, repeat: 1, yoyo: true, onComplete: () => {
-                scanner.style.display = 'none';
-                finalize3D(frontFile, backFile);
-            }});
-        }
+            // UI Changes
+            document.getElementById('setup-card').classList.add('hidden');
+            document.getElementById('success-hud').classList.remove('hidden');
 
-        function finalize3D(frontFile, backFile) {
             const loader = new THREE.TextureLoader();
-            const frontTex = loader.load(URL.createObjectURL(frontFile));
-            const backTex = loader.load(URL.createObjectURL(backFile));
+            const fTex = loader.load(URL.createObjectURL(fFile));
+            const bTex = loader.load(URL.createObjectURL(bFile));
 
-            // Create a 3D Avatar Group
-            userModel = new THREE.Group();
+            const h = document.getElementById('height-input').value / 175;
+            const w = document.getElementById('weight-input').value / 70;
 
-            // 1. FRONT PANEL (User's front)
-            const geo = new THREE.PlaneGeometry(5, 8, 30, 30);
-            // Warp it slightly for 3D depth
+            avatar = new THREE.Group();
+
+            // 3D Mesh Body
+            const geo = new THREE.PlaneGeometry(5 * w, 8 * h, 40, 40);
             const pos = geo.attributes.position;
             for(let i=0; i<pos.count; i++) {
                 let x = pos.getX(i);
-                pos.setZ(i, Math.cos(x * 0.8) * 0.4);
+                pos.setZ(i, Math.cos(x * (0.8/w)) * 0.5);
             }
-            const matFront = new THREE.MeshStandardMaterial({ map: frontTex, transparent: true, side: THREE.FrontSide });
-            const frontPlane = new THREE.Mesh(geo, matFront);
 
-            // 2. BACK PANEL (User's back)
-            const matBack = new THREE.MeshStandardMaterial({ map: backTex, transparent: true, side: THREE.FrontSide });
-            const backPlane = new THREE.Mesh(geo, matBack);
-            backPlane.rotation.y = Math.PI; // Flip it to face back
-            backPlane.position.z = -0.1; // Place it just behind
+            const frontMesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: fTex, transparent: true, side: THREE.FrontSide }));
+            const backMesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: bTex, transparent: true, side: THREE.FrontSide }));
+            backMesh.rotation.y = Math.PI;
+            backMesh.position.z = -0.1;
 
-            userModel.add(frontPlane);
-            userModel.add(backPlane);
-            scene.add(userModel);
-
-            // 3. THE PRODUCT (Automatically wrap the product on the model)
-            // Using a sample product image for demo
-            const clothGeo = new THREE.PlaneGeometry(4.2, 6, 40, 40);
-            const clothPos = clothGeo.attributes.position;
-            for(let i=0; i<clothPos.count; i++) {
-                let x = clothPos.getX(i);
-                clothPos.setZ(i, Math.cos(x * 0.8) * 0.5 + 0.1); // Slightly wider than body
-            }
+            // Product (Cloth Overlay)
+            const cGeo = new THREE.PlaneGeometry(5.2 * w, 6.5 * h, 40, 40);
             const clothTex = loader.load('https://i.imgur.com/u7V0HhK.png');
-            const clothMat = new THREE.MeshStandardMaterial({ map: clothTex, transparent: true, side: THREE.DoubleSide });
-            clothMesh = new THREE.Mesh(clothGeo, clothMat);
-            clothMesh.position.y = 0.5;
-            userModel.add(clothMesh); // Cloth moves with userModel
+            const clothMesh = new THREE.Mesh(cGeo, new THREE.MeshStandardMaterial({ map: clothTex, transparent: true, side: THREE.DoubleSide }));
+            clothMesh.position.y = 0.5 * h;
+            clothMesh.position.z = 0.1;
 
-            document.getElementById('controls-step').classList.remove('hidden');
-            document.getElementById('report').classList.remove('hidden');
-            
-            // Auto-Rotate success animation
-            gsap.to(userModel.rotation, { y: Math.PI * 2, duration: 4, ease: "power2.inOut" });
+            avatar.add(frontMesh, backMesh, clothMesh);
+            scene.add(avatar);
+
+            // Intro Animation
+            gsap.from(avatar.rotation, { y: Math.PI * 2, duration: 2.5, ease: "power2.out" });
         }
 
         function animate() {
             requestAnimationFrame(animate);
-            controls.update();
+            if(controls) controls.update();
             renderer.render(scene, camera);
         }
 
-        init();
+        init3D();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
     </script>
 </body>
 </html>
