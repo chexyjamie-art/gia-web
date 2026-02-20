@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <style>
         :root { --sky: #0ea5e9; --pink: #f472b6; --slate: #1e293b; }
@@ -19,21 +21,20 @@
         #tryon-portal { display: none; position: fixed; inset: 0; z-index: 9999; background: #fff; flex-direction: column; }
         #canvas-container { 
             flex-grow: 1; position: relative; background: radial-gradient(circle, #ffffff 0%, #f1f5f9 100%);
-            cursor: grab; display: flex; align-items: center; justify-content: center;
+            cursor: grab; display: flex; align-items: center; justify-content: center; overflow: hidden;
         }
         #canvas-container:active { cursor: grabbing; }
 
         /* --- SCANNING EFFECT --- */
         .scan-layer {
             position: absolute; inset: 0; pointer-events: none; z-index: 100;
-            background: linear-gradient(rgba(14,165,233,0.1) 50%, rgba(14,165,233,0.2) 50%);
+            background: linear-gradient(rgba(14,165,233,0.05) 50%, rgba(14,165,233,0.1) 50%);
             background-size: 100% 4px; display: none;
         }
         .scan-bar {
-            position: absolute; left: 0; right: 0; height: 2px; background: var(--sky);
-            box-shadow: 0 0 20px var(--sky); z-index: 101; animation: scanAnim 2s infinite linear; display: none;
+            position: absolute; left: 0; right: 0; height: 3px; background: var(--sky);
+            box-shadow: 0 0 25px var(--sky); z-index: 101; display: none;
         }
-        @keyframes scanAnim { 0% { top: 0%; } 100% { top: 100%; } }
 
         /* --- PRODUCT GRID --- */
         .main-grid { display: grid; gap: 1.5rem; padding: 2rem; grid-template-columns: repeat(2, 1fr); }
@@ -46,9 +47,7 @@
         }
         .item-card:hover { transform: translateY(-8px); border-color: var(--pink); box-shadow: 0 25px 50px -12px rgba(244,114,182,0.2); }
 
-        /* --- UI ELEMENTS --- */
         .badge-3d { position: absolute; top: 20px; right: 20px; background: #000; color: #fff; padding: 4px 12px; border-radius: 99px; font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; }
-        .control-panel { background: white; border-top: 1px solid #f1f5f9; padding: 2rem; }
     </style>
 </head>
 <body>
@@ -67,13 +66,12 @@
 
     <main class="max-w-7xl mx-auto px-6 py-12">
         <div class="text-center mb-16">
-            <h2 class="text-5xl md:text-7xl royal-logo italic mb-6">Welcome, <span class="gold-text" id="user-name">Stylist</span></h2>
+            <h2 class="text-5xl md:text-7xl royal-logo italic mb-6">Welcome, <span class="gold-text">Stylist</span></h2>
             <div class="max-w-2xl mx-auto bg-slate-50 rounded-full p-2 flex border border-slate-100 shadow-inner">
                 <input type="text" placeholder="Search clothes, glasses, bags..." class="bg-transparent flex-grow px-6 outline-none text-sm font-medium">
                 <button class="bg-slate-900 text-white px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest">Ask GIA</button>
             </div>
         </div>
-
         <div id="product-list" class="main-grid"></div>
     </main>
 
@@ -81,7 +79,7 @@
         <div class="p-6 flex justify-between items-center border-b">
             <div>
                 <h3 class="royal-logo text-xl italic" id="active-title">3D Fitting Room</h3>
-                <p class="text-[9px] font-black text-sky-500 uppercase tracking-widest">Move your mouse/finger to rotate 360°</p>
+                <p class="text-[9px] font-black text-sky-500 uppercase tracking-widest">Interact to Rotate & Zoom</p>
             </div>
             <button onclick="closeTryOn()" class="w-12 h-12 flex items-center justify-center bg-slate-50 rounded-full"><i data-lucide="x"></i></button>
         </div>
@@ -89,29 +87,28 @@
         <div id="canvas-container">
             <div class="scan-layer" id="scan-layer"></div>
             <div class="scan-bar" id="scan-bar"></div>
-            
-            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 bg-black/50 text-white px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest backdrop-blur-md pointer-events-none">
-                ↔ Drag to Rotate 360°
-            </div>
 
-            <div class="absolute top-10 right-10 w-48 bg-white/90 backdrop-blur-xl p-5 rounded-[2rem] border border-sky-100 shadow-2xl">
+            <div class="absolute top-10 right-10 w-48 bg-white/90 backdrop-blur-xl p-5 rounded-[2rem] border border-sky-100 shadow-2xl z-[200]">
                 <p class="text-[8px] font-black text-pink-500 uppercase mb-2">AI Fit Report</p>
                 <div class="text-3xl font-black italic mb-1">9.8<span class="text-xs">/10</span></div>
-                <p class="text-[10px] text-slate-500 leading-tight">Perfect match for your shoulder-width and posture.</p>
+                <p class="text-[10px] text-slate-500 leading-tight">Neural mesh warping matched to your physique.</p>
             </div>
         </div>
 
-        <div class="control-panel">
+        <div class="control-panel bg-white border-t p-8">
             <div class="max-w-4xl mx-auto flex flex-col md:flex-row gap-8 items-center">
                 <div class="flex gap-4">
-                    <button onclick="simulateUpload()" class="flex flex-col items-center gap-2 p-5 border-2 border-dashed border-sky-200 rounded-[2rem] w-32 hover:bg-sky-50 transition-all">
-                        <i data-lucide="upload-cloud" class="text-sky-500"></i>
-                        <span class="text-[8px] font-black uppercase">Your Photo</span>
-                    </button>
+                    <label class="cursor-pointer">
+                        <input type="file" id="body-upload" class="hidden" accept="image/*" onchange="handleBodyUpload(this)">
+                        <div class="flex flex-col items-center gap-2 p-5 border-2 border-dashed border-sky-200 rounded-[2rem] w-32 hover:bg-sky-50 transition-all">
+                            <i data-lucide="camera" class="text-sky-500"></i>
+                            <span class="text-[8px] font-black uppercase">Sync Body</span>
+                        </div>
+                    </label>
                 </div>
                 <div class="flex-grow text-center md:text-left">
                     <h4 class="text-2xl royal-logo italic" id="display-name">Product Name</h4>
-                    <p class="text-xs text-slate-400">Our AI has generated a 3D mannequin based on your photo.</p>
+                    <p class="text-xs text-slate-400">3D Mesh is currently auto-warped to standard proportions.</p>
                 </div>
                 <button class="w-full md:w-auto bg-gradient-to-r from-sky-400 to-pink-400 text-white px-12 py-5 rounded-2xl font-black uppercase text-xs tracking-widest shadow-xl">Buy Now</button>
             </div>
@@ -122,34 +119,31 @@
         <div class="max-w-4xl mx-auto px-6">
             <h3 class="royal-logo text-lg gold-text mb-6">GIA LUXE</h3>
             <p class="text-[10px] text-slate-400 leading-relaxed tracking-widest uppercase font-bold">
-                LEGAL DISCLAIMER: GIA LUXE uses 3D generative AI for virtual fittings. The 360° simulations are for guidance only. All brands (Amazon, Myntra, etc.) are trademarks of their respective owners. Powered by ALTER Project.
+                LEGAL DISCLAIMER: GIA LUXE uses 3D generative AI for virtual fittings. Powered by ALTER Project.
             </p>
-            <div class="w-12 h-px bg-sky-200 mx-auto my-8"></div>
-            <p class="text-[9px] text-slate-300 font-bold tracking-[0.5em]">© 2026 BHAWANIPATNA, ODISHA</p>
+            <p class="text-[9px] text-slate-300 font-bold tracking-[0.5em] mt-8">© 2026 BHAWANIPATNA, ODISHA</p>
         </div>
     </footer>
 
     <script>
         const products = [
-            { id: 1, name: "Premium Silk Shirt", cat: "Topwear", price: "3,499", brand: "Zara", img: "https://images.unsplash.com/photo-1598033129183-c4f50c7176c8?w=500" },
-            { id: 2, name: "Aviator Classic", cat: "Glasses", price: "9,999", brand: "RayBan", img: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500" },
-            { id: 3, name: "Tapered Denim", cat: "Bottomwear", price: "4,200", brand: "Levi's", img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500" },
-            { id: 4, name: "Urban Sneakers", cat: "Footwear", price: "7,500", brand: "Nike", img: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500" },
-            { id: 5, name: "Leather Handbag", cat: "Bags", price: "12,999", brand: "Gucci", img: "https://images.unsplash.com/photo-1584917033904-47e08ec0b1c0?w=500" }
+            { id: 1, name: "Premium Silk Shirt", cat: "Topwear", price: "3,499", brand: "Zara", img: "https://i.imgur.com/u7V0HhK.png" },
+            { id: 2, name: "Classic Polo", cat: "Topwear", price: "2,999", brand: "Lacoste", img: "https://i.imgur.com/u7V0HhK.png" },
+            { id: 3, name: "Neural Denim", cat: "Bottomwear", price: "4,500", brand: "Levi's", img: "https://i.imgur.com/u7V0HhK.png" }
         ];
 
         window.onload = () => {
             renderProducts(products);
             lucide.createIcons();
-            init3D();
+            init3DEngine();
         };
 
         function renderProducts(data) {
             const grid = document.getElementById('product-list');
             grid.innerHTML = data.map(p => `
-                <div class="item-card" onclick="open3DTryOn('${p.name}', '${p.img}')">
+                <div class="item-card" onclick="openTryOnPortal('${p.name}', '${p.img}')">
                     <div class="badge-3d">3D Try-On</div>
-                    <img src="${p.img}" class="w-full h-80 object-cover rounded-[2rem] mb-6">
+                    <img src="${p.img}" class="w-full h-80 object-contain rounded-[2rem] mb-6 bg-slate-50">
                     <div class="px-2 flex justify-between items-end">
                         <div>
                             <p class="text-[8px] font-black text-sky-400 uppercase tracking-widest mb-1">${p.brand} • ${p.cat}</p>
@@ -161,78 +155,98 @@
             `).join('');
         }
 
-        // --- THREE.JS 3D ENGINE ---
-        let scene, camera, renderer, mannequin;
+        // --- CORE 3D ENGINE (REPLACED CYLINDER WITH MESH WARP) ---
+        let scene, camera, renderer, clothMesh, controls, backgroundPlane;
 
-        function init3D() {
+        function init3DEngine() {
             const container = document.getElementById('canvas-container');
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0, 8);
+
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
             container.appendChild(renderer.domElement);
 
-            // Lighting
-            const light = new THREE.DirectionalLight(0xffffff, 1);
-            light.position.set(5, 5, 5).underline = true;
-            scene.add(light);
-            scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+            // Orbit Controls for 360 Rotation
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.enablePan = false;
+            controls.minDistance = 5;
+            controls.maxDistance = 12;
 
-            // Mannequin (Simplified as a 3D Cylinder for Demo)
-            const geometry = new THREE.CylinderGeometry(1, 1, 4, 32);
-            const material = new THREE.MeshPhongMaterial({ color: 0xffffff });
-            mannequin = new THREE.Mesh(geometry, material);
-            scene.add(mannequin);
+            const ambient = new THREE.AmbientLight(0xffffff, 1);
+            scene.add(ambient);
 
-            camera.position.z = 10;
+            // Background Plane for User Photo
+            const bgGeo = new THREE.PlaneGeometry(10, 14);
+            backgroundPlane = new THREE.Mesh(bgGeo, new THREE.MeshBasicMaterial({ color: 0xf1f5f9 }));
+            backgroundPlane.position.z = -3;
+            scene.add(backgroundPlane);
 
-            // Rotation Logic
-            let isDragging = false;
-            let previousMouseX = 0;
-
-            container.onmousedown = (e) => { isDragging = true; };
-            window.onmouseup = () => { isDragging = false; };
-            window.onmousemove = (e) => {
-                if (isDragging) {
-                    const deltaX = e.clientX - previousMouseX;
-                    mannequin.rotation.y += deltaX * 0.01;
-                }
-                previousMouseX = e.clientX;
-            };
-
-            function animate() {
-                requestAnimationFrame(animate);
-                renderer.render(scene, camera);
-            }
-            animate();
+            animateLoop();
         }
 
-        function open3DTryOn(name, img) {
+        function animateLoop() {
+            requestAnimationFrame(animateLoop);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        async function openTryOnPortal(name, imgUrl) {
             document.getElementById('tryon-portal').style.display = 'flex';
             document.getElementById('display-name').innerText = name;
             
-            const scanLayer = document.getElementById('scan-layer');
-            const scanBar = document.getElementById('scan-bar');
-            
-            // Start AI Scan
-            scanLayer.style.display = 'block';
-            scanBar.style.display = 'block';
+            // UI Scan Effect
+            const bar = document.getElementById('scan-bar');
+            const layer = document.getElementById('scan-layer');
+            layer.style.display = 'block';
+            bar.style.display = 'block';
+            gsap.fromTo(bar, { top: '0%' }, { top: '100%', duration: 1.5, repeat: 1, yoyo: true, onComplete: () => {
+                layer.style.display = 'none';
+                bar.style.display = 'none';
+            }});
 
-            setTimeout(() => {
-                scanLayer.style.display = 'none';
-                scanBar.style.display = 'none';
-                // Change Mannequin color to simulate product "wearing"
-                mannequin.material.color.setHex(Math.random() * 0xffffff);
-            }, 2500);
+            // Build 3D Mesh
+            if (clothMesh) scene.remove(clothMesh);
+
+            const geometry = new THREE.PlaneGeometry(4, 5, 40, 40);
+            const pos = geometry.attributes.position;
+            // Apply Warping Logic
+            for (let i = 0; i < pos.count; i++) {
+                let x = pos.getX(i);
+                let y = pos.getY(i);
+                let z = Math.cos(x * 1.0) * 0.4 + Math.sin(y * 0.3) * 0.2;
+                pos.setZ(i, z);
+            }
+            pos.needsUpdate = true;
+
+            const texture = new THREE.TextureLoader().load(imgUrl);
+            const material = new THREE.MeshStandardMaterial({ 
+                map: texture, transparent: true, side: THREE.DoubleSide, roughness: 0.5 
+            });
+
+            clothMesh = new THREE.Mesh(geometry, material);
+            scene.add(clothMesh);
+            gsap.from(clothMesh.scale, { x:0, y:0, z:0, duration: 1, ease: "back.out" });
         }
 
         function closeTryOn() {
             document.getElementById('tryon-portal').style.display = 'none';
         }
 
-        function simulateUpload() {
-            alert("GIA AI: Photo detected. Analyzing body proportions to generate your 3D avatar...");
-            open3DTryOn("Your Custom Fit", "");
+        function handleBodyUpload(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    new THREE.TextureLoader().load(e.target.result, (tex) => {
+                        backgroundPlane.material.map = tex;
+                        backgroundPlane.material.needsUpdate = true;
+                    });
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
         }
     </script>
 </body>
