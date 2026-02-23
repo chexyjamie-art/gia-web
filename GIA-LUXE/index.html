@@ -2,32 +2,275 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GIA Luxe</title>
-<link rel="stylesheet" href="css/style.css">
-<script defer src="js/app.js"></script>
-</head>
-<body>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GIA LUXE | Visual AI Stylist</title>
 
-<header class="nav">
-<h1>GIA LUXE</h1>
-<div>
-<button onclick="openAI()">AI Search</button>
-<a href="profile.html">Profile</a>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+if(!localStorage.getItem("giaUserName")) location.href="login.html";
+</script>
+
+<style>
+body{
+background:linear-gradient(135deg,#f0f9ff,#fff,#fff1f2);
+font-family:'Inter',sans-serif;
+margin:0;
+overflow-x:hidden;
+color:#1e293b;
+}
+
+.royal-logo{font-family:'Playfair Display',serif;font-weight:900;letter-spacing:.3em;text-transform:uppercase}
+.gold-text{background:linear-gradient(to right,#0ea5e9,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+.product-card{
+background:rgba(255,255,255,.75);
+backdrop-filter:blur(15px);
+border-radius:2rem;
+border:1px solid rgba(14,165,233,.1);
+transition:.35s;
+cursor:pointer;
+}
+.product-card:hover{transform:translateY(-8px);border-color:#f472b6}
+
+.tryon-trigger-btn{
+margin-top:10px;
+background:#1e293b;
+color:#fff;
+padding:8px;
+border-radius:12px;
+font-size:9px;
+font-weight:900;
+letter-spacing:1px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:5px;
+}
+.tryon-trigger-btn:hover{background:#0ea5e9}
+
+#tryon-portal{display:none;position:fixed;inset:0;z-index:6000;background:#fff;flex-direction:column}
+#canvas-container{flex-grow:1;background:#111827;position:relative}
+
+.scan-bar-3d{
+position:absolute;
+left:0;right:0;height:2px;
+background:#0ea5e9;
+box-shadow:0 0 15px #0ea5e9;
+animation:scan 2s linear infinite;
+display:none;
+}
+@keyframes scan{0%{top:0}100%{top:100%}}
+
+.score-badge{
+position:absolute;
+top:15px;
+left:15px;
+background:linear-gradient(45deg,#0ea5e9,#f472b6);
+color:#fff;
+font-weight:900;
+padding:4px 10px;
+border-radius:10px;
+font-size:10px;
+}
+
+.mobile-nav{
+display:flex;
+position:fixed;
+bottom:0;left:0;right:0;
+background:#ffffffee;
+backdrop-filter:blur(20px);
+border-top:1px solid rgba(14,165,233,.1);
+padding:1rem;
+justify-content:space-around;
+}
+</style>
+</head>
+
+<body class="pb-24">
+
+<header class="py-6 px-6 border-b bg-white/70 backdrop-blur sticky top-0 z-50">
+<nav class="flex justify-between items-center max-w-7xl mx-auto">
+<button onclick="filterType('offer')"><i data-lucide="percent" class="text-sky-500"></i></button>
+<h1 class="royal-logo gold-text text-2xl cursor-pointer" onclick="location.reload()">GIA LUXE</h1>
+<div class="flex items-center gap-3">
+<span id="nav-user-name" class="text-[10px] font-bold uppercase text-sky-600"></span>
+<img id="user-avatar" class="w-10 h-10 rounded-full border">
 </div>
+</nav>
 </header>
 
-<section class="hero">
-<h2>Smart AI Shopping Engine</h2>
-<p>Find Perfect Products in 1 Try</p>
-</section>
+<main class="max-w-7xl mx-auto px-6 py-12">
 
-<section id="products" class="grid"></section>
+<h2 class="text-4xl royal-logo gold-text text-center mb-10 italic">
+Welcome, <span id="hero-name">Stylist</span>
+</h2>
 
-<div id="aiBox" class="aiBox hidden">
-<input id="aiInput" placeholder="Ask AI what you want...">
-<button onclick="runAI()">Search</button>
+<input id="ai-search-input"
+placeholder="Search or ask GIA..."
+class="w-full max-w-xl mx-auto block border rounded-full px-6 py-4 shadow mb-10">
+
+<h3 id="section-title" class="text-[10px] font-bold tracking-[0.4em] uppercase text-sky-500 mb-10">
+AI Picks
+</h3>
+
+<div id="product-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-6"></div>
+
+</main>
+
+<!-- TRYON -->
+<div id="tryon-portal">
+<div class="p-6 flex justify-between border-b">
+<h3 id="tryon-prod-name" class="royal-logo">3D Studio</h3>
+<button onclick="closeTryOn()"><i data-lucide="x"></i></button>
 </div>
+<div id="canvas-container">
+<div class="scan-bar-3d" id="scan-bar-3d"></div>
+</div>
+</div>
+
+<div id="score-modal" onclick="if(event.target==this)closeScore()" style="display:none;position:fixed;inset:0;background:#ffffffcc;backdrop-filter:blur(20px);align-items:center;justify-content:center;z-index:3000">
+<div id="score-modal-content"></div>
+</div>
+
+<div id="details-modal" onclick="if(event.target==this)closeDetails()" style="display:none;position:fixed;inset:0;background:#ffffffcc;backdrop-filter:blur(20px);align-items:center;justify-content:center;z-index:3000">
+<div id="modal-content"></div>
+</div>
+
+<nav class="mobile-nav">
+<button onclick="filterType('regular')" class="text-sky-500"><i data-lucide="home"></i></button>
+<button onclick="filterType('combo')"><i data-lucide="package"></i></button>
+<button onclick="filterType('offer')"><i data-lucide="percent"></i></button>
+</nav>
+
+<script>
+lucide.createIcons();
+
+/* PRODUCTS */
+const products=[];
+const types=["regular","combo","offer"];
+const brands=["Amazon","Myntra","Ajio","Zara","Zudio"];
+
+for(let i=1;i<=60;i++){
+let t=types[Math.floor((i-1)/20)];
+products.push({
+id:i,
+type:t,
+name:`${t==="combo"?"Bundle":"Premium"} Item ${i}`,
+price:(Math.random()*5000+999|0),
+match:(8.5+Math.random()*1.4).toFixed(1),
+img:`https://picsum.photos/seed/gia${i}/600`,
+brand:brands[i%5],
+wearable:i%2===0
+});
+}
+
+/* INIT */
+window.onload=()=>{
+let name=localStorage.getItem("giaUserName")||"Stylist";
+hero-name.textContent=name;
+nav-user-name.textContent=name;
+user-avatar.src=localStorage.getItem("giaUserDP")||`https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`;
+render(products.filter(p=>p.type==="regular"));
+init3D();
+};
+
+/* RENDER */
+function render(list){
+product-grid.innerHTML=list.map(p=>`
+<div class="product-card p-4" onclick="details('${p.img}','${p.name}','${p.price}')">
+
+<div class="score-badge" onclick="event.stopPropagation();score('${p.name}','${p.match}')">
+${p.match}
+</div>
+
+<img src="${p.img}" class="rounded-2xl mb-4">
+
+<h4 class="text-xs font-bold uppercase">${p.name}</h4>
+<p class="font-black gold-text">₹${p.price}</p>
+
+${p.wearable?`<button class="tryon-trigger-btn"
+onclick="event.stopPropagation();openTry('${p.name}')">
+3D Try-On</button>`:""}
+
+</div>
+`).join("");
+
+lucide.createIcons();
+}
+
+/* FILTER */
+function filterType(t){
+section-title.textContent=t.toUpperCase()+" PICKS";
+render(products.filter(p=>p.type===t));
+}
+
+/* MODALS */
+function details(img,name,price){
+modal-content.innerHTML=`
+<div class="bg-white p-10 rounded-3xl text-center shadow-2xl">
+<img src="${img}" class="w-72 mx-auto mb-6 rounded-2xl">
+<h2 class="royal-logo text-2xl">${name}</h2>
+<p class="gold-text text-xl">₹${price}</p>
+</div>`;
+details-modal.style.display="flex";
+}
+function score(n,m){
+score-modal-content.innerHTML=`
+<div class="bg-white p-12 rounded-3xl text-center">
+<h2 class="royal-logo mb-4">${n}</h2>
+<div class="text-6xl font-black text-sky-600">${m}</div>
+</div>`;
+score-modal.style.display="flex";
+}
+function closeDetails(){details-modal.style.display="none"}
+function closeScore(){score-modal.style.display="none"}
+
+/* SEARCH */
+ai-search-input.onkeydown=e=>{
+if(e.key==="Enter") alert("AI searching: "+e.target.value);
+};
+
+/* 3D */
+let scene,camera,renderer,model;
+function init3D(){
+let c=document.getElementById("canvas-container");
+scene=new THREE.Scene();
+camera=new THREE.PerspectiveCamera(45,c.clientWidth/c.clientHeight,0.1,1000);
+renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(c.clientWidth,c.clientHeight);
+c.appendChild(renderer.domElement);
+
+scene.add(new THREE.AmbientLight(0xffffff,1));
+let light=new THREE.PointLight(0xffffff,.5);
+light.position.set(5,5,5);
+scene.add(light);
+
+model=new THREE.Mesh(
+new THREE.CylinderGeometry(.8,.5,3,32),
+new THREE.MeshPhongMaterial({color:0xffffff})
+);
+scene.add(model);
+camera.position.z=8;
+
+(function loop(){
+requestAnimationFrame(loop);
+renderer.render(scene,camera);
+})();
+}
+
+function openTry(name){
+tryon-portal.style.display="flex";
+tryon-prod-name.textContent=name;
+scan-bar-3d.style.display="block";
+setTimeout(()=>scan-bar-3d.style.display="none",2000);
+}
+
+function closeTryOn(){tryon-portal.style.display="none"}
+</script>
 
 </body>
 </html>
