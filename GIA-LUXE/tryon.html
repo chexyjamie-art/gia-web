@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GIA AI Try-On Studio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;900&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+font-family:Inter;
+background:linear-gradient(135deg,#f0f9ff,#fff,#fff1f2);
+display:flex;
+flex-direction:column;
+align-items:center;
+min-height:100vh;
+}
+
+header{
+width:100%;
+padding:20px;
+text-align:center;
+font-weight:900;
+letter-spacing:3px;
+color:#0ea5e9;
+font-size:20px;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:25px;
+box-shadow:0 20px 40px rgba(0,0,0,0.08);
+text-align:center;
+width:95%;
+max-width:600px;
+}
+
+canvas{
+width:100%;
+border-radius:20px;
+margin-top:15px;
+background:#111;
+}
+
+.upload{
+margin-top:10px;
+}
+
+button{
+margin-top:15px;
+border:none;
+padding:14px 25px;
+border-radius:30px;
+font-weight:700;
+cursor:pointer;
+background:linear-gradient(to right,#0ea5e9,#f472b6);
+color:white;
+}
+
+button:hover{
+opacity:.9;
+transform:scale(1.02);
+}
+
+.productPreview{
+margin-top:15px;
+font-size:14px;
+font-weight:600;
+color:#444;
+}
+</style>
+</head>
+
+<body>
+
+<header>GIA AI TRY-ON</header>
+
+<div class="card">
+
+<input class="upload" type="file" accept="image/*" onchange="handleUpload(event)">
+<br>
+
+<img id="preview" style="max-width:150px;border-radius:12px;margin-top:10px">
+
+<canvas id="tryonCanvas"></canvas>
+
+<div class="productPreview" id="prodName"></div>
+
+<button onclick="loadProductFromStore()">Load Product</button>
+<button onclick="saveLook()">Save Look</button>
+
+</div>
+
+
+<script type="module">
+
+/* =========================
+   BODY DETECT AI
+========================= */
+async function detectBody(file){
+
+const img=new Image();
+img.src=URL.createObjectURL(file);
+await new Promise(r=>img.onload=r);
+
+const canvas=document.createElement("canvas");
+canvas.width=img.width;
+canvas.height=img.height;
+
+const ctx=canvas.getContext("2d");
+ctx.drawImage(img,0,0);
+
+const data=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+
+let top=canvas.height,bottom=0,left=canvas.width,right=0;
+
+for(let y=0;y<canvas.height;y++){
+for(let x=0;x<canvas.width;x++){
+
+const i=(y*canvas.width+x)*4;
+const r=data[i];
+const g=data[i+1];
+const b=data[i+2];
+
+if(r>40||g>40||b>40){
+if(y<top)top=y;
+if(y>bottom)bottom=y;
+if(x<left)left=x;
+if(x>right)right=x;
+}
+}}
+
+return{
+src:img.src,
+bounds:{top,bottom,left,right},
+width:img.width,
+height:img.height
+};
+}
+
+
+/* =========================
+   PLACEMENT AI
+========================= */
+function placeProduct(body,product){
+
+const h=body.bounds.bottom-body.bounds.top;
+const w=body.bounds.right-body.bounds.left;
+
+let pos={x:0,y:0,scale:1};
+
+switch(product.type){
+
+case "topwear":
+pos.y=body.bounds.top+h*0.2;
+pos.scale=w/product.baseWidth;
+break;
+
+case "bottomwear":
+pos.y=body.bounds.top+h*0.6;
+pos.scale=w/product.baseWidth*0.9;
+break;
+
+case "footwear":
+pos.y=body.bounds.bottom-h*0.15;
+pos.scale=w/product.baseWidth*0.6;
+break;
+
+case "glasses":
+pos.y=body.bounds.top+h*0.12;
+pos.scale=w/product.baseWidth*0.35;
+break;
+
+case "watch":
+pos.y=body.bounds.top+h*0.55;
+pos.scale=w/product.baseWidth*0.3;
+break;
+}
+
+pos.x=(body.bounds.left+body.bounds.right)/2;
+return pos;
+}
+
+
+/* =========================
+   RENDER ENGINE
+========================= */
+function render(body,product,placement){
+
+const canvas=document.getElementById("tryonCanvas");
+const ctx=canvas.getContext("2d");
+
+const userImg=new Image();
+userImg.src=body.src;
+
+const prodImg=new Image();
+prodImg.src=product.image;
+
+userImg.onload=()=>{
+canvas.width=userImg.width;
+canvas.height=userImg.height;
+ctx.drawImage(userImg,0,0);
+
+prodImg.onload=()=>{
+const w=prodImg.width*placement.scale;
+const h=prodImg.height*placement.scale;
+
+ctx.drawImage(
+prodImg,
+placement.x-w/2,
+placement.y,
+w,
+h
+);
+};
+};
+}
+
+
+/* =========================
+   GLOBAL STATE
+========================= */
+
+let bodyData=null;
+
+
+/* =========================
+   FILE UPLOAD
+========================= */
+window.handleUpload=async e=>{
+bodyData=await detectBody(e.target.files[0]);
+document.getElementById("preview").src=bodyData.src;
+};
+
+
+/* =========================
+   LOAD PRODUCT FROM STORE
+========================= */
+window.loadProductFromStore=function(){
+
+/*
+Ye localStorage se product data lega
+Jo tum index page se bhejoge
+*/
+
+const product=JSON.parse(localStorage.getItem("tryProduct"));
+
+if(!product) return alert("No product selected");
+
+document.getElementById("prodName").innerText=product.name;
+
+const placement=placeProduct(bodyData,product);
+render(bodyData,product,placement);
+};
+
+
+/* =========================
+   SAVE IMAGE
+========================= */
+window.saveLook=function(){
+const canvas=document.getElementById("tryonCanvas");
+const link=document.createElement("a");
+link.download="gia-look.png";
+link.href=canvas.toDataURL();
+link.click();
+};
+
+</script>
+
+</body>
+</html>
