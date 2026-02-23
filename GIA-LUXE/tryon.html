@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GIA AI Try-On Studio</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GIA PRO STUDIO TRYON</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600;900&display=swap" rel="stylesheet">
 
@@ -11,7 +11,7 @@
 body{
 margin:0;
 font-family:Inter;
-background:linear-gradient(135deg,#f0f9ff,#fff,#fff1f2);
+background:linear-gradient(135deg,#dbeafe,#fff,#fce7f3);
 display:flex;
 flex-direction:column;
 align-items:center;
@@ -19,256 +19,300 @@ min-height:100vh;
 }
 
 header{
-width:100%;
-padding:20px;
-text-align:center;
+padding:18px;
 font-weight:900;
 letter-spacing:3px;
 color:#0ea5e9;
-font-size:20px;
 }
 
 .card{
-background:white;
+background:#fff;
 padding:25px;
-border-radius:25px;
-box-shadow:0 20px 40px rgba(0,0,0,0.08);
-text-align:center;
+border-radius:24px;
+box-shadow:0 25px 60px rgba(0,0,0,.12);
 width:95%;
-max-width:600px;
+max-width:720px;
+text-align:center;
 }
 
-canvas{
+canvas,video{
 width:100%;
 border-radius:20px;
 margin-top:15px;
-background:#111;
-}
-
-.upload{
-margin-top:10px;
+background:#000;
 }
 
 button{
-margin-top:15px;
+margin-top:12px;
+padding:13px 24px;
 border:none;
-padding:14px 25px;
 border-radius:30px;
 font-weight:700;
 cursor:pointer;
-background:linear-gradient(to right,#0ea5e9,#f472b6);
+background:linear-gradient(to right,#0ea5e9,#ec4899);
 color:white;
 }
 
-button:hover{
-opacity:.9;
-transform:scale(1.02);
-}
-
-.productPreview{
-margin-top:15px;
-font-size:14px;
-font-weight:600;
-color:#444;
-}
+button:hover{transform:scale(1.04)}
 </style>
 </head>
 
 <body>
 
-<header>GIA AI TRY-ON</header>
+<header>GIA PRO STUDIO TRY-ON</header>
 
 <div class="card">
 
-<input class="upload" type="file" accept="image/*" onchange="handleUpload(event)">
-<br>
+<input type="file" accept="image/*" onchange="uploadPhoto(event)">
+<button onclick="startCamera()">Live Camera TryOn</button>
 
-<img id="preview" style="max-width:150px;border-radius:12px;margin-top:10px">
+<video id="cam" autoplay playsinline style="display:none"></video>
+<canvas id="canvas"></canvas>
 
-<canvas id="tryonCanvas"></canvas>
+<div id="name"></div>
 
-<div class="productPreview" id="prodName"></div>
-
-<button onclick="loadProductFromStore()">Load Product</button>
-<button onclick="saveLook()">Save Look</button>
+<button onclick="loadProduct()">Load Product</button>
+<button onclick="download()">Save Look</button>
 
 </div>
 
-
 <script type="module">
 
-/* =========================
-   BODY DETECT AI
-========================= */
-async function detectBody(file){
+/* ---------------- GLOBAL ---------------- */
 
-const img=new Image();
-img.src=URL.createObjectURL(file);
-await new Promise(r=>img.onload=r);
+const DPR=devicePixelRatio||1
+let poseAI
+let bodySource=null
+let product=null
+let running=false
 
-const canvas=document.createElement("canvas");
-canvas.width=img.width;
-canvas.height=img.height;
+/* ---------------- LOAD AI ---------------- */
 
-const ctx=canvas.getContext("2d");
-ctx.drawImage(img,0,0);
+async function initAI(){
 
-const data=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+const vision=await import("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest")
+const r=await vision.FilesetResolver.forVisionTasks(
+"https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
+)
 
-let top=canvas.height,bottom=0,left=canvas.width,right=0;
+poseAI=await vision.PoseLandmarker.createFromOptions(r,{
+baseOptions:{modelAssetPath:
+"https://storage.googleapis.com/mediapipe-models/pose_landmarker/lite/float16/latest/pose_landmarker_lite.task"
+},
+runningMode:"VIDEO"
+})
 
-for(let y=0;y<canvas.height;y++){
-for(let x=0;x<canvas.width;x++){
-
-const i=(y*canvas.width+x)*4;
-const r=data[i];
-const g=data[i+1];
-const b=data[i+2];
-
-if(r>40||g>40||b>40){
-if(y<top)top=y;
-if(y>bottom)bottom=y;
-if(x<left)left=x;
-if(x>right)right=x;
 }
-}}
+await initAI()
 
-return{
-src:img.src,
-bounds:{top,bottom,left,right},
-width:img.width,
-height:img.height
-};
-}
+/* ---------------- UTILS ---------------- */
 
+const P=i=>({
+x:landmarks[i].x*W,
+y:landmarks[i].y*H
+})
 
-/* =========================
-   PLACEMENT AI
-========================= */
-function placeProduct(body,product){
+const mid=(a,b)=>({x:(a.x+b.x)/2,y:(a.y+b.y)/2})
+const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y)
 
-const h=body.bounds.bottom-body.bounds.top;
-const w=body.bounds.right-body.bounds.left;
+/* ---------------- UPLOAD PHOTO ---------------- */
 
-let pos={x:0,y:0,scale:1};
+window.uploadPhoto=async e=>{
 
-switch(product.type){
+const img=new Image()
+img.src=URL.createObjectURL(e.target.files[0])
+await new Promise(r=>img.onload=r)
 
-case "topwear":
-pos.y=body.bounds.top+h*0.2;
-pos.scale=w/product.baseWidth;
-break;
+bodySource=img
+running=false
+drawFrame(img)
 
-case "bottomwear":
-pos.y=body.bounds.top+h*0.6;
-pos.scale=w/product.baseWidth*0.9;
-break;
-
-case "footwear":
-pos.y=body.bounds.bottom-h*0.15;
-pos.scale=w/product.baseWidth*0.6;
-break;
-
-case "glasses":
-pos.y=body.bounds.top+h*0.12;
-pos.scale=w/product.baseWidth*0.35;
-break;
-
-case "watch":
-pos.y=body.bounds.top+h*0.55;
-pos.scale=w/product.baseWidth*0.3;
-break;
 }
 
-pos.x=(body.bounds.left+body.bounds.right)/2;
-return pos;
+/* ---------------- CAMERA ---------------- */
+
+window.startCamera=async()=>{
+
+const stream=await navigator.mediaDevices.getUserMedia({video:true})
+const video=document.getElementById("cam")
+video.srcObject=stream
+video.style.display="block"
+
+running=true
+requestAnimationFrame(loop)
+
 }
 
+/* ---------------- DRAW FRAME ---------------- */
 
-/* =========================
-   RENDER ENGINE
-========================= */
-function render(body,product,placement){
+let ctx,W,H,landmarks
 
-const canvas=document.getElementById("tryonCanvas");
-const ctx=canvas.getContext("2d");
+function drawFrame(src){
 
-const userImg=new Image();
-userImg.src=body.src;
+const canvas=document.getElementById("canvas")
+ctx=canvas.getContext("2d")
 
-const prodImg=new Image();
-prodImg.src=product.image;
+W=src.videoWidth||src.width
+H=src.videoHeight||src.height
 
-userImg.onload=()=>{
-canvas.width=userImg.width;
-canvas.height=userImg.height;
-ctx.drawImage(userImg,0,0);
+canvas.width=W*DPR
+canvas.height=H*DPR
+ctx.setTransform(DPR,0,0,DPR,0,0)
 
-prodImg.onload=()=>{
-const w=prodImg.width*placement.scale;
-const h=prodImg.height*placement.scale;
+ctx.drawImage(src,0,0,W,H)
 
+}
+
+/* ---------------- LOOP ---------------- */
+
+async function loop(){
+
+if(!running)return
+
+const video=document.getElementById("cam")
+drawFrame(video)
+
+const res=await poseAI.detectForVideo(video,performance.now())
+landmarks=res.landmarks?.[0]
+
+if(product && landmarks)
+renderProduct()
+
+requestAnimationFrame(loop)
+
+}
+
+/* ---------------- SHADOW ---------------- */
+
+function shadow(x,y,w,h){
+const g=ctx.createRadialGradient(x+w/2,y+h/2,10,x+w/2,y+h/2,w)
+g.addColorStop(0,"rgba(0,0,0,.35)")
+g.addColorStop(1,"transparent")
+ctx.fillStyle=g
+ctx.fillRect(x,y,w,h)
+}
+
+/* ---------------- FABRIC ENGINE ---------------- */
+
+function warp(img,x,y,w,h,bend){
+
+ctx.save()
+ctx.translate(x+w/2,y+h/2)
+
+for(let i=0;i<12;i++){
+const slice=h/12
 ctx.drawImage(
-prodImg,
-placement.x-w/2,
-placement.y,
+img,
+0,i*(img.height/12),
+img.width,img.height/12,
+-w/2,
+-h/2+i*slice+Math.sin(i*.7)*bend,
 w,
-h
-);
-};
-};
+slice)
 }
 
+ctx.restore()
+}
 
-/* =========================
-   GLOBAL STATE
-========================= */
+/* ---------------- PLACEMENT ---------------- */
 
-let bodyData=null;
+function placement(type){
 
+switch(type){
 
-/* =========================
-   FILE UPLOAD
-========================= */
-window.handleUpload=async e=>{
-bodyData=await detectBody(e.target.files[0]);
-document.getElementById("preview").src=bodyData.src;
-};
+case "topwear":{
+const a=P(11),b=P(12)
+return{c:mid(a,b),w:dist(a,b)*1.8,rot:(b.y-a.y)}
+}
 
+case "bottomwear":{
+const a=P(23),b=P(24)
+return{c:mid(a,b),w:dist(a,b)*1.6,rot:0}
+}
 
-/* =========================
-   LOAD PRODUCT FROM STORE
-========================= */
-window.loadProductFromStore=function(){
+case "glasses":{
+const a=P(2),b=P(5)
+return{c:mid(a,b),w:dist(a,b)*1.7,rot:(b.y-a.y)}
+}
 
-/*
-Ye localStorage se product data lega
-Jo tum index page se bhejoge
-*/
+case "watch":{
+const w=P(15)
+return{c:w,w:90,rot:0}
+}
 
-const product=JSON.parse(localStorage.getItem("tryProduct"));
+case "footwear":{
+const a=P(31),b=P(32)
+return{c:mid(a,b),w:dist(a,b)*2,rot:0}
+}
 
-if(!product) return alert("No product selected");
+}
+}
 
-document.getElementById("prodName").innerText=product.name;
+/* ---------------- RENDER ---------------- */
 
-const placement=placeProduct(bodyData,product);
-render(bodyData,product,placement);
-};
+function renderProduct(){
 
+const img=new Image()
+img.src=product.image
 
-/* =========================
-   SAVE IMAGE
-========================= */
-window.saveLook=function(){
-const canvas=document.getElementById("tryonCanvas");
-const link=document.createElement("a");
-link.download="gia-look.png";
-link.href=canvas.toDataURL();
-link.click();
-};
+img.onload=()=>{
+
+const p=placement(product.type)
+if(!p)return
+
+const w=p.w
+const h=img.height*(w/img.width)
+const x=p.c.x-w/2
+const y=p.c.y-h/2
+
+shadow(x,y,w,h)
+
+ctx.save()
+ctx.translate(p.c.x,p.c.y)
+ctx.rotate(p.rot*.01)
+ctx.globalCompositeOperation="multiply"
+
+warp(img,-w/2,-h/2,w,h,product.softness||6)
+
+ctx.restore()
+ctx.globalCompositeOperation="source-over"
+}
+}
+
+/* ---------------- LOAD PRODUCT ---------------- */
+
+window.loadProduct=()=>{
+
+const p=JSON.parse(localStorage.getItem("tryProduct"))
+if(!p)return alert("No product found")
+
+product=p
+document.getElementById("name").innerText=p.name
+
+if(!running && bodySource)
+renderStatic()
+}
+
+function renderStatic(){
+
+drawFrame(bodySource)
+
+poseAI.detect(bodySource).then(r=>{
+landmarks=r.landmarks?.[0]
+renderProduct()
+})
+
+}
+
+/* ---------------- DOWNLOAD ---------------- */
+
+window.download=()=>{
+const a=document.createElement("a")
+a.download="gia-look.png"
+a.href=document.getElementById("canvas").toDataURL()
+a.click()
+}
 
 </script>
-
 </body>
 </html>
