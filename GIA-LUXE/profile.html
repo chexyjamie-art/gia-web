@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GIA LUXE | Profile Settings</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+background:#04241a;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cpath d='M30 0l30 17.32v34.64L30 69.28 0 51.96V17.32L30 0z' fill='none' stroke='%230a3629' stroke-width='1'/%3E%3C/svg%3E");
+font-family:'Inter',sans-serif;
+color:white;
+min-height:100vh;
+}
+
+.gold-text{
+background:linear-gradient(to bottom,#BF953F,#FCF6BA,#B38728,#AA771C);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+font-family:'Playfair Display',serif;
+}
+
+.glass-card{
+background:rgba(255,255,255,0.02);
+backdrop-filter:blur(8px);
+border:1px solid rgba(191,149,63,0.15);
+border-radius:2rem;
+}
+
+.input-box{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(191,149,63,0.25);
+border-radius:12px;
+padding:12px 15px;
+width:100%;
+color:white;
+font-size:0.9rem;
+outline:none;
+}
+
+.field-label{
+font-size:10px;
+letter-spacing:0.2em;
+color:#BF953F;
+margin-bottom:6px;
+display:block;
+font-weight:600;
+}
+
+.modal-bg{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.9);
+z-index:1000;
+backdrop-filter:blur(10px);
+align-items:center;
+justify-content:center;
+}
+
+.toggle-btn{
+border:1px solid rgba(191,149,63,0.3);
+padding:8px 16px;
+border-radius:10px;
+font-size:10px;
+font-weight:bold;
+letter-spacing:.1em;
+}
+
+.active-toggle{
+background:#BF953F;
+color:black;
+}
+</style>
+</head>
+
+<body class="p-6 pb-32">
+
+<div class="max-w-xl mx-auto flex justify-between items-center mb-8">
+<button onclick="goBack()" class="text-[#BF953F]"><i data-lucide="chevron-left"></i></button>
+<h1 class="text-2xl gold-text italic">Profile Vault</h1>
+<button onclick="logout()" class="text-[10px] text-red-500 font-bold uppercase bg-red-500/10 px-3 py-1.5 rounded-lg">Logout</button>
+</div>
+
+<main class="max-w-xl mx-auto space-y-8">
+
+<div class="glass-card p-8">
+
+<div class="flex flex-col items-center mb-10">
+
+<div class="relative cursor-pointer" onclick="toggleDPModal()">
+<div class="w-24 h-24 rounded-full border-2 border-[#BF953F] p-1 overflow-hidden">
+<img id="user-dp" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Gia" class="w-full h-full rounded-full object-cover">
+</div>
+</div>
+
+<p class="text-[9px] text-white/40 mt-3 uppercase tracking-widest">Customer Identity</p>
+</div>
+
+<div class="space-y-6">
+
+<div>
+<label class="field-label">Full Name</label>
+<input type="text" id="p-name" class="input-box opacity-70" readonly>
+</div>
+
+<div>
+<label class="field-label">Mobile Number</label>
+<input type="tel" id="p-phone" class="input-box opacity-70" readonly>
+</div>
+
+<div>
+<label class="field-label">Email Address</label>
+<input type="email" id="p-email" class="input-box" placeholder="Add Email">
+</div>
+
+<div>
+<label class="field-label">Delivery Address</label>
+<textarea id="p-address" rows="2" class="input-box" placeholder="Full Address"></textarea>
+</div>
+
+</div>
+</div>
+
+<div class="glass-card p-8">
+
+<h3 class="text-sm gold-text font-bold uppercase tracking-widest mb-6 flex items-center gap-2">
+<i data-lucide="settings-2" class="w-4 h-4"></i>
+AI Assistant Settings
+</h3>
+
+<div class="space-y-8">
+
+<div class="flex justify-between items-center">
+<span class="text-xs font-semibold">AI Gender</span>
+<div class="flex gap-2">
+<button onclick="setAIGender('male')" id="ai-m" class="toggle-btn">Male</button>
+<button onclick="setAIGender('female')" id="ai-f" class="toggle-btn">Female</button>
+</div>
+</div>
+
+<div class="flex justify-between items-center">
+<span class="text-xs font-semibold">Voice Persona</span>
+<div class="flex gap-2">
+<button onclick="setAIVoice('soft')" id="v-soft" class="toggle-btn">Soft</button>
+<button onclick="setAIVoice('pro')" id="v-pro" class="toggle-btn">Pro</button>
+</div>
+</div>
+
+</div>
+</div>
+
+<button onclick="saveProfile()" class="w-full py-4 bg-gradient-to-r from-[#BF953F] to-[#AA771C] text-black font-black rounded-full text-[10px] tracking-[0.2em]">
+Update All Settings
+</button>
+
+</main>
+
+<footer class="max-w-xl mx-auto mt-20 text-center opacity-30">
+<p class="text-[8px] uppercase tracking-[0.3em]">
+GIA LUXE AI Platform © 2026
+</p>
+</footer>
+
+<!-- DP MODAL -->
+<div id="dp-modal" class="modal-bg">
+<div class="text-center p-6 w-full max-w-sm">
+<img id="full-dp-view" class="w-64 h-64 mx-auto rounded-3xl border border-[#BF953F]/30 object-cover mb-6">
+
+<input type="file" id="upload-dp" accept="image/*" class="hidden" onchange="previewImage(event)">
+
+<button onclick="uploadClick()" class="w-full bg-[#BF953F] text-black font-bold py-4 rounded-xl text-xs mb-3">
+Change Photo
+</button>
+
+<button onclick="toggleDPModal()" class="text-white/60 text-xs">Close</button>
+</div>
+</div>
+
+<script>
+lucide.createIcons()
+
+window.onload = ()=>{
+const name=localStorage.getItem("giaUserName")
+const phone=localStorage.getItem("giaUserPhone")
+
+if(!name||!phone){
+location.href="login.html"
+return
+}
+
+pName.value=name
+pPhone.value=phone
+pEmail.value=localStorage.getItem("giaUserEmail")||""
+pAddress.value=localStorage.getItem("giaUserAddress")||""
+
+const dp=localStorage.getItem("giaUserDP")
+if(dp){
+userDP.src=dp
+fullDPView.src=dp
+}else{
+fullDPView.src=userDP.src
+}
+
+loadAISettings()
+}
+
+function loadAISettings(){
+const g=localStorage.getItem("gia_ai_gender")||"female"
+setAIGender(g,false)
+
+const v=localStorage.getItem("gia_ai_voice")||"pro"
+setAIVoice(v,false)
+}
+
+function setAIGender(g,save=true){
+aiM.classList.toggle("active-toggle",g==="male")
+aiF.classList.toggle("active-toggle",g==="female")
+if(save)localStorage.setItem("gia_ai_gender",g)
+}
+
+function setAIVoice(v,save=true){
+vSoft.classList.toggle("active-toggle",v==="soft")
+vPro.classList.toggle("active-toggle",v==="pro")
+if(save)localStorage.setItem("gia_ai_voice",v)
+}
+
+function saveProfile(){
+localStorage.setItem("giaUserEmail",pEmail.value.trim())
+localStorage.setItem("giaUserAddress",pAddress.value.trim())
+alert("Profile Updated Successfully")
+}
+
+function logout(){
+if(confirm("Exit Vault?")){
+localStorage.clear()
+location.href="login.html"
+}
+}
+
+function goBack(){
+history.back()
+}
+
+function toggleDPModal(){
+dpModal.style.display=
+dpModal.style.display==="flex"?"none":"flex"
+}
+
+function uploadClick(){
+uploadDp.click()
+}
+
+function previewImage(e){
+const file=e.target.files[0]
+if(!file)return
+
+if(!file.type.startsWith("image/")){
+alert("Select image file")
+return
+}
+
+const reader=new FileReader()
+reader.onload=()=>{
+userDP.src=reader.result
+fullDPView.src=reader.result
+localStorage.setItem("giaUserDP",reader.result)
+}
+reader.readAsDataURL(file)
+toggleDPModal()
+}
+
+document.addEventListener("keydown",e=>{
+if(e.key==="Escape")dpModal.style.display="none"
+})
+
+const pName=document.getElementById("p-name")
+const pPhone=document.getElementById("p-phone")
+const pEmail=document.getElementById("p-email")
+const pAddress=document.getElementById("p-address")
+
+const userDP=document.getElementById("user-dp")
+const fullDPView=document.getElementById("full-dp-view")
+const dpModal=document.getElementById("dp-modal")
+
+const aiM=document.getElementById("ai-m")
+const aiF=document.getElementById("ai-f")
+const vSoft=document.getElementById("v-soft")
+const vPro=document.getElementById("v-pro")
+const uploadDp=document.getElementById("upload-dp")
+</script>
+
+</body>
+</html>
