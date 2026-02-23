@@ -1,0 +1,14 @@
+[
+{
+"name":"Black Jacket",
+"price":1999,
+"img":"https://i.imgur.com/6qK0QGQ.png",
+"link":"https://amazon.in"
+},
+{
+"name":"Luxury Shirt",
+"price":1499,
+"img":"https://i.imgur.com/QkIa5tT.png",
+"link":"https://flipkart.com"
+}
+]
