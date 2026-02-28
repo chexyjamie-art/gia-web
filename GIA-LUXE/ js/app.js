@@ -31,3 +31,11 @@ document.getElementById("aiBox").classList.toggle("hidden");
 }
 
 loadProducts();
+
+window.tryOnProduct = function(product){
+
+localStorage.setItem("tryProduct", JSON.stringify(product))
+localStorage.setItem("tryReminder", Date.now())
+
+window.location.href = "tryon.html"
+}
