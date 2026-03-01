@@ -49,6 +49,7 @@ transition:.3s;
 }
 
 .btn:hover{transform:translateY(-2px)}
+
 .otp{
 width:55px;
 height:60px;
@@ -103,7 +104,10 @@ GIA
 
 <script>
 
-// SESSION AUTO LOGIN
+/* ==============================
+   AUTO SESSION LOGIN
+============================== */
+
 const session=localStorage.getItem("giaSession")
 const expiry=localStorage.getItem("giaSessionExpiry")
 
@@ -111,10 +115,16 @@ if(session==="active" && Date.now()<expiry){
 location.href="index.html"
 }
 
-// OTP LOGIC
-let generatedOTP=""
+/* ==============================
+   FIXED OTP SYSTEM (1234)
+============================== */
 
-// VALIDATION
+let generatedOTP="1234"
+
+/* ==============================
+   VALIDATION
+============================== */
+
 function validPhone(p){
 return /^[6-9]\d{9}$/.test(p)
 }
@@ -130,15 +140,12 @@ return alert("Enter valid name")
 if(!validPhone(phone))
 return alert("Enter valid 10 digit number")
 
-// disable spam click
 sendBtn.disabled=true
-sendBtn.innerText="Sending..."
+sendBtn.innerText="Processing..."
 
 setTimeout(()=>{
 
-generatedOTP=Math.floor(1000+Math.random()*9000).toString()
-console.log("Demo OTP:",generatedOTP)
-
+// store temp
 localStorage.setItem("giaTempName",name)
 localStorage.setItem("giaTempPhone",phone)
 
@@ -148,11 +155,14 @@ step2.classList.remove("hidden")
 sendBtn.disabled=false
 sendBtn.innerText="JOIN"
 
-},800)
+},500)
 
 }
 
-// OTP INPUT AUTO MOVE
+/* ==============================
+   OTP INPUT AUTO MOVE
+============================== */
+
 document.querySelectorAll(".otp").forEach((box,i,arr)=>{
 
 box.addEventListener("input",()=>{
@@ -166,7 +176,10 @@ arr[i-1].focus()
 
 })
 
-// VERIFY
+/* ==============================
+   VERIFY
+============================== */
+
 function verifyOTP(){
 
 let typed=""
@@ -175,19 +188,19 @@ document.querySelectorAll(".otp").forEach(i=>typed+=i.value)
 if(typed!==generatedOTP)
 return alert("Wrong OTP")
 
-// SAVE USER
 localStorage.setItem("giaUserName",localStorage.getItem("giaTempName"))
 localStorage.setItem("giaUserPhone",localStorage.getItem("giaTempPhone"))
 
-// SESSION
 localStorage.setItem("giaSession","active")
 localStorage.setItem("giaSessionExpiry",Date.now()+86400000)
 
-// redirect
 location.href="index.html"
 }
 
-// DOM refs
+/* ==============================
+   DOM REFS
+============================== */
+
 const nameInput=document.getElementById("name")
 const phoneInput=document.getElementById("phone")
 const sendBtn=document.getElementById("sendBtn")
